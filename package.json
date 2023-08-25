@@ -14,6 +14,7 @@
 		"@electron/remote": "^2.0.9",
 		"@sfirew/mc-motd-parser": "^1.1.0",
 		"bytebuffer": "^5.0.1",
+		"discord-rpc": "^4.0.1",
 		"express": "^4.18.2",
 		"prismarine-nbt": "^2.2.1"
 	},
