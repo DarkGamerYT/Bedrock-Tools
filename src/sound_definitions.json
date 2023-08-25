@@ -1,0 +1,14 @@
+{
+    "ui.release": {
+        "category": "ui",
+        "sounds": [{ "name": "release.ogg" }]
+    },
+    "ui.modal_hide": {
+        "category": "ui",
+        "sounds": [{ "name": "modal_hide.ogg" }]
+    },
+    "ui.snes_pop": {
+        "category": "ui",
+        "sounds": [{ "name": "snes_pop.ogg" }]
+    }
+}

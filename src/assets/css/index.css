@@ -1,0 +1,609 @@
+@font-face { font-family: MinecraftFive; src: url('/src/assets/fonts/MinecraftFive.otf'); }
+@font-face { font-family: MinecraftFiveBold; src: url('/src/assets/fonts/MinecraftFiveBold.otf'); }
+@font-face { font-family: MinecraftSeven; src: url('/src/assets/fonts/MinecraftSeven.otf'); }
+@font-face { font-family: MinecraftTen; src: url('/src/assets/fonts/MinecraftTen.otf'); }
+
+* {
+	font-family: "MinecraftSeven";
+}
+
+body {
+	/*background-color: rgba(0, 0, 0, 0.8);*/
+	background: url(/src/assets/imgs/screenshot3.png);
+	margin: 0;
+	overflow-x: hidden;
+}
+
+.uiLeaving {
+	-webkit-animation: slideOut 0.8s forwards;
+	-webkit-animation-delay: 0s;
+	animation: slideOut 0.8s forwards;
+	animation-delay: 0s;
+}
+.uiLeavingBack {
+	-webkit-animation: slideOutBack 0.8s forwards;
+	-webkit-animation-delay: 0s;
+	animation: slideOutBack 0.8s forwards;
+	animation-delay: 0s;
+}
+
+@keyframes slideOut {
+	0% {
+		left: 0;
+	}
+	100% {
+		left: -100%;
+	}
+}
+@keyframes slideOutBack {
+	0% {
+		left: 0;
+	}
+	100% {
+		left: 100%;
+	}
+}
+
+.uiEntering {
+	-webkit-animation: slideIn 0.8s forwards;
+	-webkit-animation-delay: 0s;
+	animation: slideIn 0.8s forwards;
+	animation-delay: 0s;
+}
+.uiEnteringBack {
+	-webkit-animation: slideInBack 0.8s forwards;
+	-webkit-animation-delay: 0s;
+	animation: slideInBack 0.8s forwards;
+	animation-delay: 0s;
+}
+
+@keyframes slideIn {
+	0% {
+		left: 100%;
+	}
+	100% {
+		left: 0;
+	}
+}
+@keyframes slideInBack {
+	0% {
+		left: -100%;
+	}
+	100% {
+		left: 0;
+	}
+}
+
+:root {
+    --baseFontSize: 7.5px;
+    --base2Scale: 2px;
+    --base2ScaleNeg: -2px;
+    --base1Scale: 1px;
+    --base1ScaleNeg: -1px;
+}
+
+.oreUIButton {
+	padding-bottom: 0.4rem;
+	border-bottom-style: solid;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-top-style: solid;
+    border-bottom-width: var(--base2Scale);
+    border-left-width: var(--base2Scale);
+    border-right-width: var(--base2Scale);
+    border-top-width: var(--base2Scale);
+	position: relative;
+    z-index: 0;
+	user-select: none;
+    cursor: pointer;
+	text-decoration: none;
+	width: 100%;
+}
+.oreUIButton:active {
+	padding-bottom: 0;
+	margin-top: 0.4rem;
+}
+.oreUIButton:before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 0.4rem;
+}
+.oreUIButton_ {
+	height: 2.3rem;
+	line-height: 2rem;
+    letter-spacing: 0.04rem;
+    font-size: 1.6rem;
+    font-weight: 400;
+	align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.oreUIButton__ {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    pointer-events: none;
+    color: transparent;
+	border-top-color: rgba(255, 255, 255, 0.2);
+    border-left-color: rgba(255, 255, 255, 0.2);
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+    border-right-color: rgba(255, 255, 255, 0.1);
+}
+.oreUIButton_One {
+	border-left-width: var(--base2Scale);
+	border-top-width: var(--base2Scale);
+}
+.oreUIButton_Two {
+	border-right-width: var(--base2Scale);
+	border-bottom-width: var(--base2Scale);
+}
+
+.oreUIButtonPrimary {
+	background-color: #1d4d13;
+	border-color: #1e1e1f;
+}
+.oreUIButtonPrimaryBackground {
+	background-color: #3c8527;
+	color: #ffffff;
+}
+.oreUIButton:hover .oreUIButtonPrimaryBackground {
+	background-color: #52a535;
+}
+.oreUIButton:active .oreUIButtonPrimaryBackground {
+	background-color: #2a641c;
+}
+
+.oreUIButtonHero {
+	background-color: #1d4d13;
+	border-color: #1e1e1f;
+}
+.oreUIButtonHeroBackground {
+	background-color: #3c8527;
+	color: #ffffff;
+}
+.oreUIButton:hover .oreUIButtonHeroBackground {
+	background-color: #52a535;
+}
+.oreUIButton:active .oreUIButtonHeroBackground {
+	background-color: #2a641c;
+}
+.oreUISpecular {
+	position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    pointer-events: none;
+    color: transparent;
+	border-top-color: rgba(255, 255, 255, 0.2);
+    border-left-color: rgba(255, 255, 255, 0.2);
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+    border-right-color: rgba(255, 255, 255, 0.1);
+}
+.oreUIButtonHero ._oreUIButton___ {
+	font-family: "MinecraftTen";
+	text-shadow: var(--base2Scale) var(--base2Scale) 0rem rgba(0,0,0,0.3);
+}
+.dropdown .oreUIButton_ {
+	height: 2rem;
+}
+.dropdown {
+	padding-bottom: 0.2rem;
+	margin-bottom: 10px;
+	border-bottom-style: solid;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-top-style: solid;
+    border-bottom-width: var(--base2Scale);
+    border-left-width: var(--base2Scale);
+    border-right-width: var(--base2Scale);
+    border-top-width: var(--base2Scale);
+	position: relative;
+    z-index: 0;
+	user-select: none;
+    cursor: pointer;
+}
+.dropdown:hover .oreUIButtonSecondaryBackground {
+	background-color: #f4f6f9;
+}
+.dropdown:active .oreUIButtonSecondaryBackground {
+	background-color: #b1b2b5;
+}
+.oreUIButtonSecondary {
+	background-color: #58585a;
+	border-color: #1e1e1f;
+}
+.oreUIButtonSecondaryBackground {
+	background-color: #d0d1d4;
+	color: #1e1e1f;
+}
+.oreUIButton:hover .oreUIButtonSecondaryBackground {
+	background-color: #f4f6f9;
+}
+.oreUIButton:active .oreUIButtonSecondaryBackground {
+	background-color: #b1b2b5;
+}
+
+._oreUIButton {
+	align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+	position: relative;
+    z-index: 1;
+    width: 100%;
+}
+._oreUIButton_ {
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    max-width: 100%;
+}
+._oreUIButton__ {
+	line-height: 2rem;
+    letter-spacing: 0.04rem;
+    font-size: 16px;
+    font-weight: 400;
+	flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0;
+    flex: 0 1 auto;
+}
+._oreUIButton___ {
+	font-family: "MinecraftSeven";
+	flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+div {
+    align-items: stretch;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    min-height: 0;
+    min-width: 0;
+}
+
+input, textarea, span[role="textbox"] {
+	height: 32px;
+    color: white;
+    background-color: #313233;
+    border-top: 0.4rem solid black;
+    border-color: #1e1e1f;
+	border-bottom-width: var(--base2Scale);
+    border-left-width: var(--base2Scale);
+    border-right-width: var(--base2Scale);
+    border-style: solid;
+    margin-bottom: 12px;
+	padding-left: 8px;
+    padding-right: 8px;
+	outline: none;
+}
+span[role="textbox"]::marker {
+	content: "";
+}
+.elements {
+	background-color: #48494a;
+    border: 2px solid black;
+    margin-bottom: 8px;
+	user-select: none;
+}
+.element {
+	border-top: 2px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+    padding-left: 1.6rem;
+    padding-right: 1.6rem;
+}
+.element_ {
+    padding-left: 1.6rem;
+    padding-right: 1.6rem;
+}
+.elementTitle {
+	color: #ffffff;
+    letter-spacing: 0.04rem;
+    font-size: 14px;
+    line-height: 24px;
+	width: 100%;
+}
+.elementTitleBold {
+	color: #ffffff;
+    letter-spacing: 0.04rem;
+	font-family: MinecraftTen;
+    font-size: 14px;
+    line-height: 24px;
+	width: 100%;
+	margin-top: 6px;
+}
+.elementTitle_ {
+	color: #ffffff;
+    letter-spacing: 0.04rem;
+    font-size: 14px;
+}
+.elementTitle__ {
+	color: #ffffff;
+    letter-spacing: 0.04rem;
+    font-size: 14px;
+	margin-top: auto;
+    margin-bottom: auto;
+}
+.elementHeader {
+	color: #ffffff;
+    letter-spacing: 0.04rem;
+    font-size: 14px;
+	margin-bottom: 4px;
+    margin-top: 16px;
+    font-family: MinecraftTen;
+}
+.elementSubtitle {
+	color: #d0d1d4;
+    letter-spacing: 0.04rem;
+    font-size: 13px;
+	margin-top: 4px;
+}
+select {
+	background: none;
+    outline: none;
+    border: none;
+    color: black;
+    margin-right: 8px;
+    margin-left: 8px;
+	cursor: pointer;
+    height: 100%;
+}
+
+.header {
+	justify-content: flex-end;
+    position: relative;
+	z-index: 1000;
+	height: 42px;
+}
+.headerShadow {
+	height: calc(2*var(--base2Scale));
+    background-color: #b1b2b5;
+}
+.header_ {
+    top: 0rem;
+    width: 100%;
+    display: block;
+	position: fixed;
+	background-color: #e6e8eb;
+}
+.header__ {
+	flex-direction: row;
+	align-items: center;
+}
+.headerButton {
+	width: 1.5rem;
+	height: 1.5rem;
+	justify-content: center;
+	align-items: center;
+	margin-top: 0.4rem;
+	margin-right: 0.4rem;
+	margin-bottom: 0.4rem;
+	margin-left: 0.4rem;
+	cursor: pointer;
+	user-select: none;
+}
+.headerButton:hover {
+	background-color: #f4f6f9;
+}
+.headerButton:active {
+	background-color: #d0d1d4;
+}
+.headerButton > img {
+	height: calc(8*var(--base2Scale));
+    width: calc(4*var(--base2Scale));
+    margin-top: var(--base2Scale);
+    filter: invert(0);
+}
+.headerTitle {
+	justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    height: 2.4rem;
+	flex: 1;
+    padding-left: 6rem;
+    padding-right: 6rem;
+    text-align: center;
+	user-select: none;
+	pointer-events: none;
+}
+.headerTitle_ {
+	font-size: 16px;
+    font-family: MinecraftTen;
+}
+
+.toggle {
+	margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: 0;
+	display: block;
+	border-style: none;
+	outline: none;
+	min-width: 58px;
+	height: 32px;
+	cursor: pointer;
+    background-repeat: round;
+	image-rendering: pixelated;
+}
+.toggleOff {
+	background-image: url(/src/assets/imgs/icons/toggle_off.png);
+}
+.toggleOff:hover {
+	background-image: url(/src/assets/imgs/icons/toggle_off_hover.png);
+}
+.toggleOn {
+	background-image: url(/src/assets/imgs/icons/toggle_on.png);
+}
+.toggleOn:hover {
+	background-image: url(/src/assets/imgs/icons/toggle_on_hover.png);
+}
+.toggleDisabled {
+	cursor: auto;
+	background-image: url(/src/assets/imgs/icons/toggle_disabled.png);
+}
+.disabledElement .elementTitle_ {
+	color: #d0d1d4;
+}
+
+#popup {
+	position: fixed;
+	z-index: 1001;
+	height: 100%;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+	pointer-events: none;
+	user-select: none;
+}
+.popup_ {
+	height: 100%;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+	z-index: 101;
+	padding-top: 1.2rem;
+	padding-bottom: 1.2rem;
+	pointer-events: all;
+}
+.popup__ {
+	border-top-width: var(--base2Scale);
+	border-right-width: var(--base2Scale);
+	border-bottom-width: var(--base2Scale);
+	border-left-width: var(--base2Scale);
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	max-width: 27.6rem;
+	width: 100%;
+	max-height: 100%;
+}
+.popup___ {
+	line-height: 1.6rem;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	background-color: #48494a;
+	color: #ffffff;
+}
+._popup {
+	padding-left: 0.8rem;
+	padding-right: 0.8rem;
+	margin-left: -0.8rem;
+	margin-right: -0.8rem;
+	flex: 1;
+	width: 100%;
+}
+.elementsMenu {
+	background-color: #313233;
+    border: 2px solid black;
+    margin: 8px;
+	user-select: none;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	width: 100%;
+}
+.elementMenu {
+    padding-left: 12px;
+    padding-right: 12px;
+	height: 48px;
+	align-items: center;
+	flex-direction: row;
+	cursor: pointer;
+}
+.elementMenu:hover {
+	border-top: 2px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.4);
+	background-color: #48494a;
+	height: 44px;
+}
+.elementMenu:active {
+	border-top: 2px solid rgba(0, 0, 0, 0.8);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+	background-color: #242425;
+	height: 44px;
+}
+
+.informativeText {
+    color: white;
+    padding: 6px;
+    font-size: 13px;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    place-content: center;
+}
+.infoElement {
+    flex-direction: row;
+    user-select: none;
+    width: 100%;
+    align-items: center;
+    background-color: #2e6be5;
+    margin-bottom: 16px;
+}
+.infoElementClose {
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    padding: 10px;
+}
+.infoElementClose:hover {
+	background-color: #3578ff;
+}
+.infoElementClose:active {
+	background-color: #2a60cb;
+}
+
+.mainBackground {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	background-color: black;
+	opacity: 0.6;
+	pointer-events: all;
+}
+
+code {
+	font-size: 0.875rem;
+    line-height: 1.125rem;
+    text-indent: 0;
+    white-space: pre-wrap;
+    background: #313233;
+    border: var(--base2Scale) solid #1e1e1f;
+    color: #dcddde;
+	user-select: text;
+}
+
+pre {
+	margin: 0;
+    margin-bottom: 12px;
+	white-space: unset;
+}

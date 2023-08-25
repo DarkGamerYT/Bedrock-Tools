@@ -1,0 +1,44 @@
+{
+	"name": "bedrocktools",
+	"author": "xKingDark",
+	"version": "0.1.0-beta",
+	"description": "",
+	"license": "MIT",
+	"scripts": {
+		"start": "electron ./index.js --disable-gpu",
+		"build": "electron-builder",
+		"build_appx": "electron-builder --win appx"
+	},
+	"dependencies": {
+		"@electron/remote": "^2.0.9",
+		"@minescope/mineping": "^1.0.4",
+		"@sfirew/mc-motd-parser": "^1.1.0",
+		"bedrock-protocol": "^3.25.0",
+		"bytebuffer": "^5.0.1",
+		"express": "^4.18.2",
+		"prismarine-nbt": "^2.2.1",
+		"ws": "^8.12.0"
+	},
+	"devDependencies": {
+		"electron": "^23.1.3",
+		"electron-builder": "^23.6.0"
+	},
+	"build": {
+		"appId": "com.xkingdark.bedrocktools",
+		"productName": "Bedrock Tools",
+		"icon": "build/icon.ico",
+		"appx": {
+			"displayName": "Bedrock Tools",
+			"applicationId": "com.xkingdark.bedrocktools",
+			"publisherDisplayName": "xKingDark"
+		},
+		"nsis": {
+			"allowToChangeInstallationDirectory": false,
+			"oneClick": true,
+			"installerIcon": "build/icon.ico",
+			"uninstallerIcon": "build/icon.ico",
+			"installerHeaderIcon": "build/icon.ico",
+			"createDesktopShortcut": true
+		}
+	}
+}
