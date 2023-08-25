@@ -4,11 +4,12 @@ const {
 	BrowserWindow,
 	globalShortcut,
 } = require( "electron" );
+const fs = require( "node:fs" );
 const express = require( "express" );
 const server = express();
-server.use(express.static( "." ));
+server.use(express.static( __dirname ));
 
-const debug = true;
+let debug = false;
 const port = 8000;
 app.on( "window-all-closed", () => app.quit() );
 app.on("ready",
@@ -16,6 +17,11 @@ app.on("ready",
 		console.log(
 			"\x1B[0m" + new Date().toLocaleTimeString() + " \x1B[33m\x1B[1m[INFO] \x1B[0m- Starting..."
 		);
+
+		const settingsPath = process.env.APPDATA + "/bedrocktools/settings.json";
+		if (!fs.existsSync( settingsPath )) fs.writeFileSync( settingsPath, JSON.stringify({ debug: false }) );
+		const settings = JSON.parse(fs.readFileSync( settingsPath ));
+		debug = settings["debug"] || false;
 		
 		if (!debug) registerShortcuts();
 		server.listen(

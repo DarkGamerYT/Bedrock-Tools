@@ -1,8 +1,9 @@
 const UUIDGeneratorRoute = () => {
+    const isRight = window.settings.get( "right" );
     return (
         Components.createHeader({ text: "UUID Generator", back: true, settings: true })
         + (
-            `<div style="display: flex;flex-direction: row;margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
+            `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
                 <div style="width: 50%;">
                     ${Components.createElements(
                         {
@@ -30,6 +31,8 @@ const UUIDGeneratorRoute = () => {
                             id: "generate",
                             style: "hero",
                             onClick: () => {
+                                window.sound.play( "ui.release" );
+
                                 const amount = Number(document.getElementById( "amount" ).value.trim());
                                 if (amount > 0) {
                                     const uuids = [];

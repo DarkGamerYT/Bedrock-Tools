@@ -475,7 +475,7 @@ select {
 	color: #d0d1d4;
 }
 
-#popup {
+.popup {
 	position: fixed;
 	z-index: 1001;
 	height: 100%;
@@ -625,18 +625,5 @@ pre {
 }
 
 ::-webkit-scrollbar {
-    width: 1.25rem;
-    background-color: transparent;
-}
-::-webkit-scrollbar-corner {
-    background-color: transparent;
-}
-::-webkit-scrollbar-thumb {
-    border-radius: 0.5625rem;
-    border: 0.375rem solid rgba(0,0,0,0);
-    background-color: rgb(34 34 34);
-    background-clip: padding-box;
-}
-::-webkit-scrollbar-track {
-    background-color: transparent;
+    width: 0;
 }

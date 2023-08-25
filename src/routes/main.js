@@ -27,7 +27,7 @@ const MainRoute = () => {
                         title: "Server Pinger",
                         icon: "/src/assets/imgs/icons/multiplayer.png",
                     },
-                    {
+                    /*{
                         route: "/commands_tester",
                         title: "Command Tester",
                         icon: "/src/assets/imgs/icons/commands.png",
@@ -36,7 +36,7 @@ const MainRoute = () => {
                         route: "/mcstructure_converter",
                         title: "MCStructure Converter",
                         icon: "/src/assets/imgs/icons/mcstructure_c.png",
-                    },
+                    },*/
                 ],
                 display: true,
             },

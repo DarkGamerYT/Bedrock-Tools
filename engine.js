@@ -22,10 +22,11 @@ const Router = {
     },
 };
 
+const sounds = JSON.parse(fs.readFileSync( __dirname + "/src/sound_definitions.json" ));
+for (let sound in sounds) for (const s of sounds[sound].sounds) new Audio( "/src/assets/sounds/" + s.name );
 const Sound = {
     play: (id) => {
         window.logger.debug( "[SOUND] Sound with id '" + id + "' has been requested." );
-        const sounds = JSON.parse(fs.readFileSync( "./src/sound_definitions.json" ));
         if (
             sounds.hasOwnProperty(id)
             && sounds[id].sounds.length > 0
@@ -62,9 +63,30 @@ const Engine = {
         if (back) back.addEventListener( "click", () => { window.sound.play( 'ui.modal_hide' ); Router.history.goBack(); } );
         if (settings) settings.addEventListener( "click", () => { window.sound.play( 'ui.modal_hide' ); Router.history.go( "/settings" ) } );
     },
+    loadModal: (component) => document.getElementById( "popup" ).innerHTML = component,
+};
+
+const settingsPath = process.env.APPDATA + "/bedrocktools/settings.json";
+const settings = JSON.parse(fs.readFileSync(settingsPath));
+const Settings = {
+    get: (key) => {
+        return settings[key] ?? defaultSettings[key];
+    },
+    set: (key, value) => {
+        if (defaultSettings.hasOwnProperty( key )) {
+            settings[key] = value ?? defaultSettings[key];
+            fs.writeFileSync( settingsPath, JSON.stringify(settings, null, 4) );
+        };
+    },
+};
+
+const defaultSettings = {
+    debug: false,
+    right: true,
 };
 
 window.router = Router;
 window.sound = Sound;
 window.logger = Logger;
 window.engine = Engine;
+window.settings = Settings;

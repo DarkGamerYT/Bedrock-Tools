@@ -2,10 +2,11 @@ let scriptAPI = false;
 let beta = false;
 let scriptModules = [];
 const ManifestGeneratorRoute = () => {
+    const isRight = window.settings.get( "right" );
     return (
         Components.createHeader({ text: "Manifest Generator", back: true, settings: true })
         + (
-            `<div style="display: flex;flex-direction: row;margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
+            `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
                 <div style="width: 50%;">
                     ${Components.createElements(
                         {
@@ -75,7 +76,7 @@ const ManifestGeneratorRoute = () => {
                                         id: "scriptApiToggle",
                                         toggled: false,
                                         onClick: (e) => {
-                                            window.sound.play( "ui.release" );
+                                            window.sound.play( "ui.modal_hide" );
                                             const packType = Number(document.getElementById( "packType" ).value);
                                             if (packType == 2) return;
                                             
@@ -106,7 +107,7 @@ const ManifestGeneratorRoute = () => {
                                                 subtitle: "Enable Beta modules in ScriptAPI",
                                                 toggled: beta,
                                                 onClick: (e) => {
-                                                    window.sound.play( "ui.release" );
+                                                    window.sound.play( "ui.modal_hide" );
                                                     let value = e.getAttribute( "value" ) == "true";
                                                     beta = !value;
                                                     e.setAttribute( "value", !value );
@@ -218,7 +219,7 @@ const moduleToggle = (type) => {
                             title: m.module_name,
                             id: m.module_name,
                             onClick: (e) => {
-                                window.sound.play( "ui.release" );
+                                window.sound.play( "ui.modal_hide" );
                                 let value = e.getAttribute( "value" ) == "true";
                                 e.setAttribute( "value", !value );
         

@@ -1,6 +1,6 @@
 const EmptyRoute = () => {
     return (
-        `<div id="popup">
+        `<div class="popup">
             ${
                 Components.createModal(
                     {
@@ -12,7 +12,10 @@ const EmptyRoute = () => {
                                     {
                                         type: "button",
                                         text: "Go back",
-                                        onClick: () => window.router.history.goBack(),
+                                        onClick: () => {
+                                            window.sound.play( "ui.release" );
+                                            window.router.history.goBack();
+                                        },
                                     },
                                 )}
                             </div>`

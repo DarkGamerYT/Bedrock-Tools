@@ -1,8 +1,9 @@
 const ServerPingerRoute = () => {
+    const isRight = window.settings.get( "right" );
     return (
         Components.createHeader({ text: "Server Pinger", back: true, settings: true })
         + (
-            `<div style="display: flex;flex-direction: row;margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
+            `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
                 <div style="width: 50%;">
                     ${Components.createElements(
                         {
@@ -15,7 +16,7 @@ const ServerPingerRoute = () => {
                                 Components.createElement(
                                     {
                                         type: "input",
-                                        title: "Server IP:",
+                                        title: "Server address:",
                                         id: "serverIp",
                                         placeholder: "play.example.com",
                                     },
@@ -42,33 +43,7 @@ const ServerPingerRoute = () => {
                             text: "Ping",
                             id: "ping",
                             style: "hero",
-                            onClick: () => {
-                                const serverIp = document.getElementById( "serverIp" ).value.trim();
-                                const serverPort = Number(document.getElementById( "serverPort" ).value) || 19132;
-                                
-                                if(serverIp.length > 0) {
-                                    document.getElementById( "serverData" ).innerHTML = (
-                                        `<div style="height: 304.5px; background-color: #2d2e2e; border: 2px solid black; align-items: center; justify-content: center;">
-                                            <img src="/src/assets/imgs/icons/load.gif" style="height: 24px; width: 24px; image-rendering: pixelated;">
-                                        </div>`
-                                    );
-
-                                    pingBedrock({ hostname: serverIp, port: serverPort }).then(
-                                        (data) => {
-                                            document.getElementById( "serverData" ).innerHTML = serverData();
-                                            const addToList = document.getElementById( "addToList" );
-                                            if (data.online) addToList.style = null;
-                                            else addToList.style = "display: none;";
-
-                                            document.getElementById( "hostname" ).innerText = data.hostname;
-                                            document.getElementById( "port" ).innerText = data.port;
-                                            document.getElementById( "motd" ).innerHTML = `<div style="margin-top: 8px; margin-bottom: 8px; display: flex; flex-direction: row; user-select: text;">${data?.motd?.html ?? `<div style="color: #ff6767">Unable to ping the server.</div>`}</div>`;
-                                            document.getElementById( "playerCount" ).innerText = data?.players?.online ?? 0;
-                                            document.getElementById( "addToServerList" ).addEventListener("click", () => electron.shell.openExternal( `minecraft://?addExternalServer=${data.hostname}|${data.hostname}:${data.port}` ));
-                                        },
-                                    );  
-                                };
-                            },
+                            onClick: () => pingServer(),
                         },
                     )}
                     <div style="height: 4px;"></div>
@@ -182,5 +157,43 @@ const serverData = () => {
                 ],
             },
         )
+    );
+};
+
+const pingServer = () => {
+    window.sound.play( "ui.release" );
+
+    const serverIp = document.getElementById( "serverIp" ).value.trim();
+    const serverPort = Number(document.getElementById( "serverPort" ).value) || 19132;
+    
+    if(serverIp.length > 0) {
+        document.getElementById( "serverData" ).innerHTML = (
+            `<div style="height: 304.5px; background-color: #2d2e2e; border: 2px solid black; align-items: center; justify-content: center;">
+                <img src="/src/assets/imgs/icons/load.gif" style="height: 24px; width: 24px; image-rendering: pixelated;">
+            </div>`
+        );
+
+        pingBedrock({ hostname: serverIp, port: serverPort }).then(
+            (data) => {
+                document.getElementById( "serverData" ).innerHTML = serverData();
+                const addToList = document.getElementById( "addToList" );
+                if (data.online) addToList.style = null;
+                else addToList.style = "display: none;";
+
+                document.getElementById( "hostname" ).innerText = data.hostname;
+                document.getElementById( "port" ).innerText = data.port;
+                document.getElementById( "motd" ).innerHTML = `<div style="margin-top: 8px; margin-bottom: 8px; display: flex; flex-direction: row; user-select: text;">${data?.motd?.html ?? `<div style="color: #ff6767">Unable to ping the server.</div>`}</div>`;
+                document.getElementById( "playerCount" ).innerText = data?.players?.online ?? 0;
+                document.getElementById( "addToServerList" ).addEventListener("click", () => electron.shell.openExternal( `minecraft://?addExternalServer=${data.hostname}|${data.hostname}:${data.port}` ));
+            },
+        );  
+    } else window.engine.loadModal(
+        ErrorRoute(
+            {
+                title: "Something went wrong",
+                body: "Address can't be empty",
+                center: true,
+            },
+        ),
     );
 };
