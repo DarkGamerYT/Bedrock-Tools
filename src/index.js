@@ -15,21 +15,23 @@ RPC.on(
                 const route = window.router.routes.find((r) => r.route == routeName);
                 
                 if (window.settings.get( "discordrpc" )) {
-                    if (lastRoute != routeName) lastTime = Date.now();
-                    RPC.setActivity(
-                        {
-                            details: route?.name ?? "Unknown Route",
-                            state: "Route: " + (route?.route ?? routeName),
-                            startTimestamp: lastTime,
-                            largeImageKey: "icon",
-                            largeImageText: "Bedrock Tools (Beta)",
-                            smallImageKey: route?.rpc,
-                            smallImageText: route?.name,
-                        },
-                    );
+                    if (lastRoute != routeName) {
+                        lastTime = Date.now();
+                        RPC.setActivity(
+                            {
+                                details: route?.name ?? "Unknown Route",
+                                state: "Route: " + (route?.route ?? routeName),
+                                startTimestamp: lastTime,
+                                largeImageKey: "icon",
+                                largeImageText: "Bedrock Tools (Beta)",
+                                smallImageKey: route?.rpc,
+                                smallImageText: route?.name,
+                            },
+                        );
+                    };
                 } else RPC.clearActivity();
                 lastRoute = routeName;
-            }, 5000,
+            },
         );
     },
 );
