@@ -1,73 +1,77 @@
-const ServerPingerRoute = () => {
-    const isRight = window.settings.get( "right" );
-    return (
-        Components.createHeader({ text: "Server Pinger", back: true, settings: true })
-        + (
-            `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
-                <div style="width: 50%;">
-                    ${Components.createElements(
-                        {
-                            elements: [
-                                `<div
-                                    class="serverImage"
-                                    id="serverImage"
-                                    style="background-image: url('/src/assets/imgs/thumbnail/cobblestone.png');"
-                                ></div>`,
-                                Components.createElement(
-                                    {
-                                        type: "input",
-                                        title: "Server address:",
-                                        id: "serverIp",
-                                        placeholder: "play.example.com",
-                                    },
-                                ),
-                                Components.createElement(
-                                    {
-                                        type: "input",
-                                        title: "Server port:",
-                                        id: "serverPort",
-                                        placeholder: "19132",
-                                        input: {
-                                            input: "number",
-                                            min: 1024,
-                                            max: 65565,
+window.router.routes.push({
+    name: "Server Pinger",
+    route: "/server_pinger",
+    rpc: "multiplayer",
+    component: () => {
+        const isRight = window.settings.get( "right" );
+        return (
+            Components.createHeader({ text: "Server Pinger", back: true, settings: true })
+            + (
+                `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
+                    <div style="width: 50%;">
+                        ${Components.createElements(
+                            {
+                                elements: [
+                                    `<div
+                                        class="serverImage"
+                                        id="serverImage"
+                                        style="background-image: url('/src/assets/imgs/thumbnail/cobblestone.png');"
+                                    ></div>`,
+                                    Components.createElement(
+                                        {
+                                            type: "input",
+                                            title: "Server address:",
+                                            id: "serverIp",
+                                            placeholder: "play.example.com",
                                         },
-                                    },
-                                ),
-                            ],
-                        },
-                    )}
-                    ${Components.createElement(
-                        {
-                            type: "button",
-                            text: "Ping",
-                            id: "ping",
-                            style: "hero",
-                            onClick: () => pingServer(),
-                        },
-                    )}
-                    <div style="height: 4px;"></div>
-                    <div id="serverListButton" style="display: none;">
+                                    ),
+                                    Components.createElement(
+                                        {
+                                            type: "input",
+                                            title: "Server port:",
+                                            id: "serverPort",
+                                            placeholder: "19132",
+                                            input: {
+                                                input: "number",
+                                                min: 1024,
+                                                max: 65565,
+                                            },
+                                        },
+                                    ),
+                                ],
+                            },
+                        )}
                         ${Components.createElement(
                             {
                                 type: "button",
-                                text: "Add to server list",
-                                id: "",
-                                style: "secondary",
-                                onClick: () => {},
+                                text: "Ping",
+                                id: "ping",
+                                style: "hero",
+                                onClick: () => pingServer(),
                             },
                         )}
+                        <div style="height: 4px;"></div>
+                        <div id="serverListButton" style="display: none;">
+                            ${Components.createElement(
+                                {
+                                    type: "button",
+                                    text: "Add to server list",
+                                    id: "",
+                                    style: "secondary",
+                                    onClick: () => {},
+                                },
+                            )}
+                        </div>
                     </div>
-                </div>
-                <div style="width: 100%;" id="serverData">
-                    ${serverData()}
-                </div>
-            </div>`
-        )
-    );
-};
+                    <div style="width: 100%;" id="serverData">
+                        ${serverData()}
+                    </div>
+                </div>`
+            )
+        );
+    },
+});
 
-window.router.routes.push({ route: "/server_pinger", component: ServerPingerRoute });
 const serverData = () => {
     return (
         Components.createElements(
@@ -188,7 +192,7 @@ const pingServer = () => {
             },
         );  
     } else window.engine.loadModal(
-        ErrorRoute(
+        ErrorModal(
             {
                 title: "Something went wrong",
                 body: "Address can't be empty",

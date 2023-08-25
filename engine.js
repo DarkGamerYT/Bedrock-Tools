@@ -47,7 +47,7 @@ const Logger = {
 		"\x1B[0m" + new Date().toLocaleTimeString() + " \x1B[33m\x1B[1m[DEBUG] \x1B[0m-", ...data,
 	),
     error: (...data) => console.log(
-		"\x1B[0m" + new Date().toLocaleTimeString() + " \x1B[35m\x1B[1m[ERROR] \x1B[0m-", ...data,
+		"\x1B[0m" + new Date().toLocaleTimeString() + " \x1B[31m\x1B[1m[ERROR] \x1B[0m-", ...data,
 	),
 };
 
@@ -58,6 +58,7 @@ const Engine = {
         await new Promise((res) => setTimeout(() => res(), 0.8 * 1000)); //wait 1 second
         app.className = isBack ? "uiEnteringBack" : "uiEntering";
         app.innerHTML = route.component();
+        if (route?.extra) route.extra();
         const back = document.getElementById( "back" );
         const settings = document.getElementById( "settings" );
         if (back) back.addEventListener( "click", () => { window.sound.play( 'ui.modal_hide' ); Router.history.goBack(); } );
@@ -67,12 +68,13 @@ const Engine = {
 };
 
 const settingsPath = process.env.APPDATA + "/bedrocktools/settings.json";
-const settings = JSON.parse(fs.readFileSync(settingsPath));
 const Settings = {
     get: (key) => {
+        const settings = JSON.parse(fs.readFileSync(settingsPath));
         return settings[key] ?? defaultSettings[key];
     },
     set: (key, value) => {
+        const settings = JSON.parse(fs.readFileSync(settingsPath));
         if (defaultSettings.hasOwnProperty( key )) {
             settings[key] = value ?? defaultSettings[key];
             fs.writeFileSync( settingsPath, JSON.stringify(settings, null, 4) );
@@ -82,7 +84,9 @@ const Settings = {
 
 const defaultSettings = {
     debug: false,
-    right: true,
+    alpha_notice: true,
+    right: false,
+    discordrpc: true,
 };
 
 window.router = Router;

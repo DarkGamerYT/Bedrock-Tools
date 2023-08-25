@@ -1,4 +1,4 @@
-const ErrorRoute = (options = {}) => {
+const ErrorModal = (options = {}) => {
     return (
         `<div class="mainBackground"></div>
         <div class="uiEntering" style="min-width: 435px;">

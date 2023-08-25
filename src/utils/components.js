@@ -97,6 +97,48 @@ const Components = {
                 );
             };
 
+            case "textbox": {
+                return (
+                    `<div class="element">
+                        <span class="elementTitle">${options?.title ?? ""}</span>
+                        <textarea
+                            role="textbox"
+                            contenteditable=""
+                            id="${options?.id ?? ""}"
+                            style="height: 100%;min-height: ${options?.startHeight ?? 25}px;max-height: 512px;width: 100%;min-width: 100%;max-width: 100%;display: list-item;margin-bottom: 12px;padding-right: 0px;font-size: 16px;resize: none;"
+                        ></textarea>
+                    </div>`
+                );
+            };
+
+            case "upload": {
+                return (
+                    `<div class="element">
+                        <span class="elementTitle">${options?.title ?? ""}</span>
+                        <div class="dropdown oreUIButtonSecondary">
+                            <div class="oreUIButton_ oreUIButtonSecondaryBackground">
+                                <div class="oreUISpecular oreUIButton_One"></div>
+                                <div class="oreUISpecular oreUIButton_Two"></div>
+                                <label
+                                    style="font-size: 13px;cursor: pointer;width: 100%;text-align: center;"
+                                    id="${options?.text?.id ?? ""}"
+                                    for="${options?.id ?? ""}"
+                                >${options?.text?.body ?? ""}</label>
+                                <input
+                                    name="packType"
+                                    class="_oreUIButton"
+                                    style="display: none;"
+                                    type="file"
+                                    accept=".${options?.accept ?? ""}"
+                                    id="${options?.id ?? ""}"
+                                    onChange='(${options?.onChange?.toString()})(this)'
+                                />
+                            </div>
+                        </div>
+                    </div>`
+                );
+            };
+
             case "toggle": {
                 return (
                     `<div class="element">
