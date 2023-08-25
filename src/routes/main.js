@@ -10,11 +10,6 @@ const MainRoute = () => {
                         title: "Manifest Generator",
                         icon: "/src/assets/imgs/icons/manifest.png",
                     },
-                    {
-                        route: "/uuid_generator",
-                        title: "UUID Generator",
-                        icon: "/src/assets/imgs/icons/uuid.png",
-                    },
                 ],
                 display: true,
             },
@@ -22,6 +17,11 @@ const MainRoute = () => {
                 title: "Utilities",
                 description: "Useful tools",
                 items: [
+                    {
+                        route: "/uuid_generator",
+                        title: "UUID Generator",
+                        icon: "/src/assets/imgs/icons/uuid.png",
+                    },
                     {
                         route: "/server_pinger",
                         title: "Server Pinger",

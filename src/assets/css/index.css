@@ -7,9 +7,12 @@
 	font-family: "MinecraftSeven";
 }
 
-body {
+html {
 	/*background-color: rgba(0, 0, 0, 0.8);*/
-	background: url(/src/assets/imgs/screenshot3.png);
+	background: url(/src/assets/imgs/dirt.png);
+}
+
+body {
 	margin: 0;
 	overflow-x: hidden;
 }
@@ -612,4 +615,28 @@ pre {
     background-position: center;
     background-size: cover;
     border-bottom: 2px solid black;
+}
+.motdUnicode {
+    width: auto;
+    height: 16px;
+    image-rendering: pixelated;
+    margin-top: -3px;
+    margin-bottom: -3px;
+}
+
+::-webkit-scrollbar {
+    width: 1.25rem;
+    background-color: transparent;
+}
+::-webkit-scrollbar-corner {
+    background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 0.5625rem;
+    border: 0.375rem solid rgba(0,0,0,0);
+    background-color: rgb(34 34 34);
+    background-clip: padding-box;
+}
+::-webkit-scrollbar-track {
+    background-color: transparent;
 }

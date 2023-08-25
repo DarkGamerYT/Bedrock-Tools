@@ -1,6 +1,6 @@
 const ServerPingerRoute = () => {
     return (
-        Components.createHeader({ text: "UUID Generator", back: true, settings: true })
+        Components.createHeader({ text: "Server Pinger", back: true, settings: true })
         + (
             `<div style="display: flex;flex-direction: row;margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
                 <div style="width: 50%;">
@@ -56,10 +56,15 @@ const ServerPingerRoute = () => {
                                     pingBedrock({ hostname: serverIp, port: serverPort }).then(
                                         (data) => {
                                             document.getElementById( "serverData" ).innerHTML = serverData();
+                                            const addToList = document.getElementById( "addToList" );
+                                            if (data.online) addToList.style = null;
+                                            else addToList.style = "display: none;";
+
                                             document.getElementById( "hostname" ).innerText = data.hostname;
                                             document.getElementById( "port" ).innerText = data.port;
-                                            document.getElementById( "motd" ).innerHTML = `<div style="margin-top: 8px; margin-bottom: 8px;">${bedrockMotd(data?.motd?.html ?? `<div style="color: #ff6767">Unable to ping the server.</div>`)}</div>`;
+                                            document.getElementById( "motd" ).innerHTML = `<div style="margin-top: 8px; margin-bottom: 8px; display: flex; flex-direction: row; user-select: text;">${data?.motd?.html ?? `<div style="color: #ff6767">Unable to ping the server.</div>`}</div>`;
                                             document.getElementById( "playerCount" ).innerText = data?.players?.online ?? 0;
+                                            document.getElementById( "addToServerList" ).addEventListener("click", () => electron.shell.openExternal( `minecraft://?addExternalServer=${data.hostname}|${data.hostname}:${data.port}` ));
                                         },
                                     );  
                                 };
@@ -151,25 +156,27 @@ const serverData = () => {
                                 {
                                     type: "text",
                                     title: "",
-                                    subtitle: `<div style="margin-top: 8px; margin-bottom: 8px;"><div style="color: #ff6767">Unable to ping the server.</div></div>`,
+                                    subtitle: `<div style="margin-top: 8px; margin-bottom: 8px; display: flex; flex-direction: row; user-select: text;"><div style="color: #ff6767">Unable to ping the server.</div></div>`,
                                     id: "motd",
                                 },
                             )
                         }
                     </div>`,
-                    `<div style="flex-direction: row; background-color: #48494a; padding: 0.6rem; padding-left: 32px; padding-right: 32px;">
-                        <div class="oreUISpecular" style="border-top-width: var(--base2Scale);"></div>
-                        <div class="oreUISpecular" style="border-bottom-width: var(--base2Scale);"></div>
-                        <div style="width: 100%;">
-                            ${Components.createElement(
-                                {
-                                    type: "button",
-                                    text: "Add to server list",
-                                    id: "addToServerList",
-                                    style: "secondary",
-                                    onClick: () => {},
-                                },
-                            )}
+                    `<div style="display: none;" id="addToList">
+                        <div style="flex-direction: row; background-color: #48494a; padding: 0.6rem; padding-left: 32px; padding-right: 32px;">
+                            <div class="oreUISpecular" style="border-top-width: var(--base2Scale);"></div>
+                            <div class="oreUISpecular" style="border-bottom-width: var(--base2Scale);"></div>
+                            <div style="width: 100%;">
+                                ${Components.createElement(
+                                    {
+                                        type: "button",
+                                        text: "Add to server list",
+                                        id: "addToServerList",
+                                        style: "secondary",
+                                        onClick: () => {},
+                                    },
+                                )}
+                            </div>
                         </div>
                     </div>`
                 ],

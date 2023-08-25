@@ -33,10 +33,7 @@ const UUIDGeneratorRoute = () => {
                                 const amount = Number(document.getElementById( "amount" ).value.trim());
                                 if (amount > 0) {
                                     const uuids = [];
-                                    for (let i = 1; i <= amount && i <= 32; i++) {
-                                        uuids.push(require( "node:crypto" ).randomUUID());
-                                    };
-
+                                    for (let i = 1; i <= amount && i <= 32; i++) uuids.push(crypto.randomUUID());
                                     document.getElementById( "output" ).innerText = uuids.join( "\n" );
                                 };
                             },
