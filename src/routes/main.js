@@ -89,7 +89,7 @@ const MainRoute = () => {
                                                     ${
                                                         m.items.map(
                                                             (i) => (
-                                                                `<div class="elementMenu" onClick="window.router.history.go('${i.route}')">
+                                                                `<div class="elementMenu" onClick="window.sound.play( 'ui.modal_hide' ); window.router.history.go('${i.route}');">
                                                                     <img src="${i.icon}" style="height: calc(var(--base2Scale)*16); width: calc(var(--base2Scale)*16); image-rendering: pixelated; margin-right: 0.5rem;">
                                                                     <span class="elementTitle">${i.title}</span>
                                                                 </div>`

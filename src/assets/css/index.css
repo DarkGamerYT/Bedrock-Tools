@@ -97,7 +97,7 @@ body {
 	user-select: none;
     cursor: pointer;
 	text-decoration: none;
-	width: 100%;
+	width: auto;
 }
 .oreUIButton:active {
 	padding-bottom: 0;
@@ -601,9 +601,15 @@ code {
     color: #dcddde;
 	user-select: text;
 }
-
 pre {
 	margin: 0;
     margin-bottom: 12px;
 	white-space: unset;
+}
+
+.serverImage {
+    height: 128px;
+    background-position: center;
+    background-size: cover;
+    border-bottom: 2px solid black;
 }

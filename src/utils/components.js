@@ -59,7 +59,7 @@ const Components = {
             case "element": {
                 return (
                     `<div class="element_" id="${options?.id ?? ""}">
-                        <span class="elementHeader">${options?.title ?? ""}</span>
+                        <span class="elementHeader" style="margin-top: ${options?.space ?? 16}px;">${options?.title ?? ""}</span>
                         <span class="elementSubtitle">${options?.subtitle ?? ""}</span>
                     </div>`
                 );
@@ -117,9 +117,17 @@ const Components = {
             };
 
             case "button": {
+                let style = "oreUIButtonPrimary";
+                let background = "oreUIButtonPrimaryBackground";
+                switch(options?.style) {
+                    case "primary": style = "oreUIButtonPrimary"; background = "oreUIButtonPrimaryBackground"; break;
+                    case "secondary": style = "oreUIButtonSecondary"; background = "oreUIButtonSecondaryBackground"; break;
+                    case "hero": style = "oreUIButtonHero"; background = "oreUIButtonHeroBackground"; break;
+                };
+
                 return (
-                    `<div class="oreUIButton oreUIButtonHero" onClick='(${options?.onClick?.toString()})(this)' id="${options?.id ?? ""}">
-                        <div class="oreUIButton_ oreUIButtonHeroBackground">
+                    `<div class="oreUIButton ${style}" onClick='(${options?.onClick?.toString()})(this)' id="${options?.id ?? ""}">
+                        <div class="oreUIButton_ ${background}">
                             <div class="oreUISpecular oreUIButton_One"></div>
                             <div class="oreUISpecular oreUIButton_Two"></div>
                             <div class="_oreUIButton">
@@ -137,8 +145,16 @@ const Components = {
             case "text": {
                 return (
                     `<div class="element">
-                        <span class="elementTitle">${options?.title ?? ""}</span>
-                        <pre><code class="hljs" id="${options?.id ?? ""}">${options?.default ?? ""}</code></pre>
+                        <div style="flex-direction: unset;margin-top: 8px;margin-bottom: 12px;">
+                            <div style="width: 100%;">
+                                <span class="elementTitle" id="${options?.useTitle && options?.id ? options?.id : ""}">${options?.title ?? ""}</span>
+                                ${
+                                    options?.style == "code"
+                                    ? `<pre><code class="hljs" id="${!options?.useTitle && options?.id ? options?.id : ""}">${options?.default ?? ""}</code></pre>`
+                                    : `<span class="elementSubtitle" id="${!options?.useTitle && options?.id ? options?.id : ""}">${options?.subtitle ?? ""}</span>`
+                                }
+                            </div>
+                        </div>
                     </div>`
                 )
             };

@@ -59,8 +59,8 @@ const Engine = {
         app.innerHTML = route.component();
         const back = document.getElementById( "back" );
         const settings = document.getElementById( "settings" );
-        if (back) back.addEventListener( "click", () => Router.history.goBack() );
-        if (settings) settings.addEventListener( "click", () => Router.history.go( "/settings" ) );
+        if (back) back.addEventListener( "click", () => { window.sound.play( 'ui.modal_hide' ); Router.history.goBack(); } );
+        if (settings) settings.addEventListener( "click", () => { window.sound.play( 'ui.modal_hide' ); Router.history.go( "/settings" ) } );
     },
 };
 

@@ -32,7 +32,7 @@ const ManifestGeneratorRoute = () => {
                                                     if (value) scriptApiToggle.className = "toggle toggleOn";
                                                     else scriptApiToggle.className = "toggle toggleOff";
                                                     if (scriptAPI) {
-                                                        modulesElement.style = "";
+                                                        modulesElement.style = null;
                                                         document.getElementById( "modules" ).innerHTML = moduleToggle(Number(e.value))
                                                     };
                                                 break;
@@ -75,6 +75,7 @@ const ManifestGeneratorRoute = () => {
                                         id: "scriptApiToggle",
                                         toggled: false,
                                         onClick: (e) => {
+                                            window.sound.play( "ui.release" );
                                             const packType = Number(document.getElementById( "packType" ).value);
                                             if (packType == 2) return;
                                             
@@ -91,7 +92,7 @@ const ManifestGeneratorRoute = () => {
                                                 modulesElement.style = "display: none;";
                                             } else {
                                                 document.getElementById( "modules" ).innerHTML = moduleToggle(packType);
-                                                modulesElement.style = "";
+                                                modulesElement.style = null;
                                             };
                                         },
                                     },
@@ -105,6 +106,7 @@ const ManifestGeneratorRoute = () => {
                                                 subtitle: "Enable Beta modules in ScriptAPI",
                                                 toggled: beta,
                                                 onClick: (e) => {
+                                                    window.sound.play( "ui.release" );
                                                     let value = e.getAttribute( "value" ) == "true";
                                                     beta = !value;
                                                     e.setAttribute( "value", !value );
@@ -149,7 +151,10 @@ const ManifestGeneratorRoute = () => {
                             type: "button",
                             text: "Generate",
                             id: "generatePack",
+                            style: "hero",
                             onClick: () => {
+                                window.sound.play( "ui.release" );
+
                                 const packName = document.getElementById( "packName" ).value;
                                 const packDescription = document.getElementById( "packDescription" ).value;
                                 const packType = Number(document.getElementById( "packType" ).value);
@@ -184,6 +189,7 @@ const ManifestGeneratorRoute = () => {
                                         title: "Output:",
                                         id: "output",
                                         default: `<span class="hljs-punctuation">{</span>\n\t<span class="hljs-attr">"format_version"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">2</span><span class="hljs-punctuation">,</span>\n\t<span class="hljs-attr">"header"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>\n\t<span class="hljs-attr">"modules"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>\n\t<span class="hljs-attr">"capabilities"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>\n\t<span class="hljs-attr">"dependencies"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span>\n<span class="hljs-punctuation">}</span>`,
+                                        style: "code",
                                     },
                                 ),
                             ],
@@ -212,6 +218,7 @@ const moduleToggle = (type) => {
                             title: m.module_name,
                             id: m.module_name,
                             onClick: (e) => {
+                                window.sound.play( "ui.release" );
                                 let value = e.getAttribute( "value" ) == "true";
                                 e.setAttribute( "value", !value );
         

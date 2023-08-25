@@ -28,6 +28,7 @@ const UUIDGeneratorRoute = () => {
                             type: "button",
                             text: "Generate",
                             id: "generate",
+                            style: "hero",
                             onClick: () => {
                                 const amount = Number(document.getElementById( "amount" ).value.trim());
                                 if (amount > 0) {
@@ -51,7 +52,8 @@ const UUIDGeneratorRoute = () => {
                                         type: "text",
                                         title: "Output:",
                                         id: "output",
-                                        default: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                                        default: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                                        style: "code",
                                     },
                                 ),
                             ],
