@@ -83,9 +83,27 @@ const Components = {
             `<div class="elements">${options.elements.join( "" )}</div>`
         );
     },
+
+    createTabs: (options) => {
+        return (
+            `<div class="tabs">${options.tabs.join( "" )}</div>`
+        );
+    },
     
     createElement: (options) => {
         switch(options?.type) {
+            case "tab": {
+                return (
+                    `<div class="oreUITab" onClick='(${options?.onClick?.toString()})(this)' id="${options?.id ?? ""}">
+                    <div class="oreUISpecular oreUITab_One"></div>
+                    <div class="oreUISpecular oreUITab_Two"></div>
+                    <div class="_oreUITab" />
+                        <div class="_oreUITab_">${options?.title ?? ""}</div>
+                    </div>
+                    `
+                );
+            };
+
             case "element": {
                 return (
                     `<div class="element_" id="${options?.id ?? ""}">

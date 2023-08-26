@@ -310,6 +310,54 @@ input, textarea, span[role="textbox"] {
 span[role="textbox"]::marker {
 	content: "";
 }
+.tabs {
+	background-color: #48494a;
+	border: 2px solid black;
+	margin-bottom: 8px;
+	user-select: none;
+}
+.oreUItab {
+	padding-bottom: 0.4rem;
+	border-bottom-style: solid;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-top-style: solid;
+    border-bottom-width: var(--base2Scale);
+    border-left-width: var(--base2Scale);
+    border-right-width: var(--base2Scale);
+    border-top-width: var(--base2Scale);
+	position: relative;
+    z-index: 0;
+	user-select: none;
+    cursor: pointer;
+	text-decoration: none;
+	width: auto;
+	background-color: #48494a;
+	border-color: #1e1e1f;
+}
+.oreUITab_One {
+	border-left-width: var(--base2Scale);
+	border-top-width: var(--base2Scale);
+}
+.oreUITab_Two {
+	border-right-width: var(--base2Scale);
+	border-bottom-width: var(--base2Scale);
+}
+._oreUITab__ {
+	font-family: "MinecraftSeven";
+	flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+.tabTitle {
+	color: #ffffff;
+    letter-spacing: 0.04rem;
+    font-size: 14px;
+    line-height: 24px;
+	width: 100%;
+}
 .elements {
 	background-color: #48494a;
     border: 2px solid black;

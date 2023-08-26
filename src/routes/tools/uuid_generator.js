@@ -63,6 +63,22 @@ window.router.routes.push({
                                 ],
                             },
                         )}
+                        ${Components.createTabs(
+                            {
+                                tabs: [
+                                    Components.createElement(
+                                        {
+                                            type: "tab",
+                                            title: "Test",
+                                            id: "generate",
+                                            onClick: () => {
+                                                window.sound.play("ui.click");
+                                            }
+                                        }
+                                    )
+                                ]
+                            }  
+                        )}
                     </div>
                 </div>`
             )
