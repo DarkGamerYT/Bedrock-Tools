@@ -385,7 +385,6 @@ select {
 	position: relative;
 	z-index: 1000;
 	height: 42px;
-	-webkit-app-region: drag;
 }
 .headerShadow {
 	height: calc(2*var(--base2Scale));
@@ -396,6 +395,7 @@ select {
     width: 100%;
     display: block;
 	position: fixed;
+	-webkit-app-region: drag;
 	background-color: #e6e8eb;
 }
 .header__ {
