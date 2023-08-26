@@ -55,14 +55,14 @@ const Engine = {
     loadUI: async (route, isBack = false) => {
         const app = document.getElementById( "app" );
         app.className = isBack ? "uiLeavingBack" : "uiLeaving";
-        await new Promise((res) => setTimeout(() => res(), 0.8 * 1000)); //wait 1 second
+        await new Promise((res) => setTimeout(() => res(), 0.2 * 1000)); //wait for 400 milliseconds
         app.className = isBack ? "uiEnteringBack" : "uiEntering";
         app.innerHTML = route.component();
         if (route?.extra) route.extra();
         const back = document.getElementById( "back" );
         const settings = document.getElementById( "settings" );
-        if (back) back.addEventListener( "click", () => { window.sound.play( 'ui.modal_hide' ); Router.history.goBack(); } );
-        if (settings) settings.addEventListener( "click", () => { window.sound.play( 'ui.modal_hide' ); Router.history.go( "/settings" ) } );
+        if (back) back.addEventListener( "click", () => { window.sound.play( 'ui.click' ); Router.history.goBack(); } );
+        if (settings) settings.addEventListener( "click", () => { window.sound.play( 'ui.click' ); Router.history.go( "/settings" ) } );
     },
     loadModal: (component) => document.getElementById( "popup" ).innerHTML = component,
 };

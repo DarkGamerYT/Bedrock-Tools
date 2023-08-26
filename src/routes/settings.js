@@ -59,7 +59,7 @@ window.router.routes.push({
 const SettingsRouteUtils = {
     toggleRight: (e) => {
         let isRight = window.settings.get( "right" );
-        window.sound.play( "ui.modal_hide" );
+        window.sound.play( "ui.click" );
 
         let enabled = e.getAttribute( "value" ) == "true";
         e.setAttribute( "value", !enabled );
@@ -72,7 +72,7 @@ const SettingsRouteUtils = {
     },
     toggleDiscordRpc: (e) => {
         let discordRpc = window.settings.get( "discordRpc" );
-        window.sound.play( "ui.modal_hide" );
+        window.sound.play( "ui.click" );
 
         let enabled = e.getAttribute( "value" ) == "true";
         e.setAttribute( "value", !enabled );
