@@ -1,3 +1,4 @@
+const electron = require( "@electron/remote" );
 const fs = require( "node:fs" );
 const Router = {
     routes: [],
@@ -63,6 +64,11 @@ const Engine = {
         const settings = document.getElementById( "settings" );
         if (back) back.addEventListener( "click", () => { window.sound.play( 'ui.click' ); Router.history.goBack(); } );
         if (settings) settings.addEventListener( "click", () => { window.sound.play( 'ui.click' ); Router.history.go( "/settings" ) } );
+
+	const currentWindow = electron.getCurrentWindow();
+        document.getElementById( "closeApp" ).addEventListener( "click", () => electron.app.exit());
+        document.getElementById( "maximizeApp" ).addEventListener( "click", () => currentWindow.isMaximized() ? currentWindow.unmaximize() : currentWindow.maximize());
+        document.getElementById( "minimizeApp" ).addEventListener( "click", () => currentWindow.minimize());
     },
     loadModal: (component) => document.getElementById( "popup" ).innerHTML = component,
 };
