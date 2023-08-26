@@ -381,13 +381,14 @@ select {
 
 .header {
 	justify-content: flex-end;
-    position: relative;
+	position: relative;
 	z-index: 1000;
 	height: 42px;
+	-webkit-app-region: drag;
 }
 .headerShadow {
 	height: calc(2*var(--base2Scale));
-    background-color: #b1b2b5;
+	background-color: #b1b2b5;
 }
 .header_ {
     top: 0rem;
