@@ -8,7 +8,7 @@ const Components = {
         header__.className = "header__";
 
         const backElement = document.createElement( "div" );
-        backElement.style = "position: absolute; left: 0;";
+        backElement.style = "position: absolute; left: 0; -webkit-app-region: no-drag;";
         if (options?.back) {
             const back = document.createElement( "div" );
             back.className = "headerButton";
@@ -26,18 +26,48 @@ const Components = {
         header__.append( headerTitle )
 
         const space = document.createElement( "div" );
-        space.style = "margin-right: 140px; position: absolute; right: 0;";
+        space.style = "align-items: center;display: flex;flex-direction: row;position: absolute;right: 0;-webkit-app-region: no-drag;";
+
         if (options?.settings) {
             const settings = document.createElement( "div" );
             settings.className = "headerButton";
             settings.innerHTML = `<img src="/src/assets/imgs/icons/settings.png" style="image-rendering: pixelated; width: calc(8*var(--base2Scale));">`;
             settings.id = "settings";
+
+            const divider = document.createElement( "dev" );
+            divider.style = "width: 2px;height: 16px;margin-right: 4px;margin-left: 4px;background-color: lightgray;"
             
             space.append( settings );
+            space.append( divider );
         };
 
-        header__.append( space );
+        const main = document.createElement( "div" );
+        main.style = "display: flex; flex-direction: row; margin-right: 0.4rem; margin-left: 0.4rem;";
 
+        const close = document.createElement( "div" );
+        close.className = "headerButton";
+        close.style = "margin-right: 0; margin-left: 0;";
+        close.innerHTML = `<img src="/src/assets/imgs/icons/close.png" style="image-rendering: pixelated; width: 10px; height: 10px;">`;
+        close.id = "closeApp";
+
+        const maximize = document.createElement( "div" );
+        maximize.className = "headerButton";
+        maximize.style = "margin-right: 0; margin-left: 0;";
+        maximize.innerHTML = `<img src="/src/assets/imgs/icons/maximize.png" style="image-rendering: pixelated; width: 10px; height: 10px;">`;
+        maximize.id = "maximizeApp";
+
+        const minimize = document.createElement( "div" );
+        minimize.className = "headerButton";
+        minimize.style = "margin-right: 0; margin-left: 0;";
+        minimize.innerHTML = `<img src="/src/assets/imgs/icons/minimize.png" style="image-rendering: pixelated; width: 10px; height: 10px;">`;
+        minimize.id = "minimizeApp";
+        
+        main.append( minimize );
+        main.append( maximize );    
+        main.append( close );
+
+        space.append( main );
+        header__.append( space );
         header_.append( header__ );
 
         const headerShadow = document.createElement( "div" );
