@@ -10,5 +10,9 @@
     "ui.snes_pop": {
         "category": "ui",
         "sounds": [{ "name": "snes_pop.ogg" }]
+    },
+    "ui.click": {
+        "category": "ui",
+        "sounds": [{ "name": "click.ogg" }]
     }
 }

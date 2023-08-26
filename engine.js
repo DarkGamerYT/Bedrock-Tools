@@ -61,8 +61,8 @@ const Engine = {
         if (route?.extra) route.extra();
         const back = document.getElementById( "back" );
         const settings = document.getElementById( "settings" );
-        if (back) back.addEventListener( "click", () => { window.sound.play( 'ui.modal_hide' ); Router.history.goBack(); } );
-        if (settings) settings.addEventListener( "click", () => { window.sound.play( 'ui.modal_hide' ); Router.history.go( "/settings" ) } );
+        if (back) back.addEventListener( "click", () => { window.sound.play( 'ui.click' ); Router.history.goBack(); } );
+        if (settings) settings.addEventListener( "click", () => { window.sound.play( 'ui.click' ); Router.history.go( "/settings" ) } );
     },
     loadModal: (component) => document.getElementById( "popup" ).innerHTML = component,
 };

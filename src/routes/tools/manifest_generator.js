@@ -80,7 +80,7 @@ window.router.routes.push({
                                             id: "scriptApiToggle",
                                             toggled: false,
                                             onClick: (e) => {
-                                                window.sound.play( "ui.modal_hide" );
+                                                window.sound.play( "ui.click" );
                                                 const packType = Number(document.getElementById( "packType" ).value);
                                                 if (packType == 2) return;
                                                 
@@ -111,7 +111,7 @@ window.router.routes.push({
                                                     subtitle: "Enable Beta modules in ScriptAPI",
                                                     toggled: beta,
                                                     onClick: (e) => {
-                                                        window.sound.play( "ui.modal_hide" );
+                                                        window.sound.play( "ui.click" );
                                                         let value = e.getAttribute( "value" ) == "true";
                                                         beta = !value;
                                                         e.setAttribute( "value", !value );
@@ -222,7 +222,7 @@ const moduleToggle = (type) => {
                             title: m.module_name,
                             id: m.module_name,
                             onClick: (e) => {
-                                window.sound.play( "ui.modal_hide" );
+                                window.sound.play( "ui.click" );
                                 let value = e.getAttribute( "value" ) == "true";
                                 e.setAttribute( "value", !value );
         
