@@ -89,7 +89,7 @@ const Components = {
             `<div
                 class="oreUIButton oreUIButtonTab ${options?.selected ? "tabPressed" : ""}"
                 style="width: 100%;"
-                onClick='(${options?.onClick?.toString()})(this)'
+                onClick='(${options?.onClick?.toString()})(this)\nwindow.sound.play( "ui.click" )'
                 id="${options?.id ?? ""}"
             >
                 <div class="oreUIButton_ oreUIButtonTabBackground">
@@ -122,8 +122,7 @@ const Components = {
                     <div class="oreUISpecular oreUITab_Two"></div>
                     <div class="_oreUITab" />
                         <div class="_oreUITab_">${options?.title ?? ""}</div>
-                    </div>
-                    `
+                    </div>`
                 );
             };
 
@@ -144,7 +143,7 @@ const Components = {
                             <div class="oreUIButton_ oreUIButtonSecondaryBackground">
                                 <div class="oreUISpecular oreUIButton_One"></div>
                                 <div class="oreUISpecular oreUIButton_Two"></div>
-                                <select name="${options?.id ?? ""}" onChange='(${options?.onChange?.toString()})(this)' id="${options?.id ?? ""}" class="_oreUIButton">
+                                <select name="${options?.id ?? ""}" onChange='(${options?.onChange?.toString()})(this)' id="${options?.id ?? ""}" onClick='window.sound.play( "ui.click" )' class="_oreUIButton">
                                     ${options.items.map((i, index) => `<option value="${index}">${i}</option>`)}
                                 </select>
                             </div>
@@ -163,6 +162,7 @@ const Components = {
                             min="${options?.input?.min ?? 0}"
                             max="${options?.input?.max ?? Infinity}"
                             placeholder="${options?.placeholder ?? ""}"
+                            value="${options?.value ?? ""}"
                         ></input>
                     </div>`
                 );

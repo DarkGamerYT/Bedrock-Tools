@@ -21,8 +21,8 @@ window.router.routes.push({
                     description: "Useful tools",
                     items: [
                         {
-                            route: "/uuid_generator",
-                            title: "UUID Generator",
+                            route: "/id_generator",
+                            title: "ID Generator",
                             icon: "/src/assets/imgs/icons/uuid.png",
                         },
                         {
