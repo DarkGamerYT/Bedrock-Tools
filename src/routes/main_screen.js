@@ -33,7 +33,7 @@ window.router.routes.push({
                         {
                             route: "/loop_generator",
                             title: "Loop Generator",
-                            icon: "/src/assets/imgs/dirt.png"
+                            icon: "/src/assets/imgs/icons/debug.png"
                         }
                         /*{
                             route: "/commands_tester",
@@ -81,7 +81,7 @@ window.router.routes.push({
                     ${
                         window.settings.get( "alpha_notice" )
                         ? `<div class="infoElement" id="alphaNotice">
-                            <div class="informativeText">Bedrock Tools is in Alpha | This application is subject to change.</div>
+                            <div class="informativeText">Bedrock Tools is in early stages. Things are subject to change.</div>
                             <div class="infoElementClose" onclick="window.settings.set( 'alpha_notice', false ); document.getElementById( 'alphaNotice' ).remove();"><img src="/src/assets/imgs/icons/close_white.png" style="image-rendering: pixelated;"></div>
                         </div>`
                         : ""

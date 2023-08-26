@@ -158,12 +158,13 @@ const uuidTabs = (selected = 0) => {
                                         else if (amount > 0 && idLength > 0) 
                                         {
                                             const ids = [];
-                                            for (let i = 0; i < amount; i++) {
+                                            for (let i = 0; i < amount && i < 32; i++) {
                                                 var id = "";
                                                 for(let i = 0; i < idLength; i++)
                                                     id += characters[Math.floor(Math.random() * characters.length)];
                                                 ids.push(id);
                                             }
+                                            
                                             document.getElementById( "output" ).innerText = ids.join( "\n" );
                                         };
                                     },
