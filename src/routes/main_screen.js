@@ -21,8 +21,8 @@ window.router.routes.push({
                     description: "Useful tools",
                     items: [
                         {
-                            route: "/uuid_generator",
-                            title: "UUID Generator",
+                            route: "/id_generator",
+                            title: "ID Generator",
                             icon: "/src/assets/imgs/icons/uuid.png",
                         },
                         {
@@ -30,6 +30,11 @@ window.router.routes.push({
                             title: "Server Pinger",
                             icon: "/src/assets/imgs/icons/multiplayer.png",
                         },
+                        {
+                            route: "/loop_generator",
+                            title: "Loop Generator",
+                            icon: "/src/assets/imgs/dirt.png"
+                        }
                         /*{
                             route: "/commands_tester",
                             title: "Command Tester",
