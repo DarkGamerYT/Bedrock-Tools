@@ -30,11 +30,11 @@ window.router.routes.push({
                             title: "Server Pinger",
                             icon: "/src/assets/imgs/icons/multiplayer.png",
                         },
-                        {
+                        /*{
                             route: "/loop_generator",
                             title: "Loop Generator",
                             icon: "/src/assets/imgs/icons/debug.png"
-                        }
+                        }*/
                         /*{
                             route: "/commands_tester",
                             title: "Command Tester",
