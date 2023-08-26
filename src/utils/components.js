@@ -78,15 +78,38 @@ const Components = {
         return header.outerHTML;
     },
     
-    createElements: (options) => {
+    createTabs: (options) => {
         return (
-            `<div class="elements">${options.elements.join( "" )}</div>`
+            `<div class="skOQQ">${options.tabs.join( "" )}</div>`
         );
     },
 
-    createTabs: (options) => {
+    createTab: (options) => {
         return (
-            `<div class="tabs">${options.tabs.join( "" )}</div>`
+            `<div
+                class="oreUIButton oreUIButtonTab ${options?.selected ? "tabPressed" : ""}"
+                style="width: 100%;"
+                onClick='(${options?.onClick?.toString()})(this)'
+                id="${options?.id ?? ""}"
+            >
+                <div class="oreUIButton_ oreUIButtonTabBackground">
+                    <div class="oreUISpecular oreUIButton_One"></div>
+                    <div class="oreUISpecular oreUIButton_Two"></div>
+                    <div class="_oreUIButton">
+                        <div class="_oreUIButton_">
+                            <div class="_oreUIButton__">
+                                <div class="_oreUIButton___">${options?.text ?? ""}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>`
+        );
+    },
+
+    createElements: (options) => {
+        return (
+            `<div class="elements">${options.elements.join( "" )}</div>`
         );
     },
     
