@@ -62,10 +62,10 @@ const createWindow = () => {
 			autoHideMenuBar: true,
 			resizable: true,
 			titleBarStyle: "hidden",
-			titleBarOverlay: {
+			/*titleBarOverlay: {
 				color: "#e6e8eb",
 				height: 38,
-			},
+			},*/
 			webPreferences: {
 				preload: __dirname + "/engine.js",
 				devTools: debug,
