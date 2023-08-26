@@ -89,7 +89,7 @@ const Components = {
             `<div
                 class="oreUIButton oreUIButtonTab ${options?.selected ? "tabPressed" : ""}"
                 style="width: 100%;"
-                onClick='(${options?.onClick?.toString()})(this)\nwindow.sound.play( "ui.click" )'
+                onClick='if(${!options?.selected}) {(${options?.onClick?.toString()})(this);\nwindow.sound.play( "ui.click" );}'
                 id="${options?.id ?? ""}"
             >
                 <div class="oreUIButton_ oreUIButtonTabBackground">
