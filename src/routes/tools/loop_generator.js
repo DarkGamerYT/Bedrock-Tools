@@ -17,7 +17,7 @@ window.router.routes.push({
 });
 
 const loopTabs = (selected = 0) => {
-    const isRight = window.settings.get( "right" );
+    const isRight = window.settings.get("right");
     const tabs = [
         {
             name: "List",
@@ -25,20 +25,68 @@ const loopTabs = (selected = 0) => {
                 return (
                     `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
                         <div style="width: 50%;">
-                        ${Components.createElements(
-                            {
-                                elements: [
-                                    Components.createElement(
-                                        {
-                                            type: "input",
-                                            title: "List:",
-                                            id: "list",
-                                            placeholder: "The list to input"
-                                        },
-                                    ),
-                                ],
-                            },
-                        )}
+                            ${Components.createElements(
+                                {
+                                    elements: [
+                                        Components.createElement(
+                                            {
+                                                type: "input",
+                                                title: "Splitter:",
+                                                id: "splitter",
+                                                placeholder: "The character/string to split the input list"
+                                            }
+                                        ),
+                                        Components.createElement(
+                                            {
+                                                type: "input",
+                                                title: "Output Template:",
+                                                id: "outTemplate",
+                                                placeholder: "The template to use per line when executing"
+                                            }
+                                        )
+                                    ],
+                                },
+                            )}
+                        ${Components.createElement(
+                                {
+                                    type: "button",
+                                    text: "Generate",
+                                    id: "generate",
+                                    style: "hero",
+                                    onClick: () => {
+                                        window.sound.play("ui.release");
+                                    }
+                                }
+                            )}
+                        </div>
+                        <div style="width: 100%;" class="elements">
+                            ${Components.createElement(
+                                {
+                                    type: "textbox",
+                                    title: "List:",
+                                    id: "list",
+                                    startHeight: 167
+                                },
+                            )}
+                        </div>
+                    </div>
+                    <div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
+                        <div style="width: 100%;">
+                            ${Components.createElements(
+                                {
+                                    elements: [
+                                        Components.createElement(
+                                            {
+                                                type: "text",
+                                                title: "Output:",
+                                                id: "output",
+                                                default: "Loop Output",
+                                                style: "code",
+                                            },
+                                        ),
+                                    ],
+                                },
+                            )}
                         </div>
                     </div>`
                 )
@@ -50,6 +98,73 @@ const loopTabs = (selected = 0) => {
                 return (
                     `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
                         <div style="width: 50%;">
+                            ${Components.createElements(
+                                {
+                                    elements: [
+                                        Components.createElement(
+                                            {
+                                                type: "input",
+                                                title: "Start:",
+                                                id: "start",
+                                                placeholder: "The number for the loop to start at",
+                                                input: {
+                                                    type: "number",
+                                                    min: 0,
+                                                    max: 9999,
+                                                },
+                                            },
+                                        ),
+                                        Components.createElement(
+                                            {
+                                                type: "input",
+                                                title: "End:",
+                                                id: "end",
+                                                placeholder: "The number for the loop to end at",
+                                                input: {
+                                                    type: "number",
+                                                    min: 0,
+                                                    max: 9999,
+                                                },
+                                            },
+                                        ),
+                                        Components.createElement(
+                                            {
+                                                type: "input",
+                                                title: "Output Template:",
+                                                id: "outTemplate",
+                                                placeholder: "The template to use per line when executing"
+                                            }
+                                        )
+                                    ],
+                                },
+                            )}
+
+                            ${Components.createElement(
+                                {
+                                    type: "button",
+                                    text: "Generate",
+                                    id: "generate",
+                                    style: "hero",
+                                    onClick: () => {
+                                        window.sound.play("ui.release");
+                                    }
+                                }
+                            )}
+                        </div>
+                        <div style="width: 100%;">
+                                ${Components.createElements(
+                                    {
+                                        elements: [Components.createElement(
+                                            {
+                                                type: "text",
+                                                title: "Output:",
+                                                id: "output",
+                                                default: "Loop Output",
+                                                style: "code",
+                                            },
+                                        )]
+                                    }
+                                )}
                         </div>
                     </div>`
                 )
@@ -57,14 +172,14 @@ const loopTabs = (selected = 0) => {
         }
     ]
 
-    const tabsElement = document.getElementById( "tabs" );
+    const tabsElement = document.getElementById("tabs");
     if (
-        tabsElement.getAttribute( "value" )
-        && Number(tabsElement.getAttribute( "value" )) == selected
+        tabsElement.getAttribute("value")
+        && Number(tabsElement.getAttribute("value")) == selected
     ) return;
 
-    document.getElementById( "tabsContent" ).innerHTML = tabs.find((t, index) => index == selected).component();
-    tabsElement.setAttribute( "value", selected )
+    document.getElementById("tabsContent").innerHTML = tabs.find((t, index) => index == selected).component();
+    tabsElement.setAttribute("value", selected)
     tabsElement.innerHTML = (
         Components.createTabs(
             {
