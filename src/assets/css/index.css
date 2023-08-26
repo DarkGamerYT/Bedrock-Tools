@@ -18,15 +18,15 @@ body {
 }
 
 .uiLeaving {
-	-webkit-animation: slideOut 0.8s forwards;
+	-webkit-animation: slideOut 0.4s forwards;
 	-webkit-animation-delay: 0s;
-	animation: slideOut 0.8s forwards;
+	animation: slideOut 0.4s forwards;
 	animation-delay: 0s;
 }
 .uiLeavingBack {
-	-webkit-animation: slideOutBack 0.8s forwards;
+	-webkit-animation: slideOutBack 0.4s forwards;
 	-webkit-animation-delay: 0s;
-	animation: slideOutBack 0.8s forwards;
+	animation: slideOutBack 0.4s forwards;
 	animation-delay: 0s;
 }
 
@@ -48,15 +48,15 @@ body {
 }
 
 .uiEntering {
-	-webkit-animation: slideIn 0.8s forwards;
+	-webkit-animation: slideIn 0.4s forwards;
 	-webkit-animation-delay: 0s;
-	animation: slideIn 0.8s forwards;
+	animation: slideIn 0.4s forwards;
 	animation-delay: 0s;
 }
 .uiEnteringBack {
-	-webkit-animation: slideInBack 0.8s forwards;
+	-webkit-animation: slideInBack 0.4s forwards;
 	-webkit-animation-delay: 0s;
-	animation: slideInBack 0.8s forwards;
+	animation: slideInBack 0.4s forwards;
 	animation-delay: 0s;
 }
 

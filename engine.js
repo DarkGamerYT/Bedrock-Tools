@@ -55,7 +55,7 @@ const Engine = {
     loadUI: async (route, isBack = false) => {
         const app = document.getElementById( "app" );
         app.className = isBack ? "uiLeavingBack" : "uiLeaving";
-        await new Promise((res) => setTimeout(() => res(), 0.8 * 1000)); //wait 1 second
+        await new Promise((res) => setTimeout(() => res(), 0.2 * 1000)); //wait for 400 milliseconds
         app.className = isBack ? "uiEnteringBack" : "uiEntering";
         app.innerHTML = route.component();
         if (route?.extra) route.extra();
