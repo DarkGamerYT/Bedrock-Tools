@@ -51,8 +51,6 @@ const uuidTabs = (selected = 0) => {
                                     id: "generate",
                                     style: "hero",
                                     onClick: () => {
-                                        window.sound.play( "ui.release" );
-        
                                         const amount = Number(document.getElementById( "amount" ).value.trim());
                                         if (amount > 0) {
                                             const uuids = [];
@@ -137,8 +135,6 @@ const uuidTabs = (selected = 0) => {
                                     id: "generate",
                                     style: "hero",
                                     onClick: () => {
-                                        window.sound.play( "ui.release" );
-        
                                         const amount = Number(document.getElementById( "amount" ).value.trim());
                                         const characters = String(document.getElementById( "characters" ).value.trim());
                                         const idLength = Number(document.getElementById( "idLength" ).value.trim());

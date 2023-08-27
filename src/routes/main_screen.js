@@ -13,6 +13,11 @@ window.router.routes.push({
                             title: "Manifest Generator",
                             icon: "/src/assets/imgs/icons/manifest.png",
                         },
+                        {
+                            route: "/commands_tester",
+                            title: "Command Tester",
+                            icon: "/src/assets/imgs/icons/commands.png",
+                        },
                     ],
                     display: true,
                 },
@@ -30,16 +35,11 @@ window.router.routes.push({
                             title: "Server Pinger",
                             icon: "/src/assets/imgs/icons/multiplayer.png",
                         },
-                        /*{
+                        {
                             route: "/loop_generator",
                             title: "Loop Generator",
                             icon: "/src/assets/imgs/icons/debug.png"
-                        }*/
-                        /*{
-                            route: "/commands_tester",
-                            title: "Command Tester",
-                            icon: "/src/assets/imgs/icons/commands.png",
-                        },*/
+                        },
                     ],
                     display: true,
                 },
@@ -50,9 +50,14 @@ window.router.routes.push({
                     description: "Advanced stuff",
                     items: [
                         {
-                            route: "/mcstructure_converter",
-                            title: "MCStructure Converter",
-                            icon: "/src/assets/imgs/icons/mcstructure_c.png",
+                            route: "/world_generator",
+                            title: "World Generator",
+                            icon: "/src/assets/imgs/icons/world_gen.png",
+                        },
+                        {
+                            route: "/structure_converter",
+                            title: "Structure Converter",
+                            icon: "/src/assets/imgs/icons/structure_converter.png",
                         },
                     ],
                     display: true,

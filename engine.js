@@ -64,11 +64,14 @@ const Engine = {
         const settings = document.getElementById( "settings" );
         if (back) back.addEventListener( "click", () => { window.sound.play( 'ui.click' ); Router.history.goBack(); } );
         if (settings) settings.addEventListener( "click", () => { window.sound.play( 'ui.click' ); Router.history.go( "/settings" ) } );
-
-	const currentWindow = electron.getCurrentWindow();
-        document.getElementById( "closeApp" ).addEventListener( "click", () => electron.app.exit());
-        document.getElementById( "maximizeApp" ).addEventListener( "click", () => currentWindow.isMaximized() ? currentWindow.unmaximize() : currentWindow.maximize());
-        document.getElementById( "minimizeApp" ).addEventListener( "click", () => currentWindow.minimize());
+        
+	    const currentWindow = electron.getCurrentWindow();
+        const closeApp = document.getElementById( "closeApp" );
+        const maximizeApp = document.getElementById( "maximizeApp" );
+        const minimizeApp = document.getElementById( "minimizeApp" );
+        if (closeApp) closeApp.addEventListener( "click", () => electron.app.exit());
+        if (maximizeApp) maximizeApp.addEventListener( "click", () => { Sound.play( "ui.click" ); if (currentWindow.isMaximized()) currentWindow.unmaximize(); else currentWindow.maximize(); });
+        if (minimizeApp) minimizeApp.addEventListener( "click", () => { Sound.play( "ui.click" ); currentWindow.minimize(); });
     },
     loadModal: (component) => document.getElementById( "popup" ).innerHTML = component,
 };
@@ -95,8 +98,14 @@ const defaultSettings = {
     discordrpc: true,
 };
 
+const Functions = {
+    onClick: {},
+    onChange: {},
+};
+
 window.router = Router;
 window.sound = Sound;
 window.logger = Logger;
 window.engine = Engine;
 window.settings = Settings;
+window.functions = Functions;

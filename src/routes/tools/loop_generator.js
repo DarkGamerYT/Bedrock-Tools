@@ -1,7 +1,7 @@
 window.router.routes.push({
     name: "Loop Generator",
     route: "/loop_generator",
-    rpc: "loop",
+    rpc: "debug",
     component: () => {
         return (
             Components.createHeader({ text: "Loop Generator", back: true, settings: true })
@@ -53,9 +53,7 @@ const loopTabs = (selected = 0) => {
                                     text: "Generate",
                                     id: "generate",
                                     style: "hero",
-                                    onClick: () => {
-                                        window.sound.play("ui.release");
-                                    }
+                                    onClick: () => {},
                                 }
                             )}
                         </div>
@@ -145,9 +143,7 @@ const loopTabs = (selected = 0) => {
                                     text: "Generate",
                                     id: "generate",
                                     style: "hero",
-                                    onClick: () => {
-                                        window.sound.play("ui.release");
-                                    }
+                                    onClick: () => {},
                                 }
                             )}
                         </div>

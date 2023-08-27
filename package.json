@@ -5,8 +5,8 @@
 	"description": "Bedrock Tools is an app created to help Minecraft: Bedrock Edition players make add-ons.",
 	"license": "LGPL-3.0-or-later",
 	"scripts": {
-		"start": "electron --trace-deprication ./index.js",
-		"start-no-gpu": "electron ./index.js --disable-gpu",
+		"start": "electron .",
+		"start-no-gpu": "electron . --disable-gpu",
 		"build": "electron-builder",
 		"build_appx": "electron-builder --win appx"
 	},

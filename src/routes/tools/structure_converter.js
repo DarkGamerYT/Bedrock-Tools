@@ -1,11 +1,11 @@
 window.router.routes.push({
-    name: "MCStructure Converter",
-    route: "/mcstructure_converter",
-    rpc: "mcstructure_c",
+    name: "Structure Converter",
+    route: "/structure_converter",
+    rpc: "structure_converter",
     component: () => {
         const isRight = window.settings.get( "right" );
         return (
-            Components.createHeader({ text: "MCStructure Converter", back: true, settings: true })
+            Components.createHeader({ text: "Structure Converter", back: true, settings: true })
             + (
                 `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
                     <div style="width: 50%;">
@@ -89,8 +89,6 @@ window.router.routes.push({
 });
 
 const convert = async () => {
-    window.sound.play( "ui.release" );
-
     const convertionType = document.getElementById( "convertionType" );
     const jsonInput = document.getElementById( "jsonInput" );
     switch(convertionType.value) {

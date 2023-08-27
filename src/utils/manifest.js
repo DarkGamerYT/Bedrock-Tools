@@ -78,7 +78,26 @@ const scriptingModules = {
 };
 
 class Manifest {
-	constructor( name, description, type, scriptApi = false, betaScripting = false, modules = [], capabilities = [] ) {
+	/**
+	 * 
+	 * @param { string } name 
+	 * @param { string } description 
+	 * @param { number } type 
+	 * @param { boolean } scriptApi 
+	 * @param { boolean } betaScripting 
+	 * @param { string[] } modules 
+	 * @param { string[] } capabilities 
+	 * @returns
+	 */
+	constructor(
+		name,
+		description,
+		type,
+		scriptApi = false,
+		betaScripting = false,
+		modules = [],
+		capabilities = [],
+	) {
 		const dependencies = [];
 		for(const module of modules) {
 			const dep = (
@@ -86,7 +105,6 @@ class Manifest {
 				? scriptingModules.client
 				: scriptingModules.server
 			).find((d) => d.module_name == module);
-			console.log(module);
 			if (dep) {
 				if (betaScripting) {
 					const beta = dep.versions.find((b) => b.beta);

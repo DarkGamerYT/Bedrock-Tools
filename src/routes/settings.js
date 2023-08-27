@@ -41,7 +41,6 @@ window.router.routes.push({
                             text: "Save Settings",
                             id: "saveSettings",
                             onClick: () => {
-                                window.sound.play( "ui.release" );
                                 for (const setting of modifiedSettings) {
                                     window.settings.set( setting.name, setting.value );  
                                 };
@@ -59,28 +58,14 @@ window.router.routes.push({
 const SettingsRouteUtils = {
     toggleRight: (e) => {
         let isRight = window.settings.get( "right" );
-        window.sound.play( "ui.click" );
-
         let enabled = e.getAttribute( "value" ) == "true";
-        e.setAttribute( "value", !enabled );
-
-        if (!enabled) e.className = "toggle toggleOn";
-        else e.className = "toggle toggleOff";
-
-        if (isRight == !enabled) modifiedSettings = modifiedSettings.filter((s) => s.name != "right");
-        else modifiedSettings.push({ name: "right", value: !enabled });
+        if (isRight == enabled) modifiedSettings = modifiedSettings.filter((s) => s.name != "right");
+        else modifiedSettings.push({ name: "right", value: enabled });
     },
     toggleDiscordRpc: (e) => {
         let discordRpc = window.settings.get( "discordRpc" );
-        window.sound.play( "ui.click" );
-
         let enabled = e.getAttribute( "value" ) == "true";
-        e.setAttribute( "value", !enabled );
-
-        if (!enabled) e.className = "toggle toggleOn";
-        else e.className = "toggle toggleOff";
-
-        if (discordRpc == !enabled) modifiedSettings = modifiedSettings.filter((s) => s.name != "discordrpc");
-        else modifiedSettings.push({ name: "discordrpc", value: !enabled });
+        if (discordRpc == enabled) modifiedSettings = modifiedSettings.filter((s) => s.name != "discordrpc");
+        else modifiedSettings.push({ name: "discordrpc", value: enabled });
     },
 };

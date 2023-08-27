@@ -1,4 +1,55 @@
+/**
+ * @typedef {{ text?: string; back?: boolean; settings?: boolean; }} HeaderOptions
+ * @typedef {{ tabs: string[] }} TabsOptions
+ * @typedef {{ text?: string; id: string; selected?: boolean; onClick: () => any; }} TabOptions
+ * @typedef {{ elements: string[] }} ElementsOptions
+ * @typedef {{
+    type: "button" | "toggle" | "text" | "tab" | "element" | "dropdown" | "input" | "textbox" | "upload";
+    title?: string;
+    subtitle?: string;
+    text?: string | {
+        id?: string;
+        body?: string;   
+    };
+    id?: string;
+    onClick?: () => any;
+    onChange?: () => any;
+    style?: "primary" | "secondary" | "hero" | "code";
+    toggled?: boolean;
+    accept?: string;
+    useTitle?: boolean;
+    startHeight?: number;
+    space?: number;
+    default?: string;
+    placeholder?: string;
+    value?: string;
+    items?: string[];
+    input?: {
+        type?: "text" | "number";
+        min?: number;
+        max?: number;
+    };
+  }} ElementOptions
+ * @typedef {{ title?: string; body?: string; footer?: string }} ModalOptions
+ */
+
+const Functions = {
+    button: () => window.sound.play( "ui.click" ),
+    toggle: (element) => {
+        window.sound.play( "ui.click" );
+        let value = element.getAttribute( "value" ) == "true";
+        element.setAttribute( "value", !value );
+    
+        if (!value) element.className = "toggle toggleOn";
+        else element.className = "toggle toggleOff";
+    },
+};
+
 const Components = {
+    /**
+     * @param { HeaderOptions } options
+     * @returns { string }
+     */
     createHeader: (options) => {
         const header = document.createElement( "div" );
         const header_ = document.createElement( "div" );
@@ -78,18 +129,29 @@ const Components = {
         return header.outerHTML;
     },
     
+    /**
+     * @param { TabsOptions } options
+     * @returns { string }
+     */
     createTabs: (options) => {
         return (
-            `<div class="skOQQ">${options.tabs.join( "" )}</div>`
+            `<div class="skOQQ">
+                ${options.tabs.join( "" )}
+            </div>`
         );
     },
 
+    /**
+     * @param { TabOptions } options
+     * @returns { string }
+     */
     createTab: (options) => {
+        window.functions.onClick[options?.id] = options?.onClick;
         return (
             `<div
                 class="oreUIButton oreUIButtonTab ${options?.selected ? "tabPressed" : ""}"
                 style="width: 100%;"
-                onClick='if(${!options?.selected}) {(${options?.onClick?.toString()})(this);\nwindow.sound.play( "ui.click" );}'
+                onClick='if(${!options?.selected}) { Functions.button(this); window.functions.onClick["${options?.id}"](this); }'
                 id="${options?.id ?? ""}"
             >
                 <div class="oreUIButton_ oreUIButtonTabBackground">
@@ -107,25 +169,24 @@ const Components = {
         );
     },
 
+    /**
+     * @param { ElementsOptions } options
+     * @returns { string }
+     */
     createElements: (options) => {
         return (
-            `<div class="elements">${options.elements.join( "" )}</div>`
+            `<div class="elements">
+                ${options.elements.join( "" )}
+            </div>`
         );
     },
     
+    /**
+     * @param { ElementOptions } options
+     * @returns { string }
+     */
     createElement: (options) => {
         switch(options?.type) {
-            case "tab": {
-                return (
-                    `<div class="oreUITab" onClick='(${options?.onClick?.toString()})(this)' id="${options?.id ?? ""}">
-                    <div class="oreUISpecular oreUITab_One"></div>
-                    <div class="oreUISpecular oreUITab_Two"></div>
-                    <div class="_oreUITab" />
-                        <div class="_oreUITab_">${options?.title ?? ""}</div>
-                    </div>`
-                );
-            };
-
             case "element": {
                 return (
                     `<div class="element_" id="${options?.id ?? ""}">
@@ -136,6 +197,7 @@ const Components = {
             };
 
             case "dropdown": {
+                window.functions.onChange[options?.id] = options?.onChange;
                 return (
                     `<div class="element">
                         <span class="elementTitle">${options?.title ?? ""}</span>
@@ -143,7 +205,13 @@ const Components = {
                             <div class="oreUIButton_ oreUIButtonSecondaryBackground">
                                 <div class="oreUISpecular oreUIButton_One"></div>
                                 <div class="oreUISpecular oreUIButton_Two"></div>
-                                <select name="${options?.id ?? ""}" onChange='(${options?.onChange?.toString()})(this)' id="${options?.id ?? ""}" onClick='window.sound.play( "ui.click" )' class="_oreUIButton">
+                                <select
+                                    name="${options?.id ?? ""}"
+                                    id="${options?.id ?? ""}"
+                                    onChange='window.functions.onChange["${options?.id}"](this);'
+                                    onClick='Functions.button(this);'
+                                    class="_oreUIButton"
+                                >
                                     ${options.items.map((i, index) => `<option value="${index}">${i}</option>`)}
                                 </select>
                             </div>
@@ -183,6 +251,7 @@ const Components = {
             };
 
             case "upload": {
+                window.functions.onChange[options?.id] = options?.onChange;
                 return (
                     `<div class="element">
                         <span class="elementTitle">${options?.title ?? ""}</span>
@@ -202,7 +271,8 @@ const Components = {
                                     type="file"
                                     accept=".${options?.accept ?? ""}"
                                     id="${options?.id ?? ""}"
-                                    onChange='(${options?.onChange?.toString()})(this)'
+                                    onChange='window.functions.onChange["${options?.id}"](this);'
+                                    onClick="Functions.button(this);"
                                 />
                             </div>
                         </div>
@@ -211,6 +281,7 @@ const Components = {
             };
 
             case "toggle": {
+                window.functions.onClick[options?.id] = options?.onClick;
                 return (
                     `<div class="element">
                         <div style="flex-direction: unset;margin-top: 8px;margin-bottom: 8px;">
@@ -222,7 +293,7 @@ const Components = {
                                 class="toggle ${options.toggled ? "toggleOn" : "toggleOff"}"
                                 id="${options?.id ?? ""}"
                                 value=${options.toggled ?? false}
-                                onClick='(${options?.onClick?.toString()})(this)'
+                                onClick='Functions.toggle(this); window.functions.onClick["${options?.id}"](this);'
                             ></div>
                         </div>
                     </div>`
@@ -238,8 +309,9 @@ const Components = {
                     case "hero": style = "oreUIButtonHero"; background = "oreUIButtonHeroBackground"; break;
                 };
 
+                window.functions.onClick[options?.id] = options?.onClick;
                 return (
-                    `<div class="oreUIButton ${style}" onClick='(${options?.onClick?.toString()})(this)' id="${options?.id ?? ""}">
+                    `<div class="oreUIButton ${style}" onClick='window.sound.play( "ui.release" ); window.functions.onClick["${options?.id}"](this);' id="${options?.id ?? ""}">
                         <div class="oreUIButton_ ${background}">
                             <div class="oreUISpecular oreUIButton_One"></div>
                             <div class="oreUISpecular oreUIButton_Two"></div>
@@ -274,6 +346,10 @@ const Components = {
         };
     },
 
+    /**
+     * @param { ModalOptions } options
+     * @returns { string }
+     */
     createModal: (options) => {
         return (
             `<div class="popup_">

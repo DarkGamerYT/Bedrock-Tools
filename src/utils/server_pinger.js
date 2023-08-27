@@ -159,6 +159,11 @@ const ping = (host, port = 19132, cb, timeout = 1000) => {
     socket.on("error", (err) => handleError(err));
 };
 
+/**
+ * @typedef { { hostname: string; port?: number; timeout?: number } } PingOptions
+ * @param { PingOptions } options 
+ * @returns 
+ */
 const pingBedrock = (options = {}) => {
 	const { hostname, port = 19132, timeout = 8500 } = options;
     if (!hostname) throw new Error( "Host argument is not provided" );
