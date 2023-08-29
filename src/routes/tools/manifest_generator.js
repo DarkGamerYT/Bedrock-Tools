@@ -36,8 +36,8 @@ window.router.routes.push({
                                                         if (value) scriptApiToggle.className = "toggle toggleOn";
                                                         else scriptApiToggle.className = "toggle toggleOff";
                                                         if (!scriptAPI) {
-                                                            modulesElement.style = null;
-                                                            document.getElementById( "modules" ).innerHTML = moduleToggle(Number(e.value))
+                                                            modulesElement.style = "display: none;";
+                                                            document.getElementById( "modules" ).innerHTML = moduleToggle(Number(e.value));
                                                         };
                                                     break;
                                                     default:
