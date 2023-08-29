@@ -236,6 +236,21 @@ body {
 	background-color: #b1b2b5;
 }
 
+.oreUIButtonDestructive {
+	background-color: #ad1d1d;
+	border-color: #1e1e1f;
+}
+.oreUIButtonDestructiveBackground {
+	background-color: #ca3636;
+	color: #ffffff;
+}
+.oreUIButton:hover .oreUIButtonDestructiveBackground {
+	background-color: #f84c4c;
+}
+.oreUIButton:active .oreUIButtonDestructiveBackground {
+	background-color: #ad1d1d;
+}
+
 ._oreUIButton {
 	align-items: center;
     display: flex;

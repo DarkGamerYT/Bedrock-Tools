@@ -40,26 +40,6 @@ window.router.routes.push({
                             style: "hero",
                             onClick: () => {
                                 window.sound.play( "ui.release" );
-
-                                const packName = document.getElementById( "packName" ).value;
-                                const packDescription = document.getElementById( "packDescription" ).value;
-                                const packType = Number(document.getElementById( "packType" ).value);
-                                const isMinified = Number(document.getElementById( "layout" ).value) == 1;
-
-                                const manifest = new Manifest(
-                                    packName,
-                                    packDescription,
-                                    packType,
-                                    scriptAPI,
-                                    beta,
-                                    scriptModules,
-                                    [],
-                                );
-                                
-                                const stringManifest = isMinified ? JSON.stringify( manifest ) : JSON.stringify(manifest, null, "\t");
-                                const highlightedText = hljs.highlight(stringManifest, { language: "json" }).value;
-                                document.getElementById("output").innerHTML = highlightedText;
-                                navigator.clipboard.writeText( stringManifest );
                             },
                         },
                     )}
@@ -67,103 +47,179 @@ window.router.routes.push({
             )
         );
     },
-    extra: () => document.getElementById( "genElement" ).innerHTML = GenType( "0" ),
+    extra: () => GenType( "0" ),
 });
 
 const Biomes = [
-    "plains",
-    "desert",
-    "windswept_hills",
-    "forest",
-    "taiga",
-    "swampland",
-    "river",
-    "hell",
-    "the_end",
-    "frozen_ocean",
-    "frozen_river",
-    "ice_plains",
-    "ice_mountains",
-    "mushroom_island",
-    "mushroom_island_shore",
-    "beach",
-    "ocean",
-    "desert_hills",
-    "forest_hills",
-    "taiga_hills",
-    "extreme_hills_edge",
-    "jungle",
-    "jungle_hills",
-    "jungle_edge",
-    "deep_ocean",
-    "stone_beach",
-    "cold_beach",
-    "birch_forest",
-    "birch_forest_hills",
-    "roofed_forest",
-    "cold_taiga",
-    "cold_taiga_hills",
-    "mega_taiga",
-    "mega_taiga_hills",
-    "windswept_forest",
-    "savanna",
-    "savanna_plateau",
-    "mesa",
-    "mesa_plateau",
-    "mesa_plateau_stone",
-    "warm_ocean",
-    "lukewarm_ocean",
-    "cold_ocean",
-    "deep_warm_ocean",
-    "deep_lukewarm_ocean",
-    "deep_cold_ocean",
-    "deep_frozen_ocean",
-    "legacy_frozen_ocean",
-    "sunflower_plains",
-    "desert_mutated",
-    "windswept_gravelly_hills",
-    "flower_forest",
-    "taiga_mutated",
-    "swampland_mutated",
-    "ice_plains_spikes",
-    "jungle_mutated",
-    "jungle_edge_mutated",
-    "birch_forest_mutated",
-    "birch_forest_hills_mutated",
-    "roofed_forest_mutated",
-    "cold_taiga_mutated",
-    "redwood_taiga_mutated",
-    "redwood_taiga_hills_mutated",
-    "extreme_hills_plus_trees_mutated",
-    "savanna_mutated",
-    "savanna_plateau_mutated",
-    "mesa_bryce",
-    "mesa_plateau_mutated",
-    "mesa_plateau_stone_mutated",
-    "bamboo_jungle",
-    "bamboo_jungle_hills",
-    "soulsand_valley",
-    "crimson_forest",
-    "warped_forest",
-    "basalt_deltas",
-    "jagged_peaks",
-    "frozen_peaks",
-    "snowy_slopes",
-    "grove",
-    "meadow",
-    "lush_caves",
-    "dripstone_caves",
-    "stony_peaks",
-    "deep_dark",
-    "mangrove_swamp",
-    "cherry_grove"
+    { "identifier": "ocean", "biome_id":0 },
+    { "identifier": "plains", "biome_id":1 },
+    { "identifier": "desert", "biome_id":2 },
+    { "identifier": "windswept_hills", "biome_id":3 },
+    { "identifier": "forest", "biome_id":4 },
+    { "identifier": "taiga", "biome_id":5 },
+    { "identifier": "swampland", "biome_id":6 },
+    { "identifier": "river", "biome_id":7 },
+    { "identifier": "hell", "biome_id":8 },
+    { "identifier": "the_end", "biome_id":9 },
+    { "identifier": "frozen_ocean", "biome_id":10 },
+    { "identifier": "frozen_river", "biome_id":11 },
+    { "identifier": "ice_plains", "biome_id":12 },
+    { "identifier": "ice_mountains", "biome_id":13 },
+    { "identifier": "mushroom_island", "biome_id":14 },
+    { "identifier": "mushroom_island_shore", "biome_id":15 },
+    { "identifier": "beach", "biome_id":16 },
+    { "identifier": "desert_hills", "biome_id":17 },
+    { "identifier": "forest_hills", "biome_id":18 },
+    { "identifier": "taiga_hills", "biome_id":19 },
+    { "identifier": "extreme_hills_edge", "biome_id":20 },
+    { "identifier": "jungle", "biome_id":21 },
+    { "identifier": "jungle_hills", "biome_id":22 },
+    { "identifier": "jungle_edge", "biome_id":23 },
+    { "identifier": "deep_ocean", "biome_id":24 },
+    { "identifier": "stone_beach", "biome_id":25 },
+    { "identifier": "cold_beach", "biome_id":26 },
+    { "identifier": "birch_forest", "biome_id":27 },
+    { "identifier": "birch_forest_hills", "biome_id":28 },
+    { "identifier": "roofed_forest", "biome_id":29 },
+    { "identifier": "cold_taiga", "biome_id":30 },
+    { "identifier": "cold_taiga_hills", "biome_id":31 },
+    { "identifier": "mega_taiga", "biome_id":32 },
+    { "identifier": "mega_taiga_hills", "biome_id":33 },
+    { "identifier": "windswept_forest", "biome_id":34 },
+    { "identifier": "savanna", "biome_id":35 },
+    { "identifier": "savanna_plateau", "biome_id":36 },
+    { "identifier": "mesa", "biome_id":37 },
+    { "identifier": "mesa_plateau", "biome_id":38 },
+    { "identifier": "mesa_plateau_stone", "biome_id":39 },
+    { "identifier": "warm_ocean", "biome_id":40 },
+    { "identifier": "lukewarm_ocean", "biome_id":41 },
+    { "identifier": "cold_ocean", "biome_id":42 },
+    { "identifier": "deep_warm_ocean", "biome_id":43 },
+    { "identifier": "deep_lukewarm_ocean", "biome_id":44 },
+    { "identifier": "deep_cold_ocean", "biome_id":45 },
+    { "identifier": "deep_frozen_ocean", "biome_id":46 },
+    { "identifier": "legacy_frozen_ocean", "biome_id":47 },
+    { "identifier": "sunflower_plains", "biome_id":129 },
+    { "identifier": "desert_mutated", "biome_id":130 },
+    { "identifier": "windswept_gravelly_hills", "biome_id":131 },
+    { "identifier": "flower_forest", "biome_id":132 },
+    { "identifier": "taiga_mutated", "biome_id":133 },
+    { "identifier": "swampland_mutated", "biome_id":134 },
+    { "identifier": "ice_plains_spikes", "biome_id":140 },
+    { "identifier": "jungle_mutated", "biome_id":149 },
+    { "identifier": "jungle_edge_mutated", "biome_id":151 },
+    { "identifier": "birch_forest_mutated", "biome_id":155 },
+    { "identifier": "birch_forest_hills_mutated", "biome_id":156 },
+    { "identifier": "roofed_forest_mutated", "biome_id":157 },
+    { "identifier": "cold_taiga_mutated", "biome_id":158 },
+    { "identifier": "redwood_taiga_mutated", "biome_id":160 },
+    { "identifier": "redwood_taiga_hills_mutated", "biome_id":161 },
+    { "identifier": "extreme_hills_plus_trees_mutated", "biome_id":162 },
+    { "identifier": "savanna_mutated", "biome_id":163 },
+    { "identifier": "savanna_plateau_mutated", "biome_id":164 },
+    { "identifier": "mesa_bryce", "biome_id":165 },
+    { "identifier": "mesa_plateau_mutated", "biome_id":166 },
+    { "identifier": "mesa_plateau_stone_mutated", "biome_id":167 },
+    { "identifier": "bamboo_jungle", "biome_id":168 },
+    { "identifier": "bamboo_jungle_hills", "biome_id":169 },
+    { "identifier": "soulsand_valley", "biome_id":178 },
+    { "identifier": "crimson_forest", "biome_id":179 },
+    { "identifier": "warped_forest", "biome_id":180 },
+    { "identifier": "basalt_deltas", "biome_id":181 },
+    { "identifier": "jagged_peaks", "biome_id":182 },
+    { "identifier": "frozen_peaks", "biome_id":183 },
+    { "identifier": "snowy_slopes", "biome_id":184 },
+    { "identifier": "grove", "biome_id":185 },
+    { "identifier": "meadow", "biome_id":186 },
+    { "identifier": "lush_caves", "biome_id":187 },
+    { "identifier": "dripstone_caves", "biome_id":188 },
+    { "identifier": "stony_peaks", "biome_id":189 },
+    { "identifier": "deep_dark", "biome_id":190 },
+    { "identifier": "mangrove_swamp", "biome_id":191 },
+    { "identifier": "cherry_grove", "biome_id":192 }
 ];
 
+const flatWorldLayers = {
+    biome_id: 1,
+    block_layers: [
+        {
+            block_name: "minecraft:bedrock",
+            count: 1,
+        },
+        {
+            block_name: "minecraft:dirt",
+            count: 2,
+        },
+        {
+            block_name: "minecraft:grass",
+            count: 1,
+        },
+    ],
+    encoding_version: 6,
+    structure_options: null,
+    world_version: "version.post_1_18"
+};
+
+const updateFlatLayers = () => {
+    document.getElementById( "flatLayers" ).innerHTML = flatWorldLayers.block_layers.map(
+        (layer, index) => (
+            `${Components.createElement({ type: "element", title: `Layer - #${index + 1}` })}
+            ${Components.createElement(
+                {
+                    type: "input",
+                    title: "Block:",
+                    id: "block-" + index,
+                    value: layer.block_name,
+                    onChange: (e) => {
+                        console.log(e.id, e.value);
+                    },
+                },
+            )}
+            ${Components.createElement(
+                {
+                    type: "input",
+                    title: "Count:",
+                    id: "blockCount-" + index,
+                    input: {
+                        type: "number",
+                        min: 0,
+                        max: 64,
+                    },
+                    value: layer.count,
+                },
+            )}
+            <div class="element" style="padding: 12px;">
+                ${
+                    Components.createElement(
+                        {
+                            type: "button",
+                            text: "Remove Layer",
+                            id: "removeLayer-" + index,
+                            style: "destructive",
+                            onClick: () => {
+                                window.sound.play( "ui.click" );
+                                flatWorldLayers.block_layers = flatWorldLayers.block_layers.filter((l, i) => i != `${index}`)
+                                updateFlatLayers();
+                            },
+                        },
+                    )
+                }
+            </div>`
+        )
+    ).reverse().join( "" );
+};
+
+const addFlatLayer = () => {
+    flatWorldLayers.block_layers.push({ block_name: "minecraft:dirt", count: 1 });
+    updateFlatLayers();
+};
+
 const GenType = (selection = "0") => {
+    const genElement = document.getElementById( "genElement" );
     switch(selection) {
         case "0":
         {
-            return (
+            genElement.innerHTML = (
                 `${Components.createElements(
                     {
                         elements: [
@@ -173,7 +229,7 @@ const GenType = (selection = "0") => {
                                     title: "Flat Layers",
                                 },
                             ),
-                            `<div style="margin: 12px;">
+                            `<div class="element" style="padding: 12px;">
                                 ${
                                     Components.createElement(
                                         {
@@ -181,11 +237,15 @@ const GenType = (selection = "0") => {
                                             text: "+ Add Layer",
                                             id: "addLayer",
                                             style: "secondary",
-                                            onClick: () => {},
+                                            onClick: () => {
+                                                window.sound.play( "ui.click" );
+                                                addFlatLayer();
+                                            },
                                         },
                                     )
                                 }
                             </div>`,
+                            `<div id="flatLayers"></div>`,
                         ],
                     },
                 )}
@@ -203,7 +263,8 @@ const GenType = (selection = "0") => {
                                     type: "dropdown",
                                     title: "Biome:",
                                     id: "biome",
-                                    items: Biomes,
+                                    selected: 1,
+                                    items: Biomes.map((b) => b.identifier),
                                     onChange: (e) => {},
                                 },
                             ),
@@ -219,10 +280,14 @@ const GenType = (selection = "0") => {
                     },
                 )}`
             );
+
+            updateFlatLayers();
+            return;
         };
 
-        case "1": {
-            return Components.createElements(
+        case "1":
+        {
+            genElement.innerHTML = Components.createElements(
                 {
                     elements: [
                         Components.createElement(
@@ -236,17 +301,21 @@ const GenType = (selection = "0") => {
                                 type: "dropdown",
                                 title: "Biome:",
                                 id: "biome",
-                                items: Biomes,
+                                selected: 1,
+                                items: Biomes.map((b) => b.identifier),
                                 onChange: (e) => {},
                             },
                         ),
                     ],
                 },
             );
+
+            return;
         };
 
-        case "2": {
-            return Components.createElements(
+        case "2":
+        {
+            genElement.innerHTML = Components.createElements(
                 {
                     elements: [
                         Components.createElement(
@@ -310,10 +379,13 @@ const GenType = (selection = "0") => {
                     ],
                 },
             );
+
+            return;
         };
 
-        case "3": {
-            return Components.createElements(
+        case "3":
+        {
+            genElement.innerHTML = Components.createElements(
                 {
                     elements: [
                         Components.createElement(
@@ -327,13 +399,16 @@ const GenType = (selection = "0") => {
                                 type: "dropdown",
                                 title: "Biome:",
                                 id: "biome",
-                                items: Biomes,
+                                selected: 1,
+                                items: Biomes.map((b) => b.identifier),
                                 onChange: (e) => {},
                             },
                         ),
                     ],
                 },
             );
+
+            return;
         };
 
         default: return "";

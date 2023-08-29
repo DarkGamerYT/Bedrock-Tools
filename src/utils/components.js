@@ -14,7 +14,7 @@
     id?: string;
     onClick?: () => any;
     onChange?: () => any;
-    style?: "primary" | "secondary" | "hero" | "code";
+    style?: "primary" | "secondary" | "destructive" | "hero" | "code";
     toggled?: boolean;
     accept?: string;
     useTitle?: boolean;
@@ -23,6 +23,7 @@
     default?: string;
     placeholder?: string;
     value?: string;
+    selected?: number;
     items?: string[];
     input?: {
         type?: "text" | "number";
@@ -212,7 +213,7 @@ const Components = {
                                     onClick='Functions.button(this);'
                                     class="_oreUIButton"
                                 >
-                                    ${options.items.map((i, index) => `<option value="${index}">${i}</option>`)}
+                                    ${options.items.map((i, index) => `<option ${options?.selected == index ? "selected" : "" } value="${index}">${i}</option>`)}
                                 </select>
                             </div>
                         </div>
@@ -221,6 +222,7 @@ const Components = {
             };
 
             case "input": {
+                window.functions.onChange[options?.id] = options?.onChange;
                 return (
                     `<div class="element">
                         <span class="elementTitle">${options?.title ?? ""}</span>
@@ -231,6 +233,7 @@ const Components = {
                             max="${options?.input?.max ?? Infinity}"
                             placeholder="${options?.placeholder ?? ""}"
                             value="${options?.value ?? ""}"
+                            onChange='window.functions.onChange["${options?.id}"](this);'
                         ></input>
                     </div>`
                 );
@@ -306,6 +309,7 @@ const Components = {
                 switch(options?.style) {
                     case "primary": style = "oreUIButtonPrimary"; background = "oreUIButtonPrimaryBackground"; break;
                     case "secondary": style = "oreUIButtonSecondary"; background = "oreUIButtonSecondaryBackground"; break;
+                    case "destructive": style = "oreUIButtonDestructive"; background = "oreUIButtonDestructiveBackground"; break;
                     case "hero": style = "oreUIButtonHero"; background = "oreUIButtonHeroBackground"; break;
                 };
 

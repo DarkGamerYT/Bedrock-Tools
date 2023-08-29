@@ -32,7 +32,7 @@ window.router.routes.push({
                                             id: "serverPort",
                                             placeholder: "19132",
                                             input: {
-                                                input: "number",
+                                                type: "number",
                                                 min: 1024,
                                                 max: 65565,
                                             },

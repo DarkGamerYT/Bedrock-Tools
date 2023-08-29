@@ -38,7 +38,7 @@ window.router.routes.push({
                         {
                             route: "/id_generator",
                             title: "ID Generator",
-                            icon: "/src/assets/imgs/icons/uuid.png",
+                            icon: "/src/assets/imgs/icons/id.png",
                         },
                         {
                             route: "/server_pinger",
