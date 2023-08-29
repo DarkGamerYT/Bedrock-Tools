@@ -64,6 +64,11 @@ window.router.routes.push({
                             title: "Structure Converter",
                             icon: "/src/assets/imgs/icons/structure_converter.png",
                         },
+                        {
+                            route: "/structure_editor",
+                            title: "Structure Editor",
+                            icon: "/src/assets/imgs/icons/debug.png"
+                        }
                     ],
                     display: true,
                 },
