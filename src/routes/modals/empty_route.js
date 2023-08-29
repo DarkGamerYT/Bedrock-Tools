@@ -15,7 +15,10 @@ window.router.routes.push({
                                             type: "button",
                                             text: "Go back",
                                             id: "goBack",
-                                            onClick: () => window.router.history.goBack(),
+                                            onClick: () => {
+                                                window.router.history.goBack();
+                                                window.sound.play("ui.click");
+                                            }
                                         },
                                     )}
                                 </div>`

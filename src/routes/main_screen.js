@@ -18,6 +18,16 @@ window.router.routes.push({
                             title: "Command Tester",
                             icon: "/src/assets/imgs/icons/commands.png",
                         },
+                        {
+                            route: "/render_offset_corrector",
+                            title: "Render Offset Corrector",
+                            icon: "/src/assets/imgs/icons/debug.png"
+                        },
+                        {
+                            route: "/json_rawtext_generator",
+                            title: "JSON Rawtext Generator",
+                            icon: "/src/assets/imgs/icons/debug.png"
+                        }
                     ],
                     display: true,
                 },
@@ -39,7 +49,7 @@ window.router.routes.push({
                             route: "/loop_generator",
                             title: "Loop Generator",
                             icon: "/src/assets/imgs/icons/debug.png"
-                        },
+                        }
                     ],
                     display: true,
                 },
@@ -59,6 +69,11 @@ window.router.routes.push({
                             title: "Structure Converter",
                             icon: "/src/assets/imgs/icons/structure_converter.png",
                         },
+                        {
+                            route: "/structure_editor",
+                            title: "Structure Editor",
+                            icon: "/src/assets/imgs/icons/debug.png"
+                        }
                     ],
                     display: true,
                 },
