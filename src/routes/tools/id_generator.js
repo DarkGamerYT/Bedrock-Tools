@@ -13,10 +13,10 @@ window.router.routes.push({
             )
         );
     },
-    extra: () => uuidTabs(0),
+    extra: () => idTabs(0),
 });
 
-const uuidTabs = (selected = 0) => {
+const idTabs = (selected = 0) => {
     const isRight = window.settings.get( "right" );
     const tabs = [
         {
@@ -51,6 +51,7 @@ const uuidTabs = (selected = 0) => {
                                     id: "generate",
                                     style: "hero",
                                     onClick: () => {
+                                        window.sound.play("ui.release");
                                         const amount = Number(document.getElementById( "amount" ).value.trim());
                                         if (amount > 0) {
                                             const uuids = [];
@@ -135,6 +136,7 @@ const uuidTabs = (selected = 0) => {
                                     id: "generate",
                                     style: "hero",
                                     onClick: () => {
+                                        window.sound.play("ui.release");
                                         const amount = Number(document.getElementById( "amount" ).value.trim());
                                         const characters = String(document.getElementById( "characters" ).value.trim());
                                         const idLength = Number(document.getElementById( "idLength" ).value.trim());
@@ -207,7 +209,7 @@ const uuidTabs = (selected = 0) => {
                             text: t.name,
                             id: index,
                             selected: index == selected,
-                            onClick: (e) => uuidTabs(e.id),
+                            onClick: (e) => idTabs(e.id),
                         },
                     ),
                 ),

@@ -165,6 +165,7 @@ const serverData = () => {
 };
 
 const pingServer = () => {
+    window.sound.play("ui.release");
     const serverIp = document.getElementById( "serverIp" ).value.trim();
     const serverPort = Number(document.getElementById( "serverPort" ).value) || 19132;
     

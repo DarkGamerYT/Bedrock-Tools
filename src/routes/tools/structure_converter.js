@@ -89,6 +89,7 @@ window.router.routes.push({
 });
 
 const convert = async () => {
+    window.sound.play("ui.release");
     const convertionType = document.getElementById( "convertionType" );
     const jsonInput = document.getElementById( "jsonInput" );
     switch(convertionType.value) {

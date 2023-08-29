@@ -311,7 +311,7 @@ const Components = {
 
                 window.functions.onClick[options?.id] = options?.onClick;
                 return (
-                    `<div class="oreUIButton ${style}" onClick='window.sound.play( "ui.release" ); window.functions.onClick["${options?.id}"](this);' id="${options?.id ?? ""}">
+                    `<div class="oreUIButton ${style}" onClick='window.functions.onClick["${options?.id}"](this);' id="${options?.id ?? ""}">
                         <div class="oreUIButton_ ${background}">
                             <div class="oreUISpecular oreUIButton_One"></div>
                             <div class="oreUISpecular oreUIButton_Two"></div>

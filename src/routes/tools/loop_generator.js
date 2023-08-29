@@ -64,6 +64,7 @@ const loopTabs = (selected = 0) => {
                                     id: "generate",
                                     style: "hero",
                                     onClick: () => {
+                                        window.sound.play("ui.release");
                                         const splitter = String(document.getElementById("splitter").value.trim());
                                         const outVar = String(document.getElementById("outVar").value.trim());
                                         const outTemplate = String(document.getElementById("outTemplate").value.trim());
@@ -219,6 +220,7 @@ const loopTabs = (selected = 0) => {
                                     id: "generate",
                                     style: "hero",
                                     onClick: () => {
+                                        window.sound.play("ui.release");
                                         const start = Number(document.getElementById("start").value.trim());
                                         const end = Number(document.getElementById("end").value.trim());
                                         const outVar = String(document.getElementById("outVar").value.trim());

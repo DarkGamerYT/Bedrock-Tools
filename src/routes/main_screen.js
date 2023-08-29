@@ -18,6 +18,11 @@ window.router.routes.push({
                             title: "Command Tester",
                             icon: "/src/assets/imgs/icons/commands.png",
                         },
+                        {
+                            route: "/render_offset_corrector",
+                            title: "Render Offset Corrector",
+                            icon: "/src/assets/imgs/icons/debug.png"
+                        }
                     ],
                     display: true,
                 },
