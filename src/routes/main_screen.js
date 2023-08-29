@@ -22,6 +22,11 @@ window.router.routes.push({
                             route: "/render_offset_corrector",
                             title: "Render Offset Corrector",
                             icon: "/src/assets/imgs/icons/debug.png"
+                        },
+                        {
+                            route: "/json_rawtext_generator",
+                            title: "JSON Rawtext Generator",
+                            icon: "/src/assets/imgs/icons/debug.png"
                         }
                     ],
                     display: true,
@@ -44,7 +49,7 @@ window.router.routes.push({
                             route: "/loop_generator",
                             title: "Loop Generator",
                             icon: "/src/assets/imgs/icons/debug.png"
-                        },
+                        }
                     ],
                     display: true,
                 },
