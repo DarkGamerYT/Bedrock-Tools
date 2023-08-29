@@ -293,7 +293,7 @@ const Components = {
                                 class="toggle ${options.toggled ? "toggleOn" : "toggleOff"}"
                                 id="${options?.id ?? ""}"
                                 value=${options.toggled ?? false}
-                                onClick='Functions.toggle(this); window.functions.onClick["${options?.id}"](this);'
+                                onClick='if(className != "toggle toggleDisabled") { Functions.toggle(this); window.functions.onClick["${options?.id}"](this); }'
                             ></div>
                         </div>
                     </div>`
