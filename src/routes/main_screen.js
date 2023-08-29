@@ -151,4 +151,5 @@ window.router.routes.push({
             )
         );
     },
+    extra: () => window.engine.sendToast({ title: "Testing", icon: "/src/assets/imgs/icons/manifest.png", body: "Hello World!" }),
 });

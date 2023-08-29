@@ -64,16 +64,40 @@ const Engine = {
         const settings = document.getElementById( "settings" );
         if (back) back.addEventListener( "click", () => { window.sound.play( 'ui.click' ); Router.history.goBack(); } );
         if (settings) settings.addEventListener( "click", () => { window.sound.play( 'ui.click' ); Router.history.go( "/settings" ) } );
-        
+
 	    const currentWindow = electron.getCurrentWindow();
         const closeApp = document.getElementById( "closeApp" );
         const maximizeApp = document.getElementById( "maximizeApp" );
         const minimizeApp = document.getElementById( "minimizeApp" );
         if (closeApp) closeApp.addEventListener( "click", () => electron.app.exit());
-        if (maximizeApp) maximizeApp.addEventListener( "click", () => { Sound.play( "ui.click" ); if (currentWindow.isMaximized()) currentWindow.unmaximize(); else currentWindow.maximize(); });
-        if (minimizeApp) minimizeApp.addEventListener( "click", () => { Sound.play( "ui.click" ); currentWindow.minimize(); });
+        if (maximizeApp) maximizeApp.addEventListener( "click", () => currentWindow.isMaximized() ? currentWindow.unmaximize() : currentWindow.maximize());
+        if (minimizeApp) minimizeApp.addEventListener( "click", () => currentWindow.minimize());
     },
     loadModal: (component) => document.getElementById( "popup" ).innerHTML = component,
+    sendToast: async (options) => {
+        const toast = document.getElementById( "toast" );
+        toast.innerHTML = (
+            `<div class="toastElement">
+                <div class="toastElement_">
+                    ${
+                        options?.icon
+                        ? `<img src="${options?.icon}" style="height: calc(var(--base2Scale)*16); width: calc(var(--base2Scale)*16); image-rendering: pixelated; margin-right: 0.6rem;">`
+                        : ""
+                    }
+                    <div>
+                        <span class="toastHeader">${options?.title ?? ""}</span>
+                        <span class="toastSubtitle">${options?.body ?? ""}</span>
+                    </div>
+                </div>
+            </div>`
+        );
+
+        Sound.play( "ui.toast_in" );
+        toast.className = "toast toastEntering";
+        await new Promise((res) => setTimeout(() => res(), 4 * 1000));
+        Sound.play( "ui.toast_out" );       
+        toast.className = "toast toastLeaving";
+    },
 };
 
 const settingsPath = process.env.APPDATA + "/bedrocktools/settings.json";

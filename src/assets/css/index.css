@@ -680,3 +680,69 @@ pre {
     cursor: default;
     padding-bottom: 0rem;
 }
+
+.toast {
+    z-index: 1001;
+    position: absolute;
+    width: 100%;
+	
+	pointer-events: none;
+}
+.toastElement {
+	background-color: black;
+	width: 420px;
+	max-width: 420px;
+	margin-left: auto;
+	margin-right: auto;
+	box-shadow: 0 2px 20px 0px black;
+}
+.toastElement_ {
+	padding: 10px 12px;
+	user-select: none;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+.toastHeader {
+	color: white;
+    letter-spacing: 0.04rem;
+    font-size: 15px;
+    font-family: MinecraftTen;
+}
+.toastSubtitle {
+	color: #d0d1d4;
+    letter-spacing: 0.04rem;
+    font-size: 13px;
+    margin-top: 4px;
+}
+.toastEntering {
+	-webkit-animation: slideInTop 0.6s forwards;
+	-webkit-animation-delay: 0s;
+	animation: slideInTop 0.6s forwards;
+	animation-delay: 0s;
+}
+
+@keyframes slideInTop {
+	0% {
+		top: -100%;
+	}
+	100% {
+		top: 0;
+	}
+}
+
+.toastLeaving {
+	-webkit-animation: slideOutTop 1s forwards;
+	-webkit-animation-delay: 0s;
+	animation: slideOutTop 1s forwards;
+	animation-delay: 0s;
+}
+
+@keyframes slideOutTop {
+	0% {
+		top: 0;
+	}
+	100% {
+		top: -100%;
+	}
+}

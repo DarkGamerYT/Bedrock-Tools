@@ -14,5 +14,13 @@
     "ui.click": {
         "category": "ui",
         "sounds": [{ "name": "click.ogg" }]
+    },
+    "ui.toast_in": {
+        "category": "ui",
+        "sounds": [{ "name": "toast_in.ogg" }]
+    },
+    "ui.toast_out": {
+        "category": "ui",
+        "sounds": [{ "name": "toast_out.ogg" }]
     }
 }
