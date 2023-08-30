@@ -86,7 +86,7 @@ const serverData = () => {
                                     subtitle: (
                                         `<div style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 4px; margin-bottom: 8px;">
                                             <div style="display: flex; flex-direction: row; gap: 8px; align-items: end; font-size: 16px; color: white; margin-bottom: 14px;">
-                                                <img src="/src/assets/imgs/icons/player_image.png" style="image-rendering: pixelated;width: 24px;height: 24px;">
+                                                <img src="/src/assets/imgs/icons/player_image.png" draggable="false" style="image-rendering: pixelated;width: 24px;height: 24px;">
                                                 <div id="playerCount">0</div>
                                             </div>
                                         </div>`

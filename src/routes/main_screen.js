@@ -21,13 +21,13 @@ window.router.routes.push({
                         {
                             route: "/render_offset_corrector",
                             title: "Render Offset Corrector",
-                            icon: "/src/assets/imgs/icons/empty.png"
+                            icon: "/src/assets/imgs/icons/render_offset.png"
                         },
-                        {
+                        /*{
                             route: "/json_rawtext_generator",
                             title: "JSON Rawtext Generator",
                             icon: "/src/assets/imgs/icons/empty.png"
-                        }
+                        }*/
                     ],
                     display: true,
                 },
@@ -43,12 +43,12 @@ window.router.routes.push({
                         {
                             route: "/server_pinger",
                             title: "Server Pinger",
-                            icon: "/src/assets/imgs/icons/multiplayer.png",
+                            icon: "/src/assets/imgs/icons/server_pinger.png",
                         },
                         {
                             route: "/loop_generator",
                             title: "Loop Generator",
-                            icon: "/src/assets/imgs/icons/empty.png"
+                            icon: "/src/assets/imgs/icons/debug.png"
                         }
                     ],
                     display: true,
@@ -70,15 +70,15 @@ window.router.routes.push({
                             icon: "/src/assets/imgs/icons/structure_converter.png",
                         },
                         {
-                            route: "/structure_editor",
-                            title: "Structure Editor",
-                            icon: "/src/assets/imgs/icons/empty.png"
+                            route: "/structure_viewer",
+                            title: "Structure Viewer",
+                            icon: "/src/assets/imgs/icons/structure_viewer.png"
                         }
                     ],
                     display: true,
                 },
             ],
-            [
+            /*[
                 {
                     title: "Internal Tools",
                     description: "For developers only, will not show up in retail",
@@ -91,7 +91,7 @@ window.router.routes.push({
                     ],
                     display: false,
                 },
-            ],
+            ],*/
         ];
     
         return (
@@ -102,19 +102,19 @@ window.router.routes.push({
                         window.settings.get( "alpha_notice" )
                         ? `<div class="infoElement" id="alphaNotice">
                             <div class="informativeText">Bedrock Tools is in early stages. Things are subject to change.</div>
-                            <div class="infoElementClose" onclick="window.settings.set( 'alpha_notice', false ); document.getElementById( 'alphaNotice' ).remove();"><img src="/src/assets/imgs/icons/close_white.png" style="image-rendering: pixelated;"></div>
+                            <div class="infoElementClose" onclick="window.settings.set( 'alpha_notice', false ); document.getElementById( 'alphaNotice' ).remove();"><img src="/src/assets/imgs/icons/close_white.png" draggable="false" style="image-rendering: pixelated;"></div>
                         </div>`
                         : ""
                     }
-                    <div class="elements" style="padding-bottom: 4px;">
-                        <div class="element_" style="padding-left: 16px;padding-right: 16px;margin-bottom: 8px;border-bottom: 2px solid rgba(0, 0, 0, 0.4);">
+                    <div class="elements">
+                        <div class="element_" style="padding-left: 16px;padding-right: 16px;border-top: 2px solid rgba(255, 255, 255, 0.1);border-bottom: 2px solid rgba(0, 0, 0, 0.3);">
                             <span class="elementTitleBold">Bedrock Tools</span>
                             <span class="elementSubtitle" style="font-size: 12px;margin-bottom: 10px;margin-top: 0;">A place where you will find the tools you need!</span>
                         </div>
                         ${
                             tools.map(
                                 (t) => (
-                                    `<div style="display: flex;flex-direction: unset;padding-left: 4px;padding-right: 4px;">
+                                    `<div style="display: flex;flex-direction: unset;padding-left: 4px;padding-right: 4px;border-top: 2px solid rgba(255, 255, 255, 0.1);border-bottom: 2px solid rgba(0, 0, 0, 0.3);">
                                         ${
                                             t.map(
                                                 (m) => (
@@ -122,7 +122,7 @@ window.router.routes.push({
                                                     ? (
                                                         `<div class="elementsMenu">
                                                         <div class="elements" style="margin-top: -8px;margin-bottom: 16px;border: unset;border-bottom: 2px solid black;">
-                                                            <div class="element_" style="padding-left: 16px;padding-right: 16px;">
+                                                            <div class="element_" style="padding-left: 16px;padding-right: 16px;border-top: 2px solid rgba(255, 255, 255, 0.1);">
                                                                 <span class="elementTitleBold">` + m.title + `</span>
                                                                 <span class="elementSubtitle" style="font-size: 12px;margin-bottom: 10px;margin-top: 0;">` + m.description + `</span>
                                                             </div>
@@ -131,7 +131,7 @@ window.router.routes.push({
                                                             m.items.map(
                                                                 (i) => (
                                                                     `<div class="elementMenu" onClick="window.sound.play( 'ui.click' ); window.router.history.go('${i.route}');">
-                                                                        <img src="${i.icon}" style="height: calc(var(--base2Scale)*16); width: calc(var(--base2Scale)*16); image-rendering: pixelated; margin-right: 0.5rem;">
+                                                                        <img src="${i.icon}" draggable="false" style="height: 34px; width: 34px; image-rendering: pixelated; margin-right: 0.5rem;">
                                                                         <span class="elementTitle">${i.title}</span>
                                                                     </div>`
                                                                 )

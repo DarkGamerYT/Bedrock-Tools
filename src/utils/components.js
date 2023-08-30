@@ -65,7 +65,7 @@ const Components = {
         if (options?.back) {
             const back = document.createElement( "div" );
             back.className = "headerButton";
-            back.innerHTML = `<img src="/src/assets/imgs/icons/arrow_back.png" style="image-rendering: pixelated;">`;
+            back.innerHTML = `<img src="/src/assets/imgs/icons/arrow_back.png" draggable="false" style="image-rendering: pixelated;">`;
             back.id = "back";
 
             backElement.append( back );
@@ -84,7 +84,7 @@ const Components = {
         if (false) {
             const settings = document.createElement( "div" );
             settings.className = "headerButton";
-            settings.innerHTML = `<img src="/src/assets/imgs/icons/import.png" style="image-rendering: pixelated; height: 22px; width: 24px;">`;
+            settings.innerHTML = `<img src="/src/assets/imgs/icons/import.png" draggable="false" style="image-rendering: pixelated; height: 22px; width: 24px;">`;
             settings.id = "update";
 
             const divider = document.createElement( "dev" );
@@ -97,7 +97,7 @@ const Components = {
         if (options?.settings) {
             const settings = document.createElement( "div" );
             settings.className = "headerButton";
-            settings.innerHTML = `<img src="/src/assets/imgs/icons/settings.png" style="image-rendering: pixelated; width: calc(8*var(--base2Scale));">`;
+            settings.innerHTML = `<img src="/src/assets/imgs/icons/settings.png" draggable="false" style="image-rendering: pixelated; width: calc(8*var(--base2Scale));">`;
             settings.id = "settings";
 
             const divider = document.createElement( "dev" );
@@ -113,19 +113,19 @@ const Components = {
         const close = document.createElement( "div" );
         close.className = "headerButton";
         close.style = "margin-right: 0; margin-left: 0;";
-        close.innerHTML = `<img src="/src/assets/imgs/icons/close.png" style="image-rendering: pixelated; width: 10px; height: 10px;">`;
+        close.innerHTML = `<img src="/src/assets/imgs/icons/close.png" draggable="false" style="image-rendering: pixelated; width: 10px; height: 10px;">`;
         close.id = "closeApp";
 
         const maximize = document.createElement( "div" );
         maximize.className = "headerButton";
         maximize.style = "margin-right: 0; margin-left: 0;";
-        maximize.innerHTML = `<img src="/src/assets/imgs/icons/maximize.png" style="image-rendering: pixelated; width: 10px; height: 10px;">`;
+        maximize.innerHTML = `<img src="/src/assets/imgs/icons/maximize.png" draggable="false" style="image-rendering: pixelated; width: 10px; height: 10px;">`;
         maximize.id = "maximizeApp";
 
         const minimize = document.createElement( "div" );
         minimize.className = "headerButton";
         minimize.style = "margin-right: 0; margin-left: 0;";
-        minimize.innerHTML = `<img src="/src/assets/imgs/icons/minimize.png" style="image-rendering: pixelated; width: 10px; height: 10px;">`;
+        minimize.innerHTML = `<img src="/src/assets/imgs/icons/minimize.png" draggable="false" style="image-rendering: pixelated; width: 10px; height: 10px;">`;
         minimize.id = "minimizeApp";
         
         main.append( minimize );
@@ -178,7 +178,7 @@ const Components = {
                                 ${
                                     options?.icon
                                     ? `<div>
-                                        <img style="height: 24px; width: 24px;" src="${options.icon}">
+                                        <img style="height: 24px; width: 24px;" src="${options.icon}" draggable="false">
                                         ${
                                             options?.selected
                                             ? `<div style="left: 0; position: absolute;"><div class="iconHighlight"></div></div>`
@@ -299,8 +299,8 @@ const Components = {
                                     id="${options?.text?.id ?? ""}"
                                     for="${options?.id ?? ""}"
                                 >
-                                    <img src="/src/assets/imgs/icons/import.png" style="image-rendering: pixelated; height: 22px; width: 24px;">
-                                    <div style="font-family: 'MinecraftFive';color: black;font-weight: bold;font-size: 11px;">${options?.text?.body ?? ""}</div>
+                                    <img src="/src/assets/imgs/icons/import.png" draggable="false" style="image-rendering: pixelated; height: 22px; width: 24px;">
+                                    <div style="font-family: 'MinecraftFive';color: black;font-weight: bold;font-size: 10px;">${options?.text?.body ?? ""}</div>
                                 </label>
                                 <input
                                     name="packType"

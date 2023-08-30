@@ -86,7 +86,7 @@ body {
 }
 
 .oreUIButton {
-	padding-bottom: 0.4rem;
+	padding-bottom: 0.3rem;
 	border-bottom-style: solid;
     border-left-style: solid;
     border-right-style: solid;
@@ -105,7 +105,7 @@ body {
 }
 .oreUIButton:active {
 	padding-bottom: 0;
-	margin-top: 0.4rem;
+	margin-top: 0.3rem;
 }
 .oreUIButton:before {
     content: "";

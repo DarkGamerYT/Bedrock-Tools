@@ -75,7 +75,7 @@ const sendToast = async(options) => {
             <div class="toastElement_">
                 ${
                     options?.icon
-                    ? `<img src="${options?.icon}" style="height: calc(var(--base2Scale)*16); width: calc(var(--base2Scale)*16); image-rendering: pixelated; margin-right: 0.6rem;">`
+                    ? `<img src="${options?.icon}" draggable="false" style="height: calc(var(--base2Scale)*16); width: calc(var(--base2Scale)*16); image-rendering: pixelated; margin-right: 0.6rem;">`
                     : ""
                 }
                 <div>
