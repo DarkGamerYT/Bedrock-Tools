@@ -21,12 +21,12 @@ window.router.routes.push({
                         {
                             route: "/render_offset_corrector",
                             title: "Render Offset Corrector",
-                            icon: "/src/assets/imgs/icons/debug.png"
+                            icon: "/src/assets/imgs/icons/empty.png"
                         },
                         {
                             route: "/json_rawtext_generator",
                             title: "JSON Rawtext Generator",
-                            icon: "/src/assets/imgs/icons/debug.png"
+                            icon: "/src/assets/imgs/icons/empty.png"
                         }
                     ],
                     display: true,
@@ -48,7 +48,7 @@ window.router.routes.push({
                         {
                             route: "/loop_generator",
                             title: "Loop Generator",
-                            icon: "/src/assets/imgs/icons/debug.png"
+                            icon: "/src/assets/imgs/icons/empty.png"
                         }
                     ],
                     display: true,
@@ -72,7 +72,7 @@ window.router.routes.push({
                         {
                             route: "/structure_editor",
                             title: "Structure Editor",
-                            icon: "/src/assets/imgs/icons/debug.png"
+                            icon: "/src/assets/imgs/icons/empty.png"
                         }
                     ],
                     display: true,
@@ -151,5 +151,4 @@ window.router.routes.push({
             )
         );
     },
-    extra: () => window.engine.sendToast({ title: "Testing", icon: "/src/assets/imgs/icons/manifest.png", body: "Hello World!" }),
 });

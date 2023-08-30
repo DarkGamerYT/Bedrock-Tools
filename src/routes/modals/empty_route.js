@@ -15,6 +15,7 @@ window.router.routes.push({
                                             type: "button",
                                             text: "Go back",
                                             id: "goBack",
+                                            style: "secondary",
                                             onClick: () => {
                                                 window.router.history.goBack();
                                                 window.sound.play("ui.click");

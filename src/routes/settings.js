@@ -41,11 +41,19 @@ window.router.routes.push({
                             text: "Save Settings",
                             id: "saveSettings",
                             onClick: () => {
+                                window.sound.play( "ui.release" );
                                 for (const setting of modifiedSettings) {
                                     window.settings.set( setting.name, setting.value );  
                                 };
     
                                 window.router.history.goBack();
+                                window.engine.sendToast(
+                                    {
+                                        title: "Settings saved!",
+                                        icon: "/src/assets/imgs/icons/checkmark_checked.png",
+                                        body: "Settings have been successfully saved",
+                                    },
+                                );
                             },
                         },
                     )}

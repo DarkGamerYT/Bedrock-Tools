@@ -41,3 +41,27 @@ const startRPC = () => {
     .catch(() => setTimeout(() => startRPC(), 5000));
 };
 startRPC();
+
+document.addEventListener(
+    "keydown", (event) => {
+        if (event.code == "Escape") window.router.history.goBack();
+        if (event.code == "Numpad1") {
+            window.engine.sendToast(
+                {
+                    title: "Testing",
+                    icon: "/src/assets/imgs/icons/wrench.png",
+                    body: "Hello World!",
+                    onClick: () => window.sound.play( "ui.release" ),
+                },
+            );
+        } else if (event.code == "Numpad2") {
+            window.engine.sendToast(
+                {
+                    title: "Testing - No Icon",
+                    body: "Hello World!",
+                    onClick: () => window.sound.play( "ui.release" ),
+                },
+            );
+        };
+    },
+);

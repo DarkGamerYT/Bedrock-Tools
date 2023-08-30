@@ -101,6 +101,7 @@ body {
     cursor: pointer;
 	text-decoration: none;
 	width: auto;
+    align-items: center;
 }
 .oreUIButton:active {
 	padding-bottom: 0;
@@ -116,6 +117,7 @@ body {
     height: 0.4rem;
 }
 .oreUIButton_ {
+	width: 100%;
 	height: 2.3rem;
 	line-height: 2rem;
     letter-spacing: 0.04rem;
@@ -275,6 +277,7 @@ body {
     font-size: 16px;
     font-weight: 400;
 	flex-direction: row;
+	align-items: center;
     flex-wrap: wrap;
     margin: 0;
     flex: 0 1 auto;
@@ -357,6 +360,7 @@ span[role="textbox"]::marker {
     line-height: 24px;
 	width: 100%;
 	margin-top: 6px;
+	text-shadow: 3px 3px #38393a;
 }
 .elementTitle_ {
 	color: #ffffff;
@@ -574,7 +578,8 @@ select {
 .informativeText {
     color: white;
     padding: 6px;
-    font-size: 13px;
+	font-family: 'MinecraftFive';
+    font-size: 11px;
     text-align: center;
     width: 100%;
     height: 100%;
@@ -593,7 +598,7 @@ select {
     align-items: center;
     cursor: pointer;
     user-select: none;
-    padding: 10px;
+    padding: 9.5px;
 }
 .infoElementClose:hover {
 	background-color: #3578ff;
@@ -682,10 +687,10 @@ pre {
 }
 
 .toast {
-    z-index: 1001;
-    position: absolute;
+	margin-top: 42px;
+    z-index: 999;
+    position: fixed;
     width: 100%;
-	
 	pointer-events: none;
 }
 .toastElement {
@@ -695,6 +700,8 @@ pre {
 	margin-left: auto;
 	margin-right: auto;
 	box-shadow: 0 2px 20px 0px black;
+	pointer-events: all;
+	-webkit-app-region: no-drag;
 }
 .toastElement_ {
 	padding: 10px 12px;
@@ -702,6 +709,8 @@ pre {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+	pointer-events: all;
+	-webkit-app-region: no-drag;
 }
 .toastHeader {
 	color: white;
@@ -744,5 +753,31 @@ pre {
 	}
 	100% {
 		top: -100%;
+	}
+}
+
+.iconHighlight {
+	display: flex;
+	background-image: url('/src/assets/imgs/icons/icon_highlight_spritesheet.png');
+	animation-play-state: running;
+	animation-name: ghQXH;
+	animation-direction: normal;
+	animation-timing-function: steps(8);
+	animation-iteration-count: 1;
+	animation-duration: 500ms;
+	image-rendering: pixelated;
+	width: 24px;
+	height: 24px;
+	background-size: 216px 24px;
+	animation-fill-mode: forwards;
+	background-repeat: no-repeat;
+	overflow: hidden;
+}
+@keyframes ghQXH {
+	0% {
+		background-position: 0% 0;
+	}
+	100% {
+		background-position: 100% 0;
 	}
 }

@@ -77,7 +77,7 @@ const serverData = () => {
         Components.createElements(
             {
                 elements: [
-                    `<div style="background-color: #2d2e2e">
+                    `<div style="background-color: #1e1e1f">
                         ${
                             Components.createElement(
                                 {
@@ -89,17 +89,6 @@ const serverData = () => {
                                                 <img src="/src/assets/imgs/icons/player_image.png" style="image-rendering: pixelated;width: 24px;height: 24px;">
                                                 <div id="playerCount">0</div>
                                             </div>
-                                            <div style="display: none;">
-                                                ${Components.createElement(
-                                                    {
-                                                        type: "button",
-                                                        text: "Add to server list",
-                                                        id: "",
-                                                        style: "secondary",
-                                                        onClick: () => {},
-                                                    },
-                                                )}
-                                            </div>
                                         </div>`
                                     ),
                                     space: 0,
@@ -107,7 +96,7 @@ const serverData = () => {
                             )
                         }
                     </div>`,
-                    `<div style="background-color: #3c3e3e">
+                    `<div style="background-color: #313233">
                         ${
                             Components.createElement(
                                 {
@@ -142,7 +131,7 @@ const serverData = () => {
                         }
                     </div>`,
                     `<div style="display: none;" id="addToList">
-                        <div style="flex-direction: row; background-color: #48494a; padding: 0.6rem; padding-left: 32px; padding-right: 32px;">
+                        <div style="flex-direction: row; background-color: #48494a; padding: 0.8rem; padding-left: 48px; padding-right: 48px;">
                             <div class="oreUISpecular" style="border-top-width: var(--base2Scale);"></div>
                             <div class="oreUISpecular" style="border-bottom-width: var(--base2Scale);"></div>
                             <div style="width: 100%;">

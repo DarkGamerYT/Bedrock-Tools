@@ -1,24 +1,31 @@
 const electron = require( "@electron/remote" );
 const fs = require( "node:fs" );
 const Router = {
+    isTransitioning: false,
     routes: [],
     history: {
         list: [],
-        go(path) {
+        async go(path) {
             window.logger.debug( "[ROUTER] Replacing path to", path );
 
             this.list.push( path );
             const route = Router.routes.find((r) => r.route == path);
             if (!route) return window.engine.loadUI(Router.routes.find((r) => r.route == "/empty_route"));
-            window.engine.loadUI( route );
+
+            Router.isTransitioning = true;
+            await window.engine.loadUI( route );
         },
-        goBack() {
+        async goBack() {
+            if (this.list.length <= 1 || Router.isTransitioning) return;
             window.logger.debug( "[ROUTER] Going back." );
+
             this.list.pop();
             if (!this.list[this.list.length - 1]) return;
             const route = Router.routes.find((r) => r.route == this.list[this.list.length - 1]);
             if (!route) return window.engine.loadUI(Router.routes.find((r) => r.route == "/empty_route"), true);
-            window.engine.loadUI( route, true );
+            
+            Router.isTransitioning = true;
+            await window.engine.loadUI( route, true );
         },
     },
 };
@@ -44,12 +51,50 @@ const Logger = {
     info: (...data) => console.log(
 		"\x1B[0m" + new Date().toLocaleTimeString() + " \x1B[33m\x1B[1m[INFO] \x1B[0m-", ...data,
 	),
-    debug: (...data) => console.log(
-		"\x1B[0m" + new Date().toLocaleTimeString() + " \x1B[33m\x1B[1m[DEBUG] \x1B[0m-", ...data,
-	),
+    debug: (...data) => {
+        if (window.settings.get( "debug" ))
+        console.log(
+            "\x1B[0m" + new Date().toLocaleTimeString() + " \x1B[33m\x1B[1m[DEBUG] \x1B[0m-", ...data,
+        );
+    },
     error: (...data) => console.log(
 		"\x1B[0m" + new Date().toLocaleTimeString() + " \x1B[31m\x1B[1m[ERROR] \x1B[0m-", ...data,
 	),
+};
+
+let toastQueue = [];
+const sendToast = async(options) => {
+    window.functions.onClick[options.id] = options?.onClick;
+    const toast = document.getElementById( "toast" );
+    toast.className = "toast toastLeaving";
+    await new Promise((res) => setTimeout(() => res(), 0.25 * 1000));
+    toast.className = "toast toastEntering";
+    Sound.play( "ui.toast_in" );
+    toast.innerHTML = (
+        `<div class="toastElement" onClick="window.functions.onClick['${options.id}']();">
+            <div class="toastElement_">
+                ${
+                    options?.icon
+                    ? `<img src="${options?.icon}" style="height: calc(var(--base2Scale)*16); width: calc(var(--base2Scale)*16); image-rendering: pixelated; margin-right: 0.6rem;">`
+                    : ""
+                }
+                <div>
+                    <span class="toastHeader">${options.title}</span>
+                    <span class="toastSubtitle">${options.body}</span>
+                </div>
+            </div>
+        </div>`
+    );
+    
+    await new Promise((res) => setTimeout(() => res(), 4 * 1000));
+    const toastOptions = toastQueue[0];
+    if (toastOptions.id == options.id) {
+        toast.className = "toast toastLeaving";
+        Sound.play( "ui.toast_out" );
+        await new Promise((res) => setTimeout(() => res(), 0.5 * 1000));
+    };
+
+    delete window.functions.onClick[options.id];
 };
 
 const Engine = {
@@ -72,31 +117,27 @@ const Engine = {
         if (closeApp) closeApp.addEventListener( "click", () => electron.app.exit());
         if (maximizeApp) maximizeApp.addEventListener( "click", () => currentWindow.isMaximized() ? currentWindow.unmaximize() : currentWindow.maximize());
         if (minimizeApp) minimizeApp.addEventListener( "click", () => currentWindow.minimize());
+
+        await new Promise((res) => setTimeout(() => res(), 0.5 * 1000));
+        Router.isTransitioning = false;
     },
     loadModal: (component) => document.getElementById( "popup" ).innerHTML = component,
-    sendToast: async (options) => {
-        const toast = document.getElementById( "toast" );
-        toast.innerHTML = (
-            `<div class="toastElement">
-                <div class="toastElement_">
-                    ${
-                        options?.icon
-                        ? `<img src="${options?.icon}" style="height: calc(var(--base2Scale)*16); width: calc(var(--base2Scale)*16); image-rendering: pixelated; margin-right: 0.6rem;">`
-                        : ""
-                    }
-                    <div>
-                        <span class="toastHeader">${options?.title ?? ""}</span>
-                        <span class="toastSubtitle">${options?.body ?? ""}</span>
-                    </div>
-                </div>
-            </div>`
-        );
+    sendToast: ({ title = "", body = "", icon = null, instant = false, onClick = () => {} }) => {
+        const id = Date.now();
+        if (instant) toastQueue = [{ id, title, body, icon, onClick }, ...toastQueue];
+        else toastQueue.push({ id, title, body, icon, onClick });
 
-        Sound.play( "ui.toast_in" );
-        toast.className = "toast toastEntering";
-        await new Promise((res) => setTimeout(() => res(), 4 * 1000));
-        Sound.play( "ui.toast_out" );       
-        toast.className = "toast toastLeaving";
+        const interval = setInterval(
+            async() => {
+                const options = toastQueue[0];
+                if (options.id == id) {
+                    clearInterval(interval);
+
+                    await sendToast(options);
+                    toastQueue = toastQueue.filter((t) => t.id != options.id);
+                };
+            },
+        );
     },
 };
 

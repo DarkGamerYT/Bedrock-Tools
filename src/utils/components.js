@@ -15,6 +15,7 @@
     onClick?: () => any;
     onChange?: () => any;
     style?: "primary" | "secondary" | "destructive" | "hero" | "code";
+    icon?: string;
     toggled?: boolean;
     accept?: string;
     useTitle?: boolean;
@@ -79,6 +80,19 @@ const Components = {
 
         const space = document.createElement( "div" );
         space.style = "align-items: center;display: flex;flex-direction: row;position: absolute;right: 0;-webkit-app-region: no-drag;";
+
+        if (false) {
+            const settings = document.createElement( "div" );
+            settings.className = "headerButton";
+            settings.innerHTML = `<img src="/src/assets/imgs/icons/import.png" style="image-rendering: pixelated; height: 22px; width: 24px;">`;
+            settings.id = "update";
+
+            const divider = document.createElement( "dev" );
+            divider.style = "width: 2px;height: 16px;margin-right: 4px;margin-left: 4px;background-color: lightgray;"
+            
+            space.append( settings );
+            space.append( divider );
+        };
 
         if (options?.settings) {
             const settings = document.createElement( "div" );
@@ -155,17 +169,35 @@ const Components = {
                 onClick='if(${!options?.selected}) { Functions.button(this); window.functions.onClick["${options?.id}"](this); }'
                 id="${options?.id ?? ""}"
             >
-                <div class="oreUIButton_ oreUIButtonTabBackground">
+                <div class="oreUIButton_ oreUIButtonTabBackground" style="height: 2.5rem;">
                     <div class="oreUISpecular oreUIButton_One"></div>
                     <div class="oreUISpecular oreUIButton_Two"></div>
                     <div class="_oreUIButton">
                         <div class="_oreUIButton_">
                             <div class="_oreUIButton__">
+                                ${
+                                    options?.icon
+                                    ? `<div>
+                                        <img style="height: 24px; width: 24px;" src="${options.icon}">
+                                        ${
+                                            options?.selected
+                                            ? `<div style="left: 0; position: absolute;"><div class="iconHighlight"></div></div>`
+                                            : ""
+                                        }
+                                    </div>
+                                    <div style="height: 0.8rem; width: 0.8rem;"></div>`
+                                    : ""
+                                }
                                 <div class="_oreUIButton___">${options?.text ?? ""}</div>
                             </div>
                         </div>
                     </div>
                 </div>
+                ${
+                    options?.selected
+                    ? `<div style="bottom: 0; display: block; height: 2px; position: absolute; width: 4.8rem; background-color: #ffffff;"></div>`
+                    : ""
+                }
             </div>`
         );
     },
@@ -263,10 +295,13 @@ const Components = {
                                 <div class="oreUISpecular oreUIButton_One"></div>
                                 <div class="oreUISpecular oreUIButton_Two"></div>
                                 <label
-                                    style="font-size: 13px;cursor: pointer;width: 100%;text-align: center;"
+                                    style="font-size: 13px;cursor: pointer;width: auto;display: flex;gap: 8px;align-items: center;"
                                     id="${options?.text?.id ?? ""}"
                                     for="${options?.id ?? ""}"
-                                >${options?.text?.body ?? ""}</label>
+                                >
+                                    <img src="/src/assets/imgs/icons/import.png" style="image-rendering: pixelated; height: 22px; width: 24px;">
+                                    <div style="font-family: 'MinecraftFive';color: black;font-weight: bold;font-size: 11px;">${options?.text?.body ?? ""}</div>
+                                </label>
                                 <input
                                     name="packType"
                                     class="_oreUIButton"
