@@ -44,24 +44,32 @@ startRPC();
 
 document.addEventListener(
     "keydown", (event) => {
-        if (event.code == "Escape") window.router.history.goBack();
-        if (event.code == "Numpad1") {
-            window.engine.sendToast(
-                {
-                    title: "Testing",
-                    icon: "/src/assets/imgs/icons/wrench.png",
-                    body: "Hello World!",
-                    onClick: () => window.sound.play( "ui.release" ),
-                },
-            );
-        } else if (event.code == "Numpad2") {
-            window.engine.sendToast(
-                {
-                    title: "Testing - No Icon",
-                    body: "Hello World!",
-                    onClick: () => window.sound.play( "ui.release" ),
-                },
-            );
+        if (event.code == "Escape") {
+            const popup = document.getElementById( "popup" );
+            if (popup.innerText.trim().length > 0) popup.innerText = "";
+            else window.router.history.goBack();
+        };
+        
+        //Toast Debug
+        if (window.settings.get( "debug" )) {
+            if (event.code == "Numpad1") {
+                window.engine.sendToast(
+                    {
+                        title: "Test Toast",
+                        icon: "assets/imgs/icons/wrench.png",
+                        body: "Hello World!",
+                        onClick: () => window.sound.play( "ui.release" ),
+                    },
+                );
+            } else if (event.code == "Numpad2") {
+                window.engine.sendToast(
+                    {
+                        title: "Test Toast - No Icon",
+                        body: "Hello World!",
+                        onClick: () => window.sound.play( "ui.release" ),
+                    },
+                );
+            };
         };
     },
 );

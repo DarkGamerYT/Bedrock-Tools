@@ -1,7 +1,7 @@
-@font-face { font-family: MinecraftFive; src: url('/src/assets/fonts/MinecraftFive.otf'); }
-@font-face { font-family: MinecraftFiveBold; src: url('/src/assets/fonts/MinecraftFiveBold.otf'); }
-@font-face { font-family: MinecraftSeven; src: url('/src/assets/fonts/MinecraftSeven.otf'); }
-@font-face { font-family: MinecraftTen; src: url('/src/assets/fonts/MinecraftTen.otf'); }
+@font-face { font-family: MinecraftFive; src: url('../fonts/MinecraftFive.otf'); }
+@font-face { font-family: MinecraftFiveBold; src: url('../fonts/MinecraftFiveBold.otf'); }
+@font-face { font-family: MinecraftSeven; src: url('../fonts/MinecraftSeven.otf'); }
+@font-face { font-family: MinecraftTen; src: url('../fonts/MinecraftTen.otf'); }
 
 * {
 	font-family: "MinecraftSeven";
@@ -9,7 +9,7 @@
 
 html {
 	/*background-color: rgba(0, 0, 0, 0.8);*/
-	background: url(/src/assets/imgs/dirt.png);
+	background: url(../imgs/dirt.png);
 }
 
 body {
@@ -381,6 +381,7 @@ span[role="textbox"]::marker {
 	margin-bottom: 4px;
     margin-top: 16px;
     font-family: MinecraftTen;
+	text-shadow: 3px 3px #38393a;
 }
 .elementSubtitle {
 	color: #d0d1d4;
@@ -477,20 +478,20 @@ select {
 	image-rendering: pixelated;
 }
 .toggleOff {
-	background-image: url(/src/assets/imgs/icons/toggle_off.png);
+	background-image: url(../imgs/icons/toggle_off.png);
 }
 .toggleOff:hover {
-	background-image: url(/src/assets/imgs/icons/toggle_off_hover.png);
+	background-image: url(../imgs/icons/toggle_off_hover.png);
 }
 .toggleOn {
-	background-image: url(/src/assets/imgs/icons/toggle_on.png);
+	background-image: url(../imgs/icons/toggle_on.png);
 }
 .toggleOn:hover {
-	background-image: url(/src/assets/imgs/icons/toggle_on_hover.png);
+	background-image: url(../imgs/icons/toggle_on_hover.png);
 }
 .toggleDisabled {
 	cursor: auto;
-	background-image: url(/src/assets/imgs/icons/toggle_disabled.png);
+	background-image: url(../imgs/icons/toggle_disabled.png);
 }
 .disabledElement .elementTitle_ {
 	color: #d0d1d4;
@@ -628,7 +629,6 @@ code {
 }
 pre {
 	margin: 0;
-    margin-bottom: 12px;
 	white-space: unset;
 }
 
@@ -714,15 +714,14 @@ pre {
 }
 .toastHeader {
 	color: white;
-    letter-spacing: 0.04rem;
-    font-size: 15px;
-    font-family: MinecraftTen;
+	font-family: MinecraftFive;
+	font-size: 13px;
 }
 .toastSubtitle {
 	color: #d0d1d4;
     letter-spacing: 0.04rem;
     font-size: 13px;
-    margin-top: 4px;
+	line-height: 13px;
 }
 .toastEntering {
 	-webkit-animation: slideInTop 0.6s forwards;
@@ -758,7 +757,7 @@ pre {
 
 .iconHighlight {
 	display: flex;
-	background-image: url('/src/assets/imgs/icons/icon_highlight_spritesheet.png');
+	background-image: url('../imgs/icons/icon_highlight_spritesheet.png');
 	animation-play-state: running;
 	animation-name: ghQXH;
 	animation-direction: normal;
@@ -780,4 +779,42 @@ pre {
 	100% {
 		background-position: 100% 0;
 	}
+}
+
+-img {
+	background-image: url(../imgs/icon.png);
+    background-size: cover;
+    filter: grayscale(1);
+    content-visibility: hidden;
+}
+
+.elementIconImage {
+	
+	height: 34px;
+	width: 34px;
+	image-rendering: pixelated;
+	margin-right: 0.8rem;
+}
+.elementIconHover {
+	display: none;
+	background-image: url('../imgs/icons/icon_highlight_spritesheet.png');
+	animation-play-state: running;
+	animation-name: ghQXH;
+	animation-direction: normal;
+	animation-timing-function: steps(8);
+	animation-iteration-count: 1;
+	animation-duration: 500ms;
+	image-rendering: pixelated;
+	width: 34px;
+	height: 34px;
+	background-size: 302px 34px;
+	animation-fill-mode: forwards;
+	background-repeat: no-repeat;
+	overflow: hidden;
+}
+.elementMenu:hover .elementIconHover {
+	display: block;
+}
+.elementMenu:active .elementIconHover {
+	display: none;
 }

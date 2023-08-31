@@ -1,0 +1,59 @@
+{
+    "command_enums": [
+        {
+            "name": "GameMode",
+            "values": [
+                { "value": "default" },
+                { "value": "creative" },
+                { "value": "spectator" },
+                { "value": "survival" },
+                { "value": "adventure" },
+                { "value": "d" },
+                { "value": "c" },
+                { "value": "s" },
+                { "value": "a" }
+            ]
+        }
+    ],
+    "commands": [
+        {
+            "aliases": [],
+            "description": "Sets a player's game mode.",
+            "name": "gamemode",
+            "overloads": [
+                {
+                    "name": "1",
+                    "params": [
+                        {
+                            "is_optional": false,
+                            "name": "gameMode",
+                            "type": { "name": "GAMEMODE" }
+                        },
+                        {
+                            "is_optional": true,
+                            "name": "player",
+                            "type": { "name": "SELECTION" }
+                        }
+                    ]
+                },
+                {
+                    "name": "2",
+                    "params": [
+                        {
+                            "is_optional": false,
+                            "name": "gameMode",
+                            "type": { "name": "INT" }
+                        },
+                        {
+                            "is_optional": true,
+                            "name": "player",
+                            "type": { "name": "SELECTION" }
+                        }
+                    ]
+                }
+            ],
+            "permission_level": 1,
+            "requires_cheats": true
+        }
+    ]
+}

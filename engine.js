@@ -10,9 +10,9 @@ const Router = {
 
             this.list.push( path );
             const route = Router.routes.find((r) => r.route == path);
-            if (!route) return window.engine.loadUI(Router.routes.find((r) => r.route == "/empty_route"));
-
             Router.isTransitioning = true;
+
+            if (!route) return window.engine.loadUI(Router.routes.find((r) => r.route == "/empty_route"));
             await window.engine.loadUI( route );
         },
         async goBack() {
@@ -31,7 +31,7 @@ const Router = {
 };
 
 const sounds = JSON.parse(fs.readFileSync( __dirname + "/src/sound_definitions.json" ));
-for (let sound in sounds) for (const s of sounds[sound].sounds) new Audio( "/src/assets/sounds/" + s.name );
+for (let sound in sounds) for (const s of sounds[sound].sounds) new Audio( "assets/sounds/" + s.name );
 const Sound = {
     play: (id) => {
         window.logger.debug( "[SOUND] Sound with id '" + id + "' has been requested." );
@@ -41,7 +41,7 @@ const Sound = {
         ) {
             const sound = sounds[id];
             const randomSound = sound.sounds[Math.floor( Math.random() * sound.sounds.length )].name;
-            const audio = new Audio( "/src/assets/sounds/" + randomSound );
+            const audio = new Audio( "assets/sounds/" + randomSound );
             audio.play();
         };
     },
@@ -86,7 +86,7 @@ const sendToast = async(options) => {
         </div>`
     );
     
-    await new Promise((res) => setTimeout(() => res(), 4 * 1000));
+    await new Promise((res) => setTimeout(() => res(), options.timeout * 1000));
     const toastOptions = toastQueue[0];
     if (toastOptions.id == options.id) {
         toast.className = "toast toastLeaving";
@@ -118,14 +118,14 @@ const Engine = {
         if (maximizeApp) maximizeApp.addEventListener( "click", () => currentWindow.isMaximized() ? currentWindow.unmaximize() : currentWindow.maximize());
         if (minimizeApp) minimizeApp.addEventListener( "click", () => currentWindow.minimize());
 
-        await new Promise((res) => setTimeout(() => res(), 0.5 * 1000));
+        await new Promise((res) => setTimeout(() => res(), 0.25 * 1000));
         Router.isTransitioning = false;
     },
     loadModal: (component) => document.getElementById( "popup" ).innerHTML = component,
-    sendToast: ({ title = "", body = "", icon = null, instant = false, onClick = () => {} }) => {
+    sendToast: ({ title = "", body = "", icon = null, timeout = 4, instant = false, onClick = () => {} }) => {
         const id = Date.now();
-        if (instant) toastQueue = [{ id, title, body, icon, onClick }, ...toastQueue];
-        else toastQueue.push({ id, title, body, icon, onClick });
+        if (instant) toastQueue = [{ id, title, body, icon, timeout, onClick }, ...toastQueue];
+        else toastQueue.push({ id, title, body, icon, timeout, onClick });
 
         const interval = setInterval(
             async() => {

@@ -163,20 +163,19 @@ window.router.routes.push({
                                     const stringManifest = isMinified ? JSON.stringify( manifest ) : JSON.stringify(manifest, null, "\t");
                                     const highlightedText = hljs.highlight(stringManifest, { language: "json" }).value;
                                     document.getElementById("output").innerHTML = highlightedText;
-
                                     window.engine.sendToast(
                                         {
                                             title: "Manifest Generated!",
-                                            icon: "/src/assets/imgs/icons/manifest.png",
+                                            icon: "assets/imgs/icons/manifest.png",
                                             body: "Click to copy the manifest to clipboard",
                                             onClick: () => {
                                                 window.sound.play( "ui.modal_hide" );
                                                 navigator.clipboard.writeText( stringManifest );
                                                 window.engine.sendToast(
                                                     {
-                                                        title: "Manifest successfully coped!",
-                                                        icon: "/src/assets/imgs/icons/checkmark_checked.png",
-                                                        body: "The manifest have been successfully copied to the clipboard",
+                                                        title: "Manifest successfully copied!",
+                                                        icon: "assets/imgs/icons/checkmark_checked.png",
+                                                        body: "The manifest has been successfully copied to the clipboard",
                                                         instant: true,
                                                     },
                                                 );

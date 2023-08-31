@@ -50,8 +50,8 @@ window.router.routes.push({
                                 window.engine.sendToast(
                                     {
                                         title: "Settings saved!",
-                                        icon: "/src/assets/imgs/icons/checkmark_checked.png",
-                                        body: "Settings have been successfully saved",
+                                        icon: "assets/imgs/icons/checkmark_checked.png",
+                                        body: "All the settings have been saved successfully",
                                     },
                                 );
                             },

@@ -98,6 +98,7 @@ class Manifest {
 		modules = [],
 		capabilities = [],
 	) {
+		const appPackage = JSON.parse(fs.readFileSync( __dirname + "/app.json" ));
 		const dependencies = [];
 		for(const module of modules) {
 			const dep = (
@@ -143,8 +144,11 @@ class Manifest {
 			capabilities,
 			dependencies,
 			metadata: {
-    			authors: [ "Bedrock Tools" ],
-				url: "https://github.com/DarkGamerYT/Bedrock-Tools"
+				generated_with: {
+					[appPackage.name]: [
+						appPackage.version,
+					],
+				},
   			},
 		};
 

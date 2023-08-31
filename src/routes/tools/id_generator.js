@@ -21,7 +21,7 @@ const idTabs = (selected = 0) => {
     const tabs = [
         {
             name: "UUID",
-            icon: "/src/assets/imgs/icons/id.png",
+            icon: "assets/imgs/icons/id.png",
             component: () => {
                 return (
                     `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
@@ -86,7 +86,7 @@ const idTabs = (selected = 0) => {
         },
         {
             name: "Custom ID",
-            icon: "/src/assets/imgs/icons/coding.png",
+            icon: "assets/imgs/icons/coding.png",
             component: () => {
                 return (
                     `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
