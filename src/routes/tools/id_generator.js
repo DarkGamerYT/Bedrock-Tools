@@ -58,6 +58,26 @@ const idTabs = (selected = 0) => {
                                             const uuids = [];
                                             for (let i = 1; i <= amount && i <= 32; i++) uuids.push(crypto.randomUUID());
                                             document.getElementById( "output" ).innerText = uuids.join( "\n" );
+
+                                            window.engine.sendToast(
+                                                {
+                                                    title: "UUID's Generated!",
+                                                    icon: "assets/imgs/icons/id.png",
+                                                    body: "Click to copy the UUID's to clipboard",
+                                                    onClick: () => {
+                                                        window.sound.play( "ui.modal_hide" );
+                                                        navigator.clipboard.writeText( uuids.join("\n") );
+                                                        window.engine.sendToast(
+                                                            {
+                                                                title: "UUID's successfully copied!",
+                                                                icon: "assets/imgs/icons/checkmark_checked.png",
+                                                                body: "The UUID's has been successfully copied to the clipboard",
+                                                                instant: true,
+                                                            },
+                                                        );
+                                                    },
+                                                },
+                                            );
                                         };
                                     },
                                 },
@@ -165,7 +185,30 @@ const idTabs = (selected = 0) => {
                                                 ids.push(id);
                                             }
                                             
-                                            document.getElementById( "output" ).innerText = ids.join( "\n" );
+                                            if(ids.length > 0)
+                                            {
+                                                document.getElementById( "output" ).innerText = ids.join( "\n" );
+                                                window.engine.sendToast(
+                                                    {
+                                                        title: "ID's Generated!",
+                                                        icon: "assets/imgs/icons/coding.png",
+                                                        body: "Click to copy the ID's to clipboard",
+                                                        onClick: () => {
+                                                            window.sound.play( "ui.modal_hide" );
+                                                            navigator.clipboard.writeText( uuids.join("\n") );
+                                                            window.engine.sendToast(
+                                                                {
+                                                                    title: "Custom ID's successfully copied!",
+                                                                    icon: "assets/imgs/icons/checkmark_checked.png",
+                                                                    body: "The custom ID's has been successfully copied to the clipboard",
+                                                                    instant: true,
+                                                                },
+                                                            );
+                                                        },
+                                                    },
+                                                );
+                                            }
+                                            
                                         };
                                     },
                                 },

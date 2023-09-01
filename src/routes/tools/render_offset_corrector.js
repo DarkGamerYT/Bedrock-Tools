@@ -84,10 +84,28 @@ window.router.routes.push({
                                         }
                                     }
                                 }
-                                const offsetText = JSON.stringify(dataOut, null, "\t");
-                                const highlightedText = hljs.highlight(offsetText, { language: "json" }).value;
+                                const stringOffset = JSON.stringify(dataOut, null, "\t");
+                                const highlightedText = hljs.highlight(stringOffset, { language: "json" }).value;
                                 document.getElementById("output").innerHTML = highlightedText;
-                                navigator.clipboard.writeText( offsetText );
+                                window.engine.sendToast(
+                                    {
+                                        title: "Render Offset Generated!",
+                                        icon: "assets/imgs/icons/render_offset.png",
+                                        body: "Click to copy the render offset to clipboard",
+                                        onClick: () => {
+                                            window.sound.play( "ui.modal_hide" );
+                                            navigator.clipboard.writeText( stringOffset );
+                                            window.engine.sendToast(
+                                                {
+                                                    title: "Rawtext successfully copied!",
+                                                    icon: "assets/imgs/icons/checkmark_checked.png",
+                                                    body: "The render offset has been successfully copied to the clipboard",
+                                                    instant: true,
+                                                },
+                                            );
+                                        },
+                                    },
+                                );
                             }
                         }
                     )}

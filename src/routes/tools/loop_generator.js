@@ -115,6 +115,25 @@ const loopTabs = (selected = 0) => {
                                         const values = [];
                                         for(let i = 0; i < list.length; i++) values.push(outTemplate.replace(outVar, list[i]));
                                         document.getElementById( "output" ).innerText = values.join( "\n" );
+                                        window.engine.sendToast(
+                                            {
+                                                title: "Loop Generated!",
+                                                icon: "assets/imgs/icons/debug.png",
+                                                body: "Click to copy the loop to clipboard",
+                                                onClick: () => {
+                                                    window.sound.play( "ui.modal_hide" );
+                                                    navigator.clipboard.writeText( values.join("\n") );
+                                                    window.engine.sendToast(
+                                                        {
+                                                            title: "Loop successfully copied!",
+                                                            icon: "assets/imgs/icons/checkmark_checked.png",
+                                                            body: "The loop has been successfully copied to the clipboard",
+                                                            instant: true,
+                                                        },
+                                                    );
+                                                },
+                                            },
+                                        );
                                     },
                                 }
                             )}
@@ -272,6 +291,25 @@ const loopTabs = (selected = 0) => {
                                         for(let i = start; i <= end; i++)
                                             outputString += outTemplate.replace(outVar, i) + "\n";
                                         document.getElementById("output").innerText = outputString;
+                                        window.engine.sendToast(
+                                            {
+                                                title: "Loop Generated!",
+                                                icon: "assets/imgs/icons/debug.png",
+                                                body: "Click to copy the loop to clipboard",
+                                                onClick: () => {
+                                                    window.sound.play( "ui.modal_hide" );
+                                                    navigator.clipboard.writeText( outputString );
+                                                    window.engine.sendToast(
+                                                        {
+                                                            title: "Loop successfully copied!",
+                                                            icon: "assets/imgs/icons/checkmark_checked.png",
+                                                            body: "The loop has been successfully copied to the clipboard",
+                                                            instant: true,
+                                                        },
+                                                    );
+                                                },
+                                            },
+                                        );
                                     }
                                 }
                             )}

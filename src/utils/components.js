@@ -266,7 +266,7 @@ const Components = {
                             max="${options?.input?.max ?? Infinity}"
                             placeholder="${options?.placeholder ?? ""}"
                             value="${options?.value ?? ""}"
-                            onChange='window.functions.onChange["${options?.id}"](this);'
+                            ${options?.onChange? `onChange='window.functions.onChange["${options?.id}"](this);'` : ""}
                         ></input>
                     </div>`
                 );
