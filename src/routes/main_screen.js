@@ -23,11 +23,11 @@ window.router.routes.push({
                             title: "Render Offset Corrector",
                             icon: "assets/imgs/icons/render_offset.png"
                         },
-                        /*{
+                        {
                             route: "/json_rawtext_generator",
                             title: "JSON Rawtext Generator",
-                            icon: "assets/imgs/icons/empty.png"
-                        }*/
+                            icon: "assets/imgs/icons/rawtext_gen.png"
+                        }
                     ],
                     display: true,
                 },
