@@ -71,8 +71,28 @@ window.router.routes.push({
                         id: "generate",
                         style: "hero",
                         onClick: () => {
+                            const stringRawtext = modules.constructModules();
                             window.sound.play("ui.release");
-                            document.getElementById( "output" ).innerText = modules.constructModules();
+                            document.getElementById( "output" ).innerText = stringRawtext;
+                            window.engine.sendToast(
+                                {
+                                    title: "Rawtext Generated!",
+                                    icon: "assets/imgs/icons/rawtext_gen.png",
+                                    body: "Click to copy the rawtext to clipboard",
+                                    onClick: () => {
+                                        window.sound.play( "ui.modal_hide" );
+                                        navigator.clipboard.writeText( stringRawtext );
+                                        window.engine.sendToast(
+                                            {
+                                                title: "Rawtext successfully copied!",
+                                                icon: "assets/imgs/icons/checkmark_checked.png",
+                                                body: "The rawtext has been successfully copied to the clipboard",
+                                                instant: true,
+                                            },
+                                        );
+                                    },
+                                },
+                            );
                         }
                     }
                 )}
