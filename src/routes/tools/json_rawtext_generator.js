@@ -3,6 +3,7 @@ window.router.routes.push({
     route: "/json_rawtext_generator",
     rpc: "rawtextGenerator",
     component: () => {
+        const modules = new RawtextModules();
         const isRight = window.settings.get("right");
         return (
             Components.createHeader({ text: "JSON Rawtext Generator", back: true, settings: true })
@@ -10,7 +11,7 @@ window.router.routes.push({
                 `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
                     <div style="width: 50%;">
                         ${Components.createElements(
-                    {
+                        {
                         elements: [
                             Components.createElement(
                                 {
@@ -71,26 +72,41 @@ window.router.routes.push({
                         style: "hero",
                         onClick: () => {
                             window.sound.play("ui.release");
-                            console.log(modules.constructModules());
+                            document.getElementById( "output" ).innerText = modules.constructModules();
                         }
                     }
                 )}
                     </div>
                     <div style="width: 100%;">
+                        ${Components.createElements(
+                            {
+                                elements: [
+                                    Components.createElement(
+                                        {
+                                            type: "text",
+                                            title: "Output:",
+                                            id: "output",
+                                            default: "Rawtext Output",
+                                            style: "code",
+                                        },
+                                    ),
+                                ],
+                            },
+                        )}
                         <div id="modules"></div>
                     </div>
                 </div>
                 `
             )
         )
-    },
-    extra: () => modules.buildModules()
+    }
 })
 
 class RawtextModules {
-    constructor()
+    constructor(modulesId = "modules")
     {
         this.modules = [];
+        this.modulesId = modulesId;
     }
 
     constructModules()
@@ -123,9 +139,30 @@ class RawtextModules {
                                         id: `updateMessage:${module.id}`,
                                         value: module.message,
                                         placeholder: "Message",
-                                        onChange: (e) => { 
-                                            module.message = e.value;
-                                            this.changeNoUpdate(module)
+                                        onChange: (e) => module.message = e.value
+                                    }
+                                ),
+                                Components.createElement(
+                                    {
+                                        type: "button",
+                                        text: "Move Up",
+                                        id: `moveUp:${module.id}`,
+                                        style: "secondary",
+                                        onClick: () => {
+                                            window.sound.play("ui.click");
+                                            this.moveModuleUp(module.id);
+                                        }
+                                    }
+                                ),
+                                Components.createElement(
+                                    {
+                                        type: "button",
+                                        text: "Move Down",
+                                        id: `moveDown:${module.id}`,
+                                        style: "secondary",
+                                        onClick: () => {
+                                            window.sound.play("ui.click");
+                                            this.moveModuleDown(module.id);
                                         }
                                     }
                                 ),
@@ -137,7 +174,7 @@ class RawtextModules {
                                         style: "destructive",
                                         onClick: () => {
                                             window.sound.play("ui.click");
-                                            modules.deleteModule(module.id);
+                                            this.deleteModule(module.id);
                                         }
                                     }
                                 )
@@ -161,10 +198,7 @@ class RawtextModules {
                                         id: `updateObjective:${module.id}`,
                                         value: module.objective,
                                         placeholder: "Objective",
-                                        onChange: (e) => { 
-                                            module.objective = e.value;
-                                            this.changeNoUpdate(module)
-                                        }
+                                        onChange: (e) => module.objective = e.value
                                     }
                                 ),
                                 Components.createElement(
@@ -173,9 +207,30 @@ class RawtextModules {
                                         id: `updateTarget:${module.id}`,
                                         value: module.target,
                                         placeholder: "Target",
-                                        onChange: (e) => { 
-                                            module.target = e.value;
-                                            this.changeNoUpdate(module)
+                                        onChange: (e) => module.target = e.value
+                                    }
+                                ),
+                                Components.createElement(
+                                    {
+                                        type: "button",
+                                        text: "Move Up",
+                                        id: `moveUp:${module.id}`,
+                                        style: "secondary",
+                                        onClick: () => {
+                                            window.sound.play("ui.click");
+                                            this.moveModuleUp(module.id);
+                                        }
+                                    }
+                                ),
+                                Components.createElement(
+                                    {
+                                        type: "button",
+                                        text: "Move Down",
+                                        id: `moveDown:${module.id}`,
+                                        style: "secondary",
+                                        onClick: () => {
+                                            window.sound.play("ui.click");
+                                            this.moveModuleDown(module.id);
                                         }
                                     }
                                 ),
@@ -187,7 +242,7 @@ class RawtextModules {
                                         style: "destructive",
                                         onClick: () => {
                                             window.sound.play("ui.click");
-                                            modules.deleteModule(module.id);
+                                            this.deleteModule(module.id);
                                         }
                                     }
                                 )
@@ -211,10 +266,7 @@ class RawtextModules {
                                         id: `updateTranslation:${module.id}`,
                                         value: module.translation,
                                         placeholder: "Translation",
-                                        onChange: (e) => { 
-                                            module.translation = e.value;
-                                            this.changeNoUpdate(module)
-                                        }
+                                        onChange: (e) => module.translation = e.value
                                     }
                                 ),
                                 Components.createElement(
@@ -229,7 +281,10 @@ class RawtextModules {
                                             module.withArrayToggle = value;
                                             document.getElementById( `arrayModules:${module.id}` ).style = value? "" : "display:none;";
                                             if(value)
+                                            {
+                                                module.withArray.arrayId = `ARRModules:${module.id}`;
                                                 document.getElementById(`toggleRawtext:${module.id}`).className = "toggle toggleDisabled";
+                                            }
                                             else
                                                 document.getElementById(`toggleRawtext:${module.id}`).className = "toggle toggleOff";
                                         }
@@ -245,10 +300,12 @@ class RawtextModules {
                                         onClick: (e) => {
                                             const value = e.getAttribute( "value" ) == "true";
                                             module.withRawtextToggle = value;
-                                            modules.changeNoUpdate(module);
                                             document.getElementById( `rawtextModules:${module.id}` ).style = value? "" : "display:none;";
                                             if(value)
+                                            {
+                                                module.withRawtext.modulesId = `RTModules:${module.id}`;
                                                 document.getElementById(`toggleArray:${module.id}`).className = "toggle toggleDisabled";
+                                            }
                                             else
                                                 document.getElementById(`toggleArray:${module.id}`).className = "toggle toggleOff";
                                         }
@@ -265,7 +322,7 @@ class RawtextModules {
                                                     style: "secondary",
                                                     onClick: () => {
                                                         window.sound.play("ui.click");
-                                                        modules.createMessage();
+                                                        module.withRawtext.createMessage();
                                                     }
                                                 }
                                             ),
@@ -277,7 +334,7 @@ class RawtextModules {
                                                     style: "secondary",
                                                     onClick: () => {
                                                         window.sound.play("ui.click");
-                                                        modules.createScore();
+                                                        module.withRawtext.createScore();
                                                     }
                                                 }
                                             ),
@@ -289,15 +346,18 @@ class RawtextModules {
                                                     style: "secondary",
                                                     onClick: () => {
                                                         window.sound.play("ui.click");
-                                                        modules.createSelector();
+                                                        module.withRawtext.createSelector();
                                                     }
                                                 }
-                                            )
+                                            ),
+                                            `<div id="RTModules:${module.id}">
+                                                ${module.withRawtext.buildModules()}
+                                            </div>`
                                         ]
                                     })
                                 }
                                 </div>`,
-                                `<div id="arrayModules:${module.id}" style="display: none;">
+                                `<div id="arrayModules:${module.id}" style="${module.withArrayToggle? "" : "display: none;"}">
                                     ${Components.createElements({
                                         elements: [
                                             Components.createElement(
@@ -308,12 +368,40 @@ class RawtextModules {
                                                     style: "secondary",
                                                     onClick: () => {
                                                         window.sound.play("ui.click");
+                                                        module.withArray.create();
                                                     }
                                                 }
-                                            )
+                                            ),
+                                            `<div id="ARRModules:${module.id}" >
+                                                ${module.withArray.build(false)}
+                                            </div>`,
                                         ]
                                     })}
                                 </div>`,
+                                Components.createElement(
+                                    {
+                                        type: "button",
+                                        text: "Move Up",
+                                        id: `moveUp:${module.id}`,
+                                        style: "secondary",
+                                        onClick: () => {
+                                            window.sound.play("ui.click");
+                                            this.moveModuleUp(module.id);
+                                        }
+                                    }
+                                ),
+                                Components.createElement(
+                                    {
+                                        type: "button",
+                                        text: "Move Down",
+                                        id: `moveDown:${module.id}`,
+                                        style: "secondary",
+                                        onClick: () => {
+                                            window.sound.play("ui.click");
+                                            this.moveModuleDown(module.id);
+                                        }
+                                    }
+                                ),
                                 Components.createElement(
                                     {
                                         type: "button",
@@ -322,7 +410,7 @@ class RawtextModules {
                                         style: "destructive",
                                         onClick: () => {
                                             window.sound.play("ui.click");
-                                            modules.deleteModule(module.id);
+                                            this.deleteModule(module.id);
                                         }
                                     }
                                 )
@@ -346,9 +434,30 @@ class RawtextModules {
                                         id: `updateSelector:${module.id}`,
                                         value: module.selector,
                                         placeholder: "Selector",
-                                        onChange: (e) => { 
-                                            module.selector = e.value;
-                                            this.changeNoUpdate(module)
+                                        onChange: (e) => module.selector = e.value
+                                    }
+                                ),
+                                Components.createElement(
+                                    {
+                                        type: "button",
+                                        text: "Move Up",
+                                        id: `moveUp:${module.id}`,
+                                        style: "secondary",
+                                        onClick: () => {
+                                            window.sound.play("ui.click");
+                                            this.moveModuleUp(module.id);
+                                        }
+                                    }
+                                ),
+                                Components.createElement(
+                                    {
+                                        type: "button",
+                                        text: "Move Down",
+                                        id: `moveDown:${module.id}`,
+                                        style: "secondary",
+                                        onClick: () => {
+                                            window.sound.play("ui.click");
+                                            this.moveModuleDown(module.id);
                                         }
                                     }
                                 ),
@@ -360,7 +469,7 @@ class RawtextModules {
                                         style: "destructive",
                                         onClick: () => {
                                             window.sound.play("ui.click");
-                                            modules.deleteModule(module.id);
+                                            this.deleteModule(module.id);
                                         }
                                     }
                                 )
@@ -370,13 +479,8 @@ class RawtextModules {
                     break;
             }
         }
-        document.getElementById("modules").innerHTML = output;
-    }
-
-    changeNoUpdate(module)
-    {
-        const foundModule = this.modules.findIndex(x => x.id == module.id);
-        if(foundModule != -1) this.modules[foundModule] = module;
+        document.getElementById(this.modulesId ?? "modules").innerHTML = output;
+        return output;
     }
 
     createMessage()
@@ -414,11 +518,20 @@ class RawtextModules {
         const module = {
             type: "translation",
             translation: "commands.op.success",
-            with: [],
+            withArray: new ArrayValues(),
+            withRawtext: new RawtextModules(),
             withArrayToggle: false,
             withRawtextToggle: false,
             id: crypto.randomUUID(),
             construct: () => {
+                if(module.withArrayToggle)
+                {
+                    return `{"translate":"${module.translation}", "with":${module.withArray.construct()}}`;
+                }
+                else if(module.withRawtextToggle)
+                {
+                    return `{"translate":"${module.translation}", "with":${module.withRawtext.constructModules()}}`;
+                }
                 return `{"translate":"${module.translation}"}`;
             }
         }
@@ -447,6 +560,97 @@ class RawtextModules {
         this.modules = this.modules.filter(x => x.id != id);
         this.buildModules();
     }
+
+    moveModuleUp(id)
+    {
+        const index = this.modules.findIndex(x => x.id == id)
+        if(index != -1)
+            this.MoveArray(this.modules, index, index - 1)
+        this.buildModules();
+    }
+
+    moveModuleDown(id)
+    {
+        const index = this.modules.findIndex(x => x.id == id)
+        if(index != -1)
+            this.MoveArray(this.modules, index, index + 1)
+
+        this.buildModules();
+    }
+
+    MoveArray(arr, fromIndex, toIndex) {
+        var element = arr[fromIndex];
+        arr.splice(fromIndex, 1);
+        arr.splice(toIndex, 0, element);
+    }
 }
 
-const modules = new RawtextModules();
+class ArrayValues
+{
+    constructor(arrayId = "array")
+    {
+        this.array = [];
+        this.arrayId = arrayId;
+    }
+
+    construct()
+    {
+        return this.array.map(x => `"${x.value}"`);
+    }
+
+    build(setHtml = true)
+    {
+        var output = "";
+        for(let i = 0; i < this.array.length; i++)
+        {
+            const value = this.array[i];
+            output += Components.createElements(
+                {
+                    elements: [
+                        Components.createElement(
+                            {
+                                type: "input",
+                                id: `updateValue:${value.id}`,
+                                value: value.value,
+                                placeholder: "Value",
+                                onChange: (e) => value.value = e.value
+                            }
+                        ),
+                        Components.createElement(
+                            {
+                                type: "button",
+                                text: "Delete",
+                                id: `delete:${value.id}`,
+                                style: "destructive",
+                                onClick: () => {
+                                    window.sound.play("ui.click");
+                                    this.delete(value.id);
+                                }
+                            }
+                        )
+                    ]
+                }
+            )
+        }
+        this.construct();
+        if(setHtml)
+            document.getElementById(this.arrayId ?? "array").innerHTML = output;
+        return output;
+    }
+
+    create()
+    {
+        const value = {
+            value: "",
+            id: crypto.randomUUID()
+        }
+        this.array.push(value);
+        this.build();
+    }
+
+    delete(id)
+    {
+        this.array = this.array.filter(x => x.id != id);
+        this.build();
+    }
+}
