@@ -17,6 +17,7 @@
     style?: "primary" | "secondary" | "destructive" | "hero" | "code";
     icon?: string;
     toggled?: boolean;
+    disabled?: boolean;
     accept?: string;
     useTitle?: boolean;
     startHeight?: number;
@@ -328,7 +329,7 @@ const Components = {
                                 <span class="elementSubtitle">${options?.subtitle ?? ""}</span>
                             </div>
                             <div
-                                class="toggle ${options.toggled ? "toggleOn" : "toggleOff"}"
+                                class="toggle ${options.disabled ? "toggleDisabled" : options.toggled ? "toggleOn" : "toggleOff"}"
                                 id="${options?.id ?? ""}"
                                 value=${options.toggled ?? false}
                                 onClick='if(className != "toggle toggleDisabled") { Functions.toggle(this); window.functions.onClick["${options?.id}"](this); }'
