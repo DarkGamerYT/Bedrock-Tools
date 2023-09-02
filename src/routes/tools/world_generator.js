@@ -1,3 +1,4 @@
+const jszip = require( "jszip" );
 window.router.routes.push({
     name: "World Generator",
     route: "/world_generator",
@@ -35,8 +36,31 @@ window.router.routes.push({
                             text: "Generate",
                             id: "generatePack",
                             style: "hero",
-                            onClick: () => {
+                            onClick: async () => {
                                 window.sound.play( "ui.release" );
+                                const worldType = document.getElementById( "worldType" ).value;
+                                worldData.value.RandomSeed.value = randomSeed();
+                                worldData.value.FlatWorldLayers.value = JSON.stringify(
+                                    worldType == 1
+                                    ? voidWorld
+                                    : flatWorldLayers
+                                );
+
+                                console.log(worldData);
+
+                                zip.file( "level.dat", datHandler.fix(NBT.writeUncompressed(worldData, "little")) );
+                                const blob = await zip.generateAsync({ type: "nodebuffer" });
+                                const handle = await electron.dialog.showSaveDialog(
+                                    electron.getCurrentWindow(), {
+                                        defaultPath: "World.mcworld",
+                                        filters: [{ name: "Generated World", extensions: [ "mcworld" ] }]
+                                    },
+                                );
+                                
+                                if(handle.filePath.length == 0) return;
+                                const file = fs.createWriteStream( handle.filePath );
+                                file.on("finish", () => file.close());
+                                file.write(blob);
                             },
                         },
                     )}
@@ -137,7 +161,7 @@ const Biomes = [
     { "identifier": "cherry_grove", "biome_id": 192 }
 ];
 
-const flatWorldLayers = {
+let flatWorldLayers = {
     biome_id: 1,
     block_layers: [
         {
@@ -158,6 +182,13 @@ const flatWorldLayers = {
     world_version: "version.post_1_18"
 };
 
+let voidWorld = {
+    biome_id: 1,
+    block_layers: [{ block_name: "minecraft:air", count: 256 }],
+    encoding_version: 6,
+    structure_options: null,
+};
+
 const updateFlatLayers = () => {
     document.getElementById( "flatLayers" ).innerHTML = flatWorldLayers.block_layers.map(
         (layer, index) => (
@@ -169,7 +200,8 @@ const updateFlatLayers = () => {
                     id: "block-" + index,
                     value: layer.block_name,
                     onChange: (e) => {
-                        console.log(e.id, e.value);
+                        const layer = flatWorldLayers.block_layers.find((layer, i) => i == parseInt(e.id.replace( "block-", "" )));
+                        layer.block_name = e.value;
                     },
                 },
             )}
@@ -184,6 +216,11 @@ const updateFlatLayers = () => {
                         max: 64,
                     },
                     value: layer.count,
+                    onChange: (e) => {
+                        const layer = flatWorldLayers.block_layers.find((layer, i) => i == parseInt(e.id.replace( "blockCount-", "" )));
+                        e.value = parseInt(e.value);
+                        layer.count = parseInt(e.value);
+                    },
                 },
             )}
             <div class="element" style="padding: 12px;">
@@ -212,11 +249,42 @@ const addFlatLayer = () => {
     updateFlatLayers();
 };
 
-const GenType = (selection = "0") => {
+let zip;
+let worldData;
+const GenType = async (selection = "0") => {
+    const fs = require( "node:fs" );
     const genElement = document.getElementById( "genElement" );
     switch(selection) {
         case "0":
         {
+            fs.readFile(
+                __dirname + "/data/World.mcworld",
+                null,
+                async (error, buffer) => {
+                    await jszip.loadAsync(Buffer.from( buffer ))
+                    .then(
+                        (result) => {
+                            zip = result;
+                            result.file( "level.dat" )
+                            .async( "arrayBuffer" )
+                            .then((res) => NBT.parse(Buffer.from( res )))
+                            .then(
+                                (result) => {
+                                    worldData = result.parsed;
+                                    worldData.value.GameType.value = 0;
+                                    worldData.value.Difficulty.value = 2;
+                                    worldData.value.Generator.value = 2;
+                                    worldData.value.LevelName.value = "Custom Flat World - Bedrock Tools";
+
+                                    flatWorldLayers = JSON.parse(worldData.value.FlatWorldLayers.value);
+                                    updateFlatLayers();
+                                },
+                            );
+                        },
+                    );
+                },
+            );
+
             genElement.innerHTML = (
                 `${Components.createElements(
                     {
@@ -259,19 +327,60 @@ const GenType = (selection = "0") => {
                             Components.createElement(
                                 {
                                     type: "dropdown",
+                                    title: "Game Mode:",
+                                    id: "gameType",
+                                    selected: 0,
+                                    items: [
+                                        "Survival",
+                                        "Creative",
+                                        "Adventure",
+                                    ],
+                                    onChange: (e) => worldData.value.GameType.value = parseInt(e.value),
+                                },
+                            ),
+                            Components.createElement(
+                                {
+                                    type: "dropdown",
+                                    title: "Difficulty:",
+                                    id: "difficulty",
+                                    selected: 2,
+                                    items: [
+                                        "Peaceful",
+                                        "Easy",
+                                        "Normal",
+                                        "Hard",
+                                    ],
+                                    onChange: (e) => worldData.value.Difficulty.value = parseInt(e.value),
+                                },
+                            ),
+                            Components.createElement(
+                                {
+                                    type: "dropdown",
                                     title: "Biome:",
                                     id: "biome",
                                     selected: 1,
                                     items: Biomes.map((b) => b.identifier),
-                                    onChange: (e) => {},
+                                    onChange: (e) => {
+                                        const biome = Biomes[e.value];
+                                        flatWorldLayers.biome_id = biome.biome_id;
+                                    },
                                 },
                             ),
                             Components.createElement(
                                 {
                                     type: "toggle",
                                     title: "Start at y -64",
-                                    toggled: false,
-                                    onClick: (e) => {},
+                                    toggled: true,
+                                    onClick: (e) => {
+                                        let value = e.getAttribute( "value" ) == "true";
+                                        if (value) {
+                                            if(!flatWorldLayers.world_version) {
+                                                flatWorldLayers.world_version = "version.post_1_18";
+                                            };
+                                        } else if(flatWorldLayers.world_version) {
+                                            delete flatWorldLayers.world_version;
+                                        };
+                                    },
                                 },
                             ),
                         ],
@@ -279,33 +388,103 @@ const GenType = (selection = "0") => {
                 )}`
             );
 
-            updateFlatLayers();
             return;
         };
 
         case "1":
         {
-            genElement.innerHTML = Components.createElements(
-                {
-                    elements: [
-                        Components.createElement(
-                            {
-                                type: "element",
-                                title: "Void World",
-                            },
-                        ),
-                        Components.createElement(
-                            {
-                                type: "dropdown",
-                                title: "Biome:",
-                                id: "biome",
-                                selected: 1,
-                                items: Biomes.map((b) => b.identifier),
-                                onChange: (e) => {},
-                            },
-                        ),
-                    ],
+            fs.readFile(
+                __dirname + "/data/World.mcworld",
+                null,
+                async (error, buffer) => {
+                    await jszip.loadAsync(Buffer.from( buffer ))
+                    .then(
+                        (result) => {
+                            zip = result;
+                            result.file( "level.dat" )
+                            .async( "arrayBuffer" )
+                            .then((res) => NBT.parse(Buffer.from( res )))
+                            .then(
+                                (result) => {
+                                    worldData = result.parsed;
+                                    worldData.value.GameType.value = 1;
+                                    worldData.value.Difficulty.value = 2;
+                                    worldData.value.Generator.value = 2;
+                                    worldData.value.LevelName.value = "Void World - Bedrock Tools";
+                                },
+                            );
+                        },
+                    );
                 },
+            );
+
+            genElement.innerHTML = (
+                `${Components.createElements(
+                    {
+                        elements: [
+                            Components.createElement(
+                                {
+                                    type: "element",
+                                    title: "Void World",
+                                },
+                            ),
+                            Components.createElement(
+                                {
+                                    type: "dropdown",
+                                    title: "Biome:",
+                                    id: "biome",
+                                    selected: 1,
+                                    items: Biomes.map((b) => b.identifier),
+                                    onChange: (e) => {
+                                        const biome = Biomes[e.value];
+                                        voidWorld.biome_id = biome.biome_id;
+                                    },
+                                },
+                            ),
+                        ],
+                    }
+                )}
+                ${Components.createElements(
+                    {
+                        elements: [
+                            Components.createElement(
+                                {
+                                    type: "element",
+                                    title: "Additional Settings",
+                                },
+                            ),
+                            Components.createElement(
+                                {
+                                    type: "dropdown",
+                                    title: "Game Mode:",
+                                    id: "gameType",
+                                    selected: 1,
+                                    items: [
+                                        "Survival",
+                                        "Creative",
+                                        "Adventure",
+                                    ],
+                                    onChange: (e) => worldData.value.GameType.value = parseInt(e.value),
+                                },
+                            ),
+                            Components.createElement(
+                                {
+                                    type: "dropdown",
+                                    title: "Difficulty:",
+                                    id: "difficulty",
+                                    selected: 2,
+                                    items: [
+                                        "Peaceful",
+                                        "Easy",
+                                        "Normal",
+                                        "Hard",
+                                    ],
+                                    onChange: (e) => worldData.value.Difficulty.value = parseInt(e.value),
+                                },
+                            ),
+                        ],
+                    },
+                )}`
             );
 
             return;
@@ -313,69 +492,152 @@ const GenType = (selection = "0") => {
 
         case "2":
         {
-            genElement.innerHTML = Components.createElements(
-                {
-                    elements: [
-                        Components.createElement(
-                            {
-                                type: "element",
-                                title: "Old World",
-                            },
-                        ),
-                        Components.createElement(
-                            {
-                                type: "input",
-                                title: "Width (in chunks):",
-                                id: "width",
-                                input: {
-                                    text: "number",
-                                    min: 1,
-                                    max: 10000,
+            fs.readFile(
+                __dirname + "/data/World.mcworld",
+                null,
+                async (error, buffer) => {
+                    await jszip.loadAsync(Buffer.from( buffer ))
+                    .then(
+                        (result) => {
+                            result.file( "level.dat" )
+                            .async( "arrayBuffer" )
+                            .then((res) => NBT.parse(Buffer.from( res )))
+                            .then(
+                                (result) => {
+                                    worldData = result.parsed;
+                                    worldData.value.GameType.value = 0;
+                                    worldData.value.Difficulty.value = 2;
+                                    worldData.value.Generator.value = 0;
+                                    worldData.value.LevelName.value = "Custom Old World - Bedrock Tools";
                                 },
-                                value: 4,
-                            },
-                        ),
-                        Components.createElement(
-                            {
-                                type: "input",
-                                title: "Depth (in chunks):",
-                                id: "depth",
-                                input: {
-                                    text: "number",
-                                    min: 1,
-                                    max: 10000,
-                                },
-                                value: 18,
-                            },
-                        ),
-                        Components.createElement(
-                            {
-                                type: "input",
-                                title: "Center X:",
-                                id: "centerX",
-                                input: {
-                                    text: "number",
-                                    min: 1,
-                                    max: 10000,
-                                },
-                                value: 0,
-                            },
-                        ),
-                        Components.createElement(
-                            {
-                                type: "input",
-                                title: "Center Z:",
-                                id: "centerZ",
-                                input: {
-                                    text: "number",
-                                    min: 1,
-                                    max: 10000,
-                                },
-                                value: 0,
-                            },
-                        ),
-                    ],
+                            );
+                        },
+                    );
                 },
+            );
+
+            genElement.innerHTML = (
+                `${Components.createElements(
+                    {
+                        elements: [
+                            Components.createElement(
+                                {
+                                    type: "element",
+                                    title: "Old World",
+                                },
+                            ),
+                            Components.createElement(
+                                {
+                                    type: "input",
+                                    title: "Width (in chunks):",
+                                    id: "width",
+                                    input: {
+                                        text: "number",
+                                        min: 1,
+                                        max: 10000,
+                                    },
+                                    value: 16,
+                                    onChange: (e) => {
+                                        e.value = parseInt(e.value);
+                                        worldData.value.limitedWorldWidth.value = parseInt(e.value);
+                                    },
+                                },
+                            ),
+                            Components.createElement(
+                                {
+                                    type: "input",
+                                    title: "Depth (in chunks):",
+                                    id: "depth",
+                                    input: {
+                                        text: "number",
+                                        min: 1,
+                                        max: 10000,
+                                    },
+                                    value: 16,
+                                    onChange: (e) => {
+                                        e.value = parseInt(e.value);
+                                        worldData.value.limitedWorldDepth.value = parseInt(e.value);
+                                    },
+                                },
+                            ),
+                            Components.createElement(
+                                {
+                                    type: "input",
+                                    title: "Center X:",
+                                    id: "centerX",
+                                    input: {
+                                        text: "number",
+                                        min: 1,
+                                        max: 10000,
+                                    },
+                                    value: 0,
+                                    onChange: (e) => {
+                                        e.value = parseInt(e.value);
+                                        worldData.value.LimitedWorldOriginX.value = parseInt(e.value);
+                                    },
+                                },
+                            ),
+                            Components.createElement(
+                                {
+                                    type: "input",
+                                    title: "Center Z:",
+                                    id: "centerZ",
+                                    input: {
+                                        text: "number",
+                                        min: 1,
+                                        max: 10000,
+                                    },
+                                    value: 0,
+                                    onChange: (e) => {
+                                        e.value = parseInt(e.value);
+                                        worldData.value.LimitedWorldOriginZ.value = parseInt(e.value);
+                                    },
+                                },
+                            ),
+                        ],
+                    },
+                )}
+                ${Components.createElements(
+                    {
+                        elements: [
+                            Components.createElement(
+                                {
+                                    type: "element",
+                                    title: "Additional Settings",
+                                },
+                            ),
+                            Components.createElement(
+                                {
+                                    type: "dropdown",
+                                    title: "Game Mode:",
+                                    id: "gameType",
+                                    selected: 0,
+                                    items: [
+                                        "Survival",
+                                        "Creative",
+                                        "Adventure",
+                                    ],
+                                    onChange: (e) => worldData.value.GameType.value = parseInt(e.value),
+                                },
+                            ),
+                            Components.createElement(
+                                {
+                                    type: "dropdown",
+                                    title: "Difficulty:",
+                                    id: "difficulty",
+                                    selected: 2,
+                                    items: [
+                                        "Peaceful",
+                                        "Easy",
+                                        "Normal",
+                                        "Hard",
+                                    ],
+                                    onChange: (e) => worldData.value.Difficulty.value = parseInt(e.value),
+                                },
+                            ),
+                        ],
+                    },
+                )}`
             );
 
             return;
@@ -383,27 +645,98 @@ const GenType = (selection = "0") => {
 
         case "3":
         {
-            genElement.innerHTML = Components.createElements(
-                {
-                    elements: [
-                        Components.createElement(
-                            {
-                                type: "element",
-                                title: "Single Biome",
-                            },
-                        ),
-                        Components.createElement(
-                            {
-                                type: "dropdown",
-                                title: "Biome:",
-                                id: "biome",
-                                selected: 1,
-                                items: Biomes.map((b) => b.identifier),
-                                onChange: (e) => {},
-                            },
-                        ),
-                    ],
+            fs.readFile(
+                __dirname + "/data/World.mcworld",
+                null,
+                async (error, buffer) => {
+                    await jszip.loadAsync(Buffer.from( buffer ))
+                    .then(
+                        (result) => {
+                            result.file( "level.dat" )
+                            .async( "arrayBuffer" )
+                            .then((res) => NBT.parse(Buffer.from( res )))
+                            .then(
+                                (result) => {
+                                    worldData = result.parsed;
+                                    worldData.value.GameType.value = 0;
+                                    worldData.value.Difficulty.value = 2;
+                                    worldData.value.Generator.value = 1;
+                                    worldData.value.LevelName.value = "Single Biome World - Bedrock Tools";
+                                    worldData.value.BiomeOverride.value = "plains";
+                                },
+                            );
+                        },
+                    );
                 },
+            );
+
+            genElement.innerHTML = (
+                `${Components.createElements(
+                    {
+                        elements: [
+                            Components.createElement(
+                                {
+                                    type: "element",
+                                    title: "Single Biome",
+                                },
+                            ),
+                            Components.createElement(
+                                {
+                                    type: "dropdown",
+                                    title: "Biome:",
+                                    id: "biome",
+                                    selected: 1,
+                                    items: Biomes.map((b) => b.identifier),
+                                    onChange: (e) => {
+                                        const biome = Biomes[e.value];
+                                        worldData.value.BiomeOverride.value = biome.identifier;
+                                    },
+                                },
+                            ),
+                        ],
+                    },
+                )}
+                ${Components.createElements(
+                    {
+                        elements: [
+                            Components.createElement(
+                                {
+                                    type: "element",
+                                    title: "Additional Settings",
+                                },
+                            ),
+                            Components.createElement(
+                                {
+                                    type: "dropdown",
+                                    title: "Game Mode:",
+                                    id: "gameType",
+                                    selected: 0,
+                                    items: [
+                                        "Survival",
+                                        "Creative",
+                                        "Adventure",
+                                    ],
+                                    onChange: (e) => worldData.value.GameType.value = parseInt(e.value),
+                                },
+                            ),
+                            Components.createElement(
+                                {
+                                    type: "dropdown",
+                                    title: "Difficulty:",
+                                    id: "difficulty",
+                                    selected: 2,
+                                    items: [
+                                        "Peaceful",
+                                        "Easy",
+                                        "Normal",
+                                        "Hard",
+                                    ],
+                                    onChange: (e) => worldData.value.Difficulty.value = parseInt(e.value),
+                                },
+                            ),
+                        ],
+                    },
+                )}`
             );
 
             return;
@@ -411,4 +744,57 @@ const GenType = (selection = "0") => {
 
         default: return "";
     };
+};
+
+//Credit: https://stackoverflow.com/a/43933693 and https://mcbe-essentials.github.io
+function concatenate(resultConstructor, ...arrays) {
+    let totalLength = 0;
+    for (const arr of arrays) totalLength += arr.length;
+    const result = new resultConstructor( totalLength );
+    let offset = 0;
+    for (const arr of arrays) {
+        result.set(arr, offset);
+        offset += arr.length;
+    };
+
+    return result;
+};
+
+const datHandler = {
+    generateHeader: (brokenldb) => {
+        const byteLength = brokenldb.byteLength;
+        const fileSize = Uint8Array.from(datHandler.numTo8Bit(byteLength));
+        return concatenate(Uint8Array, Uint8Array.of(8, 0, 0, 0), fileSize, brokenldb);
+    },
+    fix: (data) => concatenate(Uint8Array, datHandler.generateHeader(data), data),
+    numTo8Bit: (number) => {
+        const output = [0, 0, 0, 0];
+        output[3] = (Math.floor(number / 16777216));
+        number -= (16777216 * output[3]);
+        output[2] = (Math.floor(number / 65536));
+        number -= (65536 * output[2]);
+        output[1] = (Math.floor(number / 256));
+        number -= (256 * output[1]);
+        output[0] = (Math.floor(number / 1));
+        number -= (1 * output[0]);
+      
+        return output;
+    },
+};
+
+class SignedBigInt extends Array {
+    valueOf() {
+        return BigInt.asIntN(64, BigInt(this[0]) << 32n) | BigInt.asUintN(32, BigInt(this[1]));
+    };
+    
+    toString() {
+        return this.valueOf().toString();
+    };
+};
+
+const randomSeed = () => {
+    const int1 = parseInt((Math.random() * 10 - 5) * 500);
+    const int2 = parseInt((Math.random() + 15) * 500);
+    const bitInt = new SignedBigInt( int1, int2 );
+    return bitInt;
 };

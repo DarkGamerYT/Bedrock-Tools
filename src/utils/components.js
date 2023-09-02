@@ -230,7 +230,7 @@ const Components = {
             };
 
             case "dropdown": {
-                window.functions.onChange[options?.id] = options?.onChange;
+                window.functions.onChange[options?.id] = options?.onChange ?? (() => {});
                 return (
                     `<div class="element">
                         <span class="elementTitle">${options?.title ?? ""}</span>
@@ -254,10 +254,10 @@ const Components = {
             };
 
             case "input": {
-                window.functions.onChange[options?.id] = options?.onChange;
+                window.functions.onChange[options?.id] = options?.onChange ?? (() => {});
                 return (
                     `<div class="element">
-                        <span class="elementTitle">${options?.title ?? ""}</span>
+                        ${options?.title ? `<span class="elementTitle">${options?.title}</span>` : `<div style="margin-top: 12px;"></div>`}
                         <input
                             id="${options?.id ?? ""}"
                             type="${options?.input?.type ?? "text"}"
@@ -286,7 +286,7 @@ const Components = {
             };
 
             case "upload": {
-                window.functions.onChange[options?.id] = options?.onChange;
+                window.functions.onChange[options?.id] = options?.onChange ?? (() => {});
                 return (
                     `<div class="element">
                         <span class="elementTitle">${options?.title ?? ""}</span>
@@ -319,7 +319,7 @@ const Components = {
             };
 
             case "toggle": {
-                window.functions.onClick[options?.id] = options?.onClick;
+                window.functions.onClick[options?.id] = options?.onClick ?? (() => {});
                 return (
                     `<div class="element">
                         <div style="flex-direction: unset;margin-top: 8px;margin-bottom: 8px;">
@@ -348,7 +348,7 @@ const Components = {
                     case "hero": style = "oreUIButtonHero"; background = "oreUIButtonHeroBackground"; break;
                 };
 
-                window.functions.onClick[options?.id] = options?.onClick;
+                window.functions.onClick[options?.id] = options?.onClick ?? (() => {});
                 return (
                     `<div class="oreUIButton ${style}" onClick='window.functions.onClick["${options?.id}"](this);' id="${options?.id ?? ""}">
                         <div class="oreUIButton_ ${background}">

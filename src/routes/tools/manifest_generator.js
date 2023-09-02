@@ -1,3 +1,4 @@
+const hljs = require( "highlight.js" );
 let scriptAPI = false;
 let beta = false;
 let scriptModules = [];
