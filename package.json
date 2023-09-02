@@ -15,7 +15,8 @@
 		"discord-rpc": "^4.0.1",
 		"highlight.js": "^11.8.0",
 		"jszip": "^3.10.1",
-		"prismarine-nbt": "^2.2.1"
+		"prismarine-nbt": "^2.2.1",
+		"three": "^0.156.0"
 	},
 	"devDependencies": {
 		"electron": "^23.1.3",
