@@ -113,7 +113,7 @@ const loopTabs = (selected = 0) => {
                                         }
 
                                         const values = [];
-                                        for(let i = 0; i < list.length; i++) values.push(outTemplate.replace(outVar, list[i]));
+                                        for(let i = 0; i < list.length; i++) values.push(outTemplate.replaceAll(outVar, list[i]));
                                         document.getElementById( "output" ).innerText = values.join( "\n" );
                                         window.engine.sendToast(
                                             {
@@ -289,7 +289,7 @@ const loopTabs = (selected = 0) => {
 
                                         var outputString = "";
                                         for(let i = start; i <= end; i++)
-                                            outputString += outTemplate.replace(outVar, i) + "\n";
+                                            outputString += outTemplate.replaceAll(outVar, i) + "\n";
                                         document.getElementById("output").innerText = outputString;
                                         window.engine.sendToast(
                                             {
