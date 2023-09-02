@@ -96,15 +96,17 @@ const convert = async () => {
         case "0":
             const structureFile = document.getElementById( "structureFile" );
             const [ file ] = structureFile.files;
-            const reader = new FileReader();
-            reader.addEventListener(
-                "load", async () => {
-                    const { parsed } = await NBT.parse(Buffer.from( reader.result ));
-                    jsonInput.value = JSON.stringify(parsed, null, 4);
-                },
-            );
+            if (file) {
+                const reader = new FileReader();
+                reader.addEventListener(
+                    "load", async () => {
+                        const { parsed } = await NBT.parse(Buffer.from( reader.result ));
+                        jsonInput.value = JSON.stringify(parsed, null, 4);
+                    },
+                );
 
-            reader.readAsArrayBuffer( file );
+                reader.readAsArrayBuffer( file );
+            };
         break;
         case "1":
             try {

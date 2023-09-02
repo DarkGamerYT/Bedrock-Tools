@@ -1,4 +1,5 @@
-const THREE = require('three');
+const THREE = require( "three" );
+let structureData;
 window.router.routes.push({
     name: "Structure Editor",
     route: "/structure_editor",
@@ -8,13 +9,67 @@ window.router.routes.push({
         return (
             Components.createHeader({ text: "Structure Editor", back: true, settings: true })
             + (
-                `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
+                `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 8%;margin-right: 8%;width: auto;gap: 15px;">
+                    <div style="width: 40%;">
+                        ${Components.createElements(
+                            {
+                                elements: [
+                                    Components.createElement(
+                                        {
+                                            type: "upload",
+                                            title: "Upload:",
+                                            id: "structureFile",
+                                            text: {
+                                                body: "Upload Structure file",
+                                                id: "structureFileText",
+                                            },
+                                            accept: "mcstructure",
+                                            onChange: (e) => {
+                                                const [ file ] = e.files;
+                                                if(file) document.getElementById( "structureFileText" ).innerText = file.name;
+                                            },
+                                        },
+                                    )
+                                ],
+                            },
+                        )}
+                        ${Components.createElement(
+                            {
+                                type: "button",
+                                text: "Render",
+                                id: "render",
+                                style: "hero",
+                                onClick: async () => {
+                                    const structureFile = document.getElementById( "structureFile" );
+                                    const [ file ] = structureFile.files;
+                                    if (file) {
+                                        const reader = new FileReader();
+                                        reader.addEventListener(
+                                            "load", async () => {
+                                                const { parsed } = await NBT.parse(Buffer.from( reader.result ));
+                                                const structureSize = parsed.value.size.value.value;
+                                                structureData = parsed.value.structure.value;
+                                                console.log(structureSize);
+                                                console.log(structureData);
+
+                                                const blockIndices = structureData.block_indices.value.value[0].value;
+                                                for (let i = 0; i < blockIndices.length; i++) {
+                                                    const block = structureData.palette.value.default.value.block_palette.value.value[blockIndices[i]];
+                                                    
+                                                    //sceneManager.scene.add(sceneManager.createCube(new THREE.Vector3(0, 0, i), "dirt"));
+                                                };
+                                            },
+                                        );
+
+                                        reader.readAsArrayBuffer( file );
+                                    };
+                                },
+                            },
+                        )}
+                        <div style="height: 16px;"></div>
+                    </div>
                     <div style="width: 100%;">
-                        ${Components.createElements({
-                            elements: [
-                                `<canvas id="viewer" style="margin: 10px;"></canvas>`
-                            ]
-                        })}
+                        ${Components.createElements({ elements: [ `<canvas id="viewer"></canvas>` ] })}
                     </div>
                 </div>`
             )
@@ -37,41 +92,71 @@ class SceneManager
 
     createScene()
     {        
-        this.canvas = document.querySelector(`#${this.canvasId}`)
-        this.renderer = new THREE.WebGLRenderer({
-            canvas: this.canvas
-        });
+        this.canvas = document.querySelector( `#${this.canvasId}` );
+        this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
+
         this.renderer.setPixelRatio(window.devicePixelRatio * 5);
-        this.camera = new THREE.PerspectiveCamera(75, this.canvas.clientWidth / this.canvas.clientHeight, 0.1, 5000);
-        const grid = new THREE.GridHelper(75, 100);
-        this.scene.add(grid, this.createCube(new THREE.Vector3(0,1,0), "assets/imgs/test/missing_texture.png", "assets/imgs/test/missing_texture.png"), this.createDirectionalLight(0xfff4d7, 2), this.createAmbientLight(0xfff4d7));
-        this.scene.background = new THREE.Color(0.01,0.2,0.2);
+        this.camera = new THREE.PerspectiveCamera(75, this.canvas.clientWidth / this.canvas.clientHeight, 0.1, 0);
+        this.scene.add(new THREE.GridHelper(3, 3));
+        this.scene.add(this.createDirectionalLight(0xfff4d7, 2), this.createAmbientLight(0xfff4d7));
+        
+        /*this.scene.add(this.createCube(new THREE.Vector3(0, 0, 0), "dirt"));
+        this.scene.add(this.createCube(new THREE.Vector3(0, 1, 1), "dirt"));
+        this.scene.add(this.createCube(new THREE.Vector3(1, 1, 0), "dirt"));
+        this.scene.add(this.createCube(new THREE.Vector3(0, 1, -1), "dirt"));
+        this.scene.add(this.createCube(new THREE.Vector3(-1, 1, 0), "dirt"));*/
+        
+        this.scene.background = (
+            new THREE.CubeTextureLoader()
+            .setPath( "assets/panorama/" )
+            .load([
+                "panorama_1.png",
+                "panorama_3.png",
+                "panorama_4.png",
+                "panorama_5.png",
+                "panorama_0.png",
+                "panorama_2.png"
+            ])
+        );
 
         new OrbitControls(this.camera, this.renderer.domElement);
-        this.camera.position.setZ(30);
+        
+        this.camera.position.setX(5);
+        this.camera.position.setY(5);
+        this.camera.position.setZ(5);
+        this.camera.lookAt(new THREE.Vector3(0, 0, 0));
+        
         this.animate();
-    }
+    };
 
     animate = () =>
     {
         if(this.route().route != "/structure_editor") return;
         requestAnimationFrame(this.animate);
         this.renderer.render(this.scene, this.camera);
-    }
+    };
 
-    createCube(position = new THREE.Vector3(0,0,0), imgSourceFront = "assets/imgs/test/missing_texture.png", imgSourceBack = undefined, imgSourceLeft = undefined, imgSourceRight = undefined, imgSourceTop = undefined, imgSourceBottom = undefined)
+    createCube(
+        position = new THREE.Vector3(0,0,0),
+        imgSourceFront = "missing_texture",
+        imgSourceBack = undefined,
+        imgSourceLeft = undefined,
+        imgSourceRight = undefined,
+        imgSourceTop = undefined,
+        imgSourceBottom = undefined
+    )
     {
-        const geometry = new THREE.BoxGeometry(1,1,1);
-        const loader = new THREE.TextureLoader();
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const loader = new THREE.TextureLoader().setPath( "assets/blocks/" );
         let material;
-        if(imgSourceBack != undefined)
+        if(imgSourceBack)
         {
-            const frontTexture =  loader.load(imgSourceFront);
-            const backTexture = loader.load(imgSourceBack);
-            const leftTexture = loader.load(imgSourceLeft);
-            const rightTexture = loader.load(imgSourceRight);
-            const topTexture = loader.load(imgSourceTop);
-            const bottomTexture = loader.load(imgSourceBottom);
+            const frontTexture =  loader.load((imgSourceFront ?? "missing_texture") + ".png");
+            const backTexture = loader.load((imgSourceBack ?? "missing_texture") + ".png");
+            const leftTexture = loader.load((imgSourceLeft ?? "missing_texture") + ".png");
+            const rightTexture = loader.load((imgSourceRight ?? "missing_texture") + ".png");
+            const topTexture = loader.load((imgSourceTop ?? "missing_texture") + ".png");
+            const bottomTexture = loader.load((imgSourceBottom ?? "missing_texture") + ".png");
 
             frontTexture.magFilter = THREE.NearestFilter;
             frontTexture.minFilter = THREE.NearestFilter;
@@ -85,23 +170,24 @@ class SceneManager
             topTexture.minFilter = THREE.NearestFilter;
             bottomTexture.magFilter = THREE.NearestFilter;
             bottomTexture.minFilter = THREE.NearestFilter;
-            const cubeMaterials = [
-                new THREE.MeshStandardMaterial( {map: frontTexture} ),
-                new THREE.MeshStandardMaterial( {map: backTexture} ),
-                new THREE.MeshStandardMaterial( {map: leftTexture} ),
-                new THREE.MeshStandardMaterial( {map: rightTexture} ),
-                new THREE.MeshStandardMaterial( {map: topTexture} ),
-                new THREE.MeshStandardMaterial( {map: bottomTexture} )
-            ]
-            material = cubeMaterials;
+
+            material = [
+                new THREE.MeshStandardMaterial({ map: rightTexture }),
+                new THREE.MeshStandardMaterial({ map: leftTexture }),
+                new THREE.MeshStandardMaterial({ map: topTexture }),
+                new THREE.MeshStandardMaterial({ map: bottomTexture }),
+                new THREE.MeshStandardMaterial({ map: frontTexture}),
+                new THREE.MeshStandardMaterial({ map: backTexture })
+            ];
         }
         else
         {
-            const texture = loader.load(imgSourceFront);
+            const texture = loader.load((imgSourceFront ?? "missing_texture") + ".png");
             texture.magFilter = THREE.NearestFilter;
             texture.minFilter = THREE.NearestFilter;
-            material = new THREE.MeshStandardMaterial( {map: texture} ); 
-        }
+            material = new THREE.MeshStandardMaterial({ map: texture }); 
+        };
+
         const cube = new THREE.Mesh( geometry, material ); 
         cube.position.set(position.x, position.y, position.z);
         return cube;
