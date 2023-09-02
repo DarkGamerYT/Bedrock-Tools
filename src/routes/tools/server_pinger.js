@@ -161,7 +161,7 @@ const pingServer = () => {
     if(serverIp.length > 0) {
         document.getElementById( "serverData" ).innerHTML = (
             `<div style="height: 304.5px; background-color: #2d2e2e; border: 2px solid black; align-items: center; justify-content: center;">
-                <img src="/src/assets/imgs/icons/load.gif" style="height: 24px; width: 24px; image-rendering: pixelated;">
+                <img src="assets/imgs/icons/load.gif" style="height: 24px; width: 24px; image-rendering: pixelated;">
             </div>`
         );
 

@@ -33,18 +33,18 @@ window.router.routes.push({
                                                 const scriptApiToggle = document.getElementById( "scriptApiToggle" );
                                                 switch(e.value) {
                                                     case 0:
-                                                    case 1: 
+                                                    case 1:
                                                         let value = scriptApiToggle.getAttribute( "value" ) == "true";
                                                         if (value) scriptApiToggle.className = "toggle toggleOn";
                                                         else scriptApiToggle.className = "toggle toggleOff";
-                                                        if (!scriptAPI) {
-                                                            modulesElement.style = "display: none;";
-                                                            document.getElementById( "modules" ).innerHTML = moduleToggle(Number(e.value));
-                                                        };
+
+                                                        if (!scriptAPI) modulesElement.style.display = "none";
+                                                        else modulesElement.style.display = "block";
+                                                        document.getElementById( "modules" ).innerHTML = moduleToggle(e.value);
                                                     break;
                                                     default:
                                                         scriptApiToggle.className = "toggle toggleDisabled";
-                                                        modulesElement.style = "display: none;";
+                                                        modulesElement.style.display = "none";
                                                     break;
                                                 };
                                             },
@@ -80,19 +80,19 @@ window.router.routes.push({
                                             id: "scriptApiToggle",
                                             toggled: false,
                                             onClick: (e) => {
-                                                const packType = Number(document.getElementById( "packType" ).value);
+                                                const packType = Number(document.getElementById( "packType" ).getAttribute( "value" ));
                                                 if (packType == 2) return;
                                                 
                                                 let value = e.getAttribute( "value" ) == "true";
-                                                scriptAPI = !value;
+                                                scriptAPI = value;
     
                                                 const modulesElement = document.getElementById( "modulesElement" );
                                                 if (!value) {
                                                     scriptModules = [];
-                                                    modulesElement.style = "display: none;";
+                                                    modulesElement.style.display = "none";
                                                 } else {
                                                     document.getElementById( "modules" ).innerHTML = moduleToggle(packType);
-                                                    modulesElement.style = null;
+                                                    modulesElement.style.display = "block";
                                                 };
                                             },
                                         },
@@ -105,7 +105,7 @@ window.router.routes.push({
                                                     title: "Beta",
                                                     subtitle: "Enable Beta modules in ScriptAPI",
                                                     toggled: beta,
-                                                    onClick: (e) => beta = !(e.getAttribute( "value" ) == "true"),
+                                                    onClick: (e) => beta = (e.getAttribute( "value" ) == "true"),
                                                 },
                                             )
                                             + Components.createElement(
@@ -228,8 +228,7 @@ const moduleToggle = (type) => {
                             id: m.module_name,
                             onClick: (e) => {
                                 let value = e.getAttribute( "value" ) == "true";
-                                
-                                if (!value) scriptModules.push( e.id );
+                                if (value) scriptModules.push( e.id );
                                 else scriptModules = scriptModules.filter((m) => m != e.id);
                             },
                         },

@@ -87,7 +87,7 @@ window.router.routes.push({
                             icon: "assets/imgs/icons/nbt.png",
                         }
                     ],
-                    display: true,
+                    display: false,
                 },
             ],
             /*[
