@@ -13,58 +13,76 @@ window.router.routes.push({
                         ${Components.createElements(
                         {
                         elements: [
-                            Components.createElement(
-                                {
-                                    type: "button",
-                                    text: "+ Add Message",
-                                    id: "addMessage",
-                                    style: "secondary",
-                                    onClick: () => {
-                                        window.sound.play("ui.click");
-                                        modules.createMessage();
-                                    }
-                                }
-                            ),
-                            Components.createElement(
-                                {
-                                    type: "button",
-                                    text: "+ Add Score",
-                                    id: "addScore",
-                                    style: "secondary",
-                                    onClick: () => {
-                                        window.sound.play("ui.click");
-                                        modules.createScore();
-                                    }
-                                }
-                            ),
-                            Components.createElement(
-                                {
-                                    type: "button",
-                                    text: "+ Add Translation",
-                                    id: "addTranslation",
-                                    style: "secondary",
-                                    onClick: () => {
-                                        window.sound.play("ui.click");
-                                        modules.createTranslation();
-                                    }
-                                }
-                            ),
-                            Components.createElement(
-                                {
-                                    type: "button",
-                                    text: "+ Add Selector",
-                                    id: "addSelector",
-                                    style: "secondary",
-                                    onClick: () => {
-                                        window.sound.play("ui.click");
-                                        modules.createSelector();
-                                    }
-                                }
-                            )
+                            `<div style="background-color: #48494a; padding: 0.2rem; padding-left: 8px; padding-right: 8px;">
+                                <div class="oreUISpecular" style="border-top-width: var(--base2Scale);"></div>
+                                <div style="width: 100%; margin-top: 6px;">
+                                    ${Components.createElement(
+                                        {
+                                            type: "button",
+                                            text: "+ Add Message",
+                                            id: "addMessage",
+                                            style: "secondary",
+                                            onClick: () => {
+                                                window.sound.play("ui.click");
+                                                modules.createMessage();
+                                            }
+                                        }
+                                    )}
+                                </div>
+                            </div>`,
+                            `<div style="background-color: #48494a; padding: 0.2rem; padding-left: 8px; padding-right: 8px;">
+                                <div style="width: 100%;">
+                                    ${Components.createElement(
+                                        {
+                                            type: "button",
+                                            text: "+ Add Score",
+                                            id: "addScore",
+                                            style: "secondary",
+                                            onClick: () => {
+                                                window.sound.play("ui.click");
+                                                modules.createScore();
+                                            }
+                                        }
+                                    )}
+                                </div>
+                            </div>`,
+                            `<div style="background-color: #48494a; padding: 0.2rem; padding-left: 8px; padding-right: 8px;">
+                                <div style="width: 100%;">
+                                    ${Components.createElement(
+                                        {
+                                            type: "button",
+                                            text: "+ Add Translation",
+                                            id: "addTranslation",
+                                            style: "secondary",
+                                            onClick: () => {
+                                                window.sound.play("ui.click");
+                                                modules.createTranslation();
+                                            }
+                                        }
+                                    )}
+                                </div>
+                            </div>`,
+                            `<div style="background-color: #48494a; padding: 0.2rem; padding-left: 8px; padding-right: 8px;">
+                                <div class="oreUISpecular" style="border-bottom-width: var(--base2Scale);"></div>
+                                <div style="width: 100%; margin-bottom: 6px;">
+                                    ${Components.createElement(
+                                        {
+                                            type: "button",
+                                            text: "+ Add Selector",
+                                            id: "addSelector",
+                                            style: "secondary",
+                                            onClick: () => {
+                                                window.sound.play("ui.click");
+                                                modules.createSelector();
+                                            }
+                                        }
+                                    )}
+                                </div>
+                            </div>`
                         ]
                     }
                 )}
-                        ${Components.createElement(
+                ${Components.createElement(
                     {
                         type: "button",
                         text: "Generate",
@@ -73,7 +91,8 @@ window.router.routes.push({
                         onClick: () => {
                             const stringRawtext = modules.constructModules();
                             window.sound.play("ui.release");
-                            document.getElementById( "output" ).innerText = stringRawtext;
+                            const highlightedText = hljs.highlight(stringRawtext, { language: "json" }).value;
+                            document.getElementById( "output" ).innerHTML = highlightedText;
                             window.engine.sendToast(
                                 {
                                     title: "Rawtext Generated!",
@@ -106,7 +125,7 @@ window.router.routes.push({
                                             type: "text",
                                             title: "Output:",
                                             id: "output",
-                                            default: "Rawtext Output",
+                                            default: `<span class="hljs-punctuation">{</span><span class="hljs-attr">"rawtext"</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">}</span>`,
                                             style: "code",
                                         },
                                     ),
@@ -162,42 +181,56 @@ class RawtextModules {
                                         onChange: (e) => module.message = e.value
                                     }
                                 ),
-                                Components.createElement(
-                                    {
-                                        type: "button",
-                                        text: "Move Up",
-                                        id: `moveUp:${module.id}`,
-                                        style: "secondary",
-                                        onClick: () => {
-                                            window.sound.play("ui.click");
-                                            this.moveModuleUp(module.id);
-                                        }
-                                    }
-                                ),
-                                Components.createElement(
-                                    {
-                                        type: "button",
-                                        text: "Move Down",
-                                        id: `moveDown:${module.id}`,
-                                        style: "secondary",
-                                        onClick: () => {
-                                            window.sound.play("ui.click");
-                                            this.moveModuleDown(module.id);
-                                        }
-                                    }
-                                ),
-                                Components.createElement(
-                                    {
-                                        type: "button",
-                                        text: "Delete",
-                                        id: `delete:${module.id}`,
-                                        style: "destructive",
-                                        onClick: () => {
-                                            window.sound.play("ui.click");
-                                            this.deleteModule(module.id);
-                                        }
-                                    }
-                                )
+                                `<div style="height: 8px;"></div>`,
+                                `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
+                                    <div style="width: 100%;">
+                                        ${Components.createElement(
+                                            {
+                                                type: "button",
+                                                text: "Move Up",
+                                                id: `moveUp:${module.id}`,
+                                                style: "secondary",
+                                                onClick: () => {
+                                                    window.sound.play("ui.click");
+                                                    this.moveModuleUp(module.id);
+                                                }
+                                            }
+                                        )}
+                                    </div>
+                                </div>`,
+                                `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
+                                    <div style="width: 100%;">
+                                        ${Components.createElement(
+                                            {
+                                                type: "button",
+                                                text: "Move Down",
+                                                id: `moveDown:${module.id}`,
+                                                style: "secondary",
+                                                onClick: () => {
+                                                    window.sound.play("ui.click");
+                                                    this.moveModuleDown(module.id);
+                                                }
+                                            }
+                                        )}
+                                    </div>
+                                </div>`,
+                                `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
+                                    <div style="width: 100%;">
+                                        ${Components.createElement(
+                                            {
+                                                type: "button",
+                                                text: "Delete",
+                                                id: `delete:${module.id}`,
+                                                style: "destructive",
+                                                onClick: () => {
+                                                    window.sound.play("ui.click");
+                                                    this.deleteModule(module.id);
+                                                }
+                                            }
+                                        )}
+                                    </div>
+                                </div>`,
+                                `<div style="height: 8px;"></div>`
                             ]
                         }
                     )
@@ -230,42 +263,56 @@ class RawtextModules {
                                         onChange: (e) => module.target = e.value
                                     }
                                 ),
-                                Components.createElement(
-                                    {
-                                        type: "button",
-                                        text: "Move Up",
-                                        id: `moveUp:${module.id}`,
-                                        style: "secondary",
-                                        onClick: () => {
-                                            window.sound.play("ui.click");
-                                            this.moveModuleUp(module.id);
-                                        }
-                                    }
-                                ),
-                                Components.createElement(
-                                    {
-                                        type: "button",
-                                        text: "Move Down",
-                                        id: `moveDown:${module.id}`,
-                                        style: "secondary",
-                                        onClick: () => {
-                                            window.sound.play("ui.click");
-                                            this.moveModuleDown(module.id);
-                                        }
-                                    }
-                                ),
-                                Components.createElement(
-                                    {
-                                        type: "button",
-                                        text: "Delete",
-                                        id: `delete:${module.id}`,
-                                        style: "destructive",
-                                        onClick: () => {
-                                            window.sound.play("ui.click");
-                                            this.deleteModule(module.id);
-                                        }
-                                    }
-                                )
+                                `<div style="height: 8px;"></div>`,
+                                `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
+                                    <div style="width: 100%;">
+                                        ${Components.createElement(
+                                            {
+                                                type: "button",
+                                                text: "Move Up",
+                                                id: `moveUp:${module.id}`,
+                                                style: "secondary",
+                                                onClick: () => {
+                                                    window.sound.play("ui.click");
+                                                    this.moveModuleUp(module.id);
+                                                }
+                                            }
+                                        )}
+                                    </div>
+                                </div>`,
+                                `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
+                                    <div style="width: 100%;">
+                                        ${Components.createElement(
+                                            {
+                                                type: "button",
+                                                text: "Move Down",
+                                                id: `moveDown:${module.id}`,
+                                                style: "secondary",
+                                                onClick: () => {
+                                                    window.sound.play("ui.click");
+                                                    this.moveModuleDown(module.id);
+                                                }
+                                            }
+                                        )}
+                                    </div>
+                                </div>`,
+                                `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
+                                    <div style="width: 100%;">
+                                        ${Components.createElement(
+                                            {
+                                                type: "button",
+                                                text: "Delete",
+                                                id: `delete:${module.id}`,
+                                                style: "destructive",
+                                                onClick: () => {
+                                                    window.sound.play("ui.click");
+                                                    this.deleteModule(module.id);
+                                                }
+                                            }
+                                        )}
+                                    </div>
+                                </div>`,
+                                `<div style="height: 8px;"></div>`
                             ]
                         }
                     );
@@ -332,9 +379,10 @@ class RawtextModules {
                                     }
                                 ),
                                 `<div id="rawtextModules:${module.id}" style="${module.withRawtextToggle? "" : "display: none;"}">
-                                    ${Components.createElements({
-                                        elements: [
-                                            Components.createElement(
+                                    <div style="height: 8px;"></div>
+                                    <div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
+                                        <div style="width: 100%;">
+                                            ${Components.createElement(
                                                 {
                                                     type: "button",
                                                     text: "+ Add Message",
@@ -345,8 +393,12 @@ class RawtextModules {
                                                         module.withRawtext.createMessage();
                                                     }
                                                 }
-                                            ),
-                                            Components.createElement(
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
+                                        <div style="width: 100%;">
+                                            ${Components.createElement(
                                                 {
                                                     type: "button",
                                                     text: "+ Add Score",
@@ -357,8 +409,12 @@ class RawtextModules {
                                                         module.withRawtext.createScore();
                                                     }
                                                 }
-                                            ),
-                                            Components.createElement(
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
+                                        <div style="width: 100%;">
+                                            ${Components.createElement(
                                                 {
                                                     type: "button",
                                                     text: "+ Add Selector",
@@ -369,18 +425,22 @@ class RawtextModules {
                                                         module.withRawtext.createSelector();
                                                     }
                                                 }
-                                            ),
-                                            `<div id="RTModules:${module.id}">
-                                                ${module.withRawtext.buildModules()}
-                                            </div>`
-                                        ]
-                                    })
-                                }
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div style="height: 8px;"></div>
+                                    <div style="background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
+                                        <div id="RTModules:${module.id}">
+                                            ${module.withRawtext.buildModules()}
+                                        </div>
+                                    </div>
+                                    <div style="height: 8px;"></div>
                                 </div>`,
                                 `<div id="arrayModules:${module.id}" style="${module.withArrayToggle? "" : "display: none;"}">
-                                    ${Components.createElements({
-                                        elements: [
-                                            Components.createElement(
+                                    <div style="height: 8px;"></div>
+                                    <div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
+                                        <div style="width: 100%;">
+                                            ${Components.createElement(
                                                 {
                                                     type: "button",
                                                     text: "+ Add",
@@ -391,49 +451,72 @@ class RawtextModules {
                                                         module.withArray.create();
                                                     }
                                                 }
-                                            ),
-                                            `<div id="ARRModules:${module.id}" >
-                                                ${module.withArray.build(false)}
-                                            </div>`,
-                                        ]
-                                    })}
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div style="height: 8px;"></div>
+                                    <div style="background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
+                                        <div id="ARRModules:${module.id}" >
+                                            ${module.withArray.build(false)}
+                                        </div>
+                                    </div>
+                                    <div style="height: 8px;"></div>
                                 </div>`,
-                                Components.createElement(
-                                    {
-                                        type: "button",
-                                        text: "Move Up",
-                                        id: `moveUp:${module.id}`,
-                                        style: "secondary",
-                                        onClick: () => {
-                                            window.sound.play("ui.click");
-                                            this.moveModuleUp(module.id);
-                                        }
-                                    }
-                                ),
-                                Components.createElement(
-                                    {
-                                        type: "button",
-                                        text: "Move Down",
-                                        id: `moveDown:${module.id}`,
-                                        style: "secondary",
-                                        onClick: () => {
-                                            window.sound.play("ui.click");
-                                            this.moveModuleDown(module.id);
-                                        }
-                                    }
-                                ),
-                                Components.createElement(
-                                    {
-                                        type: "button",
-                                        text: "Delete",
-                                        id: `delete:${module.id}`,
-                                        style: "destructive",
-                                        onClick: () => {
-                                            window.sound.play("ui.click");
-                                            this.deleteModule(module.id);
-                                        }
-                                    }
-                                )
+                                `<div style="flex-direction: row; background-color: #48494a;">
+                                    <div class="oreUISpecular" style="border-top-width: var(--base2Scale);"></div>
+                                    <div class="oreUISpecular" style="border-bottom-width: var(--base2Scale);"></div>
+                                    <div style="width: 100%;"></div>
+                                </div>`,
+                                `<div style="height: 8px;"></div>`,
+                                `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
+                                    <div style="width: 100%;">
+                                        ${Components.createElement(
+                                            {
+                                                type: "button",
+                                                text: "Move Up",
+                                                id: `moveUp:${module.id}`,
+                                                style: "secondary",
+                                                onClick: () => {
+                                                    window.sound.play("ui.click");
+                                                    this.moveModuleUp(module.id);
+                                                }
+                                            }
+                                        )}
+                                    </div>
+                                </div>`,
+                                `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
+                                    <div style="width: 100%;">
+                                        ${Components.createElement(
+                                            {
+                                                type: "button",
+                                                text: "Move Down",
+                                                id: `moveDown:${module.id}`,
+                                                style: "secondary",
+                                                onClick: () => {
+                                                    window.sound.play("ui.click");
+                                                    this.moveModuleDown(module.id);
+                                                }
+                                            }
+                                        )}
+                                    </div>
+                                </div>`,
+                                `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
+                                    <div style="width: 100%;">
+                                        ${Components.createElement(
+                                            {
+                                                type: "button",
+                                                text: "Delete",
+                                                id: `delete:${module.id}`,
+                                                style: "destructive",
+                                                onClick: () => {
+                                                    window.sound.play("ui.click");
+                                                    this.deleteModule(module.id);
+                                                }
+                                            }
+                                        )}
+                                    </div>
+                                </div>`,
+                                `<div style="height: 8px;"></div>`
                             ]
                         }
                     );
@@ -457,42 +540,56 @@ class RawtextModules {
                                         onChange: (e) => module.selector = e.value
                                     }
                                 ),
-                                Components.createElement(
-                                    {
-                                        type: "button",
-                                        text: "Move Up",
-                                        id: `moveUp:${module.id}`,
-                                        style: "secondary",
-                                        onClick: () => {
-                                            window.sound.play("ui.click");
-                                            this.moveModuleUp(module.id);
-                                        }
-                                    }
-                                ),
-                                Components.createElement(
-                                    {
-                                        type: "button",
-                                        text: "Move Down",
-                                        id: `moveDown:${module.id}`,
-                                        style: "secondary",
-                                        onClick: () => {
-                                            window.sound.play("ui.click");
-                                            this.moveModuleDown(module.id);
-                                        }
-                                    }
-                                ),
-                                Components.createElement(
-                                    {
-                                        type: "button",
-                                        text: "Delete",
-                                        id: `delete:${module.id}`,
-                                        style: "destructive",
-                                        onClick: () => {
-                                            window.sound.play("ui.click");
-                                            this.deleteModule(module.id);
-                                        }
-                                    }
-                                )
+                                `<div style="height: 8px;"></div>`,
+                                `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
+                                    <div style="width: 100%;">
+                                        ${Components.createElement(
+                                            {
+                                                type: "button",
+                                                text: "Move Up",
+                                                id: `moveUp:${module.id}`,
+                                                style: "secondary",
+                                                onClick: () => {
+                                                    window.sound.play("ui.click");
+                                                    this.moveModuleUp(module.id);
+                                                }
+                                            }
+                                        )}
+                                    </div>
+                                </div>`,
+                                `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
+                                    <div style="width: 100%;">
+                                        ${Components.createElement(
+                                            {
+                                                type: "button",
+                                                text: "Move Down",
+                                                id: `moveDown:${module.id}`,
+                                                style: "secondary",
+                                                onClick: () => {
+                                                    window.sound.play("ui.click");
+                                                    this.moveModuleDown(module.id);
+                                                }
+                                            }
+                                        )}
+                                    </div>
+                                </div>`,
+                                `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
+                                    <div style="width: 100%;">
+                                        ${Components.createElement(
+                                            {
+                                                type: "button",
+                                                text: "Delete",
+                                                id: `delete:${module.id}`,
+                                                style: "destructive",
+                                                onClick: () => {
+                                                    window.sound.play("ui.click");
+                                                    this.deleteModule(module.id);
+                                                }
+                                            }
+                                        )}
+                                    </div>
+                                </div>`,
+                                `<div style="height: 8px;"></div>`
                             ]
                         }
                     )
@@ -636,18 +733,24 @@ class ArrayValues
                                 onChange: (e) => value.value = e.value
                             }
                         ),
-                        Components.createElement(
-                            {
-                                type: "button",
-                                text: "Delete",
-                                id: `delete:${value.id}`,
-                                style: "destructive",
-                                onClick: () => {
-                                    window.sound.play("ui.click");
-                                    this.delete(value.id);
-                                }
-                            }
-                        )
+                        `<div style="height: 8px;"></div>`,
+                        `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
+                            <div style="width: 100%;">
+                                ${Components.createElement(
+                                    {
+                                        type: "button",
+                                        text: "Delete",
+                                        id: `delete:${value.id}`,
+                                        style: "destructive",
+                                        onClick: () => {
+                                            window.sound.play("ui.click");
+                                            this.delete(value.id);
+                                        }
+                                    }
+                                )}
+                            </div>
+                        </div>`,
+                        `<div style="height: 8px;"></div>`
                     ]
                 }
             )
