@@ -14,7 +14,7 @@ app.on("ready",
 			"\x1B[0m" + new Date().toLocaleTimeString() + " \x1B[33m\x1B[1m[INFO] \x1B[0m- Starting..."
 		);
 
-		const appPath = process.env.APPDATA + "/bedrocktools";
+		const appPath = app.getPath("userData");
 		const settingsPath = appPath + "/settings.json";
 		if (!fs.existsSync( appPath )) fs.mkdirSync( appPath );
 		if (!fs.existsSync( settingsPath )) fs.writeFileSync( settingsPath, JSON.stringify({ debug: false }) );

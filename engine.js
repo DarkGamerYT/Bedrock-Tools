@@ -141,7 +141,7 @@ const Engine = {
     },
 };
 
-const settingsPath = process.env.APPDATA + "/bedrocktools/settings.json";
+const settingsPath = electron.app.getPath("userData") + "/settings.json";
 const Settings = {
     get: (key) => {
         const settings = JSON.parse(fs.readFileSync(settingsPath));
