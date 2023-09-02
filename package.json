@@ -25,7 +25,6 @@
 	"build": {
 		"appId": "com.xkingdark.bedrocktools",
 		"productName": "Bedrock Tools (Beta)",
-		"icon": "build/icon.ico",
 		"nsis": {
 			"allowToChangeInstallationDirectory": false,
 			"oneClick": true,
