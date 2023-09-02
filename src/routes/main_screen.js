@@ -70,9 +70,9 @@ window.router.routes.push({
                             icon: "assets/imgs/icons/structure_converter.png",
                         },
                         {
-                            route: "/structure_viewer",
-                            title: "Structure Viewer",
-                            icon: "assets/imgs/icons/structure_viewer.png"
+                            route: "/structure_editor",
+                            title: "Structure Editor",
+                            icon: "assets/imgs/icons/structure_editor.png"
                         }
                     ],
                     display: true,
