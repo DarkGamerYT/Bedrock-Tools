@@ -14,11 +14,11 @@ app.on("ready",
 			"\x1B[0m" + new Date().toLocaleTimeString() + " \x1B[33m\x1B[1m[INFO] \x1B[0m- Starting..."
 		);
 
-		const appPath = process.env.APPDATA + "/bedrocktools";
+		const appPath = app.getPath("userData");
 		const settingsPath = appPath + "/settings.json";
 		if (!fs.existsSync( appPath )) fs.mkdirSync( appPath );
 		if (!fs.existsSync( settingsPath )) fs.writeFileSync( settingsPath, JSON.stringify({ debug: false }) );
-		const settings = JSON.parse(fs.readFileSync( settingsPath ));
+		const settings = JSON.parse(fs.readFileSync( settingsPath , "utf-8" ));
 		debug = settings["debug"] || false;
 		
 		if (!debug) registerShortcuts();
@@ -57,6 +57,8 @@ const createWindow = () => {
 				webSecurity: true,
 				nodeIntegration: true,
 				contextIsolation: false,
+				// https://stackoverflow.com/questions/69059668/enableremotemodule-is-missing-from-electron-v14-typescript-type-definitions
+				// @ts-expect-error - missing the type definition
 				enableRemoteModule: true,
 			},
 		},

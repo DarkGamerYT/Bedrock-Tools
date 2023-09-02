@@ -1,10 +1,20 @@
 const electron = require( "@electron/remote" );
 const fs = require( "node:fs" );
+
+/**
+ * @typedef { { name: string; route: string; component(): string; rpc?: string; extra?(): void; } } Route
+*/
+
 const Router = {
     isTransitioning: false,
+    /** @type { Route[] } */
     routes: [],
     history: {
+        /** @type { string[] } */
         list: [],
+        /**
+         * @param { string } path
+        */
         async go(path) {
             window.logger.debug( "[ROUTER] Replacing path to", path );
 
@@ -30,7 +40,7 @@ const Router = {
     },
 };
 
-const sounds = JSON.parse(fs.readFileSync( __dirname + "/src/sound_definitions.json" ));
+const sounds = JSON.parse(fs.readFileSync( __dirname + "/src/sound_definitions.json" , "utf-8" ));
 for (let sound in sounds) for (const s of sounds[sound].sounds) new Audio( "assets/sounds/" + s.name );
 const Sound = {
     play: (id) => {
@@ -98,6 +108,9 @@ const sendToast = async(options) => {
 };
 
 const Engine = {
+    /**
+     * @param { Route } route
+    */
     loadUI: async (route, isBack = false) => {
         const app = document.getElementById( "app" );
         app.className = isBack ? "uiLeavingBack" : "uiLeaving";
@@ -141,14 +154,14 @@ const Engine = {
     },
 };
 
-const settingsPath = process.env.APPDATA + "/bedrocktools/settings.json";
+const settingsPath = electron.app.getPath("userData") + "/settings.json";
 const Settings = {
     get: (key) => {
-        const settings = JSON.parse(fs.readFileSync(settingsPath));
+        const settings = JSON.parse(fs.readFileSync(settingsPath,"utf-8"));
         return settings[key] ?? defaultSettings[key];
     },
     set: (key, value) => {
-        const settings = JSON.parse(fs.readFileSync(settingsPath));
+        const settings = JSON.parse(fs.readFileSync(settingsPath,"utf-8"));
         if (defaultSettings.hasOwnProperty( key )) {
             settings[key] = value ?? defaultSettings[key];
             fs.writeFileSync( settingsPath, JSON.stringify(settings, null, 4) );
@@ -168,9 +181,9 @@ const Functions = {
     onChange: {},
 };
 
-window.router = Router;
-window.sound = Sound;
-window.logger = Logger;
-window.engine = Engine;
-window.settings = Settings;
-window.functions = Functions;
+globalThis.router = Router;
+globalThis.sound = Sound;
+globalThis.logger = Logger;
+globalThis.engine = Engine;
+globalThis.settings = Settings;
+globalThis.functions = Functions;

@@ -6,7 +6,8 @@
 	"license": "LGPL-3.0-or-later",
 	"scripts": {
 		"start": "electron .",
-		"build": "electron-builder"
+		"build": "electron-builder",
+		"typecheck": "tsc -w"
 	},
 	"dependencies": {
 		"@electron/remote": "^2.0.9",
@@ -19,13 +20,15 @@
 		"three": "^0.156.0"
 	},
 	"devDependencies": {
+		"@types/discord-rpc": "^4.0.5",
+		"@types/node": "^20.5.8",
 		"electron": "^23.1.3",
-		"electron-builder": "^24.6.3"
+		"electron-builder": "^24.6.3",
+		"typescript": "^5.2.2"
 	},
 	"build": {
 		"appId": "com.xkingdark.bedrocktools",
 		"productName": "Bedrock Tools (Beta)",
-		"icon": "build/icon.ico",
 		"nsis": {
 			"allowToChangeInstallationDirectory": false,
 			"oneClick": true,
