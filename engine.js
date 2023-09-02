@@ -43,6 +43,9 @@ const Router = {
 const sounds = JSON.parse(fs.readFileSync( __dirname + "/src/sound_definitions.json" , "utf-8" ));
 for (let sound in sounds) for (const s of sounds[sound].sounds) new Audio( "assets/sounds/" + s.name );
 const Sound = {
+    /**
+     * @param { string } id
+     */
     play: (id) => {
         window.logger.debug( "[SOUND] Sound with id '" + id + "' has been requested." );
         if (
@@ -58,15 +61,32 @@ const Sound = {
 };
 
 const Logger = {
+    /**
+     * 
+     * @param  {...any} data 
+     * @returns 
+     */
     info: (...data) => console.log(
 		"\x1B[0m" + new Date().toLocaleTimeString() + " \x1B[33m\x1B[1m[INFO] \x1B[0m-", ...data,
 	),
+
+    /**
+     * 
+     * @param  {...any} data 
+     * @returns 
+     */
     debug: (...data) => {
         if (window.settings.get( "debug" ))
         console.log(
             "\x1B[0m" + new Date().toLocaleTimeString() + " \x1B[33m\x1B[1m[DEBUG] \x1B[0m-", ...data,
         );
     },
+    
+    /**
+     * 
+     * @param  {...any} data 
+     * @returns 
+     */
     error: (...data) => console.log(
 		"\x1B[0m" + new Date().toLocaleTimeString() + " \x1B[31m\x1B[1m[ERROR] \x1B[0m-", ...data,
 	),
@@ -76,8 +96,10 @@ let toastQueue = [];
 const sendToast = async(options) => {
     window.functions.onClick[options.id] = options?.onClick;
     const toast = document.getElementById( "toast" );
+    if (!toast) return;
+
     toast.className = "toast toastLeaving";
-    await new Promise((res) => setTimeout(() => res(), 0.25 * 1000));
+    await new Promise((res) => setTimeout(() => res(0), 0.25 * 1000));
     toast.className = "toast toastEntering";
     Sound.play( "ui.toast_in" );
     toast.innerHTML = (
@@ -96,12 +118,12 @@ const sendToast = async(options) => {
         </div>`
     );
     
-    await new Promise((res) => setTimeout(() => res(), options.timeout * 1000));
+    await new Promise((res) => setTimeout(() => res(0), options.timeout * 1000));
     const toastOptions = toastQueue[0];
     if (toastOptions.id == options.id) {
         toast.className = "toast toastLeaving";
         Sound.play( "ui.toast_out" );
-        await new Promise((res) => setTimeout(() => res(), 0.5 * 1000));
+        await new Promise((res) => setTimeout(() => res(0), 0.5 * 1000));
     };
 
     delete window.functions.onClick[options.id];
@@ -109,14 +131,16 @@ const sendToast = async(options) => {
 
 const Engine = {
     /**
-     * @param { Route } route
+     * @param { Route | undefined } route
     */
     loadUI: async (route, isBack = false) => {
         const app = document.getElementById( "app" );
+        if (!app) return;
+        
         app.className = isBack ? "uiLeavingBack" : "uiLeaving";
         await new Promise((res) => setTimeout(() => res(), 0.2 * 1000)); //wait for 400 milliseconds
         app.className = isBack ? "uiEnteringBack" : "uiEntering";
-        app.innerHTML = route.component();
+        app.innerHTML = route ? route.component() : "";
         if (route?.extra) route.extra();
         const back = document.getElementById( "back" );
         const settings = document.getElementById( "settings" );
@@ -131,7 +155,7 @@ const Engine = {
         if (maximizeApp) maximizeApp.addEventListener( "click", () => currentWindow.isMaximized() ? currentWindow.unmaximize() : currentWindow.maximize());
         if (minimizeApp) minimizeApp.addEventListener( "click", () => currentWindow.minimize());
 
-        await new Promise((res) => setTimeout(() => res(), 0.25 * 1000));
+        await new Promise((res) => setTimeout(() => res(0), 0.25 * 1000));
         Router.isTransitioning = false;
     },
     loadModal: (component) => document.getElementById( "popup" ).innerHTML = component,
@@ -156,10 +180,22 @@ const Engine = {
 
 const settingsPath = electron.app.getPath("userData") + "/settings.json";
 const Settings = {
+    /**
+     * 
+     * @param  { any } key 
+     * @returns
+     */
     get: (key) => {
         const settings = JSON.parse(fs.readFileSync(settingsPath,"utf-8"));
         return settings[key] ?? defaultSettings[key];
     },
+
+    /**
+     * 
+     * @param  {any} key
+     * @param  {any} value 
+     * @returns 
+     */
     set: (key, value) => {
         const settings = JSON.parse(fs.readFileSync(settingsPath,"utf-8"));
         if (defaultSettings.hasOwnProperty( key )) {

@@ -1,3 +1,6 @@
+/**
+ * @type {{ name: string; value: any; }[]}
+ */
 let modifiedSettings = [];
 window.router.routes.push({
     name: "Settings",

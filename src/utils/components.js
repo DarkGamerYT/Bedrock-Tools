@@ -1,7 +1,7 @@
 /**
  * @typedef {{ text?: string; back?: boolean; settings?: boolean; }} HeaderOptions
  * @typedef {{ tabs: string[] }} TabsOptions
- * @typedef {{ text?: string; id: string; selected?: boolean; onClick: () => any; }} TabOptions
+ * @typedef {{ text?: string; icon?: string; id: string; selected?: boolean; onClick: () => any; }} TabOptions
  * @typedef {{ elements: string[] }} ElementsOptions
  * @typedef {{
     type: "button" | "toggle" | "text" | "tab" | "element" | "dropdown" | "input" | "textbox" | "upload";
@@ -38,10 +38,15 @@
 
 const Functions = {
     button: () => window.sound.play( "ui.click" ),
+
+    /**
+     * 
+     * @param { HTMLElement } element 
+     */
     toggle: (element) => {
         window.sound.play( "ui.click" );
         let value = element.getAttribute( "value" ) == "true";
-        element.setAttribute( "value", !value );
+        element.setAttribute( "value", (!value).toString() );
     
         if (!value) element.className = "toggle toggleOn";
         else element.className = "toggle toggleOff";
@@ -62,7 +67,10 @@ const Components = {
         header__.className = "header__";
 
         const backElement = document.createElement( "div" );
-        backElement.style = "position: absolute; left: 0; -webkit-app-region: no-drag;";
+        backElement.style.position = "absolute";
+        backElement.style.left = "0";
+        // @ts-ignore
+        backElement.style["-webkit-app-region"] = "no-drag";
         if (options?.back) {
             const back = document.createElement( "div" );
             back.className = "headerButton";
@@ -80,20 +88,13 @@ const Components = {
         header__.append( headerTitle )
 
         const space = document.createElement( "div" );
-        space.style = "align-items: center;display: flex;flex-direction: row;position: absolute;right: 0;-webkit-app-region: no-drag;";
-
-        if (false) {
-            const settings = document.createElement( "div" );
-            settings.className = "headerButton";
-            settings.innerHTML = `<img src="assets/imgs/icons/import.png" draggable="false" style="image-rendering: pixelated; height: 22px; width: 24px;">`;
-            settings.id = "update";
-
-            const divider = document.createElement( "dev" );
-            divider.style = "width: 2px;height: 16px;margin-right: 4px;margin-left: 4px;background-color: lightgray;"
-            
-            space.append( settings );
-            space.append( divider );
-        };
+        space.style.alignItems = "center";
+        space.style.display = "flex";
+        space.style.flexDirection = "row";
+        space.style.position = "absolute";
+        space.style.right = "0";
+        // @ts-ignore
+        space.style["-webkit-app-region"] = "no-drag";
 
         if (options?.settings) {
             const settings = document.createElement( "div" );
@@ -231,23 +232,104 @@ const Components = {
             };
 
             case "dropdown": {
+                /**
+                 * @param { MouseEvent } e
+                 */
+                const event = (e) => {
+                    /**
+                     * @type { HTMLElement }
+                     */
+                    const target = e.target;
+                    if (
+                        !target.classList.contains( "dropdownElement" )
+                        && !target.classList.contains( "dropdownOption" )
+                        || (
+                            target.classList.contains( "dropdownElement" )
+                            && !target.id.includes( options?.id )
+                        )
+                    ) {
+                        const dropdownOptions = document.getElementById( options?.id + "-items" );
+                        const dropdownE = document.getElementById( options?.id + "-element" );
+                        const dropdownElement = document.getElementById( options?.id );
+                        dropdownElement.setAttribute( "opened", "false" );
+                        dropdownOptions.style.display = "none";
+                        dropdownE.style.zIndex = 1;
+
+                        document.removeEventListener("click", event);
+                        console.log(e.target);
+                    };
+                };
+
+                let selected = options?.selected ?? 0;
                 window.functions.onChange[options?.id] = options?.onChange ?? (() => {});
+
+                /**
+                 * 
+                 * @param { HTMLElement } e 
+                 */
+                window.functions.onClick[options?.id] = (e) => {
+                    window.sound.play( "ui.click" );
+                    const dropdownOptions = document.getElementById( `${options?.id}-items` );
+                    const dropdownE = document.getElementById( options?.id + "-element" );
+                    if (!dropdownOptions || !dropdownE) return;
+                    
+                    let opened = e.getAttribute( "opened" ) == "true";
+                    if (!opened) {
+                        dropdownOptions.style.display = "block";
+                        e.setAttribute( "opened", "true" );
+                        dropdownE.style.zIndex = "2";
+                    };
+
+                    document.addEventListener("click", event);
+                };
+
+                const buildItems = () => options?.items?.map(
+                    (i, index) => (
+                        `<div class="dropdownOption ${selected == index ? "selected" : "" }" onClick="window.functions.onClick['${options?.id}-item'](${index})">
+                            <div>${i}</div>
+                            <img class="dropdownOptionCheck" src="assets/imgs/icons/check_icon.png">
+                        </div>`
+                    )
+                ).join( "" )
+
+                window.functions.onClick[options?.id + "-item"] = (s = 0) => {
+                    window.sound.play( "ui.click" );
+                    const dropdownOptions = document.getElementById( options?.id + "-items" );
+                    const dropdownItems = document.getElementById( options?.id + "-itemList" );
+                    const dropdownE = document.getElementById( options?.id + "-element" );
+                    const dropdownElement = document.getElementById( options?.id );
+                    if (!dropdownOptions || !dropdownItems || !dropdownE || !dropdownElement) return;
+
+                    dropdownElement.setAttribute( "opened", "false" );
+                    dropdownOptions.style.display = "none";
+                    dropdownE.style.zIndex = "1";
+
+                    selected = s;
+                    dropdownElement.setAttribute( "value", selected.toString() );
+                    document.getElementById( options?.id + "-text" ).innerText = options.items.find((i, index) => selected == index);
+                    dropdownItems.innerHTML = buildItems();
+                    document.removeEventListener("click", event);
+                    window.functions.onChange[options?.id]({ value: selected });
+                };
+
                 return (
-                    `<div class="element">
+                    `<div class="element" style="z-index: 1;" id="${options?.id}-element">
                         <span class="elementTitle">${options?.title ?? ""}</span>
                         <div class="dropdown oreUIButtonSecondary">
                             <div class="oreUIButton_ oreUIButtonSecondaryBackground">
                                 <div class="oreUISpecular oreUIButton_One"></div>
                                 <div class="oreUISpecular oreUIButton_Two"></div>
-                                <select
-                                    name="${options?.id ?? ""}"
-                                    id="${options?.id ?? ""}"
-                                    onChange='window.functions.onChange["${options?.id}"](this);'
-                                    onClick='Functions.button(this);'
-                                    class="_oreUIButton"
-                                >
-                                    ${options.items.map((i, index) => `<option ${options?.selected == index ? "selected" : "" } value="${index}">${i}</option>`)}
-                                </select>
+                                <div style="width: 100%">
+                                    <div class="dropdownElement" id="${options?.id}" opened="false" value="${selected}" onClick="window.functions.onClick['${options?.id}'](this);">
+                                        <div style="pointer-events: none;" id="${options?.id}-text">${options?.items?.find((i, index) => selected == index)}</div>
+                                        <img style="pointer-events: none;" src="assets/imgs/icons/chevron_down.png">
+                                    </div>
+                                    <div class="dropdownOptions" id="${options?.id}-items" style="display: none;">
+                                        <div style="height: 1px;background-color: rgba(255, 255, 255, 0.3);"></div>
+                                        <div id="${options?.id}-itemList">${buildItems()}</div>
+                                        <div style="height: 1px;background-color: rgba(255, 255, 255, 0.3);"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>`
@@ -383,6 +465,8 @@ const Components = {
                     </div>`
                 )
             };
+
+            default: return "";
         };
     },
 

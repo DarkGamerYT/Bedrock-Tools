@@ -41,6 +41,7 @@ window.router.routes.push({
                                 style: "hero",
                                 onClick: async () => {
                                     const structureFile = document.getElementById( "structureFile" );
+                                    // @ts-ignore
                                     const [ file ] = structureFile.files;
                                     if (file) {
                                         const reader = new FileReader();

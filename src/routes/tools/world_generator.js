@@ -41,7 +41,7 @@ window.router.routes.push({
                                 style: "hero",
                                 onClick: async () => {
                                     window.sound.play( "ui.release" );
-                                    const worldType = document.getElementById( "worldType" ).value;
+                                    const worldType = Number(document.getElementById( "worldType" ).getAttribute( "value" ));
                                     worldData.value.RandomSeed.value = randomSeed();
                                     worldData.value.FlatWorldLayers.value = JSON.stringify(
                                         worldType == 2
@@ -76,7 +76,7 @@ window.router.routes.push({
             )
         );
     },
-    extra: () => GenType( "1" ),
+    extra: () => GenType(1),
 });
 
 const Biomes = [
@@ -258,7 +258,7 @@ const addFlatLayer = () => {
 
 let zip;
 let worldData;
-const GenType = async (selection = "0") => {
+const GenType = async (selection = 0) => {
     const fs = require( "node:fs" );
     const genElement = document.getElementById( "genElement" );
     const genSettings = document.getElementById( "genSettings" );
@@ -394,7 +394,7 @@ const GenType = async (selection = "0") => {
     );
 
     switch(selection) {
-        case "0":
+        case 0:
         {
             fs.readFile(
                 __dirname + "/data/World.mcworld",
@@ -467,7 +467,7 @@ const GenType = async (selection = "0") => {
             return;
         };
 
-        case "1":
+        case 1:
         {
             fs.readFile(
                 __dirname + "/data/World.mcworld",
@@ -604,7 +604,7 @@ const GenType = async (selection = "0") => {
             return;
         };
 
-        case "2":
+        case 2:
         {
             fs.readFile(
                 __dirname + "/data/World.mcworld",
@@ -697,7 +697,7 @@ const GenType = async (selection = "0") => {
             return;
         };
 
-        case "3":
+        case 3:
         {
             fs.readFile(
                 __dirname + "/data/World.mcworld",
@@ -844,7 +844,7 @@ const GenType = async (selection = "0") => {
             return;
         };
 
-        case "4":
+        case 4:
         {
             fs.readFile(
                 __dirname + "/data/World.mcworld",

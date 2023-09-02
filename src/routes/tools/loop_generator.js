@@ -289,7 +289,7 @@ const loopTabs = (selected = 0) => {
 
                                         var outputString = "";
                                         for(let i = start; i <= end; i++)
-                                            outputString += outTemplate.replaceAll(outVar, i) + "\n";
+                                            outputString += outTemplate.replaceAll(outVar, `${i}`) + "\n";
                                         document.getElementById("output").innerText = outputString;
                                         window.engine.sendToast(
                                             {
@@ -342,7 +342,7 @@ const loopTabs = (selected = 0) => {
     ) return;
 
     document.getElementById("tabsContent").innerHTML = tabs.find((t, index) => index == selected).component();
-    tabsElement.setAttribute("value", selected)
+    tabsElement.setAttribute("value", selected.toString())
     tabsElement.innerHTML = (
         Components.createTabs(
             {
@@ -350,7 +350,7 @@ const loopTabs = (selected = 0) => {
                     (t, index) => Components.createTab(
                         {
                             text: t.name,
-                            id: index,
+                            id: index.toString(),
                             selected: index == selected,
                             onClick: (e) => loopTabs(e.id),
                         },

@@ -52,10 +52,13 @@ window.router.routes.push({
                                     onClick: () => {
                                         window.sound.play( "ui.release" );
                                         const commandInput = document.getElementById( "commandInput" );
-                                        const data = validateCommand( commandInput.value );
-
-                                        document.getElementById( "commandElement" ).style.display = "block";
                                         const commandOutput = document.getElementById( "commandOutput" );
+                                        if (!commandInput || !commandOutput) return;
+
+                                        // @ts-ignore
+                                        const data = validateCommand( commandInput.value );
+                                        // @ts-ignore
+                                        document.getElementById( "commandElement" ).style.display = "block";
 
                                         commandOutput.style.color = data?.error ? "#ff6767" : "#79e752";
                                         commandOutput.innerText = data?.error ? data.data.message : "No errors.";
@@ -70,6 +73,11 @@ window.router.routes.push({
     },
 });
 
+/**
+ * 
+ * @param { string } command 
+ * @returns 
+ */
 const validateCommand = (command) => {
     return {
         error: true,

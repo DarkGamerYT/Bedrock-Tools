@@ -23,10 +23,10 @@ window.router.routes.push({
                                             ],
                                             onChange: (e) => {
                                                 switch(e.value) {
-                                                    case "0":
+                                                    case 0:
                                                         document.getElementById( "uploadElement" ).style = null;
                                                     break;
-                                                    case "1": 
+                                                    case 1: 
                                                         document.getElementById( "uploadElement" ).style = "display: none;";
                                                     break;
                                                 };
@@ -90,10 +90,10 @@ window.router.routes.push({
 
 const convert = async () => {
     window.sound.play("ui.release");
-    const convertionType = document.getElementById( "convertionType" );
+    const convertionType = Number(document.getElementById( "convertionType" ).getAttribute( "value" ));
     const jsonInput = document.getElementById( "jsonInput" );
-    switch(convertionType.value) {
-        case "0":
+    switch(convertionType) {
+        case 0:
             const structureFile = document.getElementById( "structureFile" );
             const [ file ] = structureFile.files;
             if (file) {
@@ -108,7 +108,7 @@ const convert = async () => {
                 reader.readAsArrayBuffer( file );
             };
         break;
-        case "1":
+        case 1:
             try {
                 const structureJson = NBT.writeUncompressed(JSON.parse( jsonInput.value ), "little");
                 const handle = await electron.dialog.showSaveDialog(

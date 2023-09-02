@@ -21,6 +21,7 @@ window.router.routes.push({
                                             type: "dropdown",
                                             title: "Pack type:",
                                             id: "packType",
+                                            selected: 0,
                                             items: [
                                                 "Resource Pack",
                                                 "Behaviour Pack",
@@ -31,8 +32,8 @@ window.router.routes.push({
                                                 const modulesElement = document.getElementById( "modulesElement" );
                                                 const scriptApiToggle = document.getElementById( "scriptApiToggle" );
                                                 switch(e.value) {
-                                                    case "0":
-                                                    case "1": 
+                                                    case 0:
+                                                    case 1: 
                                                         let value = scriptApiToggle.getAttribute( "value" ) == "true";
                                                         if (value) scriptApiToggle.className = "toggle toggleOn";
                                                         else scriptApiToggle.className = "toggle toggleOff";
@@ -148,8 +149,8 @@ window.router.routes.push({
     
                                     const packName = document.getElementById( "packName" ).value;
                                     const packDescription = document.getElementById( "packDescription" ).value;
-                                    const packType = Number(document.getElementById( "packType" ).value);
-                                    const isMinified = Number(document.getElementById( "layout" ).value) == 1;
+                                    const packType = Number(document.getElementById( "packType" ).getAttribute( "value" ));
+                                    const isMinified = Number(document.getElementById( "layout" ).getAttribute( "value" )) == 1;
     
                                     const manifest = new Manifest(
                                         packName,

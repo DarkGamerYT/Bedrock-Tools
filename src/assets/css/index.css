@@ -817,3 +817,54 @@ pre {
 .elementMenu:active .elementIconHover {
 	display: none;
 }
+
+.dropdownElement {
+	font-size: 13px;
+	font-weight: bold;
+	width: auto;
+	padding: 0 12px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	place-content: space-between;
+}
+.dropdownOptions {
+	background-color: #313233;
+	border: 2px solid black;
+	position: absolute;
+	width: 100%;
+	z-index: 1000;
+	margin: -2px;
+	max-height: 138px;
+    overflow: auto;
+}
+.dropdownOption {
+	display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+	font-size: 14px;
+	color: white;
+	padding: 0px 12px;
+	border-left: 2px solid rgba(255, 255, 255, 0.3);
+	border-right: 2px solid rgba(255, 255, 255, 0.3);
+	border-top: 1px solid rgba(255, 255, 255, 0.3);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+.dropdownOption:hover {
+	background-color: #48494a;
+}
+.dropdownOption:active {
+	background-color: #242425;
+}
+
+.dropdownOptionCheck {
+	display: none;
+	image-rendering: pixelated;
+	height: 12px;
+	width: 16px;
+}
+
+.selected .dropdownOptionCheck {
+	display: block;
+}
