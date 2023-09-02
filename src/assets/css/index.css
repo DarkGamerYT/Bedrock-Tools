@@ -789,11 +789,10 @@ pre {
 }
 
 .elementIconImage {
-	
-	height: 34px;
-	width: 34px;
+	height: 36px;
+	width: 36px;
 	image-rendering: pixelated;
-	margin-right: 0.8rem;
+	margin-right: 1rem;
 }
 .elementIconHover {
 	display: none;
@@ -805,9 +804,9 @@ pre {
 	animation-iteration-count: 1;
 	animation-duration: 500ms;
 	image-rendering: pixelated;
-	width: 34px;
-	height: 34px;
-	background-size: 302px 34px;
+	width: 36px;
+	height: 36px;
+	background-size: 324px 36px;
 	animation-fill-mode: forwards;
 	background-repeat: no-repeat;
 	overflow: hidden;

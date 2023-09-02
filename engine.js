@@ -18,7 +18,7 @@ const Router = {
         async goBack() {
             if (this.list.length <= 1 || Router.isTransitioning) return;
             window.logger.debug( "[ROUTER] Going back." );
-
+            
             this.list.pop();
             if (!this.list[this.list.length - 1]) return;
             const route = Router.routes.find((r) => r.route == this.list[this.list.length - 1]);
@@ -75,7 +75,7 @@ const sendToast = async(options) => {
             <div class="toastElement_">
                 ${
                     options?.icon
-                    ? `<img src="${options?.icon}" draggable="false" style="height: calc(var(--base2Scale)*16); width: calc(var(--base2Scale)*16); image-rendering: pixelated; margin-right: 0.6rem;">`
+                    ? `<img src="${options?.icon}" draggable="false" style="height: 36px; width: 36px; image-rendering: pixelated; margin-right: 1rem;">`
                     : ""
                 }
                 <div>

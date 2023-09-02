@@ -14,11 +14,6 @@ window.router.routes.push({
                             icon: "assets/imgs/icons/manifest.png",
                         },
                         {
-                            route: "/commands_tester",
-                            title: "Commands Tester",
-                            icon: "assets/imgs/icons/commands.png",
-                        },
-                        {
                             route: "/render_offset_corrector",
                             title: "Render Offset Corrector",
                             icon: "assets/imgs/icons/render_offset.png"
@@ -40,6 +35,11 @@ window.router.routes.push({
                             title: "ID Generator",
                             icon: "assets/imgs/icons/id.png",
                         },
+                        /*{
+                            route: "/commands_tester",
+                            title: "Commands Tester",
+                            icon: "assets/imgs/icons/commands.png",
+                        },*/
                         {
                             route: "/server_pinger",
                             title: "Server Pinger",
@@ -73,6 +73,18 @@ window.router.routes.push({
                             route: "/structure_viewer",
                             title: "Structure Viewer",
                             icon: "assets/imgs/icons/structure_viewer.png"
+                        }
+                    ],
+                    display: true,
+                },
+                {
+                    title: "Advanced",
+                    description: "Advanced stuff",
+                    items: [
+                        {
+                            route: "/nbt_editor",
+                            title: "NBT Editor",
+                            icon: "assets/imgs/icons/nbt.png",
                         }
                     ],
                     display: true,
