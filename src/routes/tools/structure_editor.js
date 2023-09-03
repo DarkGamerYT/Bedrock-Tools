@@ -53,24 +53,15 @@ window.router.routes.push({
                                         const { parsed } = await NBT.parse(Buffer.from(reader.result));
                                         const structureSize = parsed.value.size.value.value;
                                         structureData = parsed.value.structure.value;
-                                        const startPoint = new THREE.Vector3(-structureSize[0] / 2, 0, -structureSize[2] / 2);
-                                        const xLine = sceneManager.createLines([
-                                            startPoint,
-                                            new THREE.Vector3(startPoint.x + structureSize[0], startPoint.y, startPoint.z)
-                                        ],
-                                            0xff0000);
-                                        const yLine = sceneManager.createLines([
-                                            startPoint,
-                                            new THREE.Vector3(startPoint.x, startPoint.y + structureSize[1], startPoint.z)
-                                        ],
-                                            0x00ff00);
-                                        const zLine = sceneManager.createLines([
-                                            startPoint,
-                                            new THREE.Vector3(startPoint.x, startPoint.y, startPoint.z + structureSize[2])
-                                        ],
-                                            0x0000ff);
-                                        sceneManager.scene.add(xLine, yLine, zLine);
-                                        console.log(structureData);
+                                        
+                                        const rgbLines = sceneManager.createSizeLines(structureSize, new THREE.Vector3(-structureSize[0] / 2, 0, -structureSize[2] / 2), true);
+                                        const sizeLines1 = sceneManager.createSizeLines(structureSize, new THREE.Vector3(structureSize[0] / 2, 0, structureSize[2] / 2), false, true, false, true);
+                                        const sizeLines2 = sceneManager.createSizeLines(structureSize, new THREE.Vector3(-structureSize[0] / 2, structureSize[1], structureSize[2] / 2), false, false, true, true);
+                                        const sizeLines3 = sceneManager.createSizeLines(structureSize, new THREE.Vector3(structureSize[0] / 2, structureSize[1], -structureSize[2] / 2), false, true, true, false);
+                                        sceneManager.scene.add(rgbLines.xLine, rgbLines.yLine, rgbLines.zLine)
+                                        sceneManager.scene.add(sizeLines1.xLine, sizeLines1.yLine, sizeLines1.zLine)
+                                        sceneManager.scene.add(sizeLines2.xLine, sizeLines2.yLine, sizeLines2.zLine)
+                                        sceneManager.scene.add(sizeLines3.xLine, sizeLines3.yLine, sizeLines3.zLine)
 
                                         var selection = 0;
                                         for (let x = 0; x < structureSize[0]; x++) {
@@ -80,7 +71,34 @@ window.router.routes.push({
                                                     const block = structureData.palette.value.default.value.block_palette.value.value[palette];
                                                     if (block.name.value != "minecraft:air") {
                                                         var texturePath = block.name.value.replace("minecraft:", "");
-                                                        sceneManager.scene.add(sceneManager.createCube(new THREE.Vector3(x - 0.5, y + 0.5, z - 0.5), texturePath));
+                                                        const blockTexture = blocks[texturePath];
+                                                        const blockTextureType = typeof blockTexture?.textures;
+                                                        if(blockTextureType == "object")
+                                                        {
+                                                            if(Object.keys(blockTexture.textures).length == 3)
+                                                            {
+                                                                sceneManager.scene.add(sceneManager.createCube(new THREE.Vector3(x - structureSize[0]/2 + 0.5, y + 0.5, z - structureSize[2]/2 + 0.5),
+                                                                    blockTexture.textures.side,
+                                                                    blockTexture.textures.side,
+                                                                    blockTexture.textures.side,
+                                                                    blockTexture.textures.side,
+                                                                    blockTexture.textures.up,
+                                                                    blockTexture.textures.down));
+                                                            }
+                                                            else
+                                                            {
+                                                                sceneManager.scene.add(sceneManager.createCube(new THREE.Vector3(x - structureSize[0]/2 + 0.5, y + 0.5, z - structureSize[2]/2 + 0.5),
+                                                                    blockTexture.textures.north,
+                                                                    blockTexture.textures.south,
+                                                                    blockTexture.textures.east,
+                                                                    blockTexture.textures.west,
+                                                                    blockTexture.textures.up,
+                                                                    blockTexture.textures.down));
+                                                            }
+                                                        }
+                                                        else
+                                                            sceneManager.scene.add(sceneManager.createCube(new THREE.Vector3(x - structureSize[0]/2 + 0.5, y + 0.5, z - structureSize[2]/2 + 0.5), blockTexture.textures));
+                                                        
                                                     }
                                                     selection++;
                                                 }
@@ -127,11 +145,12 @@ class SceneManager {
     createScene() {
         this.canvas = document.querySelector(`#${this.canvasId}`);
         this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
-
         this.renderer.setPixelRatio(window.devicePixelRatio * 5);
         this.camera = new THREE.PerspectiveCamera(75, this.canvas.clientWidth / this.canvas.clientHeight, 0.1, 1000);
+
+        const light = this.createDirectionalLight(0xfff0c9, 4);
         this.scene.add(new THREE.GridHelper(3, 3));
-        this.scene.add(this.createDirectionalLight(0xfff4d7, 2), this.createAmbientLight(0xfff4d7));
+        this.scene.add(light, this.createAmbientLight(0xfff0c9, 1));
 
         this.scene.background = (
             new THREE.CubeTextureLoader()
@@ -191,36 +210,42 @@ class SceneManager {
             const bottomTexture = loader.load((imgSourceBottom ?? "missing_texture") + ".png");
 
             frontTexture.magFilter = THREE.NearestFilter;
+            frontTexture.encoding = THREE.sRGBEncoding;
             backTexture.magFilter = THREE.NearestFilter;
+            backTexture.encoding = THREE.sRGBEncoding;
             leftTexture.magFilter = THREE.NearestFilter;
+            leftTexture.encoding = THREE.sRGBEncoding;
             rightTexture.magFilter = THREE.NearestFilter;
+            rightTexture.encoding = THREE.sRGBEncoding;
             topTexture.magFilter = THREE.NearestFilter;
+            topTexture.encoding = THREE.sRGBEncoding;
             bottomTexture.magFilter = THREE.NearestFilter;
+            bottomTexture.encoding = THREE.sRGBEncoding;
 
             material = [
-                new THREE.MeshStandardMaterial({ map: rightTexture }),
-                new THREE.MeshStandardMaterial({ map: leftTexture }),
-                new THREE.MeshStandardMaterial({ map: topTexture }),
-                new THREE.MeshStandardMaterial({ map: bottomTexture }),
-                new THREE.MeshStandardMaterial({ map: frontTexture }),
-                new THREE.MeshStandardMaterial({ map: backTexture })
+                new THREE.MeshLambertMaterial({ map: rightTexture, side:THREE.DoubleSide }),
+                new THREE.MeshLambertMaterial({ map: leftTexture, side:THREE.DoubleSide }),
+                new THREE.MeshLambertMaterial({ map: topTexture, side:THREE.DoubleSide }),
+                new THREE.MeshLambertMaterial({ map: bottomTexture, side:THREE.DoubleSide }),
+                new THREE.MeshLambertMaterial({ map: frontTexture, side:THREE.DoubleSide }),
+                new THREE.MeshLambertMaterial({ map: backTexture, side:THREE.DoubleSide })
             ];
         }
         else {
             const texture = loader.load((imgSourceFront ?? "missing_texture") + ".png");
             texture.magFilter = THREE.NearestFilter;
-            texture.colorSpace = THREE.SRGBColorSpace;
-            material = new THREE.MeshStandardMaterial({ map: texture });
+            texture.encoding = THREE.sRGBEncoding;
+            material = new THREE.MeshLambertMaterial({ map: texture, side:THREE.DoubleSide });
         };
 
         const cube = new THREE.Mesh(geometry, material);
-        cube.position.set(position.x, position.y, position.z);
+        cube.position.set(position.x, position.y, position.z)
         return cube;
     }
 
     createDirectionalLight(color = 0xffffff, intensity = 1.0) {
         const light = new THREE.DirectionalLight(color, intensity);
-        light.translateOnAxis(new THREE.Vector3(1, 1, 1), 20);
+        light.position.set( 1, 1, 1 ); //default; light shining from top
         return light;
     }
 
@@ -234,6 +259,26 @@ class SceneManager {
         const geometry = new THREE.BufferGeometry().setFromPoints(points);
         const line = new THREE.Line(geometry, material);
         return line;
+    }
+
+    createSizeLines(structureSize = [], startPoint = new THREE.Vector3(0,0,0), isRgb = false, flipX = false, flipY = false, flipZ = false)
+    {
+        const xLine = this.createLines([
+            startPoint,
+            new THREE.Vector3(flipX? startPoint.x - structureSize[0] : startPoint.x + structureSize[0], startPoint.y, startPoint.z)
+        ],
+            isRgb? 0xff0000 : 0xffffff);
+        const yLine = this.createLines([
+            startPoint,
+            new THREE.Vector3(startPoint.x, flipY? startPoint.y - structureSize[1] : startPoint.y + structureSize[1], startPoint.z)
+        ],
+        isRgb? 0x00ff00 : 0xffffff);
+        const zLine = this.createLines([
+            startPoint,
+            new THREE.Vector3(startPoint.x, startPoint.y, flipZ? startPoint.z - structureSize[2] : startPoint.z + structureSize[2])
+        ],
+        isRgb? 0x0000ff : 0xffffff);
+        return { xLine, yLine, zLine };
     }
 }
 const sceneManager = new SceneManager();
