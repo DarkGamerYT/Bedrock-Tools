@@ -56,9 +56,10 @@ window.router.routes.push({
                                                 const blockIndices = structureData.block_indices.value.value[0].value;
                                                 for (let i = 0; i < blockIndices.length; i++) {
                                                     const block = structureData.palette.value.default.value.block_palette.value.value[blockIndices[i]];
-                                                    
-                                                    //sceneManager.scene.add(sceneManager.createCube(new THREE.Vector3(0, 0, i), "dirt"));
                                                 };
+
+                                                sceneManager.scene.add(sceneManager.createCube(new THREE.Vector3(0, 0, 0)));
+                                                sceneManager.scene.add(sceneManager.createCube(new THREE.Vector3(0, 0, 2)));
                                             },
                                         );
 
@@ -86,7 +87,7 @@ class SceneManager
         this.canvas = null;
         this.canvasId = canvasId;
         this.renderer = null;
-        this.scene = new THREE.Scene();
+        this.scene = new THREE.Scene({antialias: true});
         this.camera = null;
         this.route = () => window.router.routes.find((r) => r.route == window.router.history.list[window.router.history.list.length - 1]);
     }
@@ -97,15 +98,9 @@ class SceneManager
         this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
 
         this.renderer.setPixelRatio(window.devicePixelRatio * 5);
-        this.camera = new THREE.PerspectiveCamera(75, this.canvas.clientWidth / this.canvas.clientHeight, 0.1, 0);
+        this.camera = new THREE.PerspectiveCamera(75, this.canvas.clientWidth / this.canvas.clientHeight, 0.1, 1000);
         this.scene.add(new THREE.GridHelper(3, 3));
         this.scene.add(this.createDirectionalLight(0xfff4d7, 2), this.createAmbientLight(0xfff4d7));
-        
-        /*this.scene.add(this.createCube(new THREE.Vector3(0, 0, 0), "dirt"));
-        this.scene.add(this.createCube(new THREE.Vector3(0, 1, 1), "dirt"));
-        this.scene.add(this.createCube(new THREE.Vector3(1, 1, 0), "dirt"));
-        this.scene.add(this.createCube(new THREE.Vector3(0, 1, -1), "dirt"));
-        this.scene.add(this.createCube(new THREE.Vector3(-1, 1, 0), "dirt"));*/
         
         this.scene.background = (
             new THREE.CubeTextureLoader()
@@ -160,17 +155,11 @@ class SceneManager
             const bottomTexture = loader.load((imgSourceBottom ?? "missing_texture") + ".png");
 
             frontTexture.magFilter = THREE.NearestFilter;
-            frontTexture.minFilter = THREE.NearestFilter;
             backTexture.magFilter = THREE.NearestFilter;
-            backTexture.minFilter = THREE.NearestFilter;
             leftTexture.magFilter = THREE.NearestFilter;
-            leftTexture.minFilter = THREE.NearestFilter;
             rightTexture.magFilter = THREE.NearestFilter;
-            rightTexture.minFilter = THREE.NearestFilter;
             topTexture.magFilter = THREE.NearestFilter;
-            topTexture.minFilter = THREE.NearestFilter;
             bottomTexture.magFilter = THREE.NearestFilter;
-            bottomTexture.minFilter = THREE.NearestFilter;
 
             material = [
                 new THREE.MeshStandardMaterial({ map: rightTexture }),
@@ -185,7 +174,7 @@ class SceneManager
         {
             const texture = loader.load((imgSourceFront ?? "missing_texture") + ".png");
             texture.magFilter = THREE.NearestFilter;
-            texture.minFilter = THREE.NearestFilter;
+            texture.colorSpace = THREE.SRGBColorSpace;
             material = new THREE.MeshStandardMaterial({ map: texture }); 
         };
 
