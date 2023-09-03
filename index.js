@@ -1,10 +1,7 @@
-require( "@electron/remote/main" ).initialize();
-const {
-	app,
-	BrowserWindow,
-	globalShortcut,
-} = require( "electron" );
+const { app, BrowserWindow, globalShortcut } = require( "electron" );
 const fs = require( "node:fs" );
+const path = require( "node:path" );
+require( "@electron/remote/main" ).initialize();
 
 let debug = false;
 app.on( "window-all-closed", () => app.quit() );
@@ -15,11 +12,12 @@ app.on("ready",
 		);
 
 		const appPath = app.getPath("userData");
-		const settingsPath = appPath + "/settings.json";
+		const settingsPath = path.join(appPath, "settings.json");
 		if (!fs.existsSync( appPath )) fs.mkdirSync( appPath );
-		if (!fs.existsSync( settingsPath )) fs.writeFileSync( settingsPath, JSON.stringify({ debug: false }) );
+		if (!fs.existsSync( settingsPath )) fs.writeFileSync(settingsPath, JSON.stringify({ debug: false }, null, "\t"));
+		
 		const settings = JSON.parse(fs.readFileSync( settingsPath , "utf-8" ));
-		debug = settings["debug"] || false;
+		debug = settings?.debug || false;
 		
 		if (!debug) registerShortcuts();
 		createWindow();
@@ -64,8 +62,8 @@ const createWindow = () => {
 		},
 	);
 	
+	require( "@electron/remote/main" ).enable( win.webContents );
 	app.setAppUserModelId( "Bedrock Tools" );
 	win.show();
-	win.loadFile( __dirname + "/src/index.html" );
-	require( "@electron/remote/main" ).enable( win.webContents );
+	win.loadFile(path.join(__dirname, "src/index.html" ));
 };

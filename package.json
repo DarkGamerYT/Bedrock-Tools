@@ -1,12 +1,22 @@
 {
 	"name": "bedrocktools",
-	"author": "xKingDark",
+	"author": {
+		"name": "xKingDark"
+	},
 	"version": "0.1.2-beta",
 	"description": "Bedrock Tools is an app created to help Minecraft: Bedrock Edition players make add-ons.",
 	"license": "LGPL-3.0-or-later",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/DarkGamerYT/Bedrock-Tools"
+	},
+	"main": "index.js",
 	"scripts": {
 		"start": "electron .",
+		"beta": "electron-builder --win portable",
 		"build": "electron-builder",
+		"build_mac": "electron-builder --mac dmg",
+		"build_linux": "electron-builder --linux deb",
 		"typecheck": "tsc -w"
 	},
 	"dependencies": {
@@ -28,7 +38,8 @@
 	},
 	"build": {
 		"appId": "com.xkingdark.bedrocktools",
-		"productName": "Bedrock Tools (Beta)",
+		"productName": "Bedrock Tools",
+		"artifactName": "${productName}-${version}.${ext}",
 		"nsis": {
 			"allowToChangeInstallationDirectory": false,
 			"oneClick": true,

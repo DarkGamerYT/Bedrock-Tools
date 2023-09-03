@@ -1,5 +1,6 @@
 const electron = require( "@electron/remote" );
 const fs = require( "node:fs" );
+const path = require( "node:path" );
 
 /**
  * @typedef { { name: string; route: string; component(): string; rpc?: string; extra?(): void; } } Route
@@ -40,7 +41,7 @@ const Router = {
     },
 };
 
-const sounds = JSON.parse(fs.readFileSync( __dirname + "/src/sound_definitions.json" , "utf-8" ));
+const sounds = JSON.parse(fs.readFileSync(path.join(__dirname, "src/sound_definitions.json"), "utf-8" ));
 for (let sound in sounds) for (const s of sounds[sound].sounds) new Audio( "assets/sounds/" + s.name );
 const Sound = {
     /**
@@ -178,7 +179,7 @@ const Engine = {
     },
 };
 
-const settingsPath = electron.app.getPath("userData") + "/settings.json";
+const settingsPath = path.join(electron.app.getPath("userData"), "settings.json");
 const Settings = {
     /**
      * 
@@ -186,7 +187,7 @@ const Settings = {
      * @returns
      */
     get: (key) => {
-        const settings = JSON.parse(fs.readFileSync(settingsPath,"utf-8"));
+        const settings = JSON.parse(fs.readFileSync(settingsPath, "utf-8"));
         return settings[key] ?? defaultSettings[key];
     },
 
@@ -197,10 +198,10 @@ const Settings = {
      * @returns 
      */
     set: (key, value) => {
-        const settings = JSON.parse(fs.readFileSync(settingsPath,"utf-8"));
+        const settings = JSON.parse(fs.readFileSync(settingsPath, "utf-8"));
         if (defaultSettings.hasOwnProperty( key )) {
             settings[key] = value ?? defaultSettings[key];
-            fs.writeFileSync( settingsPath, JSON.stringify(settings, null, 4) );
+            fs.writeFileSync(settingsPath, JSON.stringify(settings, null, "\t"));
         };
     },
 };
