@@ -26,7 +26,7 @@ window.router.routes.push({
                                         body: "Upload Structure file",
                                         id: "structureFileText",
                                     },
-                                    accept: "mcstructure",
+                                    accept: ".mcstructure",
                                     onChange: (e) => {
                                         const [file] = e.files;
                                         if (file) document.getElementById("structureFileText").innerText = file.name;
@@ -36,7 +36,7 @@ window.router.routes.push({
                         ],
                     },
                 )}
-                            ${Components.createElement(
+                ${Components.createElement(
                     {
                         type: "button",
                         text: "Render",

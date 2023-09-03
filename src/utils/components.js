@@ -378,19 +378,19 @@ const Components = {
                                 <div class="oreUISpecular oreUIButton_One"></div>
                                 <div class="oreUISpecular oreUIButton_Two"></div>
                                 <label
-                                    style="font-size: 13px;cursor: pointer;width: auto;display: flex;gap: 8px;align-items: center;"
+                                    style="font-size: 13px;cursor: pointer;width: auto;display: flex;gap: 8px;height: inherit;align-items: center;padding: 0 6px;"
                                     id="${options?.text?.id ?? ""}"
                                     for="${options?.id ?? ""}"
                                 >
                                     <img src="assets/imgs/icons/import.png" draggable="false" style="image-rendering: pixelated; height: 22px; width: 24px;">
-                                    <div style="font-family: 'MinecraftFive';color: black;font-weight: bold;font-size: 10px;">${options?.text?.body ?? ""}</div>
+                                    <div style="font-family: 'MinecraftFive';color: black;font-weight: bold;font-size: 10px;text-overflow: ellipsis;overflow: hidden;height: inherit;">${options?.text?.body ?? ""}</div>
                                 </label>
                                 <input
                                     name="packType"
                                     class="_oreUIButton"
                                     style="display: none;"
                                     type="file"
-                                    accept=".${options?.accept ?? ""}"
+                                    accept="${options?.accept ?? ""}"
                                     id="${options?.id ?? ""}"
                                     onChange='window.functions.onChange["${options?.id}"](this);'
                                     onClick="Functions.button(this);"

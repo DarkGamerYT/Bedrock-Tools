@@ -17,7 +17,7 @@ window.router.routes.push({
                                         type: "upload",
                                         title: "Image:",
                                         id: "itemImageFile",
-                                        accept: "png, .jpeg, .jpg",
+                                        accept: ".png, .jpeg, .jpg",
                                         text: {
                                             body: "Upload Image file",
                                             id: "itemFileText",
@@ -48,7 +48,7 @@ window.router.routes.push({
                                         type: "input",
                                         id: "imgRes",
                                         title: "Image Resolution",
-                                        value: 16,
+                                        value: "16",
                                         placeholder: "Resolution of the image for one axis",
                                         input: {
                                             type: "number"

@@ -5,7 +5,6 @@ const path = require( "node:path" );
 /**
  * @typedef { { name: string; route: string; component(): string; rpc?: string; extra?(): void; } } Route
 */
-
 const Router = {
     isTransitioning: false,
     /** @type { Route[] } */

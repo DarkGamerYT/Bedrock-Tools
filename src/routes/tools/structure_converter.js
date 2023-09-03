@@ -44,7 +44,7 @@ window.router.routes.push({
                                                         body: "Upload Structure file",
                                                         id: "structureFileText",
                                                     },
-                                                    accept: "mcstructure",
+                                                    accept: ".mcstructure",
                                                     onChange: (e) => {
                                                         const [ file ] = e.files;
                                                         if(file) document.getElementById( "structureFileText" ).innerText = file.name;

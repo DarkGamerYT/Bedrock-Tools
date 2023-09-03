@@ -166,7 +166,7 @@ const ping = (host, port = 19132, cb, timeout = 1000) => {
  */
 const pingBedrock = (options = {}) => {
 	const { hostname, port = 19132, timeout = 8500 } = options;
-    if (!hostname) throw new Error( "Host argument is not provided" );
+	if (!hostname) throw new Error( "Host argument is not provided" );
     return new Promise(
 		(resolve, reject) => {
         	ping(
