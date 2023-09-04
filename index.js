@@ -44,12 +44,12 @@ const createWindow = () => {
 			width: 1080,
 			height: 660,
 			title: "Bedrock Tools (Beta)",
-			icon: "./src/assets/imgs/beta.png",
+			icon: "icon.ico",
 			autoHideMenuBar: true,
 			resizable: true,
 			titleBarStyle: "hidden",
 			webPreferences: {
-				preload: __dirname + "/engine.js",
+				preload: path.join( __dirname, "src/engine.js" ),
 				devTools: debug,
 				webgl: true,
 				webSecurity: true,
@@ -65,5 +65,5 @@ const createWindow = () => {
 	require( "@electron/remote/main" ).enable( win.webContents );
 	app.setAppUserModelId( "Bedrock Tools" );
 	win.show();
-	win.loadFile(path.join(__dirname, "src/index.html" ));
+	win.loadFile(path.join( __dirname, "index.html" ));
 };
