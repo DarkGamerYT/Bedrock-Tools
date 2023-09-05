@@ -1,8 +1,5 @@
-BedrockTools.router.routes.push({
-    name: "Server Pinger",
-    route: "/server_pinger",
-    rpc: "multiplayer",
-    component: () => {
+const ServerPinger = {
+    Component: () => {
         const isRight = BedrockTools.settings.get( "right" );
         return (
             Components.createHeader({ text: "Server Pinger", back: true, settings: true })
@@ -70,7 +67,7 @@ BedrockTools.router.routes.push({
             )
         );
     },
-});
+};
 
 const serverData = () => {
     return (

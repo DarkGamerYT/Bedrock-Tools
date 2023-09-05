@@ -2,10 +2,8 @@
  * @type {{ name: string; value: any; }[]}
  */
 let modifiedSettings = [];
-BedrockTools.router.routes.push({
-    name: "Settings",
-    route: "/settings",
-    component: () => {
+const Settings = {
+    Component: () => {
         let isRight = BedrockTools.settings.get( "right" );
         let discordRpc = BedrockTools.settings.get( "discordrpc" );
         return (
@@ -64,7 +62,7 @@ BedrockTools.router.routes.push({
             )
         );
     },
-});
+};
 
 const SettingsRouteUtils = {
     toggleRight: (e) => {

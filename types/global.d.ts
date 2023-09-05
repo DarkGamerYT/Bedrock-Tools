@@ -2,9 +2,11 @@ declare namespace BedrockTools {
     interface Route {
         name: string;
         route: string;
-        component(): string;
-        rpc?: string;
-        extra?(): void;
+        component: () => string;
+        metadata: {
+            rpc?: string;
+            onLoad?: () => any;
+        };
     }
 
     const version: string;
@@ -38,7 +40,7 @@ declare namespace BedrockTools {
         icon?: string;
         timeout?: number;
         instant?: boolean;
-        onClick: () => {};
+        onClick?: () => any;
     }
     function sendToast(options: ToastOptions): void;
 }

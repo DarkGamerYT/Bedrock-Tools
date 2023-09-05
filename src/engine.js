@@ -1,76 +1,17 @@
 const electron = require( "@electron/remote" );
-const fs = require( "node:fs" );
-const path = require( "node:path" );
-
-const settingsPath = path.join(electron.app.getPath("userData"), "settings.json");
-const sounds = JSON.parse(fs.readFileSync(path.join(__dirname, "sound_definitions.json"), "utf-8" ));
-for (let sound in sounds) for (const s of sounds[sound].sounds) new Audio( "sounds/" + s.name );
+const Router = require( "./engine/Router" );
+const Sound = require( "./engine/Sound" );
+const Settings = require( "./engine/Settings" );
 globalThis.BedrockTools = {
     version: "0.1.2-beta",
-    router: {
-        isTransitioning: false,
-        routes: [],
-        history: {
-            list: [],
-            async go(path) {
-                window.logger.debug( "[ROUTER] Replacing path to", path );
-    
-                this.list.push( path );
-                const route = BedrockTools.router.routes.find((r) => r.route == path);
-                BedrockTools.router.isTransitioning = true;
-    
-                if (!route) return BedrockTools.loadUI(BedrockTools.router.routes.find((r) => r.route == "/empty_route"));
-                await BedrockTools.loadUI( route );
-            },
-            async goBack() {
-                if (this.list.length <= 1 || BedrockTools.router.isTransitioning) return;
-                window.logger.debug( "[ROUTER] Going back." );
-                
-                this.list.pop();
-                if (!this.list[this.list.length - 1]) return;
-                const route = BedrockTools.router.routes.find((r) => r.route == this.list[this.list.length - 1]);
-                if (!route) return BedrockTools.loadUI(BedrockTools.router.routes.find((r) => r.route == "/empty_route"), true);
-                
-                BedrockTools.router.isTransitioning = true;
-                await BedrockTools.loadUI( route, true );
-            },
-        },
-    },
-
-    sound: {
-        play: (id) => {
-            window.logger.debug( "[SOUND] Sound with id '" + id + "' has been requested." );
-            if (
-                sounds.hasOwnProperty(id)
-                && sounds[id].sounds.length > 0
-            ) {
-                const sound = sounds[id];
-                const randomSound = sound.sounds[Math.floor( Math.random() * sound.sounds.length )].name;
-                const audio = new Audio( "sounds/" + randomSound );
-                audio.play();
-            };
-        },
-    },
-
-    settings: {
-        get: (key) => {
-            const settings = JSON.parse(fs.readFileSync(settingsPath, "utf-8"));
-            return settings[key] ?? defaultSettings[key];
-        },
-        set: (key, value) => {
-            const settings = JSON.parse(fs.readFileSync(settingsPath, "utf-8"));
-            if (defaultSettings.hasOwnProperty( key )) {
-                settings[key] = value ?? defaultSettings[key];
-                fs.writeFileSync(settingsPath, JSON.stringify(settings, null, "\t"));
-            };
-        },
-    },
-
+    router: Router,
+    sound: Sound,
+    settings: Settings,
     functions: {
         onClick: {},
         onChange: {},
     },
-    
+
     loadUI: async (route, isBack = false) => {
         const app = document.getElementById( "app" );
         if (!app) return;
@@ -78,8 +19,12 @@ globalThis.BedrockTools = {
         app.className = isBack ? "uiLeavingBack" : "uiLeaving";
         await new Promise((res) => setTimeout(() => res(), 0.2 * 1000)); //wait for 400 milliseconds
         app.className = isBack ? "uiEnteringBack" : "uiEntering";
-        app.innerHTML = route ? route.component() : "";
-        if (route?.extra) route.extra();
+        try {
+            app.innerHTML = route ? route.component() : "";
+            if (route?.metadata?.onLoad) route.metadata.onLoad();
+        } catch {
+            app.innerHTML = ErrorRoute();
+        };
         const back = document.getElementById( "back" );
         const settings = document.getElementById( "settings" );
         if (back) back.addEventListener( "click", () => { BedrockTools.sound.play( 'ui.click' ); BedrockTools.router.history.goBack(); } );
@@ -153,13 +98,6 @@ const sendToast = async(options) => {
     delete BedrockTools.functions.onClick[options.id];
 };
 
-const defaultSettings = {
-    debug: false,
-    alpha_notice: true,
-    right: false,
-    discordrpc: true,
-};
-
 globalThis.logger = {
     /**
      * 
@@ -190,4 +128,20 @@ globalThis.logger = {
     error: (...data) => console.log(
 		"\x1B[0m" + new Date().toLocaleTimeString() + " \x1B[31m\x1B[1m[ERROR] \x1B[0m-", ...data,
 	),
+};
+
+const ErrorRoute = () => {
+    setTimeout(() => BedrockTools.router.history.goBack(), 5000);
+    return (
+        `<div class="popup">
+            <div class="popup_">
+                <div class="popup__" style="width: auto;">
+                    <div style="background-color: #e0e0e0;border-bottom: 3px solid #919191;padding: 2rem;text-align: center;gap: 6px;">
+                        <div style="font-family: MinecraftTen;font-size: 21px;">An error has occurred</div>
+                        <div style="font-size: 13.5px;">Going back to the previous screen...</div>
+                    </div>
+                </div>
+            </div>
+        </div>`
+    );
 };

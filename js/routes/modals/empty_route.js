@@ -1,4 +1,5 @@
 BedrockTools.router.routes.push({
+    name: "Empty Route",
     route: "/empty_route",
     component: () => {
         return (
@@ -30,4 +31,5 @@ BedrockTools.router.routes.push({
             </div>`
         );
     },
+    metadata: {},
 });

@@ -2,11 +2,8 @@ const hljs = require( "highlight.js" );
 let scriptAPI = false;
 let beta = false;
 let scriptModules = [];
-BedrockTools.router.routes.push({
-    name: "Manifest Generator",
-    route: "/manifest_generator",
-    rpc: "manifest",
-    component: () => {
+const ManifestGenerator = {
+    Component: () => {
         const isRight = BedrockTools.settings.get( "right" );
         return (
             Components.createHeader({ text: "Manifest Generator", back: true, settings: true })
@@ -163,7 +160,7 @@ BedrockTools.router.routes.push({
                                     );
                                     
                                     const stringManifest = isMinified ? JSON.stringify( manifest ) : JSON.stringify(manifest, null, "\t");
-                                    const highlightedText = hljs.highlight(stringManifest, { language: "json" }).value;
+                                    const highlightedText = hljs.default.highlight(stringManifest, { language: "json" }).value;
                                     document.getElementById("output").innerHTML = highlightedText;
                                     BedrockTools.sendToast(
                                         {
@@ -210,7 +207,13 @@ BedrockTools.router.routes.push({
             )
         );
     },
-});
+};
+/*BedrockTools.router.routes.push({
+    name: "Manifest Generator",
+    route: "/manifest_generator",
+    rpc: "manifest",
+    component: ,
+});*/
 
 const moduleToggle = (type) => {
     return (

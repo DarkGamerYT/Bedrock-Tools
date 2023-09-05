@@ -1,8 +1,5 @@
-BedrockTools.router.routes.push({
-    name: "Loop Generator",
-    route: "/loop_generator",
-    rpc: "debug",
-    component: () => {
+const LoopGenerator = {
+    Component: () => {
         return (
             Components.createHeader({ text: "Loop Generator", back: true, settings: true })
             + (
@@ -13,8 +10,8 @@ BedrockTools.router.routes.push({
             )
         );
     },
-    extra: () => loopTabs(0),
-});
+    onLoad: () => loopTabs(0),
+};
 
 const loopTabs = (selected = 0) => {
     const isRight = BedrockTools.settings.get("right");

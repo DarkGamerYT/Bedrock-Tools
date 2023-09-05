@@ -1,8 +1,5 @@
-BedrockTools.router.routes.push({
-    name: "Structure Converter",
-    route: "/structure_converter",
-    rpc: "structure_converter",
-    component: () => {
+const StructureConverter = {
+    Component: () => {
         const isRight = BedrockTools.settings.get( "right" );
         return (
             Components.createHeader({ text: "Structure Converter", back: true, settings: true })
@@ -86,7 +83,7 @@ BedrockTools.router.routes.push({
             )
         );
     },
-});
+};
 
 const convert = async () => {
     BedrockTools.sound.play("ui.release");

@@ -1,8 +1,5 @@
-BedrockTools.router.routes.push({
-    name: "JSON Rawtext Generator",
-    route: "/json_rawtext_generator",
-    rpc: "rawtextGenerator",
-    component: () => {
+const RawtextGenerator = {
+    Component: () => {
         const modules = new RawtextModules();
         const isRight = BedrockTools.settings.get("right");
         return (
@@ -138,8 +135,8 @@ BedrockTools.router.routes.push({
                 `
             )
         )
-    }
-})
+    },
+};
 
 class RawtextModules {
     constructor(modulesId = "modules")

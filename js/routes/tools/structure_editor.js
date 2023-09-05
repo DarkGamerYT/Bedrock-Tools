@@ -1,10 +1,7 @@
 const THREE = require("three");
 let structureData;
-BedrockTools.router.routes.push({
-    name: "Structure Editor",
-    route: "/structure_editor",
-    rpc: "structureEditor",
-    component: () => {
+const StructureEditor = {
+    Component: () => {
         const isRight = BedrockTools.settings.get("right");
         return (
             Components.createHeader({ text: "Structure Editor", back: true, settings: true })
@@ -129,8 +126,8 @@ BedrockTools.router.routes.push({
             )
         )
     },
-    extra: () => sceneManager.createScene()
-});
+    onLoad: () => sceneManager.createScene(),
+};
 
 class SceneManager {
     constructor(canvasId = "viewer") {
@@ -164,7 +161,7 @@ class SceneManager {
                     "panorama_2.png"
                 ])
         );
-
+        
         new OrbitControls(this.camera, this.renderer.domElement);
 
         this.camera.position.setX(5);

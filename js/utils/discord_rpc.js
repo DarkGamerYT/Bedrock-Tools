@@ -19,7 +19,7 @@ RPC.on(
                                 startTimestamp: lastTime,
                                 largeImageKey: "icon",
                                 largeImageText: "Bedrock Tools (Beta)",
-                                smallImageKey: route?.rpc,
+                                smallImageKey: route?.metadata?.rpc,
                                 smallImageText: route?.name,
                             },
                         );

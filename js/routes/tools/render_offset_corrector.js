@@ -1,8 +1,5 @@
-BedrockTools.router.routes.push({
-    name: "Render Offset Correct",
-    route: "/render_offset_corrector",
-    rpc: "renderOffset",
-    component: () => {
+const RenderOffset = {
+    Component: () => {
         const isRight = BedrockTools.settings.get( "right" );
         return (
             Components.createHeader({ text: "Render Offset Corrector", back: true, settings: true })
@@ -129,5 +126,5 @@ BedrockTools.router.routes.push({
                 `
             )
         );
-    }
-});
+    },
+};

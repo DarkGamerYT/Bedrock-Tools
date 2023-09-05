@@ -1,9 +1,6 @@
 const jszip = require( "jszip" );
-BedrockTools.router.routes.push({
-    name: "World Generator",
-    route: "/world_generator",
-    rpc: "world_gen",
-    component: () => {
+const WorldGenerator = {
+    Component: () => {
         const isRight = BedrockTools.settings.get( "right" );
         return (
             Components.createHeader({ text: "World Generator", back: true, settings: true })
@@ -76,8 +73,8 @@ BedrockTools.router.routes.push({
             )
         );
     },
-    extra: () => GenType(1),
-});
+    onLoad: () => GenType(1),
+};
 
 const Biomes = [
     { "identifier": "ocean", "biome_id": 0 },

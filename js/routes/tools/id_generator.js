@@ -1,8 +1,5 @@
-BedrockTools.router.routes.push({
-    name: "ID Generator",
-    route: "/id_generator",
-    rpc: "id",
-    component: () => {
+const IdGenerator = {
+    Component: () => {
         return (
             Components.createHeader({ text: "ID Generator", back: true, settings: true })
             + (
@@ -13,8 +10,8 @@ BedrockTools.router.routes.push({
             )
         );
     },
-    extra: () => idTabs(0),
-});
+    onLoad: () => idTabs(0),
+};
 
 const idTabs = (selected = 0) => {
     const isRight = BedrockTools.settings.get( "right" );

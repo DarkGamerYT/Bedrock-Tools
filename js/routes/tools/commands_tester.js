@@ -1,8 +1,5 @@
-BedrockTools.router.routes.push({
-    name: "Commands Tester",
-    route: "/commands_tester",
-    rpc: "commands",
-    component: () => {
+const CommandTester = {
+    Component:  () => {
         const isRight = BedrockTools.settings.get( "right" );
         return (
             Components.createHeader({ text: "Commands Tester", back: true, settings: true })
@@ -71,7 +68,7 @@ BedrockTools.router.routes.push({
             )
         );
     },
-});
+};
 
 /**
  * 
