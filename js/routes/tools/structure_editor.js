@@ -46,9 +46,9 @@ const StructureEditor = {
                                 const reader = new FileReader();
                                 reader.addEventListener(
                                     "load", async () => {
+                                        sceneManager.resetScene();
                                         await structureManager.setData(Buffer.from(reader.result));
                                         sceneManager.generateStructureAsync(structureManager);
-                                        console.log("test");
                                     },
                                 );
 
@@ -86,6 +86,43 @@ class SceneManager {
         this.camera = null;
         this.blockTextureLoader = new THREE.TextureLoader().setPath("assets/blocks/");
         this.route = () => BedrockTools.router.routes.find((r) => r.route == BedrockTools.router.history.list[BedrockTools.router.history.list.length - 1]);
+    }
+
+    resetScene()
+    {
+        this.scene.traverse( function( object ) {
+            if(object.isMesh)
+            {
+                object.geometry.dispose();
+                object.material.dispose();
+            }
+            if(object.isTexture)
+            {
+                object.dispose();
+            }
+            if(object.isLight)
+            {
+                object.dispose();
+            }
+        
+        } );
+        this.scene.clear();
+        const light = this.createDirectionalLight(0xfff0c9, 4);
+        this.scene.add(new THREE.GridHelper(3, 3));
+        this.scene.add(light, this.createAmbientLight(0xfff0c9, 1));
+
+        this.scene.background = (
+            new THREE.CubeTextureLoader()
+                .setPath("assets/panorama/")
+                .load([
+                    "panorama_1.png",
+                    "panorama_3.png",
+                    "panorama_4.png",
+                    "panorama_5.png",
+                    "panorama_0.png",
+                    "panorama_2.png"
+                ])
+        );
     }
 
     createScene() {
