@@ -709,7 +709,8 @@ class ArrayValues
 
     construct()
     {
-        return this.array.map(x => `"${x.value}"`);
+        const array = this.array.map(x => `"${x.value}"`);
+        return `[${array}]`
     }
 
     build(setHtml = true)
