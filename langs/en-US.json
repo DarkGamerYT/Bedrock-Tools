@@ -27,5 +27,9 @@
     "bedrocktools.screen.settings": "Settings",
 
     "bedrocktools.toast.settings.title": "Settings saved!",
-    "bedrocktools.toast.settings.body": "All the settings have been saved successfully"
+    "bedrocktools.toast.settings.body": "All the settings have been saved successfully",
+
+    "bedrocktools.debug.title": "Internal Tools",
+    "bedrocktools.debug.description": "For developers only, will not show up in retail",
+    "bedrocktools.debug.components": "Components"
 }

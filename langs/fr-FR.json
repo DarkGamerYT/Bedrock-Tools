@@ -27,5 +27,9 @@
     "bedrocktools.screen.settings": "Paramètres",
 
     "bedrocktools.toast.settings.title": "Paramètres sauvegardés!",
-    "bedrocktools.toast.settings.body": "Tous les paramètres ont été enregistrés avec succès"
+    "bedrocktools.toast.settings.body": "Tous les paramètres ont été enregistrés avec succès",
+
+    "bedrocktools.debug.title": "Internal Tools",
+    "bedrocktools.debug.description": "For developers only, will not show up in retail",
+    "bedrocktools.debug.components": "Components"
 }

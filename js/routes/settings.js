@@ -17,7 +17,7 @@ const Settings = {
                             elements: [
                                 Components.createElement(
                                     {
-                                        type: "toggle",
+                                        type: "switch",
                                         title: "Sidebar on the right",
                                         subtitle: "Places the sidebar to right side of the screen",
                                         id: "right",
@@ -27,7 +27,7 @@ const Settings = {
                                 ),
                                 Components.createElement(
                                     {
-                                        type: "toggle",
+                                        type: "switch",
                                         title: "Discord Rich Presence",
                                         subtitle: "Shows that you're using Bedrock Tools on your Discord profile",
                                         id: "discordrpc",

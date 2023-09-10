@@ -1,6 +1,7 @@
 const electron = require( "@electron/remote" );
 const fs = require( "node:fs" );
 const NBT = require( "prismarine-nbt" );
+electron.ipcMain.on("update-available", (data) => console.log(data));
 document.addEventListener(
     "keydown", (event) => {
         if (event.code == "Escape") {
@@ -117,6 +118,13 @@ BedrockTools.router.routes.push(
         name: "bedrocktools.addons.renderoffsetcorrector",
         component: RenderOffset.Component,
         metadata: { rpc: "render_offset" },
+    },
+    
+    {
+        route: "/components",
+        name: "bedrocktools.debug.components",
+        component: ComponentsRoute.Component,
+        metadata: {},
     },
 );
 

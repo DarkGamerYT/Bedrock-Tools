@@ -76,22 +76,20 @@ const MainScreen = {
                     display: true,
                 },
             ],
-            /*[
+            [
                 {
                     title: BedrockTools.localisation.translate( "bedrocktools.debug.title" ),
                     description: BedrockTools.localisation.translate( "bedrocktools.debug.description" ),
-                    //title: "Internal Tools",
-                    //description: "For developers only, will not show up in retail",
                     items: [
                         {
-                            route: "/debug",
-                            title: BedrockTools.localisation.translate( "bedrocktools.debug.debug" ),
+                            route: "/components",
+                            title: BedrockTools.localisation.translate( "bedrocktools.debug.components" ),
                             icon: "assets/debug.png",
                         },
                     ],
-                    display: true,
+                    display: BedrockTools.settings.get( "debug" ),
                 },
-            ],*/
+            ],
         ];
     
         return (

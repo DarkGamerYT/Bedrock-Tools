@@ -335,7 +335,7 @@ class RawtextModules {
                                 ),
                                 Components.createElement(
                                     {
-                                        type: "toggle",
+                                        type: "switch",
                                         title: "With Array",
                                         id: `toggleArray:${module.id}`,
                                         disabled: module.withRawtextToggle,
@@ -356,7 +356,7 @@ class RawtextModules {
                                 ),
                                 Components.createElement(
                                     {
-                                        type: "toggle",
+                                        type: "switch",
                                         title: "With Rawtext Object",
                                         id: `toggleRawtext:${module.id}`,
                                         disabled: module.withArrayToggle,

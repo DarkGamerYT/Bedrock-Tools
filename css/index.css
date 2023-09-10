@@ -253,6 +253,21 @@ body {
 	background-color: #ad1d1d;
 }
 
+.oreUIButtonPurple {
+	background-color: #4A1CAC;
+	border-color: #1e1e1f;
+}
+.oreUIButtonPurpleBackground {
+	background-color: #7345E5;
+	color: #ffffff;
+}
+.oreUIButton:hover .oreUIButtonPurpleBackground {
+	background-color: #8557F8;
+}
+.oreUIButton:active .oreUIButtonPurpleBackground {
+	background-color: #5D2CC6;
+}
+
 ._oreUIButton {
 	align-items: center;
     display: flex;
@@ -829,7 +844,6 @@ pre {
 	place-content: space-between;
 }
 .dropdownOptions {
-	background-color: #313233;
 	border: 2px solid black;
 	position: absolute;
 	width: 100%;
@@ -846,16 +860,17 @@ pre {
 	font-size: 14px;
 	color: white;
 	padding: 0px 12px;
-	border-left: 2px solid rgba(255, 255, 255, 0.3);
-	border-right: 2px solid rgba(255, 255, 255, 0.3);
-	border-top: 1px solid rgba(255, 255, 255, 0.3);
-	border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+	background-color: #58585a;
+	border-color: #8c8d90;
+	border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
 }
 .dropdownOption:hover {
-	background-color: #48494a;
+	background-color: #8c8d90;
 }
 .dropdownOption:active {
-	background-color: #242425;
+	background-color: #48494a;
 }
 
 .dropdownOptionCheck {
@@ -867,4 +882,44 @@ pre {
 
 .selected .dropdownOptionCheck {
 	display: block;
+}
+
+.oreUIToggleSelected {
+	background-color: #1d4d13;
+	border-color: #1e1e1f;
+	cursor: default;
+	margin-top: 0.3rem;
+    padding-bottom: 0rem;
+}
+.oreUIToggleSelectedBackground {
+	background-color: #3c8527;
+	color: #ffffff;
+}
+
+.checkbox {
+    margin-right: 8px;
+	display: block;
+	border-style: none;
+	outline: none;
+	width: 32px;
+	height: 32px;
+	cursor: pointer;
+    background-repeat: round;
+	image-rendering: pixelated;
+}
+.checkboxUnchecked {
+	background-image: url(../assets/checkbox.png);
+}
+.checkboxUnchecked:hover {
+	background-image: url(../assets/checkbox_hover.png);
+}
+.checkboxChecked {
+	background-image: url(../assets/checkbox_checked.png);
+}
+.checkboxChecked:hover {
+	background-image: url(../assets/checkbox_checked_hover.png);
+}
+.checkboxDisabled {
+	cursor: auto;
+	background-image: url(../assets/checkbox_disabled.png);
 }

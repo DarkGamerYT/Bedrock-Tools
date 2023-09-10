@@ -71,7 +71,7 @@ const ManifestGenerator = {
                                 elements: [
                                     Components.createElement(
                                         {
-                                            type: "toggle",
+                                            type: "switch",
                                             title: "Script-API",
                                             subtitle: "Enables ScriptAPI",
                                             id: "scriptApiToggle",
@@ -98,7 +98,7 @@ const ManifestGenerator = {
                                         ${
                                             Components.createElement(
                                                 {
-                                                    type: "toggle",
+                                                    type: "switch",
                                                     title: "Beta",
                                                     subtitle: "Enable Beta modules in ScriptAPI",
                                                     toggled: beta,
@@ -220,7 +220,7 @@ const moduleToggle = (type) => {
                 return (
                     Components.createElement(
                         {
-                            type: "toggle",
+                            type: "switch",
                             title: m.module_name,
                             id: m.module_name,
                             onClick: (e) => {

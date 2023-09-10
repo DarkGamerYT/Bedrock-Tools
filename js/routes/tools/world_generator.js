@@ -167,6 +167,7 @@ const Biomes = [
 
 let flatWorldLayers = {
     biome_id: 1,
+    world_version: "version.post_1_18",
     block_layers: [
         {
             block_name: "minecraft:bedrock",
@@ -183,12 +184,12 @@ let flatWorldLayers = {
     ],
     encoding_version: 6,
     structure_options: null,
-    world_version: "version.post_1_18"
 };
 
 let voidWorld = {
     biome_id: 1,
-    block_layers: [{ block_name: "minecraft:air", count: 256 }],
+    world_version: "version.post_1_18",
+    block_layers: [],
     encoding_version: 6,
     structure_options: null,
 };
@@ -268,7 +269,7 @@ const GenType = async (selection = 0) => {
         )}
         ${Components.createElement(
             {
-                type: "toggle",
+                type: "switch",
                 title: "Starting Map",
                 id: "startingMap",
                 toggled: false,
@@ -280,7 +281,7 @@ const GenType = async (selection = 0) => {
         )}
         ${Components.createElement(
             {
-                type: "toggle",
+                type: "switch",
                 title: "Bonus Chest",
                 id: "bonusChest",
                 toggled: false,
@@ -292,7 +293,7 @@ const GenType = async (selection = 0) => {
         )}
         ${Components.createElement(
             {
-                type: "toggle",
+                type: "switch",
                 title: "Game Rules",
                 id: "gameRules",
                 toggled: false,
@@ -311,7 +312,7 @@ const GenType = async (selection = 0) => {
             )}
             ${Components.createElement(
                 {
-                    type: "toggle",
+                    type: "switch",
                     title: "Always Day",
                     id: "alwaysDay",
                     toggled: false,
@@ -324,7 +325,7 @@ const GenType = async (selection = 0) => {
             )}
             ${Components.createElement(
                 {
-                    type: "toggle",
+                    type: "switch",
                     title: "Keep Inventory",
                     id: "keepInventory",
                     toggled: false,
@@ -336,7 +337,7 @@ const GenType = async (selection = 0) => {
             )}
             ${Components.createElement(
                 {
-                    type: "toggle",
+                    type: "switch",
                     title: "Mob Spawning",
                     id: "mobSpawning",
                     toggled: true,
@@ -348,7 +349,7 @@ const GenType = async (selection = 0) => {
             )}
             ${Components.createElement(
                 {
-                    type: "toggle",
+                    type: "switch",
                     title: "Mob Griefing",
                     id: "mobGriefing",
                     toggled: true,
@@ -360,7 +361,7 @@ const GenType = async (selection = 0) => {
             )}
             ${Components.createElement(
                 {
-                    type: "toggle",
+                    type: "switch",
                     title: "Weather Cycle",
                     id: "weatherCycle",
                     toggled: true,
@@ -548,19 +549,15 @@ const GenType = async (selection = 0) => {
                         ),
                         Components.createElement(
                             {
-                                type: "toggle",
+                                type: "switch",
                                 title: "Start at y -64",
                                 id: "startYLevel",
                                 toggled: flatWorldLayers.world_version ? true : false,
                                 onClick: (e) => {
                                     let value = e.getAttribute( "value" ) == "true";
                                     if (value) {
-                                        if(!flatWorldLayers.world_version) {
-                                            flatWorldLayers.world_version = "version.post_1_18";
-                                        };
-                                    } else if(flatWorldLayers.world_version) {
-                                        delete flatWorldLayers.world_version;
-                                    };
+                                        flatWorldLayers.world_version = "version.post_1_18";
+                                    } else flatWorldLayers.world_version = "version.pre_1_18";
                                 },
                             },
                         ),

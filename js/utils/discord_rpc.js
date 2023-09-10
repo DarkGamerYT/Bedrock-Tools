@@ -18,7 +18,7 @@ RPC.on(
                                 state: "Route: " + (route?.route ?? routeName),
                                 startTimestamp: lastTime,
                                 largeImageKey: "icon",
-                                largeImageText: "Bedrock Tools (Beta)",
+                                largeImageText: "Bedrock Tools v" + BedrockTools.version,
                                 smallImageKey: route?.metadata?.rpc,
                                 smallImageText: route?.name,
                             },
@@ -26,7 +26,7 @@ RPC.on(
                     };
                 } else RPC.clearActivity();
                 lastRoute = routeName;
-            },
+            }, 5000,
         );
     },
 );

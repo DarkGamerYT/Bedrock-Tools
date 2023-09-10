@@ -1,4 +1,7 @@
 declare namespace BedrockTools {
+    const version: string;
+    const startTime: number;
+    
     interface Route {
         name: string;
         route: string;
@@ -9,7 +12,6 @@ declare namespace BedrockTools {
         };
     }
 
-    const version: string;
     const router: {
         isTransitioning: boolean;
         routes: Route[];
