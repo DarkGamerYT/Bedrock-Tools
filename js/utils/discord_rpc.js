@@ -14,7 +14,7 @@ RPC.on(
                         lastTime = Date.now();
                         RPC.setActivity(
                             {
-                                details: route?.name ?? "Unknown Route",
+                                details: BedrockTools.localisation.translate(route?.name ?? "bedrocktools.screen.unknown"),
                                 state: "Route: " + (route?.route ?? routeName),
                                 startTimestamp: lastTime,
                                 largeImageKey: "icon",

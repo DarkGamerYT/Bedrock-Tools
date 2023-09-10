@@ -25,6 +25,12 @@ declare namespace BedrockTools {
         get(key: string): any;
         set(key: string, value: any): void;
     };
+    const localisation: {
+        getLocale: () => string;
+        getLangs: () => string[];
+        translate: (id: string) => string;
+        translateWithParameters: (id: string, params: string[]) => string;
+    };
 
     const functions: {
         onClick: {};

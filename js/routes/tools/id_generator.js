@@ -1,7 +1,7 @@
 const IdGenerator = {
     Component: () => {
         return (
-            Components.createHeader({ text: "ID Generator", back: true, settings: true })
+            Components.createHeader({ text: BedrockTools.localisation.translate( "bedrocktools.utilities.idgenerator" ), back: true, settings: true })
             + (
                 `<div style="margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;">
                     <div id="tabs"></div>

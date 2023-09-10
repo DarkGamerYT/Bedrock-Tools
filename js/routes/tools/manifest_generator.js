@@ -6,7 +6,7 @@ const ManifestGenerator = {
     Component: () => {
         const isRight = BedrockTools.settings.get( "right" );
         return (
-            Components.createHeader({ text: "Manifest Generator", back: true, settings: true })
+            Components.createHeader({ text: BedrockTools.localisation.translate( "bedrocktools.addons.manifestgenerator" ), back: true, settings: true })
             + (
                 `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
                     <div style="width: 50%;">
@@ -208,12 +208,6 @@ const ManifestGenerator = {
         );
     },
 };
-/*BedrockTools.router.routes.push({
-    name: "Manifest Generator",
-    route: "/manifest_generator",
-    rpc: "manifest",
-    component: ,
-});*/
 
 const moduleToggle = (type) => {
     return (

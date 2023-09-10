@@ -1,0 +1,31 @@
+{
+    "bedrocktools.name": "Bedrock Tools",
+    "bedrocktools.description": "Un endroit où vous pourriez trouver les outils dont vous avez besoin!",
+
+    "bedrocktools.alpha_notice": "Bedrock Tools en est à ses débuts. Les choses sont susceptibles de changer.",
+
+    "bedrocktools.addons.title": "Add-ons",
+    "bedrocktools.addons.description": "Pour les créateurs de packs de jeux et autres add-ons",
+    "bedrocktools.addons.manifestgenerator": "Générateur de manifeste",
+    "bedrocktools.addons.renderoffsetcorrector": "Correcteur de décalage de rendu",
+    "bedrocktools.addons.rawtextgenerator": "Générateur de texte brut JSON",
+
+    "bedrocktools.utilities.title": "Utilitaires",
+    "bedrocktools.utilities.description": "Outils utiles",
+    "bedrocktools.utilities.idgenerator": "Générateur d'identifiants",
+    "bedrocktools.utilities.serverpinger": "Serveur Pinger",
+    "bedrocktools.utilities.loopgenerator": "Générateur de boucle",
+
+    "bedrocktools.advanced.title": "Avancé",
+    "bedrocktools.advanced.description": "Trucs avancés",
+    "bedrocktools.advanced.worldgenerator": "Générateur de monde",
+    "bedrocktools.advanced.structureconverter": "Convertisseur de structures",
+    "bedrocktools.advanced.structureeditor": "Editeur de structures",
+
+    "bedrocktools.screen.unknown": "Itinéraire inconnu",
+    "bedrocktools.screen.mainscreen": "Écran principal",
+    "bedrocktools.screen.settings": "Paramètres",
+
+    "bedrocktools.toast.settings.title": "Paramètres sauvegardés!",
+    "bedrocktools.toast.settings.body": "Tous les paramètres ont été enregistrés avec succès"
+}

@@ -1,0 +1,31 @@
+{
+    "bedrocktools.name": "Bedrock Tools",
+    "bedrocktools.description": "A place where you might find the tools you need!",
+
+    "bedrocktools.alpha_notice": "Bedrock Tools is in early stages. Things are subject to change.",
+
+    "bedrocktools.addons.title": "Add-ons",
+    "bedrocktools.addons.description": "For creators of game packs and other add-ons",
+    "bedrocktools.addons.manifestgenerator": "Manifest Generator",
+    "bedrocktools.addons.renderoffsetcorrector": "Render Offset Corrector",
+    "bedrocktools.addons.rawtextgenerator": "JSON Rawtext Generator",
+
+    "bedrocktools.utilities.title": "Utilities",
+    "bedrocktools.utilities.description": "Useful tools",
+    "bedrocktools.utilities.idgenerator": "ID Generator",
+    "bedrocktools.utilities.serverpinger": "Server Pinger",
+    "bedrocktools.utilities.loopgenerator": "Loop Generator",
+
+    "bedrocktools.advanced.title": "Advanced",
+    "bedrocktools.advanced.description": "Advanced stuff",
+    "bedrocktools.advanced.worldgenerator": "World Generator",
+    "bedrocktools.advanced.structureconverter": "Structure Converter",
+    "bedrocktools.advanced.structureeditor": "Structure Editor",
+
+    "bedrocktools.screen.unknown": "Unknown Route",
+    "bedrocktools.screen.mainscreen": "Main Screen",
+    "bedrocktools.screen.settings": "Settings",
+
+    "bedrocktools.toast.settings.title": "Settings saved!",
+    "bedrocktools.toast.settings.body": "All the settings have been saved successfully"
+}

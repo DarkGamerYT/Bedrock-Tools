@@ -103,30 +103,40 @@ const Components = {
             settings.id = "settings";
 
             const divider = document.createElement( "dev" );
-            divider.style = "width: 2px;height: 16px;margin-right: 4px;margin-left: 4px;background-color: lightgray;"
+            divider.style.width = "2px";
+            divider.style.height = "16px";
+            divider.style.marginRight = "4px";
+            divider.style.marginLeft = "4px";
+            divider.style.backgroundColor = "lightgray";
             
             space.append( settings );
             space.append( divider );
         };
 
         const main = document.createElement( "div" );
-        main.style = "display: flex; flex-direction: row; margin-right: 0.4rem; margin-left: 0.4rem;";
+        main.style.display = "flex";
+        main.style.flexDirection = "row";
+        main.style.marginRight = "0.4rem";
+        main.style.marginLeft = "0.4rem";
 
         const close = document.createElement( "div" );
         close.className = "headerButton";
-        close.style = "margin-right: 0; margin-left: 0;";
+        close.style.marginRight = "0";
+        close.style.marginLeft = "0";
         close.innerHTML = `<img src="assets/close.png" draggable="false" style="image-rendering: pixelated; width: 10px; height: 10px;">`;
         close.id = "closeApp";
 
         const maximize = document.createElement( "div" );
         maximize.className = "headerButton";
-        maximize.style = "margin-right: 0; margin-left: 0;";
+        maximize.style.marginRight = "0";
+        maximize.style.marginLeft = "0";
         maximize.innerHTML = `<img src="assets/maximize.png" draggable="false" style="image-rendering: pixelated; width: 10px; height: 10px;">`;
         maximize.id = "maximizeApp";
 
         const minimize = document.createElement( "div" );
         minimize.className = "headerButton";
-        minimize.style = "margin-right: 0; margin-left: 0;";
+        minimize.style.marginRight = "0";
+        minimize.style.marginLeft = "0";
         minimize.innerHTML = `<img src="assets/minimize.png" draggable="false" style="image-rendering: pixelated; width: 10px; height: 10px;">`;
         minimize.id = "minimizeApp";
         
@@ -239,6 +249,7 @@ const Components = {
                     /**
                      * @type { HTMLElement }
                      */
+                    // @ts-ignore
                     const target = e.target;
                     if (
                         !target.classList.contains( "dropdownElement" )
@@ -253,7 +264,7 @@ const Components = {
                         const dropdownElement = document.getElementById( options?.id );
                         dropdownElement.setAttribute( "opened", "false" );
                         dropdownOptions.style.display = "none";
-                        dropdownE.style.zIndex = 1;
+                        dropdownE.style.zIndex = "1";
 
                         document.removeEventListener("click", event);
                         console.log(e.target);
@@ -314,24 +325,54 @@ const Components = {
 
                 return (
                     `<div class="element" style="z-index: 1;" id="${options?.id}-element">
-                        <span class="elementTitle">${options?.title ?? ""}</span>
-                        <div class="dropdown oreUIButtonSecondary">
-                            <div class="oreUIButton_ oreUIButtonSecondaryBackground">
-                                <div class="oreUISpecular oreUIButton_One"></div>
-                                <div class="oreUISpecular oreUIButton_Two"></div>
-                                <div style="width: 100%">
-                                    <div class="dropdownElement" id="${options?.id}" opened="false" value="${selected}" onClick="BedrockTools.functions.onClick['${options?.id}'](this);">
-                                        <div style="pointer-events: none;" id="${options?.id}-text">${options?.items?.find((i, index) => selected == index)}</div>
-                                        <img style="pointer-events: none;" src="assets/chevron_down.png">
+                        ${
+                            options?.subtitle
+                            ? (
+                                `<div style="flex-direction: row;place-content: space-between;align-items: center;">
+                                    <div>
+                                        <span class="elementTitle_">${options?.title ?? ""}</span>
+                                        <span class="elementSubtitle">${options?.subtitle ?? ""}</span>
                                     </div>
-                                    <div class="dropdownOptions" id="${options?.id}-items" style="display: none;">
-                                        <div style="height: 1px;background-color: rgba(255, 255, 255, 0.3);"></div>
-                                        <div id="${options?.id}-itemList">${buildItems()}</div>
-                                        <div style="height: 1px;background-color: rgba(255, 255, 255, 0.3);"></div>
+                                    <div class="dropdown oreUIButtonSecondary" style="width: 120px;margin-top: 8px;margin-bottom: 8px;">
+                                        <div class="oreUIButton_ oreUIButtonSecondaryBackground">
+                                            <div class="oreUISpecular oreUIButton_One"></div>
+                                            <div class="oreUISpecular oreUIButton_Two"></div>
+                                            <div style="width: 100%">
+                                                <div class="dropdownElement" id="${options?.id}" opened="false" value="${selected}" onClick="BedrockTools.functions.onClick['${options?.id}'](this);">
+                                                    <div style="pointer-events: none;" id="${options?.id}-text">${options?.items?.find((i, index) => selected == index) ?? "Unknown"}</div>
+                                                    <img style="pointer-events: none;" src="assets/chevron_down.png">
+                                                </div>
+                                                <div class="dropdownOptions" id="${options?.id}-items" style="display: none;">
+                                                    <div style="height: 1px;background-color: rgba(255, 255, 255, 0.3);"></div>
+                                                    <div id="${options?.id}-itemList">${buildItems()}</div>
+                                                    <div style="height: 1px;background-color: rgba(255, 255, 255, 0.3);"></div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
+                                </div>`
+                            )
+                            : (
+                                `<span class="elementTitle">${options?.title ?? ""}</span>
+                                <div class="dropdown oreUIButtonSecondary">
+                                    <div class="oreUIButton_ oreUIButtonSecondaryBackground">
+                                        <div class="oreUISpecular oreUIButton_One"></div>
+                                        <div class="oreUISpecular oreUIButton_Two"></div>
+                                        <div style="width: 100%">
+                                            <div class="dropdownElement" id="${options?.id}" opened="false" value="${selected}" onClick="BedrockTools.functions.onClick['${options?.id}'](this);">
+                                                <div style="pointer-events: none;" id="${options?.id}-text">${options?.items?.find((i, index) => selected == index) ?? "Unknown"}</div>
+                                                <img style="pointer-events: none;" src="assets/chevron_down.png">
+                                            </div>
+                                            <div class="dropdownOptions" id="${options?.id}-items" style="display: none;">
+                                                <div style="height: 1px;background-color: rgba(255, 255, 255, 0.3);"></div>
+                                                <div id="${options?.id}-itemList">${buildItems()}</div>
+                                                <div style="height: 1px;background-color: rgba(255, 255, 255, 0.3);"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`
+                            )
+                        }
                     </div>`
                 );
             };
@@ -379,11 +420,13 @@ const Components = {
                                 <div class="oreUISpecular oreUIButton_Two"></div>
                                 <label
                                     style="font-size: 13px;cursor: pointer;width: auto;display: flex;gap: 8px;height: inherit;align-items: center;padding: 0 6px;"
-                                    id="${options?.text?.id ?? ""}"
+                                    id="${options?.text?.// @ts-ignore
+                                    id ?? ""}"
                                     for="${options?.id ?? ""}"
                                 >
                                     <img src="assets/import.png" draggable="false" style="image-rendering: pixelated; height: 22px; width: 24px;">
-                                    <div style="font-family: 'MinecraftFive';color: black;font-weight: bold;font-size: 10px;text-overflow: ellipsis;overflow: hidden;height: inherit;">${options?.text?.body ?? ""}</div>
+                                    <div style="font-family: 'MinecraftFive';color: black;font-weight: bold;font-size: 10px;text-overflow: ellipsis;overflow: hidden;height: inherit;">${options?.text?.// @ts-ignore
+                                    body ?? ""}</div>
                                 </label>
                                 <input
                                     name="packType"

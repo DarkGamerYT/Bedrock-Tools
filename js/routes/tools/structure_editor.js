@@ -4,7 +4,7 @@ const StructureEditor = {
     Component: () => {
         const isRight = BedrockTools.settings.get("right");
         return (
-            Components.createHeader({ text: "Structure Editor", back: true, settings: true })
+            Components.createHeader({ text: BedrockTools.localisation.translate( "bedrocktools.advanced.structureeditor" ), back: true, settings: true })
             + (
                 `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 8%;margin-right: 8%;width: auto;gap: 15px;">
                     <div style="width: 100%;">
