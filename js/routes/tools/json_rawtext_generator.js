@@ -101,7 +101,7 @@ const RawtextGenerator = {
                                         BedrockTools.sendToast(
                                             {
                                                 title: "Rawtext successfully copied!",
-                                                icon: "assets/checkmark_checked.png",
+                                                icon: "assets/checkbox_checked.png",
                                                 body: "The rawtext has been successfully copied to the clipboard",
                                                 instant: true,
                                             },

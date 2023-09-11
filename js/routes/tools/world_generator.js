@@ -165,6 +165,13 @@ const Biomes = [
     { "identifier": "cherry_grove", "biome_id": 192 }
 ];
 
+const gameModes = [
+    { name: "Survival", value: 0 },
+    { name: "Creative", value: 1 },
+    { name: "Adventure", value: 2 },
+    { name: "Spectator", value: 6 },
+];
+
 let flatWorldLayers = {
     biome_id: 1,
     world_version: "version.post_1_18",
@@ -434,12 +441,11 @@ const GenType = async (selection = 0) => {
                                 title: "Game Mode:",
                                 id: "gameType",
                                 selected: 0,
-                                items: [
-                                    "Survival",
-                                    "Creative",
-                                    "Adventure",
-                                ],
-                                onChange: (e) => worldData.value.GameType.value = parseInt(e.value),
+                                items: gameModes.map((b) => b.name),
+                                onChange: (e) => {
+                                    const gamemode = gameModes[e.value];
+                                    worldData.value.GameType.value = gamemode.value;
+                                },
                             },
                         ),
                         Components.createElement(
@@ -504,12 +510,11 @@ const GenType = async (selection = 0) => {
                                 title: "Game Mode:",
                                 id: "gameType",
                                 selected: 0,
-                                items: [
-                                    "Survival",
-                                    "Creative",
-                                    "Adventure",
-                                ],
-                                onChange: (e) => worldData.value.GameType.value = parseInt(e.value),
+                                items: gameModes.map((b) => b.name),
+                                onChange: (e) => {
+                                    const gamemode = gameModes[e.value];
+                                    worldData.value.GameType.value = gamemode.value;
+                                },
                             },
                         ),
                         Components.createElement(
@@ -634,12 +639,11 @@ const GenType = async (selection = 0) => {
                                 title: "Game Mode:",
                                 id: "gameType",
                                 selected: 1,
-                                items: [
-                                    "Survival",
-                                    "Creative",
-                                    "Adventure",
-                                ],
-                                onChange: (e) => worldData.value.GameType.value = parseInt(e.value),
+                                items: gameModes.map((b) => b.name),
+                                onChange: (e) => {
+                                    const gamemode = gameModes[e.value];
+                                    worldData.value.GameType.value = gamemode.value;
+                                },
                             },
                         ),
                         Components.createElement(
@@ -726,12 +730,11 @@ const GenType = async (selection = 0) => {
                                 title: "Game Mode:",
                                 id: "gameType",
                                 selected: 0,
-                                items: [
-                                    "Survival",
-                                    "Creative",
-                                    "Adventure",
-                                ],
-                                onChange: (e) => worldData.value.GameType.value = parseInt(e.value),
+                                items: gameModes.map((b) => b.name),
+                                onChange: (e) => {
+                                    const gamemode = gameModes[e.value];
+                                    worldData.value.GameType.value = gamemode.value;
+                                },
                             },
                         ),
                         Components.createElement(
@@ -874,12 +877,11 @@ const GenType = async (selection = 0) => {
                                 title: "Game Mode:",
                                 id: "gameType",
                                 selected: 0,
-                                items: [
-                                    "Survival",
-                                    "Creative",
-                                    "Adventure",
-                                ],
-                                onChange: (e) => worldData.value.GameType.value = parseInt(e.value),
+                                items: gameModes.map((b) => b.name),
+                                onChange: (e) => {
+                                    const gamemode = gameModes[e.value];
+                                    worldData.value.GameType.value = gamemode.value;
+                                },
                             },
                         ),
                         Components.createElement(

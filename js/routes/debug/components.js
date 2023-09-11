@@ -9,13 +9,21 @@ const ComponentsRoute = {
                             elements: [
                                 Components.createElement(
                                     {
+                                        type: "element",
+                                        title: "Form",
+                                        tag: Components.createTag({ text: "Beta", style: "informative" }),
+										subtitle: "Hello World!"
+                                    },
+                                ),
+                                Components.createElement(
+                                    {
                                         type: "toggle",
                                         title: "Title",
                                         subtitle: "An optional description of the choice",
                                         id: "toggle",
-                                        selected: 0,
+                                        selected: 1,
                                         items: [
-                                            { label: "One", description: "Hello World!" },
+                                            { label: "One", description: "Toggle specific description" },
                                             { label: "Two", description: "Hello!" },
                                             { label: "Three", icon: "assets/structure_editor.png" }
                                         ],
@@ -28,16 +36,6 @@ const ComponentsRoute = {
                                         title: "Title",
                                         subtitle: "A description describing the purpose of the input field",
                                         id: "input"
-                                    },
-                                ),
-                                Components.createElement(
-                                    {
-                                        type: "dropdown",
-                                        title: "Title",
-                                        id: "dropdown-1",
-                                        selected: 0,
-                                        items: [ "One", "Two", "Three", "Four", "Five" ],
-                                        onChange: () => {}
                                     },
                                 ),
                                 Components.createElement(
@@ -75,7 +73,7 @@ const ComponentsRoute = {
                                         type: "checkbox",
                                         title: "Title",
                                         subtitle: "Agree to the agreement",
-                                        id: "checkbox",
+                                        id: "checkbox-1",
                                         checked: false,
                                         onClick: () => {}
                                     },
@@ -84,14 +82,29 @@ const ComponentsRoute = {
                                     {
                                         type: "checkbox",
                                         title: "Title",
-                                        id: "checkbox",
+                                        id: "checkbox-2",
                                         checked: true,
                                         onClick: () => {}
                                     },
                                 ),
-                                `<div style="background-color: #48494a; padding: 0.2rem; padding-left: 8px; padding-right: 8px;">
-                                    <div class="oreUISpecular" style="border-top-width: var(--base2Scale);"></div>
-                                    <div class="oreUISpecular" style="border-bottom-width: var(--base2Scale);border-color: rgba(0, 0, 0, 0.3);"></div>
+                                Components.createElement({ type: "element", title: "Tags" }),
+                                `<div class="element">
+                                    <div style="height: 0.5rem;"></div>
+                                    ${Components.createTag({ text: "Neutral", style: "neutral" })}
+                                    <div style="height: 0.3rem;"></div>
+                                    ${Components.createTag({ text: "Primary", style: "primary" })}
+                                    <div style="height: 0.3rem;"></div>
+                                    ${Components.createTag({ text: "Informative", style: "informative" })}
+                                    <div style="height: 0.3rem;"></div>
+                                    ${Components.createTag({ text: "Notice", style: "notice" })}
+                                    <div style="height: 0.3rem;"></div>
+                                    ${Components.createTag({ text: "Destructive", style: "destructive" })}
+                                    <div style="height: 0.3rem;"></div>
+                                    ${Components.createTag({ text: "Purple", style: "purple" })}
+                                    <div style="height: 0.5rem;"></div>
+                                </div>`,
+                                Components.createElement({ type: "element", title: "Buttons" }),
+                                `<div class="element">
                                     <div style="width: 100%;margin-top: 6px;margin-bottom: 6px;">
                                         ${Components.createElement(
                                             {
@@ -104,9 +117,7 @@ const ComponentsRoute = {
                                         )}
                                     </div>
                                 </div>`,
-                                `<div style="background-color: #48494a; padding: 0.2rem; padding-left: 8px; padding-right: 8px;">
-                                    <div class="oreUISpecular" style="border-top-width: var(--base2Scale);"></div>
-                                    <div class="oreUISpecular" style="border-bottom-width: var(--base2Scale);border-color: rgba(0, 0, 0, 0.3);"></div>
+                                `<div class="element">
                                     <div style="width: 100%;margin-top: 6px;margin-bottom: 6px;">
                                         ${Components.createElement(
                                             {
@@ -119,9 +130,7 @@ const ComponentsRoute = {
                                         )}
                                     </div>
                                 </div>`,
-                                `<div style="background-color: #48494a; padding: 0.2rem; padding-left: 8px; padding-right: 8px;">
-                                    <div class="oreUISpecular" style="border-top-width: var(--base2Scale);"></div>
-                                    <div class="oreUISpecular" style="border-bottom-width: var(--base2Scale);border-color: rgba(0, 0, 0, 0.3);"></div>
+                                `<div class="element">
                                     <div style="width: 100%;margin-top: 6px;margin-bottom: 6px;">
                                         ${Components.createElement(
                                             {
@@ -134,9 +143,7 @@ const ComponentsRoute = {
                                         )}
                                     </div>
                                 </div>`,
-                                `<div style="background-color: #48494a; padding: 0.2rem; padding-left: 8px; padding-right: 8px;">
-                                    <div class="oreUISpecular" style="border-top-width: var(--base2Scale);"></div>
-                                    <div class="oreUISpecular" style="border-bottom-width: var(--base2Scale);border-color: rgba(0, 0, 0, 0.3);"></div>
+                                `<div class="element">
                                     <div style="width: 100%;margin-top: 6px;margin-bottom: 6px;">
                                         ${Components.createElement(
                                             {
@@ -149,9 +156,7 @@ const ComponentsRoute = {
                                         )}
                                     </div>
                                 </div>`,
-                                `<div style="background-color: #48494a; padding: 0.2rem; padding-left: 8px; padding-right: 8px;">
-                                    <div class="oreUISpecular" style="border-top-width: var(--base2Scale);"></div>
-                                    <div class="oreUISpecular" style="border-bottom-width: var(--base2Scale);border-color: rgba(0, 0, 0, 0.3);"></div>
+                                `<div class="element">
                                     <div style="width: 100%;margin-top: 6px;margin-bottom: 6px;">
                                         ${Components.createElement(
                                             {

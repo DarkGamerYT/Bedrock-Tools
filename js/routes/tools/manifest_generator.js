@@ -16,13 +16,14 @@ const ManifestGenerator = {
                                     Components.createElement(
                                         {
                                             type: "dropdown",
-                                            title: "Pack type:",
+                                            title: "Manifest type:",
                                             id: "packType",
                                             selected: 0,
                                             items: [
                                                 "Resource Pack",
                                                 "Behaviour Pack",
                                                 "Skin Pack",
+                                                "World Template"
                                             ],
                                             onChange: (e) => {
                                                 scriptModules = [];
@@ -50,7 +51,7 @@ const ManifestGenerator = {
                                     Components.createElement(
                                         {
                                             type: "input",
-                                            title: "Pack name:",
+                                            title: "Name:",
                                             id: "packName",
                                             placeholder: "Test Pack"
                                         },
@@ -58,7 +59,7 @@ const ManifestGenerator = {
                                     Components.createElement(
                                         {
                                             type: "input",
-                                            title: "Pack description:",
+                                            title: "Description:",
                                             id: "packDescription",
                                             placeholder: "Hello World!"
                                         },
@@ -173,7 +174,7 @@ const ManifestGenerator = {
                                                 BedrockTools.sendToast(
                                                     {
                                                         title: "Manifest successfully copied!",
-                                                        icon: "assets/checkmark_checked.png",
+                                                        icon: "assets/checkbox_checked.png",
                                                         body: "The manifest has been successfully copied to the clipboard",
                                                         instant: true,
                                                     },
@@ -213,7 +214,9 @@ const moduleToggle = (type) => {
     return (
         (
             type == 0
+            // @ts-ignore
             ? scriptingModules.client
+            // @ts-ignore
             : scriptingModules.server
         )/*.filter((m) => beta ? m.versions.find((m) => m.beta) : m.versions.find((m) => !m.beta))*/.map(
             (m) => {

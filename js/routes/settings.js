@@ -41,6 +41,7 @@ const Settings = {
                                         title: "Language",
                                         subtitle: "Changes the app's display language",
                                         id: "language",
+                                        inline: true,
                                         selected: langs.indexOf(locale),
                                         items: langs,
                                         onChange: SettingsRouteUtils.changeLanguage,
@@ -63,7 +64,7 @@ const Settings = {
                                 BedrockTools.router.history.goBack();
                                 BedrockTools.sendToast(
                                     {
-                                        icon: "assets/checkmark_checked.png",
+                                        icon: "assets/checkbox_checked.png",
                                         title: BedrockTools.localisation.translate( "bedrocktools.toast.settings.title" ),
                                         body: BedrockTools.localisation.translate( "bedrocktools.toast.settings.body" ),
                                     },

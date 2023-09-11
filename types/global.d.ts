@@ -41,6 +41,7 @@ declare namespace BedrockTools {
 
     function loadUI(route: Route, isBack?: boolean): Promise<void>;
     function loadModal(component: string): void;
+    function clearModal(): void;
 
     interface ToastOptions {
         title?: string;

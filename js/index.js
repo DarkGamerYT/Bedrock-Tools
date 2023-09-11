@@ -29,6 +29,124 @@ document.addEventListener(
                         onClick: () => BedrockTools.sound.play( "ui.release" ),
                     },
                 );
+            } else if (event.code == "Numpad7") {
+                BedrockTools.loadModal(
+                    Components.createModal(
+                        {
+                            title: "Header",
+                            body: "Looong description. Lemon drops lollipop jelly beans powder brownie chocolate cake pastry chocolate cake powder. Bonbon candy canes dessert muffin gummies.",
+                            close: true,
+                            bodyElements: [  
+                                Components.createElement(
+                                    {
+                                        type: "input",
+                                        title: "Label",
+                                        placeholder: "Placeholder",
+                                        subtitle: "Description",
+                                        id: "modal-input"
+                                    },
+                                ),
+                            ],
+                            elements: [
+                                Components.createElement(
+                                    {
+                                        type: "checkbox",
+                                        title: "Checkbox example for confirmation",
+                                        id: "checkbox",
+                                        checked: false,
+                                        onClick: () => {}
+                                    }
+                                ),
+                                `<div class="element" style="padding-left: 0.6rem;padding-right: 0.6rem;gap: 8px;">
+                                    <div style="width: 100%;margin-top: 6px;margin-bottom: 6px;gap: 4px;">
+                                        ${Components.createElement(
+                                            {
+                                                type: "button",
+                                                text: "Label",
+                                                id: "button-2",
+                                                style: "primary",
+                                                onClick: () => {}
+                                            },
+                                        )}
+                                        ${Components.createElement(
+                                            {
+                                                type: "button",
+                                                text: "Label",
+                                                id: "button-3",
+                                                style: "secondary",
+                                                onClick: () => {}
+                                            },
+                                        )}
+                                    </div>
+                                </div>`
+                            ]
+                        }
+                    ),
+                );
+            } else if (event.code == "Numpad8") {
+                BedrockTools.loadModal(
+                    Components.createModal(
+                        {
+                            title: "Header",
+                            icon: "assets/rectangle.png",
+                            body: (
+                                "Looong description. Lemon drops lollipop jelly beans powder brownie chocolate cake pastry chocolate cake powder. Bonbon candy canes dessert muffin gummies."
+                                + "<p></p>"
+                                + "Tart wafer tart powder. Bonbon toffee macaroon gingerbread candy canes bear claw."
+                            ),
+                            elements: [
+                                `<div class="element" style="padding-left: 0.6rem;padding-right: 0.6rem;gap: 8px;">
+                                    <div style="margin-top: 6px;margin-bottom: 6px;flex-direction: row;gap: 4px;">
+                                        <div style="width: 100%;">
+                                            ${Components.createElement(
+                                                {
+                                                    type: "button",
+                                                    text: "Label",
+                                                    id: "modal-button-2",
+                                                    style: "secondary",
+                                                    onClick: () => {}
+                                                },
+                                            )}
+                                        </div>
+                                        <div style="width: 100%;">
+                                            ${Components.createElement(
+                                                {
+                                                    type: "button",
+                                                    text: "Label",
+                                                    id: "modal-button-1",
+                                                    style: "primary",
+                                                    onClick: () => {}
+                                                },
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>`
+                            ]
+                        }
+                    ),
+                );
+            } else if (event.code == "Numpad9") {
+                BedrockTools.loadModal(
+                    Components.createModal(
+                        {
+                            title: "Header",
+                            close: true,
+                            elements: [
+                                Components.createElement(
+                                    {
+                                        type: "dropdown",
+                                        title: "Label",
+                                        subtitle: "Description text that explains what this dropdown is about. It can be multiple lines long.",
+                                        id: "modal-dropdown",
+                                        selected: 0,
+                                        items: [ "One", "Two", "Three", "Four", "Five" ],
+                                        onChange: () => {}
+                                    },
+                                )
+                            ]
+                        }
+                    ),
+                );
             };
         };
     },

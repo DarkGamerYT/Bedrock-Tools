@@ -137,7 +137,9 @@ class Manifest {
 				description,
 				uuid: crypto.randomUUID(),
 				version: [ 0, 1, 0 ],
+				lock_template_options: true,
 				min_engine_version: [ 1, 20, 10 ],
+    			base_game_version: [ 1, 20, 10 ],
 			},
 			modules: [],
 			capabilities,
@@ -170,6 +172,8 @@ class Manifest {
 					},
 				);
 				
+				delete manifest.header.lock_template_options;
+				delete manifest.header.base_game_version;
 				return manifest;
 			};
 
@@ -191,6 +195,8 @@ class Manifest {
 					},
 				);
 				
+				delete manifest.header.lock_template_options;
+				delete manifest.header.base_game_version;
 				return manifest;
 			};
 
@@ -205,6 +211,23 @@ class Manifest {
 
 				delete manifest.capabilities;
 				delete manifest.dependencies;
+				delete manifest.header.lock_template_options;
+				delete manifest.header.base_game_version;
+				return manifest;
+			};
+
+			case 3: {
+				manifest.modules.push(
+					{
+						type: "world_template",
+						uuid: crypto.randomUUID(),
+						version: [ 0, 1, 0 ],
+					},
+				);
+
+				delete manifest.capabilities;
+				delete manifest.dependencies;
+				delete manifest.header.min_engine_version;
 				return manifest;
 			};
 		};

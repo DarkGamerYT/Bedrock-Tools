@@ -67,7 +67,7 @@ const idTabs = (selected = 0) => {
                                                         BedrockTools.sendToast(
                                                             {
                                                                 title: "UUID's successfully copied!",
-                                                                icon: "assets/checkmark_checked.png",
+                                                                icon: "assets/checkbox_checked.png",
                                                                 body: "The UUID's has been successfully copied to the clipboard",
                                                                 instant: true,
                                                             },
@@ -196,7 +196,7 @@ const idTabs = (selected = 0) => {
                                                             BedrockTools.sendToast(
                                                                 {
                                                                     title: "Custom ID's successfully copied!",
-                                                                    icon: "assets/checkmark_checked.png",
+                                                                    icon: "assets/checkbox_checked.png",
                                                                     body: "The custom ID's has been successfully copied to the clipboard",
                                                                     instant: true,
                                                                 },

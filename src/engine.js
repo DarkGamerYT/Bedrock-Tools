@@ -47,7 +47,8 @@ globalThis.BedrockTools = {
         await new Promise((res) => setTimeout(() => res(0), 0.25 * 1000));
         BedrockTools.router.isTransitioning = false;
     },
-    loadModal: (component) => document.getElementById( "popup" ).innerHTML = component,
+    loadModal: (component) => document.getElementById( "popup" ).innerHTML = `<div class="mainBackground"></div><div class="uiEntering" style="min-width: 435px;">${component}</div>`,
+    clearModal: () => document.getElementById( "popup" ).innerHTML = "",
     sendToast: ({ title = "", body = "", icon = null, timeout = 4, instant = false, onClick = () => {} }) => {
         const id = Date.now();
         if (instant) toastQueue = [{ id, title, body, icon, timeout, onClick }, ...toastQueue];
@@ -82,7 +83,12 @@ const sendToast = async(options) => {
             <div class="toastElement_">
                 ${
                     options?.icon
-                    ? `<img src="${options?.icon}" draggable="false" style="height: 36px; width: 36px; image-rendering: pixelated; margin-right: 1rem;">`
+                    ? (
+                        `<div>
+                            <img src="${options?.icon}" draggable="false" style="height: 36px; width: 36px; image-rendering: pixelated; margin-right: 1rem;">
+                            <div style="left: 0; position: absolute;"><div class="elementIconHover"></div></div>
+                        </div>`
+                    )
                     : ""
                 }
                 <div>

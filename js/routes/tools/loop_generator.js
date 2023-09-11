@@ -123,7 +123,7 @@ const loopTabs = (selected = 0) => {
                                                     BedrockTools.sendToast(
                                                         {
                                                             title: "Loop successfully copied!",
-                                                            icon: "assets/checkmark_checked.png",
+                                                            icon: "assets/checkbox_checked.png",
                                                             body: "The loop has been successfully copied to the clipboard",
                                                             instant: true,
                                                         },
@@ -299,7 +299,7 @@ const loopTabs = (selected = 0) => {
                                                     BedrockTools.sendToast(
                                                         {
                                                             title: "Loop successfully copied!",
-                                                            icon: "assets/checkmark_checked.png",
+                                                            icon: "assets/checkbox_checked.png",
                                                             body: "The loop has been successfully copied to the clipboard",
                                                             instant: true,
                                                         },
