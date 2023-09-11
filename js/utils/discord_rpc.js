@@ -14,11 +14,11 @@ RPC.on(
                         lastTime = Date.now();
                         RPC.setActivity(
                             {
-                                details: route?.name ?? "Unknown Route",
+                                details: BedrockTools.localisation.translate(route?.name ?? "bedrocktools.screen.unknown"),
                                 state: "Route: " + (route?.route ?? routeName),
                                 startTimestamp: lastTime,
                                 largeImageKey: "icon",
-                                largeImageText: "Bedrock Tools (Beta)",
+                                largeImageText: "Bedrock Tools v" + BedrockTools.version,
                                 smallImageKey: route?.metadata?.rpc,
                                 smallImageText: route?.name,
                             },
@@ -26,7 +26,7 @@ RPC.on(
                     };
                 } else RPC.clearActivity();
                 lastRoute = routeName;
-            },
+            }, 5000,
         );
     },
 );

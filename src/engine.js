@@ -2,11 +2,15 @@ const electron = require( "@electron/remote" );
 const Router = require( "./engine/Router" );
 const Sound = require( "./engine/Sound" );
 const Settings = require( "./engine/Settings" );
+const Localisation = require( "./engine/Localisation" );
 globalThis.BedrockTools = {
     version: "0.1.2-beta",
+    startTime: Date.now(),
+
     router: Router,
     sound: Sound,
     settings: Settings,
+    localisation: Localisation,
     functions: {
         onClick: {},
         onChange: {},
@@ -21,9 +25,11 @@ globalThis.BedrockTools = {
         app.className = isBack ? "uiEnteringBack" : "uiEntering";
         try {
             app.innerHTML = route ? route.component() : "";
+            window.scrollTo({ top: 0 });
             if (route?.metadata?.onLoad) route.metadata.onLoad();
-        } catch {
+        } catch(e) {
             app.innerHTML = ErrorRoute();
+            console.error(e);
         };
         const back = document.getElementById( "back" );
         const settings = document.getElementById( "settings" );

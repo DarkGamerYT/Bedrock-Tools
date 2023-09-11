@@ -1,4 +1,7 @@
 declare namespace BedrockTools {
+    const version: string;
+    const startTime: number;
+    
     interface Route {
         name: string;
         route: string;
@@ -9,7 +12,6 @@ declare namespace BedrockTools {
         };
     }
 
-    const version: string;
     const router: {
         isTransitioning: boolean;
         routes: Route[];
@@ -24,6 +26,12 @@ declare namespace BedrockTools {
     const settings: {
         get(key: string): any;
         set(key: string, value: any): void;
+    };
+    const localisation: {
+        getLocale: () => string;
+        getLangs: () => string[];
+        translate: (id: string) => string;
+        translateWithParameters: (id: string, params: string[]) => string;
     };
 
     const functions: {

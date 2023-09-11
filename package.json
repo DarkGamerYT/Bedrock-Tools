@@ -17,6 +17,7 @@
 		"build": "electron-builder",
 		"build_mac": "electron-builder --mac dmg",
 		"build_linux": "electron-builder --linux deb",
+		"publish": "electron-builder --win -p onTagOrDraft",
 		"typecheck": "tsc -w"
 	},
 	"dependencies": {
@@ -25,6 +26,7 @@
 		"babylonjs": "^6.20.1",
 		"bytebuffer": "^5.0.1",
 		"discord-rpc": "^4.0.1",
+		"electron-updater": "^6.1.4",
 		"highlight.js": "^11.8.0",
 		"jszip": "^3.10.1",
 		"prismarine-nbt": "^2.2.1"
@@ -40,6 +42,13 @@
 		"appId": "com.xkingdark.bedrocktools",
 		"productName": "Bedrock Tools",
 		"artifactName": "${productName}-${version}.${ext}",
+		"publish":[
+			{
+				"provider": "github",
+				"owner": "DarkGamerYT",
+				"repo": "Bedrock-Tools"
+			}
+		],
 		"nsis": {
 			"allowToChangeInstallationDirectory": false,
 			"oneClick": true,

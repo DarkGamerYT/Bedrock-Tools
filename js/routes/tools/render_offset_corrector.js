@@ -2,7 +2,7 @@ const RenderOffset = {
     Component: () => {
         const isRight = BedrockTools.settings.get( "right" );
         return (
-            Components.createHeader({ text: "Render Offset Corrector", back: true, settings: true })
+            Components.createHeader({ text: BedrockTools.localisation.translate( "bedrocktools.addons.renderoffsetcorrector" ), back: true, settings: true })
             + (
                 `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
                     <div style="width: 50%;">

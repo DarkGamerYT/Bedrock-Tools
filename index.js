@@ -1,8 +1,10 @@
-const { app, BrowserWindow, globalShortcut } = require( "electron" );
+const { app, BrowserWindow, globalShortcut, ipcMain } = require( "electron" );
 const fs = require( "node:fs" );
 const path = require( "node:path" );
+const { autoUpdater } = require( "electron-updater" );
 require( "@electron/remote/main" ).initialize();
 
+let mainWin;
 let debug = false;
 app.on( "window-all-closed", () => app.quit() );
 app.on("ready",
@@ -21,6 +23,19 @@ app.on("ready",
 		
 		if (!debug) registerShortcuts();
 		createWindow();
+
+		autoUpdater.autoInstallOnAppQuit = true;
+		autoUpdater.autoDownload = false;
+		autoUpdater.allowPrerelease = true;
+	
+		autoUpdater.on(
+			"update-available", (a) => {
+				ipcMain.on("allow-update", () => autoUpdater.downloadUpdate());
+				if (!mainWin.isDestroyed()) mainWin.webContents.send( "update-available", a );
+			},
+		);
+
+		autoUpdater.checkForUpdates().catch(() => {});
 	},
 );
 
@@ -62,6 +77,7 @@ const createWindow = () => {
 		},
 	);
 	
+	mainWin = win;
 	require( "@electron/remote/main" ).enable( win.webContents );
 	app.setAppUserModelId( "Bedrock Tools" );
 	win.show();

@@ -6,7 +6,7 @@ const ManifestGenerator = {
     Component: () => {
         const isRight = BedrockTools.settings.get( "right" );
         return (
-            Components.createHeader({ text: "Manifest Generator", back: true, settings: true })
+            Components.createHeader({ text: BedrockTools.localisation.translate( "bedrocktools.addons.manifestgenerator" ), back: true, settings: true })
             + (
                 `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
                     <div style="width: 50%;">
@@ -71,7 +71,7 @@ const ManifestGenerator = {
                                 elements: [
                                     Components.createElement(
                                         {
-                                            type: "toggle",
+                                            type: "switch",
                                             title: "Script-API",
                                             subtitle: "Enables ScriptAPI",
                                             id: "scriptApiToggle",
@@ -98,7 +98,7 @@ const ManifestGenerator = {
                                         ${
                                             Components.createElement(
                                                 {
-                                                    type: "toggle",
+                                                    type: "switch",
                                                     title: "Beta",
                                                     subtitle: "Enable Beta modules in ScriptAPI",
                                                     toggled: beta,
@@ -208,12 +208,6 @@ const ManifestGenerator = {
         );
     },
 };
-/*BedrockTools.router.routes.push({
-    name: "Manifest Generator",
-    route: "/manifest_generator",
-    rpc: "manifest",
-    component: ,
-});*/
 
 const moduleToggle = (type) => {
     return (
@@ -226,7 +220,7 @@ const moduleToggle = (type) => {
                 return (
                     Components.createElement(
                         {
-                            type: "toggle",
+                            type: "switch",
                             title: m.module_name,
                             id: m.module_name,
                             onClick: (e) => {

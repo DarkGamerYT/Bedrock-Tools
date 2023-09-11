@@ -1,6 +1,7 @@
 const electron = require( "@electron/remote" );
 const fs = require( "node:fs" );
 const NBT = require( "prismarine-nbt" );
+electron.ipcMain.on("update-available", (data) => console.log(data));
 document.addEventListener(
     "keydown", (event) => {
         if (event.code == "Escape") {
@@ -36,25 +37,25 @@ document.addEventListener(
 BedrockTools.router.routes.push(
     {
         route: "/main_screen",
-        name: "Main Screen",
+        name: "bedrocktools.screen.mainscreen",
         component: MainScreen.Component,
         metadata: {},
     },
     {
         route: "/settings",
-        name: "Settings",
+        name: "bedrocktools.screen.settings",
         component: Settings.Component,
         metadata: {},
     },
     {
         route: "/manifest_generator",
-        name: "Manifest Generator",
+        name: "bedrocktools.addons.manifestgenerator",
         component: ManifestGenerator.Component,
         metadata: { rpc: "manifest" },
     },
     {
         route: "/id_generator",
-        name: "ID Generator",
+        name: "bedrocktools.utilities.idgenerator",
         component: IdGenerator.Component,
         metadata: {
             rpc: "id",
@@ -63,25 +64,19 @@ BedrockTools.router.routes.push(
     },
     {
         route: "/server_pinger",
-        name: "Server Pinger",
-        component: ServerPinger.Component,
-        metadata: { rpc: "multiplayer" },
-    },
-    {
-        route: "/server_pinger",
-        name: "Server Pinger",
+        name: "bedrocktools.utilities.serverpinger",
         component: ServerPinger.Component,
         metadata: { rpc: "multiplayer" },
     },
     {
         route: "/structure_converter",
-        name: "Structure Converter",
+        name: "bedrocktools.advanced.structureconverter",
         component: StructureConverter.Component,
         metadata: { rpc: "structure_converter" },
     },
     {
         route: "/structure_editor",
-        name: "Structure Editor",
+        name: "bedrocktools.advanced.structureeditor",
         component: StructureEditor.Component,
         metadata: {
             rpc: "structure_editor",
@@ -90,7 +85,7 @@ BedrockTools.router.routes.push(
     },
     {
         route: "/loop_generator",
-        name: "Loop Generator",
+        name: "bedrocktools.utilities.loopgenerator",
         component: LoopGenerator.Component,
         metadata: {
             rpc: "debug",
@@ -99,13 +94,13 @@ BedrockTools.router.routes.push(
     },
     {
         route: "/commands_tester",
-        name: "Commands Tester",
+        name: "bedrocktools.utilities.commandstester",
         component: CommandTester.Component,
         metadata: { rpc: "commands" },
     },
     {
         route: "/world_generator",
-        name: "World Generator",
+        name: "bedrocktools.advanced.worldgenerator",
         component: WorldGenerator.Component,
         metadata: {
             rpc: "world_gen",
@@ -114,15 +109,22 @@ BedrockTools.router.routes.push(
     },
     {
         route: "/json_rawtext_generator",
-        name: "JSON Rawtext Generator",
+        name: "bedrocktools.addons.rawtextgenerator",
         component: RawtextGenerator.Component,
         metadata: { rpc: "rawtext_generator" },
     },
     {
         route: "/render_offset_corrector",
-        name: "Render Offset Corrector",
+        name: "bedrocktools.addons.renderoffsetcorrector",
         component: RenderOffset.Component,
         metadata: { rpc: "render_offset" },
+    },
+    
+    {
+        route: "/components",
+        name: "bedrocktools.debug.components",
+        component: ComponentsRoute.Component,
+        metadata: {},
     },
 );
 

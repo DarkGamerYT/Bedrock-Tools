@@ -1,7 +1,7 @@
 const LoopGenerator = {
     Component: () => {
         return (
-            Components.createHeader({ text: "Loop Generator", back: true, settings: true })
+            Components.createHeader({ text: BedrockTools.localisation.translate( "bedrocktools.utilities.loopgenerator" ), back: true, settings: true })
             + (
                 `<div style="margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;">
                     <div id="tabs"></div>

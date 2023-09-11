@@ -6,8 +6,10 @@ const Settings = {
     Component: () => {
         let isRight = BedrockTools.settings.get( "right" );
         let discordRpc = BedrockTools.settings.get( "discordrpc" );
+        let locale = BedrockTools.settings.get( "locale" );
+        const langs = BedrockTools.localisation.getLangs();
         return (
-            Components.createHeader({ text: "Settings", back: true, settings: false })
+            Components.createHeader({ text: BedrockTools.localisation.translate( "bedrocktools.screen.settings" ), back: true, settings: false })
             + (
                 `<div style="margin-top: 25px;margin-left: auto;margin-right: auto;width: 65%;">
                     ${Components.createElements(
@@ -15,22 +17,33 @@ const Settings = {
                             elements: [
                                 Components.createElement(
                                     {
-                                        type: "toggle",
+                                        type: "switch",
                                         title: "Sidebar on the right",
                                         subtitle: "Places the sidebar to right side of the screen",
                                         id: "right",
                                         toggled: isRight,
-                                        onClick: (e) => SettingsRouteUtils.toggleRight(e),
+                                        onClick: SettingsRouteUtils.toggleRight,
                                     },
                                 ),
                                 Components.createElement(
                                     {
-                                        type: "toggle",
+                                        type: "switch",
                                         title: "Discord Rich Presence",
                                         subtitle: "Shows that you're using Bedrock Tools on your Discord profile",
                                         id: "discordrpc",
                                         toggled: discordRpc,
-                                        onClick: (e) => SettingsRouteUtils.toggleDiscordRpc(e),
+                                        onClick: SettingsRouteUtils.toggleDiscordRpc,
+                                    },
+                                ),
+                                Components.createElement(
+                                    {
+                                        type: "dropdown",
+                                        title: "Language",
+                                        subtitle: "Changes the app's display language",
+                                        id: "language",
+                                        selected: langs.indexOf(locale),
+                                        items: langs,
+                                        onChange: SettingsRouteUtils.changeLanguage,
                                     },
                                 ),
                             ],
@@ -50,9 +63,9 @@ const Settings = {
                                 BedrockTools.router.history.goBack();
                                 BedrockTools.sendToast(
                                     {
-                                        title: "Settings saved!",
                                         icon: "assets/checkmark_checked.png",
-                                        body: "All the settings have been saved successfully",
+                                        title: BedrockTools.localisation.translate( "bedrocktools.toast.settings.title" ),
+                                        body: BedrockTools.localisation.translate( "bedrocktools.toast.settings.body" ),
                                     },
                                 );
                             },
@@ -76,5 +89,11 @@ const SettingsRouteUtils = {
         let enabled = e.getAttribute( "value" ) == "true";
         if (discordRpc == enabled) modifiedSettings = modifiedSettings.filter((s) => s.name != "discordrpc");
         else modifiedSettings.push({ name: "discordrpc", value: enabled });
+    },
+    changeLanguage: (e) => {
+        let locale = BedrockTools.settings.get( "locale" );
+        let lang = BedrockTools.localisation.getLangs()[e.value];
+        if (locale == lang) modifiedSettings = modifiedSettings.filter((s) => s.name != "locale");
+        else modifiedSettings.push({ name: "locale", value: lang });
     },
 };

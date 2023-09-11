@@ -4,7 +4,7 @@
  * @typedef {{ text?: string; icon?: string; id: string; selected?: boolean; onClick: () => any; }} TabOptions
  * @typedef {{ elements: string[] }} ElementsOptions
  * @typedef {{
-    type: "button" | "toggle" | "text" | "tab" | "element" | "dropdown" | "input" | "textbox" | "upload";
+    type: "button" | "switch" | "text" | "tab" | "element" | "dropdown" | "input" | "textbox" | "toggle" | "checkbox" | "upload";
     title?: string;
     subtitle?: string;
     text?: string | {
@@ -14,9 +14,10 @@
     id?: string;
     onClick?: () => any;
     onChange?: () => any;
-    style?: "primary" | "secondary" | "destructive" | "hero" | "code";
+    style?: "primary" | "secondary" | "destructive" | "hero" | "purple" | "code";
     icon?: string;
     toggled?: boolean;
+    checked?: boolean;
     disabled?: boolean;
     accept?: string;
     useTitle?: boolean;
@@ -26,7 +27,7 @@
     placeholder?: string;
     value?: string;
     selected?: number;
-    items?: string[];
+    items?: string[] | { icon?: string; label: string; description?: string; }[];
     input?: {
         type?: "text" | "number";
         min?: number;
@@ -40,7 +41,6 @@ const Functions = {
     button: () => BedrockTools.sound.play( "ui.click" ),
 
     /**
-     * 
      * @param { HTMLElement } element 
      */
     toggle: (element) => {
@@ -50,6 +50,18 @@ const Functions = {
     
         if (!value) element.className = "toggle toggleOn";
         else element.className = "toggle toggleOff";
+    },
+
+    /**
+     * @param { HTMLElement } element 
+     */
+    checkbox: (element) => {
+        BedrockTools.sound.play( "ui.click" );
+        let value = element.getAttribute( "value" ) == "true";
+        element.setAttribute( "value", (!value).toString() );
+    
+        if (!value) element.className = "checkbox checkboxChecked";
+        else element.className = "checkbox checkboxUnchecked";
     },
 };
 
@@ -103,30 +115,40 @@ const Components = {
             settings.id = "settings";
 
             const divider = document.createElement( "dev" );
-            divider.style = "width: 2px;height: 16px;margin-right: 4px;margin-left: 4px;background-color: lightgray;"
+            divider.style.width = "2px";
+            divider.style.height = "16px";
+            divider.style.marginRight = "4px";
+            divider.style.marginLeft = "4px";
+            divider.style.backgroundColor = "lightgray";
             
             space.append( settings );
             space.append( divider );
         };
 
         const main = document.createElement( "div" );
-        main.style = "display: flex; flex-direction: row; margin-right: 0.4rem; margin-left: 0.4rem;";
+        main.style.display = "flex";
+        main.style.flexDirection = "row";
+        main.style.marginRight = "0.4rem";
+        main.style.marginLeft = "0.4rem";
 
         const close = document.createElement( "div" );
         close.className = "headerButton";
-        close.style = "margin-right: 0; margin-left: 0;";
+        close.style.marginRight = "0";
+        close.style.marginLeft = "0";
         close.innerHTML = `<img src="assets/close.png" draggable="false" style="image-rendering: pixelated; width: 10px; height: 10px;">`;
         close.id = "closeApp";
 
         const maximize = document.createElement( "div" );
         maximize.className = "headerButton";
-        maximize.style = "margin-right: 0; margin-left: 0;";
+        maximize.style.marginRight = "0";
+        maximize.style.marginLeft = "0";
         maximize.innerHTML = `<img src="assets/maximize.png" draggable="false" style="image-rendering: pixelated; width: 10px; height: 10px;">`;
         maximize.id = "maximizeApp";
 
         const minimize = document.createElement( "div" );
         minimize.className = "headerButton";
-        minimize.style = "margin-right: 0; margin-left: 0;";
+        minimize.style.marginRight = "0";
+        minimize.style.marginLeft = "0";
         minimize.innerHTML = `<img src="assets/minimize.png" draggable="false" style="image-rendering: pixelated; width: 10px; height: 10px;">`;
         minimize.id = "minimizeApp";
         
@@ -239,6 +261,7 @@ const Components = {
                     /**
                      * @type { HTMLElement }
                      */
+                    // @ts-ignore
                     const target = e.target;
                     if (
                         !target.classList.contains( "dropdownElement" )
@@ -253,7 +276,7 @@ const Components = {
                         const dropdownElement = document.getElementById( options?.id );
                         dropdownElement.setAttribute( "opened", "false" );
                         dropdownOptions.style.display = "none";
-                        dropdownE.style.zIndex = 1;
+                        dropdownE.style.zIndex = "1";
 
                         document.removeEventListener("click", event);
                         console.log(e.target);
@@ -314,24 +337,52 @@ const Components = {
 
                 return (
                     `<div class="element" style="z-index: 1;" id="${options?.id}-element">
-                        <span class="elementTitle">${options?.title ?? ""}</span>
-                        <div class="dropdown oreUIButtonSecondary">
-                            <div class="oreUIButton_ oreUIButtonSecondaryBackground">
-                                <div class="oreUISpecular oreUIButton_One"></div>
-                                <div class="oreUISpecular oreUIButton_Two"></div>
-                                <div style="width: 100%">
-                                    <div class="dropdownElement" id="${options?.id}" opened="false" value="${selected}" onClick="BedrockTools.functions.onClick['${options?.id}'](this);">
-                                        <div style="pointer-events: none;" id="${options?.id}-text">${options?.items?.find((i, index) => selected == index)}</div>
-                                        <img style="pointer-events: none;" src="assets/chevron_down.png">
+                        ${
+                            options?.subtitle
+                            ? (
+                                `<div style="flex-direction: row;place-content: space-between;align-items: center;">
+                                    <div>
+                                        <span class="elementTitle_">${options?.title ?? ""}</span>
+                                        <span class="elementSubtitle">${options?.subtitle ?? ""}</span>
                                     </div>
-                                    <div class="dropdownOptions" id="${options?.id}-items" style="display: none;">
-                                        <div style="height: 1px;background-color: rgba(255, 255, 255, 0.3);"></div>
-                                        <div id="${options?.id}-itemList">${buildItems()}</div>
-                                        <div style="height: 1px;background-color: rgba(255, 255, 255, 0.3);"></div>
+                                    <div class="dropdown oreUIButtonSecondary" style="width: 180px;margin-top: 8px;margin-bottom: 8px;">
+                                        <div class="oreUIButton_ oreUIButtonSecondaryBackground">
+                                            <div class="oreUISpecular oreUIButton_One"></div>
+                                            <div class="oreUISpecular oreUIButton_Two"></div>
+                                            <div style="width: 100%">
+                                                <div class="dropdownElement" id="${options?.id}" opened="false" value="${selected}" onClick="BedrockTools.functions.onClick['${options?.id}'](this);">
+                                                    <div style="pointer-events: none;" id="${options?.id}-text">${options?.items?.find((i, index) => selected == index) ?? "Unknown"}</div>
+                                                    <img style="pointer-events: none;" src="assets/chevron_down.png">
+                                                </div>
+                                                <div class="dropdownOptions" id="${options?.id}-items" style="display: none;">
+                                                    <div id="${options?.id}-itemList">${buildItems()}</div>
+                                                    <div style="height: 2px;background-color: #8c8d90;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
+                                </div>`
+                            )
+                            : (
+                                `<span class="elementTitle">${options?.title ?? ""}</span>
+                                <div class="dropdown oreUIButtonSecondary">
+                                    <div class="oreUIButton_ oreUIButtonSecondaryBackground">
+                                        <div class="oreUISpecular oreUIButton_One"></div>
+                                        <div class="oreUISpecular oreUIButton_Two"></div>
+                                        <div style="width: 100%">
+                                            <div class="dropdownElement" id="${options?.id}" opened="false" value="${selected}" onClick="BedrockTools.functions.onClick['${options?.id}'](this);">
+                                                <div style="pointer-events: none;" id="${options?.id}-text">${options?.items?.find((i, index) => selected == index) ?? "Unknown"}</div>
+                                                <img style="pointer-events: none;" src="assets/chevron_down.png">
+                                            </div>
+                                            <div class="dropdownOptions" id="${options?.id}-items" style="display: none;">
+                                                <div id="${options?.id}-itemList">${buildItems()}</div>
+                                                <div style="height: 2px;background-color: #8c8d90;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`
+                            )
+                        }
                     </div>`
                 );
             };
@@ -350,6 +401,7 @@ const Components = {
                             value="${options?.value ?? ""}"
                             ${options?.onChange? `onChange='BedrockTools.functions.onChange["${options?.id}"](this);'` : ""}
                         ></input>
+                        ${options?.subtitle ? `<div style="color: #d0d1d4;font-size: 0.8rem;margin-bottom: 8px;margin-top: -4px;">${options.subtitle}</div>` : ""}
                     </div>`
                 );
             };
@@ -379,11 +431,13 @@ const Components = {
                                 <div class="oreUISpecular oreUIButton_Two"></div>
                                 <label
                                     style="font-size: 13px;cursor: pointer;width: auto;display: flex;gap: 8px;height: inherit;align-items: center;padding: 0 6px;"
-                                    id="${options?.text?.id ?? ""}"
+                                    id="${options?.text?.// @ts-ignore
+                                    id ?? ""}"
                                     for="${options?.id ?? ""}"
                                 >
                                     <img src="assets/import.png" draggable="false" style="image-rendering: pixelated; height: 22px; width: 24px;">
-                                    <div style="font-family: 'MinecraftFive';color: black;font-weight: bold;font-size: 10px;text-overflow: ellipsis;overflow: hidden;height: inherit;">${options?.text?.body ?? ""}</div>
+                                    <div style="font-family: 'MinecraftFive';color: black;font-weight: bold;font-size: 10px;text-overflow: ellipsis;overflow: hidden;height: inherit;">${options?.text?.// @ts-ignore
+                                    body ?? ""}</div>
                                 </label>
                                 <input
                                     name="packType"
@@ -401,7 +455,7 @@ const Components = {
                 );
             };
 
-            case "toggle": {
+            case "switch": {
                 BedrockTools.functions.onClick[options?.id] = options?.onClick ?? (() => {});
                 return (
                     `<div class="element">
@@ -421,6 +475,26 @@ const Components = {
                 );
             };
 
+            case "checkbox": {
+                BedrockTools.functions.onClick[options?.id] = options?.onClick ?? (() => {});
+                return (
+                    `<div class="element">
+                        <div style="flex-direction: unset;margin-top: 8px;margin-bottom: 8px;">
+                            <div
+                                class="checkbox ${options.disabled ? "checkboxDisabled" : options.checked ? "checkboxChecked" : "checkboxUnchecked"}"
+                                id="${options?.id ?? ""}"
+                                value=${options.checked ?? false}
+                                onClick='if(className != "checkbox checkboxDisabled") { Functions.checkbox(this); BedrockTools.functions.onClick["${options?.id}"](this); }'
+                            ></div>
+                            <div>
+                                <span class="${options?.subtitle ? "elementTitle_" : "elementTitle__"}">${options?.title ?? ""}</span>
+                                <span class="elementSubtitle">${options?.subtitle ?? ""}</span>
+                            </div>
+                        </div>
+                    </div>`
+                );
+            };
+
             case "button": {
                 let style = "oreUIButtonPrimary";
                 let background = "oreUIButtonPrimaryBackground";
@@ -428,6 +502,7 @@ const Components = {
                     case "primary": style = "oreUIButtonPrimary"; background = "oreUIButtonPrimaryBackground"; break;
                     case "secondary": style = "oreUIButtonSecondary"; background = "oreUIButtonSecondaryBackground"; break;
                     case "destructive": style = "oreUIButtonDestructive"; background = "oreUIButtonDestructiveBackground"; break;
+                    case "purple": style = "oreUIButtonPurple"; background = "oreUIButtonPurpleBackground"; break;
                     case "hero": style = "oreUIButtonHero"; background = "oreUIButtonHeroBackground"; break;
                 };
 
@@ -464,6 +539,75 @@ const Components = {
                         </div>
                     </div>`
                 )
+            };
+
+            case "toggle": {
+                BedrockTools.functions.onChange[options?.id] = options?.onChange ?? (() => {});
+
+                let selected = options?.selected ?? 0;
+                const buildItems = () => options.items.map(
+                    (i, index) => {
+                        const isSelected = selected == index;
+                        return (
+                            `<div
+                                class="oreUIButton ${isSelected ? "oreUIToggleSelected" : "oreUIButtonSecondary"}"
+                                style="width: 100%;margin-left: -1px;margin-right: -1px;"
+                                onClick="BedrockTools.functions.onClick['${options.id}-item'](${index})"
+                            >
+                                <div class="oreUIButton_ ${isSelected ? "oreUIToggleSelectedBackground" : "oreUIButtonSecondaryBackground"}" style="height: 2.5rem;">
+                                    <div class="oreUISpecular oreUIButton_One"></div>
+                                    <div class="oreUISpecular oreUIButton_Two"></div>
+                                    <div class="_oreUIButton">
+                                        <div class="_oreUIButton_">
+                                            <div class="_oreUIButton__">
+                                                ${
+                                                    i?.icon
+                                                    ? `<div>
+                                                        <img style="height: 24px; width: 24px;" src="${i.icon}" draggable="false">
+                                                    </div>
+                                                    <div style="height: 0.8rem; width: 0.8rem;"></div>`
+                                                    : ""
+                                                }
+                                                <div class="_oreUIButton___">${i.label}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                ${
+                                    isSelected
+                                    ? `<div style="bottom: 0; display: block; height: 2px; position: absolute; width: 4.8rem; background-color: #ffffff;"></div>`
+                                    : ""
+                                }
+                            </div>`
+                        );
+                    },
+                ).join( "" );
+                const getDecsription = () => {
+                    const item = options.items.filter((i, index) => selected == index)[0]
+                    return item?.description ? `<div style="color: #d0d1d4;font-size: 0.8rem;margin-bottom: 8px;margin-top: -4px;">${item.description}</div>` : "";
+                };
+
+                BedrockTools.functions.onClick[options?.id + "-item"] = (s = 0) => {
+                    BedrockTools.sound.play( "ui.click" );
+
+                    selected = s;
+                    document.getElementById(options.id).setAttribute("value", selected.toString());
+                    document.getElementById(options.id + "-items").innerHTML = buildItems();
+                    document.getElementById(options.id + "-description").innerHTML = getDecsription();
+                    BedrockTools.functions.onChange[options?.id]({ value: selected });
+                };
+
+                return (
+                    `<div class="element" id="${options.id}" value="${selected}">
+                        <span class="elementTitle">${options?.title ?? ""}</span>
+                        <span class="elementSubtitle">${options?.subtitle ?? ""}</span>
+                        <div
+                            style="flex-direction: row;margin-top: 8px;margin-bottom: 8px;"
+                            id="${(options.id + "-items")}"
+                        >${buildItems()}</div>
+                        <div id="${options.id + "-description"}">${getDecsription()}</div>
+                    </div>`
+                );
             };
 
             default: return "";

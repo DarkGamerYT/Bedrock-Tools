@@ -3,7 +3,7 @@ const RawtextGenerator = {
         const modules = new RawtextModules();
         const isRight = BedrockTools.settings.get("right");
         return (
-            Components.createHeader({ text: "JSON Rawtext Generator", back: true, settings: true })
+            Components.createHeader({ text: BedrockTools.localisation.translate( "bedrocktools.addons.rawtextgenerator" ), back: true, settings: true })
             + (
                 `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
                     <div style="width: 50%;">
@@ -335,7 +335,7 @@ class RawtextModules {
                                 ),
                                 Components.createElement(
                                     {
-                                        type: "toggle",
+                                        type: "switch",
                                         title: "With Array",
                                         id: `toggleArray:${module.id}`,
                                         disabled: module.withRawtextToggle,
@@ -356,7 +356,7 @@ class RawtextModules {
                                 ),
                                 Components.createElement(
                                     {
-                                        type: "toggle",
+                                        type: "switch",
                                         title: "With Rawtext Object",
                                         id: `toggleRawtext:${module.id}`,
                                         disabled: module.withArrayToggle,
