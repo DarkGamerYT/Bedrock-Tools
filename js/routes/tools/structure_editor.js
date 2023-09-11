@@ -1,5 +1,4 @@
-const THREE = require("three");
-let structureData;
+const BABYLON = require("babylonjs");
 const StructureEditor = {
     Component: () => {
         const isRight = BedrockTools.settings.get("right");
@@ -47,60 +46,9 @@ const StructureEditor = {
                                 const reader = new FileReader();
                                 reader.addEventListener(
                                     "load", async () => {
-                                        const { parsed } = await NBT.parse(Buffer.from(reader.result));
-                                        const structureSize = parsed.value.size.value.value;
-                                        structureData = parsed.value.structure.value;
-                                        
-                                        const rgbLines = sceneManager.createSizeLines(structureSize, new THREE.Vector3(-structureSize[0] / 2, 0, -structureSize[2] / 2), true);
-                                        const sizeLines1 = sceneManager.createSizeLines(structureSize, new THREE.Vector3(structureSize[0] / 2, 0, structureSize[2] / 2), false, true, false, true);
-                                        const sizeLines2 = sceneManager.createSizeLines(structureSize, new THREE.Vector3(-structureSize[0] / 2, structureSize[1], structureSize[2] / 2), false, false, true, true);
-                                        const sizeLines3 = sceneManager.createSizeLines(structureSize, new THREE.Vector3(structureSize[0] / 2, structureSize[1], -structureSize[2] / 2), false, true, true, false);
-                                        sceneManager.scene.add(rgbLines.xLine, rgbLines.yLine, rgbLines.zLine)
-                                        sceneManager.scene.add(sizeLines1.xLine, sizeLines1.yLine, sizeLines1.zLine)
-                                        sceneManager.scene.add(sizeLines2.xLine, sizeLines2.yLine, sizeLines2.zLine)
-                                        sceneManager.scene.add(sizeLines3.xLine, sizeLines3.yLine, sizeLines3.zLine)
-
-                                        var selection = 0;
-                                        for (let x = 0; x < structureSize[0]; x++) {
-                                            for (let y = 0; y < structureSize[1]; y++) {
-                                                for (let z = 0; z < structureSize[2]; z++) {
-                                                    const palette = structureData.block_indices.value.value[0].value[selection];
-                                                    const block = structureData.palette.value.default.value.block_palette.value.value[palette];
-                                                    if (block.name.value != "minecraft:air") {
-                                                        var texturePath = block.name.value.replace("minecraft:", "");
-                                                        const blockTexture = blocks[texturePath];
-                                                        const blockTextureType = typeof blockTexture?.textures;
-                                                        if(blockTextureType == "object")
-                                                        {
-                                                            if(Object.keys(blockTexture.textures).length == 3)
-                                                            {
-                                                                sceneManager.scene.add(sceneManager.createCube(new THREE.Vector3(x - structureSize[0]/2 + 0.5, y + 0.5, z - structureSize[2]/2 + 0.5),
-                                                                    blockTexture.textures.side,
-                                                                    blockTexture.textures.side,
-                                                                    blockTexture.textures.side,
-                                                                    blockTexture.textures.side,
-                                                                    blockTexture.textures.up,
-                                                                    blockTexture.textures.down));
-                                                            }
-                                                            else
-                                                            {
-                                                                sceneManager.scene.add(sceneManager.createCube(new THREE.Vector3(x - structureSize[0]/2 + 0.5, y + 0.5, z - structureSize[2]/2 + 0.5),
-                                                                    blockTexture.textures.north,
-                                                                    blockTexture.textures.south,
-                                                                    blockTexture.textures.east,
-                                                                    blockTexture.textures.west,
-                                                                    blockTexture.textures.up,
-                                                                    blockTexture.textures.down));
-                                                            }
-                                                        }
-                                                        else
-                                                            sceneManager.scene.add(sceneManager.createCube(new THREE.Vector3(x - structureSize[0]/2 + 0.5, y + 0.5, z - structureSize[2]/2 + 0.5), blockTexture.textures));
-                                                        
-                                                    }
-                                                    selection++;
-                                                }
-                                            }
-                                        };
+                                        sceneManager.resetScene();
+                                        await structureManager.setDataAsync(Buffer.from(reader.result));
+                                        sceneManager.generateStructure(structureManager);
                                     },
                                 );
 
@@ -126,29 +74,36 @@ const StructureEditor = {
             )
         )
     },
-    onLoad: () => sceneManager.createScene(),
+    onLoad: () => sceneManager.setupScene(),
 };
 
 class SceneManager {
     constructor(canvasId = "viewer") {
-        this.canvas = null;
+        /** @type {String} */
         this.canvasId = canvasId;
-        this.renderer = null;
-        this.scene = new THREE.Scene({ antialias: true });
+        /** @type {HTMLCanvasElement} */
+        this.canvas = null;
+        /** @type {BABYLON.Engine} */
+        this.engine = null;
+        /** @type {BABYLON.Scene} */
+        this.scene = null;
+        /** @type {BABYLON.ArcRotateCamera} */
         this.camera = null;
+        /** @type {TextureManager} */
+        this.textureManager = null;
+        /** @type {MaterialManager} */
+        this.materialManager = new MaterialManager();
         this.route = () => BedrockTools.router.routes.find((r) => r.route == BedrockTools.router.history.list[BedrockTools.router.history.list.length - 1]);
     }
 
-    createScene() {
-        this.canvas = document.querySelector(`#${this.canvasId}`);
-        this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
-        this.renderer.setPixelRatio(window.devicePixelRatio * 5);
-        this.camera = new THREE.PerspectiveCamera(75, this.canvas.clientWidth / this.canvas.clientHeight, 0.1, 1000);
-
-        const light = this.createDirectionalLight(0xfff0c9, 4);
-        this.scene.add(new THREE.GridHelper(3, 3));
-        this.scene.add(light, this.createAmbientLight(0xfff0c9, 1));
-
+    resetScene() {
+        this.engine.stopRenderLoop();
+        this.scene.dispose();
+        this.engine.dispose();
+        this.camera.dispose();
+        this.setupScene();
+        //this.blockTextureLoader.clear();
+        /*
         this.scene.background = (
             new THREE.CubeTextureLoader()
                 .setPath("assets/panorama/")
@@ -161,121 +116,311 @@ class SceneManager {
                     "panorama_2.png"
                 ])
         );
-        
-        new OrbitControls(this.camera, this.renderer.domElement);
+        */
+    }
 
-        this.camera.position.setX(5);
-        this.camera.position.setY(5);
-        this.camera.position.setZ(5);
-        this.camera.lookAt(new THREE.Vector3(0, 0, 0));
+    setupScene() {
+        this.canvas = document.querySelector(`#${this.canvasId}`);
+        this.engine = new BABYLON.Engine(this.canvas, true);
+        this.scene = new BABYLON.Scene(this.engine);
+        this.textureManager = new TextureManager("assets/blocks", "missing_texture.png", this.scene);
+        this.createHemisphereLight("mainAmbient", "#ffEEAA", 1, new BABYLON.Vector3(1,1,0));
+        this.camera = new BABYLON.ArcRotateCamera("mainCamera", 0, 0, 10, new BABYLON.Vector3(), this.scene);
+        this.camera.setTarget(BABYLON.Vector3.Zero());
+        this.camera.attachControl(this.canvas, true);
+        this.camera.inputs.addMouseWheel();
+        this.camera.wheelPrecision = 15;
 
         this.animate();
     };
 
     animate = () => {
-        if (this.route().route != "/structure_editor") 
-        {
-            this.scene.clear();
-            this.renderer.dispose();
-            this.renderer = null;
-            this.canvas = null;
-            this.camera = null;
-            return;
-        }
-        requestAnimationFrame(this.animate);
-        this.renderer.render(this.scene, this.camera);
+        const dispose = () => this.dispose();
+        const route = () => this.route().route;
+        const scene = this.scene;
+        this.engine.runRenderLoop(function () {
+            if (route() != "/structure_editor") {
+                dispose();
+            }
+            scene.render();
+        });
     };
 
-    createCube(
-        position = new THREE.Vector3(0, 0, 0),
-        imgSourceFront = "missing_texture",
-        imgSourceBack = undefined,
-        imgSourceLeft = undefined,
-        imgSourceRight = undefined,
-        imgSourceTop = undefined,
-        imgSourceBottom = undefined
-    ) {
-        const geometry = new THREE.BoxGeometry(1, 1, 1);
-        const loader = new THREE.TextureLoader().setPath("assets/blocks/");
-        let material;
-        if (imgSourceBack) {
-            const frontTexture = loader.load((imgSourceFront ?? "missing_texture") + ".png");
-            const backTexture = loader.load((imgSourceBack ?? "missing_texture") + ".png");
-            const leftTexture = loader.load((imgSourceLeft ?? "missing_texture") + ".png");
-            const rightTexture = loader.load((imgSourceRight ?? "missing_texture") + ".png");
-            const topTexture = loader.load((imgSourceTop ?? "missing_texture") + ".png");
-            const bottomTexture = loader.load((imgSourceBottom ?? "missing_texture") + ".png");
-
-            frontTexture.magFilter = THREE.NearestFilter;
-            frontTexture.encoding = THREE.sRGBEncoding;
-            backTexture.magFilter = THREE.NearestFilter;
-            backTexture.encoding = THREE.sRGBEncoding;
-            leftTexture.magFilter = THREE.NearestFilter;
-            leftTexture.encoding = THREE.sRGBEncoding;
-            rightTexture.magFilter = THREE.NearestFilter;
-            rightTexture.encoding = THREE.sRGBEncoding;
-            topTexture.magFilter = THREE.NearestFilter;
-            topTexture.encoding = THREE.sRGBEncoding;
-            bottomTexture.magFilter = THREE.NearestFilter;
-            bottomTexture.encoding = THREE.sRGBEncoding;
-
-            material = [
-                new THREE.MeshLambertMaterial({ map: rightTexture, side:THREE.DoubleSide }),
-                new THREE.MeshLambertMaterial({ map: leftTexture, side:THREE.DoubleSide }),
-                new THREE.MeshLambertMaterial({ map: topTexture, side:THREE.DoubleSide }),
-                new THREE.MeshLambertMaterial({ map: bottomTexture, side:THREE.DoubleSide }),
-                new THREE.MeshLambertMaterial({ map: frontTexture, side:THREE.DoubleSide }),
-                new THREE.MeshLambertMaterial({ map: backTexture, side:THREE.DoubleSide })
-            ];
-        }
-        else {
-            const texture = loader.load((imgSourceFront ?? "missing_texture") + ".png");
-            texture.magFilter = THREE.NearestFilter;
-            texture.encoding = THREE.sRGBEncoding;
-            material = new THREE.MeshLambertMaterial({ map: texture, side:THREE.DoubleSide });
-        };
-
-        const cube = new THREE.Mesh(geometry, material);
-        cube.position.set(position.x, position.y, position.z)
-        return cube;
-    }
-
-    createDirectionalLight(color = 0xffffff, intensity = 1.0) {
-        const light = new THREE.DirectionalLight(color, intensity);
-        light.position.set( 1, 1, 1 ); //default; light shining from top
-        return light;
-    }
-
-    createAmbientLight(color = 0xffffff, intensity = 1.0) {
-        const light = new THREE.AmbientLight(color, intensity);
-        return light;
-    }
-
-    createLines(points = [], color = 0xffffff) {
-        const material = new THREE.LineBasicMaterial({ color: color });
-        const geometry = new THREE.BufferGeometry().setFromPoints(points);
-        const line = new THREE.Line(geometry, material);
-        return line;
-    }
-
-    createSizeLines(structureSize = [], startPoint = new THREE.Vector3(0,0,0), isRgb = false, flipX = false, flipY = false, flipZ = false)
+    dispose()
     {
-        const xLine = this.createLines([
-            startPoint,
-            new THREE.Vector3(flipX? startPoint.x - structureSize[0] : startPoint.x + structureSize[0], startPoint.y, startPoint.z)
-        ],
-            isRgb? 0xff0000 : 0xffffff);
-        const yLine = this.createLines([
-            startPoint,
-            new THREE.Vector3(startPoint.x, flipY? startPoint.y - structureSize[1] : startPoint.y + structureSize[1], startPoint.z)
-        ],
-        isRgb? 0x00ff00 : 0xffffff);
-        const zLine = this.createLines([
-            startPoint,
-            new THREE.Vector3(startPoint.x, startPoint.y, flipZ? startPoint.z - structureSize[2] : startPoint.z + structureSize[2])
-        ],
-        isRgb? 0x0000ff : 0xffffff);
-        return { xLine, yLine, zLine };
+        this.scene.dispose();
+        this.engine.stopRenderLoop();
+        this.engine.dispose();
+        this.renderer = null;
+        this.canvas = null;
+        this.camera = null;
+        this.blockTextureLoader = null;
+    }
+
+    createHemisphereLight(name = "mainAmbient", color = "#ffffff", intensity = 1.0, position = new BABYLON.Vector3()) {
+        const light = new BABYLON.HemisphericLight(name, position);
+        light.diffuse = BABYLON.Color3.FromHexString(color);
+        light.intensity = intensity;
+        return light;
+    }
+
+    createDirectionalLight(name = "mainDirectional", color = "#ffffff", intensity = 1.0, direction = new BABYLON.Vector3()) {
+        const light = new BABYLON.DirectionalLight(name, direction, this.scene);
+        light.intensity = intensity;
+        light.diffuse = BABYLON.Color3.FromHexString(color);
+        return light;
+    }
+
+    createGround(name = "mainGround", width = 6, height = 6) {
+        const ground = BABYLON.MeshBuilder.CreateGround(name,
+            { width: width, height: height }, this.scene);
+        return ground;
+    }
+
+
+    generateStructure(structureManager) {
+        for (let i = 0; i < structureManager.virtualStructure.length; i++) {
+            this.addBlockAsync(structureManager.virtualStructure[i]);
+        }
+    }
+    /**
+     * 
+     * @param {BlockData} block 
+     * @returns 
+     */
+    async addBlockAsync(block) {
+        if (block.paletteData.name.value == "minecraft:air") return;
+        const material = block.getBlockMaterial(this.scene, this.textureManager, this.materialManager);
+        const cube = BABYLON.MeshBuilder.CreateBox(crypto.randomUUID(), { width: 1, height: 1 });
+        cube.material = material;
+        cube.subMeshes=[];
+    	var verticesCount=cube.getTotalVertices();
+	    cube.subMeshes.push(new BABYLON.SubMesh(0, 0, verticesCount, 0, 6, cube));
+	    cube.subMeshes.push(new BABYLON.SubMesh(1, 1, verticesCount, 6, 6, cube));
+	    cube.subMeshes.push(new BABYLON.SubMesh(2, 2, verticesCount, 12, 6, cube));
+	    cube.subMeshes.push(new BABYLON.SubMesh(3, 3, verticesCount, 18, 6, cube));
+	    cube.subMeshes.push(new BABYLON.SubMesh(4, 4, verticesCount, 24, 6, cube));
+	    cube.subMeshes.push(new BABYLON.SubMesh(5, 5, verticesCount, 30, 6, cube));
+        cube.position = block.position;
     }
 }
+class StructureManager {
+    constructor() {
+        /** @type {Object} the structure data.*/
+        this.structureData = null;
+        /** @type {BABYLON.Vector3} the structure size.*/
+        this.structureSize = new BABYLON.Vector3();
+        /** @type {Array<BlockData>} virtual block data world.*/
+        this.virtualStructure = [];
+    }
+
+    /**
+     * 
+     * @param {BABYLON.Vector3} position 
+     * @returns undefined | BlockData
+     */
+    getBlock(position = new BABYLON.Vector3()) {
+        const block = this.virtualStructure.find(x => x.position.x == position.x && x.position.y == position.y && x.position.z == position.z);
+        return block;
+    }
+
+    /**
+     * @param {Buffer} structureBufferData 
+     */
+    async setDataAsync(structureBufferData) {
+        this.virtualStructure = [];
+        const { parsed } = await NBT.parse(structureBufferData);
+        this.structureData = parsed.value.structure.value;
+        this.structureSize = new BABYLON.Vector3(parsed.value.size.value.value[0], parsed.value.size.value.value[1], parsed.value.size.value.value[2]);
+        var selection = 0;
+        for (let x = 0; x < this.structureSize.x; x++) {
+            for (let y = 0; y < this.structureSize.y; y++) {
+                for (let z = 0; z < this.structureSize.z; z++) {
+                    const palette = this.structureData.block_indices.value.value[0].value[selection];
+                    const blockPaletteData = this.structureData.palette.value.default.value.block_palette.value.value[palette];
+                    const block = new BlockData();
+                    block.paletteData = blockPaletteData;
+                    block.position = new BABYLON.Vector3(x, y, z);
+                    block.texture = blocks[blockPaletteData.name.value.replace("minecraft:", "")].textures;
+                    this.virtualStructure.push(block);
+                    selection++;
+                }
+            }
+        }
+    }
+}
+
+class BlockData {
+    constructor() {
+        this.paletteData = null;
+        this.position = new BABYLON.Vector3(0, 0, 0);
+        this.texture = "missing_texture";
+        this.isCube = true;
+    }
+
+    /**
+     * @param {BABYLON.Scene} scene
+     * @param {TextureManager} textureManager 
+     * @param {MaterialManager} materialManager 
+     */
+    getBlockMaterial(scene, textureManager, materialManager)
+    {
+        if(this.isCube)
+        {
+            /** @type {Array<BABYLON.Texture>} */
+            let cubeTexture;
+            if(typeof this.texture == "string")
+            {
+                const textureList = [
+                    this.texture + ".png",
+                    this.texture + ".png",
+                    this.texture + ".png",
+                    this.texture + ".png",
+                    this.texture + ".png",
+                    this.texture + ".png"
+                ]
+                cubeTexture = textureManager.loadCubeTextures(scene, textureList, this.paletteData.name.value);
+            }
+            else
+            {
+                const keys = Object.keys(this.texture);
+                if(keys.length == 3)
+                {
+                    const textureList = [
+                        this.texture["up"] + ".png",
+                        this.texture["down"] + ".png",
+                        this.texture["side"] + ".png",
+                        this.texture["side"] + ".png",
+                        this.texture["side"] + ".png",
+                        this.texture["side"] + ".png"
+                    ]
+                    cubeTexture = textureManager.loadCubeTextures(scene, textureList, this.paletteData.name.value);
+                }
+                else
+                {
+                    const textureList = [
+                        this.texture["up"] + ".png",
+                        this.texture["down"] + ".png",
+                        this.texture["east"] + ".png",
+                        this.texture["west"] + ".png",
+                        this.texture["north"] + ".png",
+                        this.texture["south"] + ".png"
+                    ]
+                    cubeTexture = textureManager.loadCubeTextures(scene, textureList, this.paletteData.name.value);
+                }
+            }
+
+            return materialManager.createCubeMaterial(scene, cubeTexture, this.paletteData.name.value);
+        }
+    }
+}
+
+class TextureManager
+{
+    /**
+     * 
+     * @param {String} rootPath 
+     * @param {String} defaultTexture
+     * @param {BABYLON.Scene} scene
+     */
+    constructor(rootPath = "assets/blocks", defaultTexture, scene)
+    {
+        /** @type {Array<BABYLON.Texture>} */
+        this.textures = [];
+        /** @type {Array<String>} */
+        this.failedPaths = [];
+        /** @type {String} */
+        this.rootPath = rootPath;
+        /** @type {BABYLON.Texture} */
+        this.defaultTexture = this.loadTexture(scene, defaultTexture, "missing_texture");
+    }
+
+    /**
+     * 
+     * @param {Array<String>} urls
+     * @param {BABYLON.Scene} scene
+     * @param {String} name
+     * @returns {Array<BABYLON.Texture>}
+     */
+    loadCubeTextures(scene, urls = [], name)
+    {
+        /** @type {Array<BABYLON.Texture>} */
+        const textures = [];
+        for(let i = 0; i < urls.length; i++)
+        {
+            textures.push(this.loadTexture(scene, urls[i], `${name}-${i}`));
+        }
+        return textures;
+    }
+
+    /**
+     * @param {BABYLON.Scene} scene
+     * @param {String} url
+     * @param {String} name
+     * @returns {BABYLON.Texture}
+     */
+    loadTexture(scene, url = "missing_texture", name)
+    {
+        const loadedTexture = this.textures.findIndex(x => x.name == name)
+        if(loadedTexture != -1) return this.textures[loadedTexture];
+
+        const fullpath = `${this.rootPath}/${url}`;
+        if(this.failedPaths.includes(fullpath)) return this.defaultTexture;
+
+        const texture = new BABYLON.Texture(fullpath, scene, true, false, BABYLON.Constants.TEXTURE_NEAREST_SAMPLINGMODE);
+        if(texture.loadingError) 
+        {
+            this.failedPaths.push(fullpath);
+            return this.defaultTexture;
+        }
+        this.textures.push(texture);
+        return texture;
+    }
+
+    clear()
+    {
+        this.textures = [];
+        this.failedPaths = [];
+    }
+}
+
+class MaterialManager
+{
+    constructor()
+    {
+        /** @type {Array<BABYLON.Material>} */
+        this.materials = [];
+    }
+
+    /**
+     * 
+     * @param {BABYLON.Scene} scene 
+     * @param {Array<BABYLON.BaseTexture>} texture
+     * @param {String} name
+     * @returns {BABYLON.Material}
+     */
+    createCubeMaterial(scene, texture, name)
+    {
+        const mat = this.materials.findIndex(x => x.name == name);
+        if(mat != -1) return this.materials[mat];
+
+        const multiMaterial = new BABYLON.MultiMaterial(name, scene);
+
+        for(let i = 0; i < texture.length; i++)
+        {
+            const material = new BABYLON.StandardMaterial(`${name}-${i}`, scene);
+            material.diffuseTexture = texture[i];
+            multiMaterial.subMaterials.push(material);
+        }
+        this.materials.push(multiMaterial);
+        return multiMaterial;
+    }
+
+    clear()
+    {
+        this.materials = [];
+    }
+}
+
 const sceneManager = new SceneManager();
+const structureManager = new StructureManager();
