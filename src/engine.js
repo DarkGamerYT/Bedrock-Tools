@@ -4,7 +4,7 @@ const Sound = require( "./engine/Sound" );
 const Settings = require( "./engine/Settings" );
 const Localisation = require( "./engine/Localisation" );
 globalThis.BedrockTools = {
-    version: "0.1.2-beta",
+    version: "0.1.3-beta",
     startTime: Date.now(),
 
     router: Router,

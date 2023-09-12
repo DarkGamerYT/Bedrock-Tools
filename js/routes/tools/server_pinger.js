@@ -127,8 +127,7 @@ const serverData = () => {
                     </div>`,
                     `<div style="display: none;" id="addToList">
                         <div style="flex-direction: row; background-color: #48494a; padding: 0.8rem; padding-left: 48px; padding-right: 48px;">
-                            <div class="oreUISpecular" style="border-top-width: var(--base2Scale);"></div>
-                            <div class="oreUISpecular" style="border-bottom-width: var(--base2Scale);"></div>
+                            <div class="oreUISpecular"></div>
                             <div style="width: 100%;">
                                 ${Components.createElement(
                                     {
