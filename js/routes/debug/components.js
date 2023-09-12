@@ -103,7 +103,7 @@ const ComponentsRoute = {
                                         type: "dropdown",
                                         title: "Disabled",
                                         id: "dropdown-2",
-                                        selected: 0,
+                                        selected: -1,
                                         items: [ "One", "Two", "Three", "Four", "Five" ],
                                         disabled: true,
                                         onChange: () => {}
@@ -176,6 +176,33 @@ const ComponentsRoute = {
                                             { label: "Three" }
                                         ],
                                         onChange: () => {}
+                                    },
+                                ),
+                                Components.createElement(
+                                    {
+                                        type: "panelbutton",
+                                        title: "Header",
+                                        subtitle: "Hello World!",
+                                        buttons: [
+                                            Components.createElement(
+                                                {
+                                                    type: "button",
+                                                    text: "One",
+                                                    id: "panelbutton-button-1",
+                                                    style: "secondary",
+                                                    onClick: () => {}
+                                                },
+                                            ),
+                                            Components.createElement(
+                                                {
+                                                    type: "button",
+                                                    text: "Two",
+                                                    id: "panelbutton-button-2",
+                                                    style: "secondary",
+                                                    onClick: () => {}
+                                                },
+                                            )
+                                        ],
                                     },
                                 ),
                                 Components.createElement({ type: "element", title: "Tags" }),

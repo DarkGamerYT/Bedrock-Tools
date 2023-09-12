@@ -5,7 +5,7 @@
  * @typedef {{ text?: string; icon?: string; id: string; selected?: boolean; onClick: () => any; }} TabOptions
  * @typedef {{ elements: string[] }} ElementsOptions
  * @typedef {{
-    type: "button" | "switch" | "text" | "tab" | "element" | "dropdown" | "input" | "textbox" | "slider" | "toggle" | "checkbox" | "radiogroup" | "upload";
+    type: "button" | "switch" | "text" | "tab" | "element" | "dropdown" | "input" | "textbox" | "panelbutton" | "slider" | "toggle" | "checkbox" | "radiogroup" | "upload";
     title?: string;
     subtitle?: string;
     text?: string | {
@@ -33,6 +33,7 @@
     max?: number;
     value?: string | number;
     selected?: number;
+    buttons?: string[];
     items?: string[] | { icon?: string | { selected?: string; unselected?: string; }; label: string; description?: string; }[];
     input?: {
         type?: "text" | "number";
@@ -275,6 +276,18 @@ const Components = {
                 );
             };
 
+            case "panelbutton": {
+                return (
+                    `<div class="element">
+                        ${options?.title ? `<span class="elementTitle">${options?.title}</span>` : ""}
+                        ${options?.subtitle ? `<span class="elementSubtitle">${options.subtitle}</span>` : ""}
+                        <div style="margin-top: 6px;margin-bottom: 6px;flex-direction: row;gap: 4px;">
+                            ${options?.buttons?.map((b) => `<div style="width: 100%;">${b}</div>`).join("")}
+                        </div>
+                    </div>`
+                );
+            };
+
             case "dropdown": {
                 /**
                  * @param { MouseEvent } e
@@ -377,7 +390,7 @@ const Components = {
                                     <div class="oreUISpecular"></div>
                                     <div style="width: 100%">
                                         <div class="dropdownElement" id="${options?.id}" opened="false" value="${selected}" onClick="BedrockTools.functions.onClick['${options?.id}'](this);">
-                                            <div style="pointer-events: none;" id="${options?.id}-text">${options?.items?.find((i, index) => selected == index) ?? "Unknown"}</div>
+                                            <div style="pointer-events: none;" id="${options?.id}-text">${options?.items?.find((i, index) => selected == index) ?? "Please select an option..."}</div>
                                             <img style="pointer-events: none;" src="assets/arrow_down.png">
                                         </div>
                                         <div class="dropdownOptions" id="${options?.id}-items" style="display: none;">

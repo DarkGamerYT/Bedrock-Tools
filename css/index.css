@@ -802,7 +802,7 @@ pre {
 	width: 100%;
 	z-index: 1000;
 	margin: -2px;
-	max-height: 172px;
+	max-height: 202px;
     overflow: auto;
 }
 .dropdownOption {
