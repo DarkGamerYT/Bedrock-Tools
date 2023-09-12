@@ -5,7 +5,7 @@
  * @typedef {{ text?: string; icon?: string; id: string; selected?: boolean; onClick: () => any; }} TabOptions
  * @typedef {{ elements: string[] }} ElementsOptions
  * @typedef {{
-    type: "button" | "switch" | "text" | "tab" | "element" | "dropdown" | "input" | "textbox" | "slider" | "toggle" | "checkbox" | "upload";
+    type: "button" | "switch" | "text" | "tab" | "element" | "dropdown" | "input" | "textbox" | "slider" | "toggle" | "checkbox" | "radiogroup" | "upload";
     title?: string;
     subtitle?: string;
     text?: string | {
@@ -266,11 +266,11 @@ const Components = {
             case "element": {
                 return (
                     `<div class="element_" id="${options?.id ?? ""}">
-                        <div style="display: flex;flex-direction: row;gap: 8px;align-items: center;margin-top: ${options?.space ?? 16}px;margin-bottom: 4px;">
+                        <div style="display: flex;flex-direction: row;gap: 8px;align-items: center;margin-top: ${options?.space ?? 12}px;">
                             <span class="elementHeader">${options?.title ?? ""}</span>
                             ${options?.tag ?? ""}
                         </div>
-                        ${options?.subtitle ? `<span class="elementSubtitle" style="margin-bottom: 12px;">${options.subtitle}</span>` : ""}
+                        ${options?.subtitle ? `<span class="elementSubtitle">${options.subtitle}</span>` : ""}
                     </div>`
                 );
             };
@@ -365,7 +365,7 @@ const Components = {
                         <div style="${options?.inline ? "flex-direction: row;place-content: space-between;align-items: center;" : ""}">
                             <div>
                                 <span class="elementTitle">${options?.title ?? ""}</span>
-                                ${options?.subtitle ? `<span class="elementSubtitle" style="margin-bottom: 8px;">${options?.subtitle}</span>` : ""}
+                                ${options?.subtitle ? `<span class="elementSubtitle">${options?.subtitle}</span>` : ""}
                             </div>
                             <div
                                 id="${options.id + "-dropdown"}"
@@ -522,7 +522,7 @@ const Components = {
                 BedrockTools.functions.onClick[options.id + "-check"] = (e) => {
                     const check = document.getElementById(options.id + "-check");
                     if(!e.className.includes("checkboxDisabled")) {
-                        BedrockTools.sound.play( "ui.modal_hide" );
+                        BedrockTools.sound.play( "ui.click" );
                         checked = !checked;
                         check.style.display = checked ? "flex" : "none";
                         BedrockTools.functions.onClick[options.id]({ value: checked, id: options.id });
@@ -673,6 +673,55 @@ const Components = {
                             id="${options.id + "-items"}"
                         >${buildItems()}</div>
                         <div id="${options.id + "-description"}">${getDescription()}</div>
+                    </div>`
+                );
+            };
+
+            case "radiogroup": {
+                BedrockTools.functions.onChange[options?.id] = options?.onChange ?? (() => {});
+
+                let selected = options?.selected ?? 0;
+                const buildItems = () => options.items.map(
+                    (i, index) => {
+                        const isSelected = selected == index;
+                        return (
+                            `<div style="flex-direction: unset;margin-top: 8px;margin-bottom: 8px;align-items: center;height: 24px;">
+                                <div class="radioGroup" onClick="BedrockTools.functions.onClick['${options.id}-item'](${index});">
+                                    <div class="oreUISpecular"></div>
+                                    <div class="oreUISpecular"></div>
+                                    <div class="radioGroupCheck" style="display: ${isSelected ? "flex" : "none"};">
+                                        <div style="height: 6px;width: 6px;background-color: white;"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="elementTitle">${i.label}</span>
+                                    ${i?.description ? `<span class="elementSubtitle">${i.description}</span>` : ""}
+                                </div>
+                            </div>`
+                        );
+                    },
+                ).join( "" );
+
+                BedrockTools.functions.onClick[options.id + "-item"] = (s = 0) => {
+                    const radioGroupElement = document.getElementById(options.id + "-items");
+                    if(!radioGroupElement.className.includes("radioGroupDisabled")) {
+                        BedrockTools.sound.play( "ui.modal_hide" );
+                        
+                        selected = s;
+                        document.getElementById(options.id).setAttribute("value", selected.toString());
+                        document.getElementById(options.id + "-items").innerHTML = buildItems();
+                        BedrockTools.functions.onChange[options.id]({ value: selected, id: options.id });
+                    };
+                };
+
+                return (
+                    `<div class="element" id="${options.id}" value="${selected}">
+                        <span class="elementTitle">${options?.title ?? ""}</span>
+                        <div
+                            class="${options?.disabled ? "radioGroupDisabled" : ""}"
+                            style="margin-top: 8px;margin-bottom: 8px;"
+                            id="${options.id + "-items"}"
+                        >${buildItems()}</div>
                     </div>`
                 );
             };

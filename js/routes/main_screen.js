@@ -87,7 +87,7 @@ const MainScreen = {
                             icon: "assets/tools/debug.png",
                         },
                     ],
-                    display: BedrockTools.settings.get( "debug" ),
+                    display: true,
                 },
             ],
         ];
@@ -120,7 +120,7 @@ const MainScreen = {
                                                     ? (
                                                         `<div class="elementsMenu">
                                                         <div class="elements" style="margin-top: -8px;margin-bottom: 16px;border: unset;border-bottom: 2px solid black;">
-                                                            <div class="element_" style="padding-left: 16px;padding-right: 16px;border-top: 2px solid rgba(255, 255, 255, 0.1);">
+                                                            <div class="element_" style="padding: 4px 16px;border-top: 2px solid rgba(255, 255, 255, 0.1);">
                                                                 <span class="elementHeader" style="font-size: 14px;margin-top: 6px;">` + m.title + `</span>
                                                                 <span class="elementSubtitle" style="font-size: 12px;margin-bottom: 10px;margin-top: 0;">` + m.description + `</span>
                                                             </div>

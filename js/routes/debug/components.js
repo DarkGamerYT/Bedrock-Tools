@@ -149,9 +149,37 @@ const ComponentsRoute = {
                                         onClick: () => {}
                                     },
                                 ),
+                                Components.createElement(
+                                    {
+                                        type: "radiogroup",
+                                        title: "Header",
+                                        id: "radiogroup-1",
+                                        selected: 1,
+                                        items: [
+                                            { label: "One", description: "Toggle specific description" },
+                                            { label: "Two", description: "Hello!" },
+                                            { label: "Three" }
+                                        ],
+                                        onChange: () => {}
+                                    },
+                                ),
+                                Components.createElement(
+                                    {
+                                        type: "radiogroup",
+                                        title: "Disabled",
+                                        id: "radiogroup-2",
+                                        selected: 0,
+                                        disabled: true,
+                                        items: [
+                                            { label: "One", description: "Toggle specific description" },
+                                            { label: "Two", description: "Hello!" },
+                                            { label: "Three" }
+                                        ],
+                                        onChange: () => {}
+                                    },
+                                ),
                                 Components.createElement({ type: "element", title: "Tags" }),
                                 `<div class="element">
-                                    <div style="height: 0.5rem;"></div>
                                     ${Components.createTag({ text: "Neutral", style: "neutral" })}
                                     <div style="height: 0.3rem;"></div>
                                     ${Components.createTag({ text: "Primary", style: "primary" })}
@@ -163,7 +191,6 @@ const ComponentsRoute = {
                                     ${Components.createTag({ text: "Destructive", style: "destructive" })}
                                     <div style="height: 0.3rem;"></div>
                                     ${Components.createTag({ text: "Purple", style: "purple" })}
-                                    <div style="height: 0.5rem;"></div>
                                 </div>`,
                                 Components.createElement({ type: "element", title: "Buttons" }),
 								/*`<div class="element">

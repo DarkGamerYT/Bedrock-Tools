@@ -200,7 +200,7 @@ body {
 }
 .dropdown {
 	padding-bottom: 0.2rem;
-	margin-bottom: 10px;
+	margin-top: 6px;
 	border-bottom-style: solid;
     border-left-style: solid;
     border-right-style: solid;
@@ -335,6 +335,7 @@ input, textarea, span[role="textbox"] {
     margin-bottom: 12px;
 	padding-left: 8px;
     padding-right: 8px;
+	margin-top: 6px;
 	outline: none;
 	cursor: pointer;
 	caret-color: #6cc349;
@@ -361,18 +362,16 @@ span[role="textbox"]::marker {
 .element {
 	border-top: 2px solid rgba(255, 255, 255, 0.1);
     border-bottom: 2px solid rgba(0, 0, 0, 0.3);
-    padding-left: 1.6rem;
-    padding-right: 1.6rem;
+	padding: 0.4rem 1.6rem;
 }
 .element_ {
-    padding-left: 1.6rem;
-    padding-right: 1.6rem;
+	padding: 0.4rem 1.6rem;
 }
 .elementTitle {
 	color: #ffffff;
     letter-spacing: 0.04rem;
     font-size: 14px;
-    line-height: 24px;
+    line-height: 16px;
 }
 .elementHeader {
 	color: #ffffff;
@@ -1112,3 +1111,36 @@ pre {
 	padding-bottom: 0.2rem !important;
 	margin-top: 0 !important;
 }
+
+.radioGroup {
+	margin-right: 8px;
+	border-bottom-width: var(--base2Scale);
+	border-left-width: var(--base2Scale);
+	border-right-width: var(--base2Scale);
+	border-style: solid;
+	border-top-width: var(--base2Scale);
+	flex: 0 0 auto;
+	transform: rotate(45deg);
+	height: 16px;
+	width: 16px;
+	position: relative;
+	z-index: 1;
+	background-color: #8c8d90;
+	border-color: #1e1e1f;
+	cursor: pointer;
+}
+.radioGroup:hover { background-color: #b1b2b5; }
+.radioGroup:active { background-color: #58585a; }
+.radioGroupCheck {
+	background-color: #3c8527;
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+}
+.radioGroupCheck:hover { background-color: #52a535; }
+.radioGroupCheck:active { background-color: #2a641c; }
+.radioGroupDisabled .radioGroup { cursor: default; border-color: #8c8d90; }
+.radioGroupDisabled .radioGroup, .radioGroupDisabled .radioGroupCheck { background-color: #d0d1d4; }
+.radioGroupDisabled .radioGroupCheck > div { background-color: #e6e8eb; }
+.radioGroupDisabled .radioGroup > .oreUISpecular { display: none; }
