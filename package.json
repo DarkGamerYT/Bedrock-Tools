@@ -42,7 +42,7 @@
 		"appId": "com.xkingdark.bedrocktools",
 		"productName": "Bedrock Tools",
 		"artifactName": "${productName}-${version}.${ext}",
-		"publish":[
+		"publish": [
 			{
 				"provider": "github",
 				"owner": "DarkGamerYT",
