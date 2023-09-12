@@ -10,8 +10,8 @@ const RawtextGenerator = {
                         ${Components.createElements(
                         {
                         elements: [
+                            `<div style="border-top: 2px solid rgba(255, 255, 255, 0.1);"></div>`,
                             `<div style="background-color: #48494a; padding: 0.2rem; padding-left: 8px; padding-right: 8px;">
-                                <div class="oreUISpecular" style="border-top-width: var(--base2Scale);"></div>
                                 <div style="width: 100%; margin-top: 6px;">
                                     ${Components.createElement(
                                         {
@@ -60,7 +60,6 @@ const RawtextGenerator = {
                                 </div>
                             </div>`,
                             `<div style="background-color: #48494a; padding: 0.2rem; padding-left: 8px; padding-right: 8px;">
-                                <div class="oreUISpecular" style="border-bottom-width: var(--base2Scale);"></div>
                                 <div style="width: 100%; margin-bottom: 6px;">
                                     ${Components.createElement(
                                         {
@@ -75,7 +74,8 @@ const RawtextGenerator = {
                                         }
                                     )}
                                 </div>
-                            </div>`
+                            </div>`,
+                            `<div style="border-top: 2px solid rgba(0, 0, 0, 0.3);"></div>`
                         ]
                     }
                 )}
@@ -93,7 +93,7 @@ const RawtextGenerator = {
                             BedrockTools.sendToast(
                                 {
                                     title: "Rawtext Generated!",
-                                    icon: "assets/rawtext_gen.png",
+                                    icon: "assets/tools/rawtext_gen.png",
                                     body: "Click to copy the rawtext to clipboard",
                                     onClick: () => {
                                         BedrockTools.sound.play( "ui.modal_hide" );
@@ -101,7 +101,7 @@ const RawtextGenerator = {
                                         BedrockTools.sendToast(
                                             {
                                                 title: "Rawtext successfully copied!",
-                                                icon: "assets/checkbox_checked.png",
+                                                icon: "assets/checkbox.png",
                                                 body: "The rawtext has been successfully copied to the clipboard",
                                                 instant: true,
                                             },
@@ -341,16 +341,16 @@ class RawtextModules {
                                         disabled: module.withRawtextToggle,
                                         toggled: module.withArrayToggle,
                                         onClick: (e) => {
-                                            const value = e.getAttribute( "value" ) == "true";
+                                            const value = e.value;
                                             module.withArrayToggle = value;
-                                            document.getElementById( `arrayModules:${module.id}` ).style = value? "" : "display:none;";
+                                            document.getElementById( `arrayModules:${module.id}` ).style = value ? "" : "display:none;";
                                             if(value)
                                             {
                                                 module.withArray.arrayId = `ARRModules:${module.id}`;
-                                                document.getElementById(`toggleRawtext:${module.id}`).className = "toggle toggleDisabled";
+                                                document.getElementById(`toggleRawtext:${module.id}`).className = "switch switchDisabled";
                                             }
                                             else
-                                                document.getElementById(`toggleRawtext:${module.id}`).className = "toggle toggleOff";
+                                                document.getElementById(`toggleRawtext:${module.id}`).className = "switch";
                                         }
                                     }
                                 ),
@@ -362,16 +362,16 @@ class RawtextModules {
                                         disabled: module.withArrayToggle,
                                         toggled: module.withRawtextToggle,
                                         onClick: (e) => {
-                                            const value = e.getAttribute( "value" ) == "true";
+                                            const value = e.value;
                                             module.withRawtextToggle = value;
                                             document.getElementById( `rawtextModules:${module.id}` ).style = value? "" : "display:none;";
                                             if(value)
                                             {
                                                 module.withRawtext.modulesId = `RTModules:${module.id}`;
-                                                document.getElementById(`toggleArray:${module.id}`).className = "toggle toggleDisabled";
+                                                document.getElementById(`toggleArray:${module.id}`).className = "switch switchDisabled";
                                             }
                                             else
-                                                document.getElementById(`toggleArray:${module.id}`).className = "toggle toggleOff";
+                                                document.getElementById(`toggleArray:${module.id}`).className = "switch";
                                         }
                                     }
                                 ),
@@ -431,7 +431,6 @@ class RawtextModules {
                                             ${module.withRawtext.buildModules()}
                                         </div>
                                     </div>
-                                    <div style="height: 8px;"></div>
                                 </div>`,
                                 `<div id="arrayModules:${module.id}" style="${module.withArrayToggle? "" : "display: none;"}">
                                     <div style="height: 8px;"></div>
@@ -457,14 +456,8 @@ class RawtextModules {
                                             ${module.withArray.build(false)}
                                         </div>
                                     </div>
-                                    <div style="height: 8px;"></div>
                                 </div>`,
-                                `<div style="flex-direction: row; background-color: #48494a;">
-                                    <div class="oreUISpecular" style="border-top-width: var(--base2Scale);"></div>
-                                    <div class="oreUISpecular" style="border-bottom-width: var(--base2Scale);"></div>
-                                    <div style="width: 100%;"></div>
-                                </div>`,
-                                `<div style="height: 8px;"></div>`,
+                                `<div style="border-top: 2px solid rgba(255, 255, 255, 0.1);"></div><div style="height: 8px;"></div>`,
                                 `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
                                     <div style="width: 100%;">
                                         ${Components.createElement(
@@ -513,7 +506,7 @@ class RawtextModules {
                                         )}
                                     </div>
                                 </div>`,
-                                `<div style="height: 8px;"></div>`
+                                `<div style="height: 8px;"></div><div style="border-top: 2px solid rgba(0, 0, 0, 0.3);"></div>`
                             ]
                         }
                     );

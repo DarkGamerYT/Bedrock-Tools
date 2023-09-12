@@ -12,7 +12,7 @@ const ServerPinger = {
                                     `<div
                                         class="serverImage"
                                         id="serverImage"
-                                        style="background-image: url('assets/servers/cobblestone.png');"
+                                        style="background-image: url('assets/750.png');"
                                     ></div>`,
                                     Components.createElement(
                                         {
@@ -60,9 +60,7 @@ const ServerPinger = {
                             )}
                         </div>
                     </div>
-                    <div style="width: 100%;" id="serverData">
-                        ${serverData()}
-                    </div>
+                    <div style="width: 100%;" id="serverData">${serverData()}</div>
                 </div>`
             )
         );
@@ -81,7 +79,7 @@ const serverData = () => {
                                     type: "element",
                                     title: "",
                                     subtitle: (
-                                        `<div style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 4px; margin-bottom: 8px;">
+                                        `<div style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 4px; margin-bottom: -12px;">
                                             <div style="display: flex; flex-direction: row; gap: 8px; align-items: end; font-size: 16px; color: white; margin-bottom: 14px;">
                                                 <img src="assets/player_image.png" draggable="false" style="image-rendering: pixelated;width: 24px;height: 24px;">
                                                 <div id="playerCount">0</div>

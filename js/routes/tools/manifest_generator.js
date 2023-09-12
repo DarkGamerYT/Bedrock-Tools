@@ -32,16 +32,13 @@ const ManifestGenerator = {
                                                 switch(e.value) {
                                                     case 0:
                                                     case 1:
-                                                        let value = scriptApiToggle.getAttribute( "value" ) == "true";
-                                                        if (value) scriptApiToggle.className = "toggle toggleOn";
-                                                        else scriptApiToggle.className = "toggle toggleOff";
-
+                                                        scriptApiToggle.className = "switch";
                                                         if (!scriptAPI) modulesElement.style.display = "none";
                                                         else modulesElement.style.display = "block";
                                                         document.getElementById( "modules" ).innerHTML = moduleToggle(e.value);
                                                     break;
                                                     default:
-                                                        scriptApiToggle.className = "toggle toggleDisabled";
+                                                        scriptApiToggle.className = "switch switchDisabled";
                                                         modulesElement.style.display = "none";
                                                     break;
                                                 };
@@ -81,11 +78,9 @@ const ManifestGenerator = {
                                                 const packType = Number(document.getElementById( "packType" ).getAttribute( "value" ));
                                                 if (packType == 2) return;
                                                 
-                                                let value = e.getAttribute( "value" ) == "true";
-                                                scriptAPI = value;
-    
+                                                scriptAPI = e.value;
                                                 const modulesElement = document.getElementById( "modulesElement" );
-                                                if (!value) {
+                                                if (!e.value) {
                                                     scriptModules = [];
                                                     modulesElement.style.display = "none";
                                                 } else {
@@ -103,7 +98,7 @@ const ManifestGenerator = {
                                                     title: "Beta",
                                                     subtitle: "Enable Beta modules in ScriptAPI",
                                                     toggled: beta,
-                                                    onClick: (e) => beta = (e.getAttribute( "value" ) == "true"),
+                                                    onClick: (e) => beta = e.value,
                                                 },
                                             )
                                             + Components.createElement(
@@ -166,7 +161,7 @@ const ManifestGenerator = {
                                     BedrockTools.sendToast(
                                         {
                                             title: "Manifest Generated!",
-                                            icon: "assets/manifest.png",
+                                            icon: "assets/tools/manifest.png",
                                             body: "Click to copy the manifest to clipboard",
                                             onClick: () => {
                                                 BedrockTools.sound.play( "ui.modal_hide" );
@@ -174,7 +169,7 @@ const ManifestGenerator = {
                                                 BedrockTools.sendToast(
                                                     {
                                                         title: "Manifest successfully copied!",
-                                                        icon: "assets/checkbox_checked.png",
+                                                        icon: "assets/checkbox.png",
                                                         body: "The manifest has been successfully copied to the clipboard",
                                                         instant: true,
                                                     },
@@ -227,8 +222,7 @@ const moduleToggle = (type) => {
                             title: m.module_name,
                             id: m.module_name,
                             onClick: (e) => {
-                                let value = e.getAttribute( "value" ) == "true";
-                                if (value) scriptModules.push( e.id );
+                                if (e.value) scriptModules.push( e.id );
                                 else scriptModules = scriptModules.filter((m) => m != e.id);
                             },
                         },

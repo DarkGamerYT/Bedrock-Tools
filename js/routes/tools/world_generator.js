@@ -280,10 +280,7 @@ const GenType = async (selection = 0) => {
                 title: "Starting Map",
                 id: "startingMap",
                 toggled: false,
-                onClick: (e) => {
-                    let value = e.getAttribute( "value" ) == "true";
-                    worldData.value.startWithMapEnabled.value = value ? 1 : 0;
-                },
+                onClick: (e) => worldData.value.startWithMapEnabled.value = e.value ? 1 : 0,
             },
         )}
         ${Components.createElement(
@@ -292,10 +289,7 @@ const GenType = async (selection = 0) => {
                 title: "Bonus Chest",
                 id: "bonusChest",
                 toggled: false,
-                onClick: (e) => {
-                    let value = e.getAttribute( "value" ) == "true";
-                    worldData.value.bonusChestEnabled.value = value ? 1 : 0;
-                },
+                onClick: (e) => worldData.value.bonusChestEnabled.value = e.value ? 1 : 0,
             },
         )}
         ${Components.createElement(
@@ -304,10 +298,7 @@ const GenType = async (selection = 0) => {
                 title: "Game Rules",
                 id: "gameRules",
                 toggled: false,
-                onClick: (e) => {
-                    let value = e.getAttribute( "value" ) == "true";
-                    document.getElementById( "gameRulesElement" ).style.display = value ? "block" : "none";
-                },
+                onClick: (e) => document.getElementById( "gameRulesElement" ).style.display = e.value ? "block" : "none",
             },
         )}
         <div id="gameRulesElement" style="display: none;">
@@ -324,9 +315,8 @@ const GenType = async (selection = 0) => {
                     id: "alwaysDay",
                     toggled: false,
                     onClick: (e) => {
-                        let value = e.getAttribute( "value" ) == "true";
-                        worldData.value.dodaylightcycle.value = value ? 0 : 1;
-                        worldData.value.daylightCycle.value = value ? 1 : 0;
+                        worldData.value.dodaylightcycle.value = e.value ? 0 : 1;
+                        worldData.value.daylightCycle.value = e.value ? 1 : 0;
                     },
                 },
             )}
@@ -336,10 +326,7 @@ const GenType = async (selection = 0) => {
                     title: "Keep Inventory",
                     id: "keepInventory",
                     toggled: false,
-                    onClick: (e) => {
-                        let value = e.getAttribute( "value" ) == "true";
-                        worldData.value.keepinventory.value = value ? 1 : 0;
-                    },
+                    onClick: (e) => worldData.value.keepinventory.value = e.value ? 1 : 0,
                 },
             )}
             ${Components.createElement(
@@ -348,10 +335,7 @@ const GenType = async (selection = 0) => {
                     title: "Mob Spawning",
                     id: "mobSpawning",
                     toggled: true,
-                    onClick: (e) => {
-                        let value = e.getAttribute( "value" ) == "true";
-                        worldData.value.domobspawning.value = value ? 1 : 0;
-                    },
+                    onClick: (e) => worldData.value.domobspawning.value = e.value ? 1 : 0,
                 },
             )}
             ${Components.createElement(
@@ -360,10 +344,7 @@ const GenType = async (selection = 0) => {
                     title: "Mob Griefing",
                     id: "mobGriefing",
                     toggled: true,
-                    onClick: (e) => {
-                        let value = e.getAttribute( "value" ) == "true";
-                        worldData.value.mobgriefing.value = value ? 1 : 0;
-                    },
+                    onClick: (e) => worldData.value.mobgriefing.value = e.value ? 1 : 0,
                 },
             )}
             ${Components.createElement(
@@ -372,10 +353,7 @@ const GenType = async (selection = 0) => {
                     title: "Weather Cycle",
                     id: "weatherCycle",
                     toggled: true,
-                    onClick: (e) => {
-                        let value = e.getAttribute( "value" ) == "true";
-                        worldData.value.doweathercycle.value = value ? 1 : 0;
-                    },
+                    onClick: (e) => worldData.value.doweathercycle.value = e.value ? 1 : 0,
                 },
             )}
             ${Components.createElement(
@@ -559,8 +537,7 @@ const GenType = async (selection = 0) => {
                                 id: "startYLevel",
                                 toggled: flatWorldLayers.world_version ? true : false,
                                 onClick: (e) => {
-                                    let value = e.getAttribute( "value" ) == "true";
-                                    if (value) {
+                                    if (e.value) {
                                         flatWorldLayers.world_version = "version.post_1_18";
                                     } else flatWorldLayers.world_version = "version.pre_1_18";
                                 },

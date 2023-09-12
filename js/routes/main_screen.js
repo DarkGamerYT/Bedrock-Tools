@@ -9,17 +9,17 @@ const MainScreen = {
                         {
                             route: "/manifest_generator",
                             title: BedrockTools.localisation.translate( "bedrocktools.addons.manifestgenerator" ),
-                            icon: "assets/manifest.png",
+                            icon: "assets/tools/manifest.png",
                         },
                         {
                             route: "/render_offset_corrector",
                             title: BedrockTools.localisation.translate( "bedrocktools.addons.renderoffsetcorrector" ),
-                            icon: "assets/render_offset.png"
+                            icon: "assets/tools/render_offset.png"
                         },
                         {
                             route: "/json_rawtext_generator",
                             title: BedrockTools.localisation.translate( "bedrocktools.addons.rawtextgenerator" ),
-                            icon: "assets/rawtext_gen.png"
+                            icon: "assets/tools/rawtext_gen.png"
                         }
                     ],
                     display: true,
@@ -31,22 +31,22 @@ const MainScreen = {
                         {
                             route: "/id_generator",
                             title: BedrockTools.localisation.translate( "bedrocktools.utilities.idgenerator" ),
-                            icon: "assets/id.png",
+                            icon: "assets/tools/id.png",
                         },
                         /*{
                             route: "/commands_tester",
                             title: BedrockTools.localisation.translate( "bedrocktools.utilities.commandstester" ),
-                            icon: "assets/commands.png",
+                            icon: "assets/tools/commands.png",
                         },*/
                         {
                             route: "/server_pinger",
                             title: BedrockTools.localisation.translate( "bedrocktools.utilities.serverpinger" ),
-                            icon: "assets/server_pinger.png",
+                            icon: "assets/tools/server_pinger.png",
                         },
                         {
                             route: "/loop_generator",
                             title: BedrockTools.localisation.translate( "bedrocktools.utilities.loopgenerator" ),
-                            icon: "assets/debug.png"
+                            icon: "assets/tools/debug.png"
                         }
                     ],
                     display: true,
@@ -60,17 +60,17 @@ const MainScreen = {
                         {
                             route: "/world_generator",
                             title: BedrockTools.localisation.translate( "bedrocktools.advanced.worldgenerator" ),
-                            icon: "assets/world_gen.png",
+                            icon: "assets/tools/world_gen.png",
                         },
                         {
                             route: "/structure_converter",
                             title: BedrockTools.localisation.translate( "bedrocktools.advanced.structureconverter" ),
-                            icon: "assets/structure_converter.png",
+                            icon: "assets/tools/structure_converter.png",
                         },
                         {
                             route: "/structure_editor",
                             title: BedrockTools.localisation.translate( "bedrocktools.advanced.structureeditor" ),
-                            icon: "assets/structure_editor.png"
+                            icon: "assets/tools/structure_editor.png"
                         }
                     ],
                     display: true,
@@ -84,7 +84,7 @@ const MainScreen = {
                         {
                             route: "/components",
                             title: BedrockTools.localisation.translate( "bedrocktools.debug.components" ),
-                            icon: "assets/debug.png",
+                            icon: "assets/tools/debug.png",
                         },
                     ],
                     display: BedrockTools.settings.get( "debug" ),

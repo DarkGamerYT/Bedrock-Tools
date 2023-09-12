@@ -5,7 +5,7 @@
  * @typedef {{ text?: string; icon?: string; id: string; selected?: boolean; onClick: () => any; }} TabOptions
  * @typedef {{ elements: string[] }} ElementsOptions
  * @typedef {{
-    type: "button" | "switch" | "text" | "tab" | "element" | "dropdown" | "input" | "textbox" | "toggle" | "checkbox" | "upload";
+    type: "button" | "switch" | "text" | "tab" | "element" | "dropdown" | "input" | "textbox" | "slider" | "toggle" | "checkbox" | "upload";
     title?: string;
     subtitle?: string;
     text?: string | {
@@ -21,6 +21,7 @@
     toggled?: boolean;
     checked?: boolean;
     inline?: boolean;
+    percentage?: boolean;
     disabled?: boolean;
     accept?: string;
     useTitle?: boolean;
@@ -28,9 +29,11 @@
     space?: number;
     default?: string;
     placeholder?: string;
-    value?: string;
+    min?: number;
+    max?: number;
+    value?: string | number;
     selected?: number;
-    items?: string[] | { icon?: string; label: string; description?: string; }[];
+    items?: string[] | { icon?: string | { selected?: string; unselected?: string; }; label: string; description?: string; }[];
     input?: {
         type?: "text" | "number";
         min?: number;
@@ -45,26 +48,13 @@ const Functions = {
 
     /**
      * @param { HTMLElement } element 
+     * @param { boolean } value
      */
-    toggle: (element) => {
+    switch: (element, value) => {
         BedrockTools.sound.play( "ui.click" );
-        let value = element.getAttribute( "value" ) == "true";
-        element.setAttribute( "value", (!value).toString() );
-    
-        if (!value) element.className = "toggle toggleOn";
-        else element.className = "toggle toggleOff";
-    },
-
-    /**
-     * @param { HTMLElement } element 
-     */
-    checkbox: (element) => {
-        BedrockTools.sound.play( "ui.modal_hide" );
-        let value = element.getAttribute( "value" ) == "true";
-        element.setAttribute( "value", (!value).toString() );
-    
-        if (!value) element.className = "checkbox checkboxChecked";
-        else element.className = "checkbox checkboxUnchecked";
+        element.setAttribute( "value", value.toString() );
+        if (value) element.className = "switchThumb switchThumbOn";
+        else element.className = "switchThumb switchThumbOff";
     },
 };
 
@@ -222,9 +212,9 @@ const Components = {
                 onClick='if(${!options?.selected}) { Functions.button(this); BedrockTools.functions.onClick["${options?.id}"](this); }'
                 id="${options?.id ?? ""}"
             >
-                <div class="oreUIButton_ oreUIButtonTabBackground" style="height: 2.5rem;">
-                    <div class="oreUISpecular oreUIButton_One"></div>
-                    <div class="oreUISpecular oreUIButton_Two"></div>
+                <div class="oreUIButton_ oreUIButtonTabBackground" style="height: 2.3rem;">
+                    <div class="oreUISpecular"></div>
+                    <div class="oreUISpecular"></div>
                     <div class="_oreUIButton">
                         <div class="_oreUIButton_">
                             <div class="_oreUIButton__">
@@ -323,6 +313,9 @@ const Components = {
                  * @param { HTMLElement } e 
                  */
                 BedrockTools.functions.onClick[options?.id] = (e) => {
+                    const element = document.getElementById(options.id + "-dropdown");
+                    if(element.className.includes("dropdownDisabled")) return;
+                    
                     BedrockTools.sound.play( "ui.click" );
                     const dropdownOptions = document.getElementById( `${options?.id}-items` );
                     const dropdownE = document.getElementById( options?.id + "-element" );
@@ -332,7 +325,7 @@ const Components = {
                     if (!opened) {
                         dropdownOptions.style.display = "block";
                         e.setAttribute( "opened", "true" );
-                        dropdownE.style.zIndex = "2";
+                        dropdownE.style.zIndex = "10";
                     };
 
                     document.addEventListener("click", event);
@@ -372,16 +365,20 @@ const Components = {
                         <div style="${options?.inline ? "flex-direction: row;place-content: space-between;align-items: center;" : ""}">
                             <div>
                                 <span class="elementTitle">${options?.title ?? ""}</span>
-                                ${options?.subtitle ? `<span class="elementSubtitle">${options?.subtitle}</span>` : ""}
+                                ${options?.subtitle ? `<span class="elementSubtitle" style="margin-bottom: 8px;">${options?.subtitle}</span>` : ""}
                             </div>
-                            <div class="dropdown oreUIButtonSecondary" style="${options?.inline ? "width: 180px;": "width: 100%;"} margin-top: 8px;margin-bottom: 8px;">
+                            <div
+                                id="${options.id + "-dropdown"}"
+                                class="dropdown oreUIButtonSecondary ${options?.disabled ? "dropdownDisabled" : ""}"
+                                style="${options?.inline ? "width: 180px;margin-top: 8px;": "width: 100%;"} margin-bottom: 8px;"
+                            >
                                 <div class="oreUIButton_ oreUIButtonSecondaryBackground">
-                                    <div class="oreUISpecular oreUIButton_One"></div>
-                                    <div class="oreUISpecular oreUIButton_Two"></div>
+                                    <div class="oreUISpecular"></div>
+                                    <div class="oreUISpecular"></div>
                                     <div style="width: 100%">
                                         <div class="dropdownElement" id="${options?.id}" opened="false" value="${selected}" onClick="BedrockTools.functions.onClick['${options?.id}'](this);">
                                             <div style="pointer-events: none;" id="${options?.id}-text">${options?.items?.find((i, index) => selected == index) ?? "Unknown"}</div>
-                                            <img style="pointer-events: none;" src="assets/chevron_down.png">
+                                            <img style="pointer-events: none;" src="assets/arrow_down.png">
                                         </div>
                                         <div class="dropdownOptions" id="${options?.id}-items" style="display: none;">
                                             <div id="${options?.id}-itemList">${buildItems()}</div>
@@ -407,6 +404,7 @@ const Components = {
                             max="${options?.input?.max ?? Infinity}"
                             placeholder="${options?.placeholder ?? ""}"
                             value="${options?.value ?? ""}"
+                            ${options?.disabled ? "disabled" : ""}
                             ${options?.onChange? `onChange='BedrockTools.functions.onChange["${options?.id}"](this);'` : ""}
                         ></input>
                         ${options?.subtitle ? `<div style="color: #d0d1d4;font-size: 0.8rem;margin-bottom: 8px;margin-top: -4px;">${options.subtitle}</div>` : ""}
@@ -435,8 +433,8 @@ const Components = {
                         <span class="elementTitle">${options?.title ?? ""}</span>
                         <div class="dropdown oreUIButtonSecondary">
                             <div class="oreUIButton_ oreUIButtonSecondaryBackground">
-                                <div class="oreUISpecular oreUIButton_One"></div>
-                                <div class="oreUISpecular oreUIButton_Two"></div>
+                                <div class="oreUISpecular"></div>
+                                <div class="oreUISpecular"></div>
                                 <label
                                     style="font-size: 13px;cursor: pointer;width: auto;display: flex;gap: 8px;height: inherit;align-items: center;padding: 0 6px;"
                                     id="${options?.text?.// @ts-ignore
@@ -464,7 +462,17 @@ const Components = {
             };
 
             case "switch": {
-                BedrockTools.functions.onClick[options?.id] = options?.onClick ?? (() => {});
+                let toggled = options?.toggled ?? false;
+                BedrockTools.functions.onClick[options.id] = options?.onClick ?? (() => {});
+                BedrockTools.functions.onClick[options.id + "-switch"] = (e) => {
+                    const thumb = document.getElementById(options.id + "-thumb");
+                    if(!e.className.includes("switchDisabled")) {
+                        toggled = !toggled;
+                        Functions.switch(thumb, toggled);
+                        BedrockTools.functions.onClick[options.id]({ value: toggled, id: options.id });
+                    };
+                };
+
                 return (
                     `<div class="element">
                         <div style="flex-direction: unset;margin-top: 8px;margin-bottom: 8px;align-items: center;justify-content: space-between;">
@@ -473,28 +481,72 @@ const Components = {
                                 ${options?.subtitle ? `<span class="elementSubtitle">${options.subtitle}</span>` : ""}
                             </div>
                             <div
-                                class="toggle ${options.disabled ? "toggleDisabled" : options.toggled ? "toggleOn" : "toggleOff"}"
-                                id="${options?.id ?? ""}"
-                                value=${options.toggled ?? false}
-                                onClick='if(className != "toggle toggleDisabled") { Functions.toggle(this); BedrockTools.functions.onClick["${options?.id}"](this); }'
-                            ></div>
+                                class="switch ${options?.disabled ? "switchDisabled": ""}"
+                                id="${options.id}"
+                                value="${toggled}"
+                                onClick="BedrockTools.functions.onClick['${options.id}-switch'](this);"
+                                style="flex-direction: row;user-select: none;"
+                            >
+                                <div class="switchBackgrounds">
+                                    <div style="flex-direction: row;height: 100%;">
+                                        <div class="switchBackground switchBackgroundOn">
+                                            <div><img src="assets/onImage.png" style="height: 12px;width: 2px;image-rendering: pixelated;"></div>
+                                            <div class="oreUISpecular"></div>
+                                            <div class="oreUISpecular"></div>
+                                        </div>
+                                        <div class="switchBackground switchBackgroundOff">
+                                            <div><img src="assets/offImage.png" style="height: 10px;width: 10px;image-rendering: pixelated;"></div>
+                                            <div class="oreUISpecular"></div>
+                                            <div class="oreUISpecular"></div>
+                                        </div>
+                                    </div>
+                                    <div class="switchThumb ${toggled ? "switchThumbOn" : "switchThumbOff"}" id="${options.id + "-thumb"}">
+                                        <div class="switchThumb_">
+                                            <div class="switchThumbBackground">
+                                                <div class="oreUISpecular sliderSpecular"></div>
+                                                <div class="oreUISpecular sliderSpecular"></div>
+                                            </div>
+                                            <div class="switchShadow"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>`
                 );
             };
 
             case "checkbox": {
-                BedrockTools.functions.onClick[options?.id] = options?.onClick ?? (() => {});
+                let checked = options?.checked ?? false;
+                BedrockTools.functions.onClick[options.id] = options?.onClick ?? (() => {});
+                BedrockTools.functions.onClick[options.id + "-check"] = (e) => {
+                    const check = document.getElementById(options.id + "-check");
+                    if(!e.className.includes("checkboxDisabled")) {
+                        BedrockTools.sound.play( "ui.modal_hide" );
+                        checked = !checked;
+                        check.style.display = checked ? "flex" : "none";
+                        BedrockTools.functions.onClick[options.id]({ value: checked, id: options.id });
+                    };
+                };
+                
                 return (
                     `<div class="element">
                         <div style="flex-direction: unset;margin-top: 8px;margin-bottom: 8px;align-items: center;">
                             <div
-                                class="checkbox ${options.disabled ? "checkboxDisabled" : options.checked ? "checkboxChecked" : "checkboxUnchecked"}"
-                                style="margin-right: 8px;"
-                                id="${options?.id ?? ""}"
-                                value=${options.checked ?? false}
-                                onClick='if(className != "checkbox checkboxDisabled") { Functions.checkbox(this); BedrockTools.functions.onClick["${options?.id}"](this); }'
-                            ></div>
+                                class="checkbox ${options.disabled ? "checkboxDisabled" : ""}"
+                                onClick="BedrockTools.functions.onClick['${options.id}-check'](this);"
+                                value=${checked}
+                            >
+                                <div class="oreUISpecular"></div>
+                                <div class="oreUISpecular"></div>
+                                <div
+                                    class="checkboxCheck"
+                                    id="${options.id + "-check"}"
+                                    style="display: ${checked ? "flex" : "none"};"
+                                >
+                                    <img src="assets/check_icon.png" style="height: 12px;width: 16px;image-rendering: pixelated;">
+                                </div>
+                            </div>
                             <div>
                                 <span class="elementTitle">${options?.title ?? ""}</span>
                                 ${options?.subtitle ? `<span class="elementSubtitle">${options.subtitle}</span>` : ""}
@@ -516,15 +568,20 @@ const Components = {
                     case "hero": style = "oreUIButtonHero"; background = "oreUIButtonHeroBackground"; break;
                 };
 
-                BedrockTools.functions.onClick[options?.id] = options?.onClick ?? (() => {});
+                BedrockTools.functions.onClick[options.id] = options?.onClick ?? (() => {});
+                BedrockTools.functions.onClick[options.id + "-button"] = (e) => {
+                    if (!e.className.includes("buttonDisabled")) BedrockTools.functions.onClick[options.id](e);
+                };
+
                 return (
-                    `<div class="oreUIButton ${style}" onClick='BedrockTools.functions.onClick["${options?.id}"](this);' id="${options?.id ?? ""}">
+                    `<div class="oreUIButton ${style} ${options?.disabled ? "buttonDisabled" : ""}" onClick='BedrockTools.functions.onClick["${options?.id}-button"](this);' id="${options?.id ?? ""}">
                         <div class="oreUIButton_ ${background}">
-                            <div class="oreUISpecular oreUIButton_One"></div>
-                            <div class="oreUISpecular oreUIButton_Two"></div>
+                            <div class="oreUISpecular"></div>
+                            <div class="oreUISpecular"></div>
                             <div class="_oreUIButton">
                                 <div class="_oreUIButton_">
                                     <div class="_oreUIButton__">
+                                        ${options?.icon ? `<img src="${options.icon}" style="width: 24px;margin-right: 0.4rem;">` : ""}
                                         <div class="_oreUIButton___">${options?.text ?? ""}</div>
                                     </div>
                                 </div>
@@ -558,22 +615,23 @@ const Components = {
                 const buildItems = () => options.items.map(
                     (i, index) => {
                         const isSelected = selected == index;
+                        const icon = typeof i.icon == "string" ? i.icon : (isSelected ? i.icon?.selected : i.icon?.unselected);
                         return (
                             `<div
                                 class="oreUIButton ${isSelected ? "oreUIToggleSelected" : "oreUIButtonSecondary"}"
                                 style="width: 100%;margin-left: -1px;margin-right: -1px;"
-                                onClick="BedrockTools.functions.onClick['${options.id}-item'](${index})"
+                                onClick="BedrockTools.functions.onClick['${options.id}-item'](this, ${index})"
                             >
                                 <div class="oreUIButton_ ${isSelected ? "oreUIToggleSelectedBackground" : "oreUIButtonSecondaryBackground"}" style="height: 2.5rem;">
-                                    <div class="oreUISpecular oreUIButton_One"></div>
-                                    <div class="oreUISpecular oreUIButton_Two"></div>
+                                    <div class="oreUISpecular"></div>
+                                    <div class="oreUISpecular"></div>
                                     <div class="_oreUIButton">
                                         <div class="_oreUIButton_">
                                             <div class="_oreUIButton__">
                                                 ${
                                                     i?.icon
                                                     ? `<div>
-                                                        <img style="height: 24px; width: 24px;" src="${i.icon}" draggable="false">
+                                                        <img style="height: 24px; width: 24px;" src="${icon}" draggable="false">
                                                     </div>
                                                     <div style="height: 0.8rem; width: 0.8rem;"></div>`
                                                     : ""
@@ -583,11 +641,7 @@ const Components = {
                                         </div>
                                     </div>
                                 </div>
-                                ${
-                                    isSelected
-                                    ? `<div style="bottom: 0; display: block; height: 2px; position: absolute; width: 4.8rem; background-color: #ffffff;"></div>`
-                                    : ""
-                                }
+                                ${isSelected ? `<div class="toggleSelected"></div>` : ""}
                             </div>`
                         );
                     },
@@ -597,7 +651,9 @@ const Components = {
                     return item?.description ? `<div style="color: #d0d1d4;font-size: 0.8rem;margin-bottom: 8px;margin-top: -2px;">${item.description}</div>` : "";
                 };
 
-                BedrockTools.functions.onClick[options?.id + "-item"] = (s = 0) => {
+                BedrockTools.functions.onClick[options?.id + "-item"] = (e, s = 0) => {
+                    const toggleElement = document.getElementById(options.id + "-items");
+                    if (toggleElement.className.includes("toggleDisabled")) return;
                     BedrockTools.sound.play( "ui.click" );
 
                     selected = s;
@@ -612,10 +668,67 @@ const Components = {
                         <span class="elementTitle">${options?.title ?? ""}</span>
                         ${options?.subtitle ? `<span class="elementSubtitle">${options.subtitle}</span>` : ""}
                         <div
+                            class="${options?.disabled ? "toggleDisabled" : ""}"
                             style="flex-direction: row;margin-top: 8px;margin-bottom: 8px;"
-                            id="${(options.id + "-items")}"
+                            id="${options.id + "-items"}"
                         >${buildItems()}</div>
                         <div id="${options.id + "-description"}">${getDescription()}</div>
+                    </div>`
+                );
+            };
+
+            case "slider": {
+                BedrockTools.functions.onChange[options?.id] = options?.onChange ?? (() => {});
+
+                const min = options?.min ?? 0;
+                const max = options?.max ?? 100;
+                let value = Number(options?.value) ?? 0;
+                BedrockTools.functions.onChange[options.id + "-slider"] = (e) => {
+                    const slider = document.getElementById(options.id);
+                    if(!slider.className.includes("sliderDisabled")) value = e.value;
+                    else e.value = value;
+
+                    const progress = (100 * value) / max;
+                    document.getElementById(options.id + "-progress").style.clipPath = `inset(0px ${100 - progress}% 0px 0px)`;
+                    document.getElementById(options.id + "-thumb").style.left = `${progress}%`;
+                    document.getElementById(options.id + "-progressText").innerText = options?.percentage ? (progress + "%") : value.toString();
+                };
+
+                return (
+                    `<div class="element">
+                        <div style="display: flex;flex-direction: row;justify-content: space-between;">
+                            <span class="elementTitle">${options?.title ?? ""}</span>
+                            <span class="elementTitle" id="${options.id}-progressText">${options?.percentage ? `${(100 * value) / max}%` : value}</span>
+                        </div>
+                        ${options?.subtitle ? `<span class="elementSubtitle">${options.subtitle}</span>` : ""}
+                        <div class="slider ${options?.disabled ? "sliderDisabled" : ""}" id="${options.id}">
+                            <div style="height: 2rem;justify-content: center;">
+                                <div class="sliderLeftProgress">
+                                    <div class="oreUISpecular"></div>
+                                    <div class="oreUISpecular"></div>
+                                </div>
+                                <div id="${options.id}-progress" class="sliderProgress" style="clip-path: inset(0px ${100 - ((100 * value) / max)}% 0px 0px);">
+                                    <div class="oreUISpecular"></div>
+                                    <div class="oreUISpecular"></div>
+                                </div>
+                                <div id="${options.id}-thumb" class="sliderThumb" style="left: ${(100 * value) / max}%;">
+                                    <div class="sliderThumbBackground">
+                                        <div class="oreUISpecular sliderSpecular"></div>
+                                        <div class="oreUISpecular sliderSpecular"></div>
+                                    </div>
+                                    <div class="sliderShadow"></div>
+                                </div>
+                            </div>
+                            <input
+                                type="range"
+                                min="${min}"
+                                max="${max}"
+                                value="${value}"
+                                class="hiddenSlider"
+                                onInput="BedrockTools.functions.onChange['${options.id + "-slider"}'](this);"
+                                onChange="BedrockTools.functions.onChange['${options.id}']();"
+                            >
+                        </div>
                     </div>`
                 );
             };
@@ -633,8 +746,8 @@ const Components = {
             `<div class="popup_">
                 <div class="popup__">
                     <div class="popup___">
-                        <div class="oreUISpecular oreUIButton_One"></div>
-                        <div class="oreUISpecular oreUIButton_Two"></div>
+                        <div class="oreUISpecular"></div>
+                        <div class="oreUISpecular"></div>
                         <div style="width: 2.4rem; height: 2.4rem;"></div>
                         <div style="flex: 1 1 0;"></div>
                         <div style="font-size: 14px;">${options?.title ?? ""}</div>
@@ -656,7 +769,7 @@ const Components = {
                         ${
                             options?.body
                             ? (
-                                `<div style="flex-direction: row;padding: 16px;">
+                                `<div style="flex-direction: row;padding: 16px;justify-content: center;align-items: center;">
                                     ${options?.icon ? `<img src="${options.icon}" style="height: 112px; width: 112px;"><div style="width: 2.4rem ;height: 2.4rem;"></div>` : ""}
                                     <div style="color: #ffffff;font-family: NotoSans;font-size: 13px;">${options?.body}</div>
                                 </div>`

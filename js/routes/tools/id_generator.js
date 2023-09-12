@@ -18,7 +18,7 @@ const idTabs = (selected = 0) => {
     const tabs = [
         {
             name: "UUID",
-            icon: "assets/id.png",
+            icon: "assets/tools/id.png",
             component: () => {
                 return (
                     `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
@@ -60,7 +60,7 @@ const idTabs = (selected = 0) => {
                                             BedrockTools.sendToast(
                                                 {
                                                     title: "UUID's Generated!",
-                                                    icon: "assets/id.png",
+                                                    icon: "assets/tools/id.png",
                                                     body: "Click to copy the UUID's to clipboard",
                                                     onClick: () => {
                                                         BedrockTools.sound.play( "ui.modal_hide" );
@@ -68,7 +68,7 @@ const idTabs = (selected = 0) => {
                                                         BedrockTools.sendToast(
                                                             {
                                                                 title: "UUID's successfully copied!",
-                                                                icon: "assets/checkbox_checked.png",
+                                                                icon: "assets/checkbox.png",
                                                                 body: "The UUID's has been successfully copied to the clipboard",
                                                                 instant: true,
                                                             },
@@ -197,7 +197,7 @@ const idTabs = (selected = 0) => {
                                                             BedrockTools.sendToast(
                                                                 {
                                                                     title: "Custom ID's successfully copied!",
-                                                                    icon: "assets/checkbox_checked.png",
+                                                                    icon: "assets/checkbox.png",
                                                                     body: "The custom ID's has been successfully copied to the clipboard",
                                                                     instant: true,
                                                                 },
@@ -242,7 +242,7 @@ const idTabs = (selected = 0) => {
     ) return;
 
     document.getElementById( "tabsContent" ).innerHTML = tabs.find((t, index) => index == selected).component();
-    tabsElement.setAttribute( "value", selected )
+    tabsElement.setAttribute( "value", selected.toString() );
     tabsElement.innerHTML = (
         Components.createTabs(
             {
@@ -250,7 +250,7 @@ const idTabs = (selected = 0) => {
                     (t, index) => Components.createTab(
                         {
                             text: t.name,
-                            id: index,
+                            id: index.toString(),
                             icon: t.icon,
                             selected: index == selected,
                             onClick: (e) => idTabs(e.id),

@@ -95,7 +95,7 @@ const RenderOffset = {
                                             BedrockTools.sendToast(
                                                 {
                                                     title: "Rawtext successfully copied!",
-                                                    icon: "assets/checkbox_checked.png",
+                                                    icon: "assets/checkbox.png",
                                                     body: "The render offset has been successfully copied to the clipboard",
                                                     instant: true,
                                                 },

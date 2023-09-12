@@ -64,7 +64,7 @@ const Settings = {
                                 BedrockTools.router.history.goBack();
                                 BedrockTools.sendToast(
                                     {
-                                        icon: "assets/checkbox_checked.png",
+                                        icon: "assets/checkbox.png",
                                         title: BedrockTools.localisation.translate( "bedrocktools.toast.settings.title" ),
                                         body: BedrockTools.localisation.translate( "bedrocktools.toast.settings.body" ),
                                     },
@@ -81,15 +81,13 @@ const Settings = {
 const SettingsRouteUtils = {
     toggleRight: (e) => {
         let isRight = BedrockTools.settings.get( "right" );
-        let enabled = e.getAttribute( "value" ) == "true";
-        if (isRight == enabled) modifiedSettings = modifiedSettings.filter((s) => s.name != "right");
-        else modifiedSettings.push({ name: "right", value: enabled });
+        if (isRight == e.value) modifiedSettings = modifiedSettings.filter((s) => s.name != "right");
+        else modifiedSettings.push({ name: "right", value: e.value });
     },
     toggleDiscordRpc: (e) => {
         let discordRpc = BedrockTools.settings.get( "discordRpc" );
-        let enabled = e.getAttribute( "value" ) == "true";
-        if (discordRpc == enabled) modifiedSettings = modifiedSettings.filter((s) => s.name != "discordrpc");
-        else modifiedSettings.push({ name: "discordrpc", value: enabled });
+        if (discordRpc == e.value) modifiedSettings = modifiedSettings.filter((s) => s.name != "discordrpc");
+        else modifiedSettings.push({ name: "discordrpc", value: e.value });
     },
     changeLanguage: (e) => {
         let locale = BedrockTools.settings.get( "locale" );
