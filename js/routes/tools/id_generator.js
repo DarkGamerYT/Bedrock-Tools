@@ -37,6 +37,7 @@ const idTabs = (selected = 0) => {
                                                     min: 1,
                                                     max: 32,
                                                 },
+                                                value: "1"
                                             },
                                         ),
                                     ],
