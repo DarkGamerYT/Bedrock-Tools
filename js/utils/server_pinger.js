@@ -8,7 +8,7 @@
 
 const dgram = require( "dgram" );
 const ByteBuffer = require( "bytebuffer" );
-const motdParser = require( "@sfirew/mc-motd-parser" );
+const motdParser = require( "@sfirew/minecraft-motd-parser" );
 
 const START_TIME = new Date().getTime();
 
@@ -131,7 +131,7 @@ const ping = (host, port = 19132, cb, timeout = 1000) => {
 						},
 						motd: {
 							raw: pong.description,
-							clean: motdParser.cleanTags(pong.description),
+							clean: motdParser.cleanCodes(pong.description),
 							html: bedrockMotd(motdParser.textToHTML(pong.description)),
 						},
 						protocol: Number(pong.protocolVersion),

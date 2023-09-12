@@ -22,7 +22,7 @@
 	},
 	"dependencies": {
 		"@electron/remote": "^2.0.9",
-		"@sfirew/mc-motd-parser": "^1.1.0",
+		"@sfirew/minecraft-motd-parser": "^1.1.2-1",
 		"babylonjs": "^6.20.1",
 		"bytebuffer": "^5.0.1",
 		"discord-rpc": "^4.0.1",
@@ -42,7 +42,7 @@
 		"appId": "com.xkingdark.bedrocktools",
 		"productName": "Bedrock Tools",
 		"artifactName": "${productName}-${version}.${ext}",
-		"publish":[
+		"publish": [
 			{
 				"provider": "github",
 				"owner": "DarkGamerYT",
