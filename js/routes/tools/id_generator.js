@@ -130,7 +130,7 @@ const idTabs = (selected = 0) => {
                                         }),
                                     ],
                                 },
-                            )},
+                            )}
                             ${Components.createElement("button", {
                                 label: "Generate",
                                 id: "generate",
