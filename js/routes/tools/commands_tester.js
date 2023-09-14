@@ -2,7 +2,7 @@ const CommandTester = {
     Component:  () => {
         const isRight = BedrockTools.settings.get( "right" );
         return (
-            Components.createHeader({ text: BedrockTools.localisation.translate( "bedrocktools.utilities.commandstester" ), back: true, settings: true })
+            Components.createHeader({ label: BedrockTools.localisation.translate( "bedrocktools.utilities.commandstester" ), back: true, settings: true })
             + (
                 `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
                     <div style="width: 50%;">
@@ -16,53 +16,41 @@ const CommandTester = {
                         ${Components.createElements(
                             {
                                 elements: [
-                                    Components.createElement(
-                                        {
-                                            type: "input",
-                                            title: "Command:",
+                                    Components.createElement("input", {
+                                            label: "Command:",
                                             id: "commandInput",
                                             placeholder: "gamemode creative @s",
                                             onChange: () => {},
                                         },
                                     ),
                                     `<div id="commandElement" style="display: none;">
-                                        ${
-                                            Components.createElement(
-                                                {
-                                                    type: "text",
-                                                    default: "Hello World",
-                                                    style: "code",
-                                                    id: "commandOutput",
-                                                },
-                                            )
-                                        }
+                                        ${Components.createElement("text",{
+                                            default: "Hello World",
+                                            style: "code",
+                                            id: "commandOutput",
+                                        })}
                                     </div>`,
                                 ],
                             },
                         )}
-                        ${
-                            Components.createElement(
-                                {
-                                    type: "button",
-                                    text: "Test Command",
-                                    style: "hero",
-                                    onClick: () => {
-                                        BedrockTools.sound.play( "ui.release" );
-                                        const commandInput = document.getElementById( "commandInput" );
-                                        const commandOutput = document.getElementById( "commandOutput" );
-                                        if (!commandInput || !commandOutput) return;
+                        ${Components.createElement("button", {
+                            label: "Test Command",
+                            variant: "hero",
+                            sound: "ui.release",
+                            onClick: () => {
+                                const commandInput = document.getElementById( "commandInput" );
+                                const commandOutput = document.getElementById( "commandOutput" );
+                                if (!commandInput || !commandOutput) return;
 
-                                        // @ts-ignore
-                                        const data = validateCommand( commandInput.value );
-                                        // @ts-ignore
-                                        document.getElementById( "commandElement" ).style.display = "block";
+                                // @ts-ignore
+                                const data = validateCommand( commandInput.value );
+                                // @ts-ignore
+                                document.getElementById( "commandElement" ).style.display = "block";
 
-                                        commandOutput.style.color = data?.error ? "#ff6767" : "#79e752";
-                                        commandOutput.innerText = data?.error ? data.data.message : "No errors.";
-                                    },
-                                }
-                            )
-                        }
+                                commandOutput.style.color = data?.error ? "#ff6767" : "#79e752";
+                                commandOutput.innerText = data?.error ? data.data.message : "No errors.";
+                            }
+                        })}
                     </div>
                 </div>`
             )

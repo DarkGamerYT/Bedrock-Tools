@@ -119,7 +119,7 @@ body {
 }
 .oreUIButton_ {
 	width: 100%;
-	height: 1.9rem;
+	height: 2rem;
 	line-height: 2rem;
     letter-spacing: 0.04rem;
     font-size: 1.6rem;
@@ -159,20 +159,6 @@ body {
 	background-color: #2a641c;
 }
 
-.oreUIButtonHero {
-	background-color: #1d4d13;
-	border-color: #1e1e1f;
-}
-.oreUIButtonHeroBackground {
-	background-color: #3c8527;
-	color: #ffffff;
-}
-.oreUIButton:hover .oreUIButtonHeroBackground {
-	background-color: #52a535;
-}
-.oreUIButton:active .oreUIButtonHeroBackground {
-	background-color: #2a641c;
-}
 .oreUISpecular {
 	position: absolute;
     top: 0;
@@ -286,7 +272,7 @@ body {
 ._oreUIButton__ {
 	line-height: 2rem;
     letter-spacing: 0.04rem;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 400;
 	flex-direction: row;
 	align-items: center;

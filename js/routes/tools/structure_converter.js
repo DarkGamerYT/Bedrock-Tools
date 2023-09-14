@@ -2,79 +2,66 @@ const StructureConverter = {
     Component: () => {
         const isRight = BedrockTools.settings.get( "right" );
         return (
-            Components.createHeader({ text: BedrockTools.localisation.translate( "bedrocktools.advanced.structureconverter" ), back: true, settings: true })
+            Components.createHeader({ label: BedrockTools.localisation.translate( "bedrocktools.advanced.structureconverter" ), back: true, settings: true })
             + (
                 `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
                     <div style="width: 50%;">
                         ${Components.createElements(
                             {
                                 elements: [
-                                    Components.createElement(
-                                        {
-                                            type: "dropdown",
-                                            title: "Type:",
-                                            id: "convertionType",
-                                            items: [
-                                                "Json",
-                                                "Structure",
-                                            ],
-                                            onChange: (e) => {
-                                                switch(e.value) {
-                                                    case 0:
-                                                        document.getElementById( "uploadElement" ).style = null;
-                                                    break;
-                                                    case 1: 
-                                                        document.getElementById( "uploadElement" ).style = "display: none;";
-                                                    break;
-                                                };
-                                            },
+                                    Components.createElement("dropdown", {
+                                        label: "Type:",
+                                        id: "convertionType",
+                                        items: [
+                                            "Json",
+                                            "Structure",
+                                        ],
+                                        onChange: (e) => {
+                                            switch(e.value) {
+                                                case 0:
+                                                    document.getElementById( "uploadElement" ).style = null;
+                                                break;
+                                                case 1: 
+                                                    document.getElementById( "uploadElement" ).style = "display: none;";
+                                                break;
+                                            };
                                         },
-                                    ),
+                                    }),
                                     `<div id="uploadElement">
-                                        ${
-                                            Components.createElement(
-                                                {
-                                                    type: "upload",
-                                                    title: "Upload:",
-                                                    id: "structureFile",
-                                                    text: {
-                                                        body: "Upload Structure file",
-                                                        id: "structureFileText",
-                                                    },
-                                                    accept: ".mcstructure",
-                                                    onChange: (e) => {
-                                                        const [ file ] = e.files;
-                                                        if(file) document.getElementById( "structureFileText" ).innerText = file.name;
-                                                    },
-                                                },
-                                            )
-                                        }
+                                        ${Components.createElement("upload", {
+                                            label: "Upload:",
+                                            id: "structureFile",
+                                            text: {
+                                                body: "Upload Structure file",
+                                                id: "structureFileText",
+                                            },
+                                            accept: ".mcstructure",
+                                            onChange: (e) => {
+                                                const [ file ] = e.files;
+                                                if(file) document.getElementById( "structureFileText" ).innerText = file.name;
+                                            },
+                                        })}
                                     </div>`,
                                 ],
                             },
                         )}
-                        ${Components.createElement(
-                            {
-                                type: "button",
-                                text: "Convert",
-                                id: "convert",
-                                style: "hero",
-                                onClick: () => convert(),
-                            },
-                        )}
+                        ${Components.createElement("button", {
+                            label: "Convert",
+                            id: "convert",
+                            variant: "hero",
+                            sound: "ui.release",
+                            onClick: () => convert(),
+                        })}
                     </div>
                     <div style="width: 100%;">
                         ${Components.createElements(
                             {
                                 elements: [
-                                    Components.createElement(
-                                        {
-                                            type: "textbox",
-                                            title: "JSON:",
-                                            id: "jsonInput",
-                                            startHeight: 602,
-                                        },
-                                    ),
+                                    Components.createElement("textbox", {
+                                        label: "JSON:",
+                                        id: "jsonInput",
+                                        startHeight: 602,
+                                    }),
                                 ],
                             },
                         )}
@@ -86,7 +73,6 @@ const StructureConverter = {
 };
 
 const convert = async () => {
-    BedrockTools.sound.play("ui.release");
     const convertionType = Number(document.getElementById( "convertionType" ).getAttribute( "value" ));
     const jsonInput = document.getElementById( "jsonInput" );
     switch(convertionType) {
@@ -125,7 +111,7 @@ const convert = async () => {
                 BedrockTools.loadModal(
                     ErrorModal(
                         {
-                            title: "Something went wrong",
+                            label: "Something went wrong",
                             body: "Failed to parse json into nbt",
                             center: true,
                         },

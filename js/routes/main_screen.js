@@ -3,73 +3,71 @@ const MainScreen = {
         const tools = [
             [
                 {
-                    title: BedrockTools.localisation.translate( "bedrocktools.addons.title" ),
+                    label: BedrockTools.localisation.translate( "bedrocktools.addons.title" ),
                     description: BedrockTools.localisation.translate( "bedrocktools.addons.description" ),
                     items: [
                         {
                             route: "/manifest_generator",
-                            title: BedrockTools.localisation.translate( "bedrocktools.addons.manifestgenerator" ),
+                            label: BedrockTools.localisation.translate( "bedrocktools.addons.manifestgenerator" ),
                             icon: "assets/tools/manifest.png",
                         },
                         {
                             route: "/render_offset_corrector",
-                            title: BedrockTools.localisation.translate( "bedrocktools.addons.renderoffsetcorrector" ),
+                            label: BedrockTools.localisation.translate( "bedrocktools.addons.renderoffsetcorrector" ),
                             icon: "assets/tools/render_offset.png"
                         },
                         {
                             route: "/json_rawtext_generator",
-                            title: BedrockTools.localisation.translate( "bedrocktools.addons.rawtextgenerator" ),
+                            label: BedrockTools.localisation.translate( "bedrocktools.addons.rawtextgenerator" ),
                             icon: "assets/tools/rawtext_gen.png"
                         }
                     ],
                     display: true,
                 },
                 {
-                    title: BedrockTools.localisation.translate( "bedrocktools.utilities.title" ),
+                    label: BedrockTools.localisation.translate( "bedrocktools.utilities.title" ),
                     description: BedrockTools.localisation.translate( "bedrocktools.utilities.description" ),
                     items: [
                         {
                             route: "/id_generator",
-                            title: BedrockTools.localisation.translate( "bedrocktools.utilities.idgenerator" ),
+                            label: BedrockTools.localisation.translate( "bedrocktools.utilities.idgenerator" ),
                             icon: "assets/tools/id.png",
                         },
-                        /*{
-                            route: "/commands_tester",
-                            title: BedrockTools.localisation.translate( "bedrocktools.utilities.commandstester" ),
+                        {
+                            route: "/commands_testert",
+                            label: BedrockTools.localisation.translate( "bedrocktools.utilities.commandstester" ),
                             icon: "assets/tools/commands.png",
-                        },*/
+                        },
                         {
                             route: "/server_pinger",
-                            title: BedrockTools.localisation.translate( "bedrocktools.utilities.serverpinger" ),
+                            label: BedrockTools.localisation.translate( "bedrocktools.utilities.serverpinger" ),
                             icon: "assets/tools/server_pinger.png",
                         },
                         {
                             route: "/loop_generator",
-                            title: BedrockTools.localisation.translate( "bedrocktools.utilities.loopgenerator" ),
+                            label: BedrockTools.localisation.translate( "bedrocktools.utilities.loopgenerator" ),
                             icon: "assets/tools/debug.png"
                         }
                     ],
                     display: true,
                 },
-            ],
-            [
                 {
-                    title: BedrockTools.localisation.translate( "bedrocktools.advanced.title" ),
+                    label: BedrockTools.localisation.translate( "bedrocktools.advanced.title" ),
                     description: BedrockTools.localisation.translate( "bedrocktools.advanced.description" ),
                     items: [
                         {
                             route: "/world_generator",
-                            title: BedrockTools.localisation.translate( "bedrocktools.advanced.worldgenerator" ),
+                            label: BedrockTools.localisation.translate( "bedrocktools.advanced.worldgenerator" ),
                             icon: "assets/tools/world_gen.png",
                         },
                         {
                             route: "/structure_converter",
-                            title: BedrockTools.localisation.translate( "bedrocktools.advanced.structureconverter" ),
+                            label: BedrockTools.localisation.translate( "bedrocktools.advanced.structureconverter" ),
                             icon: "assets/tools/structure_converter.png",
                         },
                         {
                             route: "/structure_editor",
-                            title: BedrockTools.localisation.translate( "bedrocktools.advanced.structureeditor" ),
+                            label: BedrockTools.localisation.translate( "bedrocktools.advanced.structureeditor" ),
                             icon: "assets/tools/structure_editor.png"
                         }
                     ],
@@ -78,12 +76,12 @@ const MainScreen = {
             ],
             [
                 {
-                    title: BedrockTools.localisation.translate( "bedrocktools.debug.title" ),
+                    label: BedrockTools.localisation.translate( "bedrocktools.debug.title" ),
                     description: BedrockTools.localisation.translate( "bedrocktools.debug.description" ),
                     items: [
                         {
                             route: "/components",
-                            title: BedrockTools.localisation.translate( "bedrocktools.debug.components" ),
+                            label: BedrockTools.localisation.translate( "bedrocktools.debug.components" ),
                             icon: "assets/tools/debug.png",
                         },
                     ],
@@ -93,9 +91,9 @@ const MainScreen = {
         ];
     
         return (
-            Components.createHeader({ text: BedrockTools.localisation.translate( "bedrocktools.name" ), back: false, settings: true })
+            Components.createHeader({ label: BedrockTools.localisation.translate( "bedrocktools.name" ), back: false, settings: true })
             + (
-                `<div style="margin-top: 25px;margin-left: auto;margin-right: auto;width: 75%;">
+                `<div style="margin-top: 25px;margin-left: auto;margin-right: auto;width: 95%;">
                     ${
                         BedrockTools.settings.get( "alpha_notice" )
                         ? `<div class="infoElement" id="alphaNotice">
@@ -121,7 +119,7 @@ const MainScreen = {
                                                         `<div class="elementsMenu">
                                                         <div class="elements" style="margin-top: -8px;margin-bottom: 16px;border: unset;border-bottom: 2px solid black;">
                                                             <div class="element_" style="padding: 4px 16px;border-top: 2px solid rgba(255, 255, 255, 0.1);">
-                                                                <span class="elementHeader" style="font-size: 14px;margin-top: 6px;">` + m.title + `</span>
+                                                                <span class="elementHeader" style="font-size: 14px;margin-top: 6px;">` + m.label + `</span>
                                                                 <span class="elementSubtitle" style="font-size: 12px;margin-bottom: 10px;margin-top: 0;">` + m.description + `</span>
                                                             </div>
                                                         </div>
@@ -133,7 +131,7 @@ const MainScreen = {
                                                                             <img src="${i.icon}" draggable="false" class="elementIconImage">
                                                                             <div style="left: 0; position: absolute;"><div class="elementIconHover"></div></div>
                                                                         </div>
-                                                                        <span class="elementTitle">${i.title}</span>
+                                                                        <span class="elementTitle">${i.label}</span>
                                                                     </div>`
                                                                 )
                                                             ).join( "" )

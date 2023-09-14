@@ -49,10 +49,10 @@ globalThis.BedrockTools = {
     },
     loadModal: (component) => document.getElementById( "popup" ).innerHTML = `<div class="mainBackground"></div><div class="uiEntering" style="min-width: 435px;">${component}</div>`,
     clearModal: () => document.getElementById( "popup" ).innerHTML = "",
-    sendToast: ({ title = "", body = "", icon = null, timeout = 4, instant = false, onClick = () => {} }) => {
+    sendToast: ({ label = "", body = "", icon = null, timeout = 4, instant = false, onClick = () => {} }) => {
         const id = Date.now();
-        if (instant) toastQueue = [{ id, title, body, icon, timeout, onClick }, ...toastQueue];
-        else toastQueue.push({ id, title, body, icon, timeout, onClick });
+        if (instant) toastQueue = [{ id, label, body, icon, timeout, onClick }, ...toastQueue];
+        else toastQueue.push({ id, label, body, icon, timeout, onClick });
 
         const interval = setInterval(
             async() => {
@@ -92,7 +92,7 @@ const sendToast = async(options) => {
                     : ""
                 }
                 <div>
-                    <span class="toastHeader">${options.title}</span>
+                    <span class="toastHeader">${options.label}</span>
                     <span class="toastSubtitle">${options.body}</span>
                 </div>
             </div>

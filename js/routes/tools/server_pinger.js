@@ -2,7 +2,7 @@ const ServerPinger = {
     Component: () => {
         const isRight = BedrockTools.settings.get( "right" );
         return (
-            Components.createHeader({ text: BedrockTools.localisation.translate( "bedrocktools.utilities.serverpinger" ), back: true, settings: true })
+            Components.createHeader({ label: BedrockTools.localisation.translate( "bedrocktools.utilities.serverpinger" ), back: true, settings: true })
             + (
                 `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
                     <div style="width: 50%;">
@@ -14,51 +14,31 @@ const ServerPinger = {
                                         id="serverImage"
                                         style="background-image: url('assets/750.png');"
                                     ></div>`,
-                                    Components.createElement(
-                                        {
-                                            type: "input",
-                                            title: "Server address:",
-                                            id: "serverIp",
-                                            placeholder: "play.example.com",
+                                    Components.createElement("input", {
+                                        label: "Server address:",
+                                        id: "serverIp",
+                                        placeholder: "play.example.com",
+                                    }),
+                                    Components.createElement("input", {
+                                        label: "Server port:",
+                                        id: "serverPort",
+                                        placeholder: "19132",
+                                        input: {
+                                            type: "number",
+                                            min: 1024,
+                                            max: 65565,
                                         },
-                                    ),
-                                    Components.createElement(
-                                        {
-                                            type: "input",
-                                            title: "Server port:",
-                                            id: "serverPort",
-                                            placeholder: "19132",
-                                            input: {
-                                                type: "number",
-                                                min: 1024,
-                                                max: 65565,
-                                            },
-                                        },
-                                    ),
+                                    }),
                                 ],
                             },
                         )}
-                        ${Components.createElement(
-                            {
-                                type: "button",
-                                text: "Ping",
-                                id: "ping",
-                                style: "hero",
-                                onClick: () => pingServer(),
-                            },
-                        )}
-                        <div style="height: 4px;"></div>
-                        <div id="serverListButton" style="display: none;">
-                            ${Components.createElement(
-                                {
-                                    type: "button",
-                                    text: "Add to server list",
-                                    id: "",
-                                    style: "secondary",
-                                    onClick: () => {},
-                                },
-                            )}
-                        </div>
+                        ${Components.createElement("button", {
+                            label: "Ping",
+                            id: "ping",
+                            variant: "hero",
+                            sound: "ui.release",
+                            onClick: () => pingServer(),
+                        })}
                     </div>
                     <div style="width: 100%;" id="serverData">${serverData()}</div>
                 </div>`
@@ -73,71 +53,49 @@ const serverData = () => {
             {
                 elements: [
                     `<div style="background-color: #1e1e1f">
-                        ${
-                            Components.createElement(
-                                {
-                                    type: "element",
-                                    title: "",
-                                    subtitle: (
-                                        `<div style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 4px; margin-bottom: -12px;">
-                                            <div style="display: flex; flex-direction: row; gap: 8px; align-items: end; font-size: 16px; color: white; margin-bottom: 14px;">
-                                                <img src="assets/player_image.png" draggable="false" style="image-rendering: pixelated;width: 24px;height: 24px;">
-                                                <div id="playerCount">0</div>
-                                            </div>
-                                        </div>`
-                                    ),
-                                    space: 0,
-                                },
-                            )
-                        }
+                        ${Components.createElement("element", {
+                            label: "",
+                            description: (
+                                `<div style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 4px; margin-bottom: -12px;">
+                                    <div style="display: flex; flex-direction: row; gap: 8px; align-items: end; font-size: 16px; color: white; margin-bottom: 14px;">
+                                        <img src="assets/player_image.png" draggable="false" style="image-rendering: pixelated;width: 24px;height: 24px;">
+                                        <div id="playerCount">0</div>
+                                    </div>
+                                </div>`
+                            ),
+                            space: 0,
+                        })}
                     </div>`,
                     `<div style="background-color: #313233">
-                        ${
-                            Components.createElement(
-                                {
-                                    type: "text",
-                                    title: "play.example.com",
-                                    subtitle: "Server address",
-                                    useTitle: true,
-                                    id: "hostname",
-                                },
-                            )
-                        }
-                        ${
-                            Components.createElement(
-                                {
-                                    type: "text",
-                                    title: "19132",
-                                    subtitle: "Server port",
-                                    useTitle: true,
-                                    id: "port",
-                                },
-                            )
-                        }
-                        ${
-                            Components.createElement(
-                                {
-                                    type: "text",
-                                    title: "",
-                                    subtitle: `<div style="margin-top: 8px; margin-bottom: 8px; display: flex; flex-direction: row; user-select: text;"><div style="color: #ff6767">Unable to ping the server.</div></div>`,
-                                    id: "motd",
-                                },
-                            )
-                        }
+                        ${Components.createElement("text", {
+                            label: "play.example.com",
+                            description: "Server address",
+                            uselabel: true,
+                            id: "hostname",
+                        })}
+                        ${Components.createElement("text", {
+                            label: "19132",
+                            description: "Server port",
+                            uselabel: true,
+                            id: "port",
+                        })}
+                        ${Components.createElement("text", {
+                            label: "",
+                            description: `<div style="margin-top: 8px; margin-bottom: 8px; display: flex; flex-direction: row; user-select: text;"><div style="color: #ff6767">Unable to ping the server.</div></div>`,
+                            id: "motd",
+                        })}
                     </div>`,
                     `<div style="display: none;" id="addToList">
                         <div style="flex-direction: row; background-color: #48494a; padding: 0.8rem; padding-left: 48px; padding-right: 48px;">
                             <div class="oreUISpecular"></div>
                             <div style="width: 100%;">
-                                ${Components.createElement(
-                                    {
-                                        type: "button",
-                                        text: "Add to server list",
-                                        id: "addToServerList",
-                                        style: "secondary",
-                                        onClick: () => {},
-                                    },
-                                )}
+                                ${Components.createElement("button", {
+                                    label: "Add to server list",
+                                    id: "addToServerList",
+                                    variant: "secondary",
+                                    sound: "ui.click",
+                                    onClick: () => {},
+                                })}
                             </div>
                         </div>
                     </div>`
@@ -148,7 +106,6 @@ const serverData = () => {
 };
 
 const pingServer = () => {
-    BedrockTools.sound.play("ui.release");
     const serverIp = document.getElementById( "serverIp" ).value.trim();
     const serverPort = Number(document.getElementById( "serverPort" ).value) || 19132;
     
@@ -176,7 +133,7 @@ const pingServer = () => {
     } else BedrockTools.loadModal(
         ErrorModal(
             {
-                title: "Something went wrong",
+                label: "Something went wrong",
                 body: "Address can't be empty",
                 center: true,
             },
