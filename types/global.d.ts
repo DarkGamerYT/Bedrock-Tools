@@ -89,7 +89,7 @@ interface TabOptions {
 interface ElementsOptions { elements: string[] }
 
 interface ModalOptions {
-    label: string;
+    header: string;
     body?: string;
     icon?: string;
     close?: boolean;

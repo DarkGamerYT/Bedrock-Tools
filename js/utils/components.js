@@ -236,7 +236,7 @@ const Components = {
                     `<div class="element">
                         ${options?.label ? `<span class="elementTitle">${options?.label}</span>` : ""}
                         ${options?.description ? `<span class="elementSubtitle">${options.description}</span>` : ""}
-                        <div style="margin-top: 6px;margin-bottom: 6px;flex-direction: row;gap: 4px;">
+                        <div style="margin-top: 2px;margin-bottom: 2px;flex-direction: row;gap: 4px;">
                             ${options.buttons.map((b) => `<div style="width: 100%;">${b}</div>`).join("")}
                         </div>
                     </div>`
@@ -365,7 +365,7 @@ const Components = {
                 BedrockTools.functions.onChange[options?.id] = options?.onChange ?? (() => {});
                 return (
                     `<div class="element">
-                        ${options?.label ? `<span class="elementTitle">${options?.label}</span>` : `<div style="margin-top: 12px;"></div>`}
+                        ${options?.label ? `<span class="elementTitle">${options?.label}</span>` : `<div style="margin: 6px 0;"></div>`}
                         <input
                             id="${options?.id ?? ""}"
                             type="${options?.type ?? "text"}"
@@ -714,6 +714,7 @@ const Components = {
                     document.getElementById(options.id + "-progress").style.clipPath = `inset(0px ${100 - progress}% 0px 0px)`;
                     document.getElementById(options.id + "-thumb").style.left = `${progress}%`;
                     document.getElementById(options.id + "-progressText").innerText = options?.percentage ? (progress + "%") : value.toString();
+                    BedrockTools.functions.onChange[options.id]({ value });
                 };
 
                 return (
@@ -748,7 +749,6 @@ const Components = {
                                 value="${value}"
                                 class="hiddenSlider"
                                 onInput="BedrockTools.functions.onChange['${options.id + "-slider"}'](this);"
-                                onChange="BedrockTools.functions.onChange['${options.id}']();"
                             >
                         </div>
                     </div>`
@@ -772,7 +772,7 @@ const Components = {
                         <div class="oreUISpecular"></div>
                         <div style="width: 2.4rem; height: 2.4rem;"></div>
                         <div style="flex: 1 1 0;"></div>
-                        <div style="font-size: 14px;">${options.label}</div>
+                        <div style="font-size: 14px;">${options.header}</div>
                         <div style="flex: 1 1 0;"></div>
                         <div style="width: 2.4rem ;height: 2.4rem;">
                             ${

@@ -186,7 +186,7 @@ body {
 }
 .dropdown {
 	padding-bottom: 0.2rem;
-	margin-top: 6px;
+	margin: 6px 0;
 	border-bottom-style: solid;
     border-left-style: solid;
     border-right-style: solid;
@@ -886,7 +886,7 @@ pre {
 	height: 1.6rem;
 	background: #d3d3d3;
     position: absolute;
-    width: 103%;
+    width: 109%;
     z-index: 3;
     padding: 0;
     opacity: 0;

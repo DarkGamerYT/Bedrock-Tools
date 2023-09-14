@@ -220,6 +220,12 @@ BedrockTools.router.routes.push(
         component: RenderOffset.Component,
         metadata: { rpc: "render_offset" },
     },
+    {
+        route: "/mer",
+        name: "bedrocktools.graphics.mer",
+        component: MER.Component,
+        metadata: { rpc: "mer" },
+    },
     
     {
         route: "/components",

@@ -1,7 +1,7 @@
 const ErrorModal = (options = {}) => {
     return Components.createModal(
         {
-            label: options.title,
+            header: options.header,
             body: `<div style="${options?.center ? "text-align: center;" : ""}">${options.body}</div>`,
             elements: [
                 Components.createElement("panelbutton", {

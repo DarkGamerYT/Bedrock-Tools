@@ -8,7 +8,7 @@ const CommandTester = {
                     <div style="width: 50%;">
                         <div class="elements">
                             <div class="element">
-                                <input disabled="" placeholder="gamemode <gameMode?: GameMode>" style="margin-top: 12px;">
+                                <input disabled="" placeholder="gamemode <gameMode?: GameMode>" style="margin: 6px 0;">
                             </div>
                         </div>
                     </div>

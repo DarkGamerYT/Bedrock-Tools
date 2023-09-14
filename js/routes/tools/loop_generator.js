@@ -61,7 +61,7 @@ const loopTabs = (selected = 0) => {
                                         BedrockTools.loadModal(
                                             ErrorModal(
                                                 {
-                                                    label: "Something went wrong",
+                                                    header: "Something went wrong",
                                                     body: "Output Variable cannot be empty or whitespace!",
                                                     center: true
                                                 }
@@ -75,7 +75,7 @@ const loopTabs = (selected = 0) => {
                                         BedrockTools.loadModal(
                                             ErrorModal(
                                                 {
-                                                    label: "Something went wrong",
+                                                    header: "Something went wrong",
                                                     body: "Output Template cannot be empty or whitespace!",
                                                     center: true
                                                 }
@@ -89,7 +89,7 @@ const loopTabs = (selected = 0) => {
                                         BedrockTools.loadModal(
                                             ErrorModal(
                                                 {
-                                                    label: "Something went wrong",
+                                                    header: "Something went wrong",
                                                     body: "List is empty!",
                                                     center: true
                                                 }
@@ -213,7 +213,7 @@ const loopTabs = (selected = 0) => {
                                         BedrockTools.loadModal(
                                             ErrorModal(
                                                 {
-                                                    label: "Something went wrong",
+                                                    header: "Something went wrong",
                                                     body: "Output Variable cannot be empty or whitespace!",
                                                     center: true
                                                 }
@@ -227,7 +227,7 @@ const loopTabs = (selected = 0) => {
                                         BedrockTools.loadModal(
                                             ErrorModal(
                                                 {
-                                                    label: "Something went wrong",
+                                                    header: "Something went wrong",
                                                     body: "Output Template cannot be empty or whitespace!",
                                                     center: true
                                                 }
@@ -241,7 +241,7 @@ const loopTabs = (selected = 0) => {
                                         BedrockTools.loadModal(
                                             ErrorModal(
                                                 {
-                                                    label: "Something went wrong",
+                                                    header: "Something went wrong",
                                                     body: "Start value cannot be higher than end value!",
                                                     center: true
                                                 }

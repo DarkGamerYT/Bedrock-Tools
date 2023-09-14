@@ -35,7 +35,7 @@ const StructureConverter = {
                                                 body: "Upload Structure file",
                                                 id: "structureFileText",
                                             },
-                                            accept: ".mcstructure",
+                                            accepts: ".mcstructure",
                                             onChange: (e) => {
                                                 const [ file ] = e.files;
                                                 if(file) document.getElementById( "structureFileText" ).innerText = file.name;
@@ -111,7 +111,7 @@ const convert = async () => {
                 BedrockTools.loadModal(
                     ErrorModal(
                         {
-                            label: "Something went wrong",
+                            header: "Something went wrong",
                             body: "Failed to parse json into nbt",
                             center: true,
                         },

@@ -33,11 +33,11 @@ const MainScreen = {
                             label: BedrockTools.localisation.translate( "bedrocktools.utilities.idgenerator" ),
                             icon: "assets/tools/id.png",
                         },
-                        {
-                            route: "/commands_testert",
+                        /*{
+                            route: "/commands_tester",
                             label: BedrockTools.localisation.translate( "bedrocktools.utilities.commandstester" ),
                             icon: "assets/tools/commands.png",
-                        },
+                        },*/
                         {
                             route: "/server_pinger",
                             label: BedrockTools.localisation.translate( "bedrocktools.utilities.serverpinger" ),
@@ -75,6 +75,23 @@ const MainScreen = {
                 },
             ],
             [
+                {
+                    label: BedrockTools.localisation.translate( "bedrocktools.graphics.title" ),
+                    description: BedrockTools.localisation.translate( "bedrocktools.graphics.description" ),
+                    items: [
+                        {
+                            route: "/mer",
+                            label: BedrockTools.localisation.translate( "bedrocktools.graphics.mer" ),
+                            icon: "assets/tools/mer.png",
+                        },
+                        {
+                            route: "/heightmap",
+                            label: BedrockTools.localisation.translate( "bedrocktools.graphics.heightmap" ),
+                            icon: "assets/tools/heightmap.png",
+                        }
+                    ],
+                    display: true,
+                },
                 {
                     label: BedrockTools.localisation.translate( "bedrocktools.debug.title" ),
                     description: BedrockTools.localisation.translate( "bedrocktools.debug.description" ),

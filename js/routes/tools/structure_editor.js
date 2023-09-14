@@ -19,7 +19,7 @@ const StructureEditor = {
                                                 body: "Upload Structure file",
                                                 id: "structureFileText",
                                             },
-                                            accept: ".mcstructure",
+                                            accepts: ".mcstructure",
                                             onChange: (e) => {
                                                 const [file] = e.files;
                                                 if (file) document.getElementById("structureFileText").innerText = file.name;

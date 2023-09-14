@@ -12,7 +12,7 @@ const RenderOffset = {
                                     Components.createElement("upload", {
                                         label: "Image:",
                                         id: "itemImageFile",
-                                        accept: ".png, .jpeg, .jpg",
+                                        accepts: ".png, .jpeg, .jpg",
                                         text: {
                                             body: "Upload Image file",
                                             id: "itemFileText",

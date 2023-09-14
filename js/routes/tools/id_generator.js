@@ -146,7 +146,7 @@ const idTabs = (selected = 0) => {
                                         BedrockTools.loadModal(
                                             ErrorModal(
                                                 {
-                                                    label: "Something went wrong",
+                                                    header: "Something went wrong",
                                                     body: "Characters cannot be empty or whitespace!",
                                                     center: true
                                                 }
