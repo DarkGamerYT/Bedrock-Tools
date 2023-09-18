@@ -3,69 +3,60 @@ const StructureEditor = {
     Component: () => {
         const isRight = BedrockTools.settings.get("right");
         return (
-            Components.createHeader({ text: BedrockTools.localisation.translate( "bedrocktools.advanced.structureeditor" ), back: true, settings: true })
+            Components.createHeader({ label: BedrockTools.localisation.translate( "bedrocktools.advanced.structureeditor" ), back: true, settings: true })
             + (
                 `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 8%;margin-right: 8%;width: auto;gap: 15px;">
                     <div style="width: 100%;">
                         ${Components.createElements({ elements: [`<canvas id="viewer"></canvas>`] })}
                         <div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;width: auto;gap: 15px;">
                             <div style="width: 40%;">
-                                ${Components.createElements(
-                    {
-                        elements: [
-                            Components.createElement(
-                                {
-                                    type: "upload",
-                                    title: "Upload:",
-                                    id: "structureFile",
-                                    text: {
-                                        body: "Upload Structure file",
-                                        id: "structureFileText",
-                                    },
-                                    accept: ".mcstructure",
-                                    onChange: (e) => {
-                                        const [file] = e.files;
-                                        if (file) document.getElementById("structureFileText").innerText = file.name;
-                                    },
-                                },
-                            )
-                        ],
-                    },
-                )}
-                ${Components.createElement(
-                    {
-                        type: "button",
-                        text: "Render",
-                        id: "render",
-                        style: "hero",
-                        onClick: async () => {
-                            const structureFile = document.getElementById("structureFile");
-                            // @ts-ignore
-                            const [file] = structureFile.files;
-                            if (file) {
-                                const reader = new FileReader();
-                                reader.addEventListener(
-                                    "load", async () => {
-                                        await structureManager.setDataAsync(Buffer.from(reader.result));
-                                        sceneManager.generateStructure(structureManager);
-                                    },
-                                );
+                                ${Components.createElements({
+                                    elements: [
+                                        Components.createElement("upload", {
+                                            label: "Upload:",
+                                            id: "structureFile",
+                                            text: {
+                                                body: "Upload Structure file",
+                                                id: "structureFileText",
+                                            },
+                                            accepts: ".mcstructure",
+                                            onChange: (e) => {
+                                                const [file] = e.files;
+                                                if (file) document.getElementById("structureFileText").innerText = file.name;
+                                            },
+                                        })
+                                    ],
+                                })}
+                                ${Components.createElement("button", {
+                                    label: "Render",
+                                    id: "render",
+                                    variant: "hero",
+                                    sound: "ui.release",
+                                    onClick: async () => {
+                                        const structureFile = document.getElementById("structureFile");
+                                        // @ts-ignore
+                                        const [file] = structureFile.files;
+                                        if (file) {
+                                            const reader = new FileReader();
+                                            reader.addEventListener(
+                                                "load", async () => {
+                                                    sceneManager.resetScene();
+                                                    await structureManager.setDataAsync(Buffer.from(reader.result));
+                                                    sceneManager.generateStructure(structureManager);
+                                                },
+                                            );
 
-                                reader.readAsArrayBuffer(file);
-                            };
-                        },
-                    },
-                )}
+                                            reader.readAsArrayBuffer(file);
+                                        };
+                                    },
+                                })}
                             </div>
                             <div style="width: 100%;">
                                 ${Components.createElements({
-                    elements: [
-                        Components.createElement({
-                            type: "element",
-                            title: "Block Editing Stuff Here..."
-                        })
-                    ]
-                })}
+                                    elements: [
+                                        Components.createElement("element", { label: "Block Editing Stuff Here..." })
+                                    ]
+                                })}
                             </div>
                         </div>
                     </div>

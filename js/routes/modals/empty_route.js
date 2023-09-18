@@ -2,29 +2,32 @@ BedrockTools.router.routes.push({
     name: "Empty Route",
     route: "/empty_route",
     component: () => {
-        return Components.createModal(
-            {
-                title: "Missing Route",
-                body: "The route you're trying to access isn't included in this build.",
-                elements: [
-                    `<div class="element" style="padding-left: 0.6rem;padding-right: 0.6rem;gap: 8px;">
-                        <div style="width: 100%;margin-top: 6px;margin-bottom: 6px;gap: 4px;">
-                            ${Components.createElement(
-                                {
-                                    type: "button",
-                                    text: "Go back",
-                                    id: "goBack",
-                                    style: "secondary",
-                                    onClick: () => {
-                                        BedrockTools.router.history.goBack();
-                                        BedrockTools.sound.play("ui.click");
-                                    }
-                                },
-                            )}
-                        </div>
-                    </div>`
-                ]
-            },
+        return (
+            `<div class="popup" id="popup">
+                <div class="mainBackground"></div>
+                <div class="uiEntering" style="min-width: 435px;">${Components.createModal(
+                    {
+                        header: "Missing Route",
+                        body: "The route you're trying to access isn't included in this build.",
+                        elements: [
+                            Components.createElement("panelbutton", {
+                                buttons: [
+                                    Components.createElement("button", {
+                                        label: "Go back",
+                                        id: "goBack",
+                                        variant: "primary",
+                                        sound: "ui.click",
+                                        onClick: () => {
+                                            BedrockTools.router.history.goBack();
+                                            BedrockTools.clearModal();
+                                        }
+                                    })
+                                ]
+                            })
+                        ]
+                    },
+                )}</div>
+            </div>`
         );
     },
     metadata: {},

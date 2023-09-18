@@ -15,8 +15,8 @@ document.addEventListener(
             if (event.code == "Numpad1") {
                 BedrockTools.sendToast(
                     {
-                        title: "Test Toast",
                         icon: "assets/wrench.png",
+                        label: "Test Toast",
                         body: "Hello World!",
                         onClick: () => BedrockTools.sound.play( "ui.release" ),
                     },
@@ -24,7 +24,7 @@ document.addEventListener(
             } else if (event.code == "Numpad2") {
                 BedrockTools.sendToast(
                     {
-                        title: "Test Toast - No Icon",
+                        label: "Test Toast - No Icon",
                         body: "Hello World!",
                         onClick: () => BedrockTools.sound.play( "ui.release" ),
                     },
@@ -33,50 +33,40 @@ document.addEventListener(
                 BedrockTools.loadModal(
                     Components.createModal(
                         {
-                            title: "Header",
+                            label: "Header",
                             body: "Looong description. Lemon drops lollipop jelly beans powder brownie chocolate cake pastry chocolate cake powder. Bonbon candy canes dessert muffin gummies.",
                             close: true,
                             bodyElements: [  
-                                Components.createElement(
-                                    {
-                                        type: "input",
-                                        title: "Label",
-                                        placeholder: "Placeholder",
-                                        subtitle: "Description",
-                                        id: "modal-input"
-                                    },
-                                ),
+                                Components.createElement("input", {
+                                    label: "Label",
+                                    placeholder: "Placeholder",
+                                    description: "Description",
+                                    id: "modal-input"
+                                }),
                             ],
                             elements: [
-                                Components.createElement(
-                                    {
-                                        type: "checkbox",
-                                        title: "Checkbox example for confirmation",
-                                        id: "checkbox",
-                                        checked: false,
-                                        onClick: () => {}
-                                    }
-                                ),
+                                Components.createElement("checkbox", {
+                                    label: "Checkbox example for confirmation",
+                                    id: "checkbox",
+                                    checked: false,
+                                    onChange: () => {}
+                                }),
                                 `<div class="element" style="padding-left: 0.6rem;padding-right: 0.6rem;gap: 8px;">
                                     <div style="width: 100%;margin-top: 6px;margin-bottom: 6px;gap: 4px;">
-                                        ${Components.createElement(
-                                            {
-                                                type: "button",
-                                                text: "Label",
-                                                id: "button-2",
-                                                style: "primary",
-                                                onClick: () => {}
-                                            },
-                                        )}
-                                        ${Components.createElement(
-                                            {
-                                                type: "button",
-                                                text: "Label",
-                                                id: "button-3",
-                                                style: "secondary",
-                                                onClick: () => {}
-                                            },
-                                        )}
+                                        ${Components.createElement("button", {
+                                            label: "Label",
+                                            id: "button-2",
+                                            variant: "primary",
+                                            sound: "ui.click",
+                                            onClick: () => {}
+                                        })}
+                                        ${Components.createElement("button", {
+                                            label: "Label",
+                                            id: "button-3",
+                                            variant: "secondary",
+                                            sound: "ui.click",
+                                            onClick: () => {}
+                                        })}
                                     </div>
                                 </div>`
                             ]
@@ -87,7 +77,7 @@ document.addEventListener(
                 BedrockTools.loadModal(
                     Components.createModal(
                         {
-                            title: "Header",
+                            label: "Header",
                             icon: "assets/rectangle.png",
                             body: (
                                 "Looong description. Lemon drops lollipop jelly beans powder brownie chocolate cake pastry chocolate cake powder. Bonbon candy canes dessert muffin gummies."
@@ -98,26 +88,22 @@ document.addEventListener(
                                 `<div class="element" style="padding-left: 0.6rem;padding-right: 0.6rem;gap: 8px;">
                                     <div style="margin-top: 6px;margin-bottom: 6px;flex-direction: row;gap: 4px;">
                                         <div style="width: 100%;">
-                                            ${Components.createElement(
-                                                {
-                                                    type: "button",
-                                                    text: "Label",
-                                                    id: "modal-button-2",
-                                                    style: "secondary",
-                                                    onClick: () => {}
-                                                },
-                                            )}
+                                            ${Components.createElement("button", {
+                                                label: "Label",
+                                                id: "modal-button-2",
+                                                variant: "secondary",
+                                                sound: "ui.click",
+                                                onClick: () => {}
+                                            })}
                                         </div>
                                         <div style="width: 100%;">
-                                            ${Components.createElement(
-                                                {
-                                                    type: "button",
-                                                    text: "Label",
-                                                    id: "modal-button-1",
-                                                    style: "primary",
-                                                    onClick: () => {}
-                                                },
-                                            )}
+                                            ${Components.createElement("button", {
+                                                label: "Label",
+                                                id: "modal-button-1",
+                                                variant: "primary",
+                                                sound: "ui.click",
+                                                onClick: () => {}
+                                            })}
                                         </div>
                                     </div>
                                 </div>`
@@ -129,20 +115,17 @@ document.addEventListener(
                 BedrockTools.loadModal(
                     Components.createModal(
                         {
-                            title: "Header",
+                            label: "Header",
                             close: true,
                             elements: [
-                                Components.createElement(
-                                    {
-                                        type: "dropdown",
-                                        title: "Label",
-                                        subtitle: "Description text that explains what this dropdown is about. It can be multiple lines long.",
-                                        id: "modal-dropdown",
-                                        selected: 0,
-                                        items: [ "One", "Two", "Three", "Four", "Five" ],
-                                        onChange: () => {}
-                                    },
-                                )
+                                Components.createElement("dropdown", {
+                                    label: "Label",
+                                    description: "Description text that explains what this dropdown is about. It can be multiple lines long.",
+                                    id: "modal-dropdown",
+                                    selected: 0,
+                                    items: [ "One", "Two", "Three", "Four", "Five" ],
+                                    onChange: () => {}
+                                })
                             ]
                         }
                     ),
@@ -236,6 +219,12 @@ BedrockTools.router.routes.push(
         name: "bedrocktools.addons.renderoffsetcorrector",
         component: RenderOffset.Component,
         metadata: { rpc: "render_offset" },
+    },
+    {
+        route: "/mer",
+        name: "bedrocktools.graphics.mer",
+        component: MER.Component,
+        metadata: { rpc: "mer" },
     },
     
     {

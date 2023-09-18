@@ -2,19 +2,17 @@ const RenderOffset = {
     Component: () => {
         const isRight = BedrockTools.settings.get( "right" );
         return (
-            Components.createHeader({ text: BedrockTools.localisation.translate( "bedrocktools.addons.renderoffsetcorrector" ), back: true, settings: true })
+            Components.createHeader({ label: BedrockTools.localisation.translate( "bedrocktools.addons.renderoffsetcorrector" ), back: true, settings: true })
             + (
                 `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
                     <div style="width: 50%;">
-                    ${Components.createElements(
-                        {
-                            elements: [
-                                Components.createElement(
-                                    {
-                                        type: "upload",
-                                        title: "Image:",
+                        ${Components.createElements(
+                            {
+                                elements: [
+                                    Components.createElement("upload", {
+                                        label: "Image:",
                                         id: "itemImageFile",
-                                        accept: ".png, .jpeg, .jpg",
+                                        accepts: ".png, .jpeg, .jpg",
                                         text: {
                                             body: "Upload Image file",
                                             id: "itemFileText",
@@ -36,33 +34,24 @@ const RenderOffset = {
                                                 );
                                                 reader.readAsDataURL(file);
                                             }
-
                                         }
-                                    }
-                                ),
-                                Components.createElement(
-                                    {
-                                        type: "input",
+                                    }),
+                                    Components.createElement("input", {
                                         id: "imgRes",
-                                        title: "Image Resolution",
+                                        label: "Image Resolution",
                                         value: "16",
                                         placeholder: "Resolution of the image for one axis",
-                                        input: {
-                                            type: "number"
-                                        }
-                                    }
-                                )
-                            ]
-                        }
-                    )}
-                    ${Components.createElement(
-                        {
-                            type: "button",
-                            text: "Generate",
+                                        input: { type: "number" }
+                                    })
+                                ]
+                            }
+                        )}
+                        ${Components.createElement("button", {
+                            label: "Generate",
                             id: "generate",
-                            style: "hero",
+                            variant: "hero",
+                            sound: "ui.release",
                             onClick: () => {
-                                BedrockTools.sound.play( "ui.release" );
                                 const imgRes = Number(document.getElementById("imgRes").value.trim());
                                 const Scales = [
                                     0.075 / (imgRes / 16),
@@ -86,16 +75,16 @@ const RenderOffset = {
                                 document.getElementById("output").innerHTML = highlightedText;
                                 BedrockTools.sendToast(
                                     {
-                                        title: "Render Offset Generated!",
-                                        icon: "assets/render_offset.png",
+                                        label: "Render Offset Generated!",
+                                        icon: "assets/tools/render_offset.png",
                                         body: "Click to copy the render offset to clipboard",
                                         onClick: () => {
                                             BedrockTools.sound.play( "ui.modal_hide" );
                                             navigator.clipboard.writeText( stringOffset );
                                             BedrockTools.sendToast(
                                                 {
-                                                    title: "Rawtext successfully copied!",
-                                                    icon: "assets/checkbox_checked.png",
+                                                    label: "Rawtext successfully copied!",
+                                                    icon: "assets/checkbox.png",
                                                     body: "The render offset has been successfully copied to the clipboard",
                                                     instant: true,
                                                 },
@@ -104,21 +93,19 @@ const RenderOffset = {
                                     },
                                 );
                             }
-                        }
-                    )}
+                        })}
                     </div>
                     <div style="width: 100%;">
                         ${Components.createElements(
                             {
-                                elements: [Components.createElement(
-                                    {
-                                        type: "text",
-                                        title: "Output:",
+                                elements: [
+                                    Components.createElement("text", {
+                                        label: "Output:",
                                         id: "output",
                                         default: "Render Offset Output",
                                         style: "code"
-                                    }
-                                )]
+                                    })
+                                ]
                             }
                         )}
                     </div>

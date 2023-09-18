@@ -87,7 +87,7 @@ body {
 }
 
 .oreUIButton {
-	padding-bottom: 0.3rem;
+	padding-bottom: 0.2rem;
 	border-bottom-style: solid;
     border-left-style: solid;
     border-right-style: solid;
@@ -106,7 +106,7 @@ body {
 }
 .oreUIButton:active {
 	padding-bottom: 0;
-	margin-top: 0.3rem;
+	margin-top: 0.2rem;
 }
 .oreUIButton:before {
     content: "";
@@ -119,7 +119,7 @@ body {
 }
 .oreUIButton_ {
 	width: 100%;
-	height: 2.3rem;
+	height: 2rem;
 	line-height: 2rem;
     letter-spacing: 0.04rem;
     font-size: 1.6rem;
@@ -143,14 +143,6 @@ body {
     border-bottom-color: rgba(255, 255, 255, 0.1);
     border-right-color: rgba(255, 255, 255, 0.1);
 }
-.oreUIButton_One {
-	border-left-width: var(--base2Scale);
-	border-top-width: var(--base2Scale);
-}
-.oreUIButton_Two {
-	border-right-width: var(--base2Scale);
-	border-bottom-width: var(--base2Scale);
-}
 
 .oreUIButtonPrimary {
 	background-color: #1d4d13;
@@ -167,20 +159,6 @@ body {
 	background-color: #2a641c;
 }
 
-.oreUIButtonHero {
-	background-color: #1d4d13;
-	border-color: #1e1e1f;
-}
-.oreUIButtonHeroBackground {
-	background-color: #3c8527;
-	color: #ffffff;
-}
-.oreUIButton:hover .oreUIButtonHeroBackground {
-	background-color: #52a535;
-}
-.oreUIButton:active .oreUIButtonHeroBackground {
-	background-color: #2a641c;
-}
 .oreUISpecular {
 	position: absolute;
     top: 0;
@@ -190,6 +168,10 @@ body {
     z-index: 1;
     pointer-events: none;
     color: transparent;
+	border-left-width: 2px;
+	border-top-width: 2px;
+	border-right-width: 2px;
+	border-bottom-width: 2px;
 	border-top-color: rgba(255, 255, 255, 0.2);
     border-left-color: rgba(255, 255, 255, 0.2);
     border-bottom-color: rgba(255, 255, 255, 0.1);
@@ -204,7 +186,7 @@ body {
 }
 .dropdown {
 	padding-bottom: 0.2rem;
-	margin-bottom: 10px;
+	margin: 6px 0;
 	border-bottom-style: solid;
     border-left-style: solid;
     border-right-style: solid;
@@ -290,7 +272,7 @@ body {
 ._oreUIButton__ {
 	line-height: 2rem;
     letter-spacing: 0.04rem;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 400;
 	flex-direction: row;
 	align-items: center;
@@ -330,7 +312,7 @@ input, textarea, span[role="textbox"] {
 	height: 32px;
     color: white;
     background-color: #313233;
-    border-top: 0.4rem solid black;
+    border-top: 0.3rem solid black;
     border-color: #1e1e1f;
 	border-bottom-width: var(--base2Scale);
     border-left-width: var(--base2Scale);
@@ -339,7 +321,19 @@ input, textarea, span[role="textbox"] {
     margin-bottom: 12px;
 	padding-left: 8px;
     padding-right: 8px;
+	margin-top: 6px;
 	outline: none;
+	cursor: pointer;
+	caret-color: #6cc349;
+}
+input:disabled {
+	background-color: #d0d1d4;
+    border: 2px solid #8c8d90;
+    cursor: default;
+	color: #48494a;
+}
+input:disabled::placeholder {
+	color: #48494a;
 }
 span[role="textbox"]::marker {
 	content: "";
@@ -354,19 +348,16 @@ span[role="textbox"]::marker {
 .element {
 	border-top: 2px solid rgba(255, 255, 255, 0.1);
     border-bottom: 2px solid rgba(0, 0, 0, 0.3);
-    padding-left: 1.6rem;
-    padding-right: 1.6rem;
+	padding: 0.4rem 1.6rem;
 }
 .element_ {
-    padding-left: 1.6rem;
-    padding-right: 1.6rem;
+	padding: 0.4rem 1.6rem;
 }
 .elementTitle {
 	color: #ffffff;
     letter-spacing: 0.04rem;
     font-size: 14px;
-    line-height: 24px;
-	width: 100%;
+    line-height: 16px;
 }
 .elementHeader {
 	color: #ffffff;
@@ -452,33 +443,6 @@ select {
 .headerTitle_ {
 	font-size: 16px;
     font-family: MinecraftTen;
-}
-
-.toggle {
-	display: block;
-	border-style: none;
-	outline: none;
-	min-width: 58px;
-	height: 32px;
-	cursor: pointer;
-    background-repeat: round;
-	image-rendering: pixelated;
-}
-.toggleOff {
-	background-image: url(../assets/toggle_off.png);
-}
-.toggleOff:hover {
-	background-image: url(../assets/toggle_off_hover.png);
-}
-.toggleOn {
-	background-image: url(../assets/toggle_on.png);
-}
-.toggleOn:hover {
-	background-image: url(../assets/toggle_on_hover.png);
-}
-.toggleDisabled {
-	cursor: auto;
-	background-image: url(../assets/toggle_disabled.png);
 }
 .disabledElement .elementTitle {
 	color: #d0d1d4;
@@ -624,6 +588,7 @@ pre {
     background-position: center;
     background-size: cover;
     border-bottom: 2px solid black;
+	image-rendering: pixelated;
 }
 .motdUnicode {
     width: auto;
@@ -721,7 +686,7 @@ pre {
 
 @keyframes slideInTop {
 	0% {
-		top: -100%;
+		top: -20%;
 	}
 	100% {
 		top: 0;
@@ -740,7 +705,7 @@ pre {
 		top: 0;
 	}
 	100% {
-		top: -100%;
+		top: -20%;
 	}
 }
 
@@ -823,7 +788,7 @@ pre {
 	width: 100%;
 	z-index: 1000;
 	margin: -2px;
-	max-height: 172px;
+	max-height: 202px;
     overflow: auto;
 }
 .dropdownOption {
@@ -846,56 +811,59 @@ pre {
 .dropdownOption:active {
 	background-color: #48494a;
 }
-
 .dropdownOptionCheck {
 	display: none;
 	image-rendering: pixelated;
 	height: 12px;
 	width: 16px;
 }
-
-.selected .dropdownOptionCheck {
-	display: block;
+.selected .dropdownOptionCheck { display: block; }
+.dropdownDisabled {
+	background-color: #b1b2b5;
+	border-color: #8c8d90;
+	cursor: default;
 }
+.dropdownDisabled .oreUIButtonSecondaryBackground { color: #48494a; background-color: #d0d1d4 !important; }
 
 .oreUIToggleSelected {
 	background-color: #1d4d13;
 	border-color: #1e1e1f;
 	cursor: default;
-	margin-top: 0.3rem;
+	margin-top: 0.2rem;
     padding-bottom: 0rem;
 }
-.oreUIToggleSelectedBackground {
-	background-color: #3c8527;
-	color: #ffffff;
-}
+.oreUIToggleSelectedBackground { background-color: #3c8527; color: #ffffff; }
 
 .checkbox {
-	display: block;
-	border-style: none;
-	outline: none;
-	width: 32px;
-	height: 32px;
+	margin-right: 8px;
+	border-bottom-width: var(--base2Scale);
+	border-left-width: var(--base2Scale);
+	border-right-width: var(--base2Scale);
+	border-style: solid;
+	border-top-width: var(--base2Scale);
+	flex: 0 0 auto;
+	height: calc(var(--base2Scale)*12);
+	position: relative;
+	width: calc(var(--base2Scale)*12);
+	z-index: 1;
+	background-color: #8c8d90;
+	border-color: #1e1e1f;
 	cursor: pointer;
-    background-repeat: round;
-	image-rendering: pixelated;
 }
-.checkboxUnchecked {
-	background-image: url(../assets/checkbox.png);
+.checkbox:hover { background-color: #b1b2b5; }
+.checkbox:active { background-color: #58585a; }
+.checkboxCheck {
+	background-color: #3c8527;
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
 }
-.checkboxUnchecked:hover {
-	background-image: url(../assets/checkbox_hover.png);
-}
-.checkboxChecked {
-	background-image: url(../assets/checkbox_checked.png);
-}
-.checkboxChecked:hover {
-	background-image: url(../assets/checkbox_checked_hover.png);
-}
-.checkboxDisabled {
-	cursor: auto;
-	background-image: url(../assets/checkbox_disabled.png);
-}
+.checkboxCheck:hover { background-color: #52a535; }
+.checkboxCheck:active { background-color: #2a641c; }
+.checkboxDisabled { cursor: default; border-color: #8c8d90; }
+.checkboxDisabled, .checkboxDisabled .checkboxCheck { background-color: #d0d1d4; }
+.checkboxDisabled .checkboxCheck > img{ filter: invert(60%); }
 
 .ModalHeaderButton {
 	width: 100%;
@@ -911,3 +879,254 @@ pre {
 .ModalHeaderButton:active {
 	background-color: #313233;
 }
+
+.hiddenSlider {
+	-webkit-appearance: none;
+	appearance: none;
+	height: 1.6rem;
+	background: #d3d3d3;
+    position: absolute;
+    width: 109%;
+    z-index: 3;
+    padding: 0;
+    opacity: 0;
+    margin-left: -15px;
+}
+.hiddenSlider::-webkit-slider-thumb {
+	width: 1.6rem;
+	height: 1.6rem;
+	cursor: pointer;
+}
+
+.slider { margin-bottom: 6px; }
+.sliderLeftProgress {
+	border-bottom-width: 2px;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    height: 0.6rem;
+    position: relative;
+    z-index: 0;
+    background-color: #8c8d90;
+    border-color: #1e1e1f;
+}
+.sliderProgress {
+	border-bottom-width: 2px;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    position: absolute;
+    transition-duration: 0.3s;
+    height: 0.6rem;
+    left: 0;
+    right: 0;
+    transition-property: clip-path;
+    transition-timing-function: cubic-bezier(0.39,1.34,0.66,1.02);
+	z-index: 1;
+    background-color: #3c8527;
+    border-color: #1e1e1f;
+}
+.sliderThumb {
+	height: 1.6rem;
+    transform: translateX(-50%);
+    transition-property: left;
+    transition-timing-function: cubic-bezier(0.39,1.34,0.66,1.02);
+    width: 1.6rem;
+    z-index: 2;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    position: absolute;
+    transition-duration: 0.3s;
+    border-color: #1e1e1f;
+}
+.sliderThumbBackground {
+	flex: 1;
+	width: 100%;
+	background-color: #d0d1d4;
+}
+.slider:hover .sliderThumbBackground {
+	background-color: #f4f6f9;
+}
+.slider:active .sliderThumbBackground {
+	background-color: #b1b2b5;
+}
+.sliderSpecular {
+	border-top-color: rgba(255, 255, 255, 0.6);
+	border-left-color: rgba(255, 255, 255, 0.6);
+	border-bottom-color: rgba(255, 255, 255, 0.4);
+	border-right-color: rgba(255, 255, 255, 0.4);
+}
+.sliderShadow {
+	height: 0.2rem;
+	background-color: #58585a;
+}
+.sliderDisabled .sliderThumbBackground { background-color: #d0d1d4 !important; }
+.sliderDisabled .sliderThumbBackground { background-color: #d0d1d4 !important; }
+.sliderDisabled .sliderThumbBackground > div { display: none; }
+.sliderDisabled .sliderThumb { border-color: #8c8d90; }
+.sliderDisabled .hiddenSlider, .sliderDisabled .hiddenSlider::-webkit-slider-thumb { cursor: default; }
+.sliderDisabled .sliderShadow { background-color: #b1b2b5; }
+.sliderDisabled .sliderProgress > div, .sliderDisabled .sliderLeftProgress > div { display: none; }
+.sliderDisabled .sliderProgress, .sliderDisabled .sliderLeftProgress { background-color: #b1b2b5; border-color: #8c8d90; }
+
+.switchThumb {
+	bottom: var(--base2ScaleNeg);
+	position: absolute;
+	z-index: 2;
+	animation-duration: 250ms;
+	animation-fill-mode: forwards;
+	animation-iteration-count: 1;
+	animation-timing-function: step-start;
+}
+.switchThumb_ {
+	border-bottom-style: solid;
+	border-bottom-width: var(--base2Scale);
+	border-left-style: solid;
+	border-left-width: var(--base2Scale);
+	border-right-style: solid;
+	border-right-width: var(--base2Scale);
+	border-top-style: solid;
+	border-top-width: var(--base2Scale);
+	height: 1.6rem;
+	width: 1.6rem;
+}
+.switchThumbBackground {
+	flex: 1;
+	width: 100%;
+	background-color: #d0d1d4;
+}
+.switch { cursor: pointer; }
+.switch:hover .switchThumbBackground { background-color: #f4f6f9; }
+.switch:active .switchThumbBackground { background-color: #b1b2b5; }
+.switchBackground {
+	align-items: center;
+	justify-content: center;
+	width: 50%;
+}
+.switchBackgrounds {
+	border-bottom-style: solid;
+	border-bottom-width: var(--base2Scale);
+	border-left-style: solid;
+	border-left-width: var(--base2Scale);
+	border-right-style: solid;
+	border-right-width: var(--base2Scale);
+	border-top-style: solid;
+	border-top-width: var(--base2Scale);
+	height: 1.4rem;
+	margin-left: var(--base2Scale);
+	position: relative;
+	width: 3rem;
+	border-color: #1e1e1f;
+}
+.switchShadow { height: 0.2rem; background-color: #58585a; }
+.switchBackgroundOn { background-color: #3c8527; }
+.switchBackgroundOff { background-color: #8c8d90; }
+.switchDisabled .switchBackgrounds { border-color: #8c8d90; }
+.switchDisabled .switchBackgroundOn { background-color: #d0d1d4; }
+.switchDisabled .switchBackgroundOff { background-color: #d0d1d4; }
+.switchDisabled img { filter: invert(60%); }
+.switchDisabled .switchThumbBackground { background-color: #d0d1d4 !important; }
+.switchDisabled .switchThumbBackground { background-color: #d0d1d4 !important; }
+.switchDisabled .switchThumbBackground > div { display: none; }
+.switchDisabled .switchThumb_ { border-color: #8c8d90; }
+.switchDisabled { cursor: default; }
+.switchDisabled .switchShadow { background-color: #b1b2b5; }
+@keyframes switchOnAnimation {
+	0% { left: 0; }
+	25% { left: 0.6rem; }
+	50% { left: 1.8rem; }
+	75% { left: 1.6rem; }
+	to { left: 1.8rem; }
+}
+.switchThumbOn {
+	left: 1.8rem;
+	margin-left: -7px;
+	animation-name: switchOnAnimation;
+}
+@keyframes switchOffAnimation {
+	0% { left: 1.8rem; }
+	25% { left: 1.2rem; }
+	50% { left: 0rem; }
+	75% { left: 0.2rem; }
+	to { left: 0; }
+}
+.switchThumbOff {
+	left: 0;
+	margin-left: -4px;
+	animation-name: switchOffAnimation;
+}
+
+.buttonDisabled {
+	background-color: #b1b2b5;
+	border-color: #8c8d90;
+	padding-bottom: 0.2rem !important;
+	margin-top: 0 !important;
+	cursor: default;
+}
+.buttonDisabled .oreUIButtonHeroBackground,
+.buttonDisabled .oreUIButtonPrimaryBackground,
+.buttonDisabled .oreUIButtonSecondaryBackground,
+.buttonDisabled .oreUIButtonDestructiveBackground,
+.buttonDisabled .oreUIButtonPurpleBackground {
+	background-color: #d0d1d4 !important;
+	color: #48494a;
+}
+
+.toggleSelected {
+	bottom: 0;
+	display: block;
+	height: 2px;
+	position: absolute;
+	width: 4.8rem;
+	background-color: #ffffff;
+}
+.toggleDisabled .oreUIButton {
+	background-color: #b1b2b5;
+	border-color: #8c8d90;
+	cursor: default;
+}
+.toggleDisabled .oreUIToggleSelectedBackground,
+.toggleDisabled .oreUIButtonSecondaryBackground {
+	background-color: #d0d1d4 !important;
+	color: #48494a;
+}
+.toggleDisabled .toggleSelected { background-color: #b1b2b5; }
+.toggleDisabled .oreUIButtonSecondary {
+	padding-bottom: 0.2rem !important;
+	margin-top: 0 !important;
+}
+
+.radioGroup {
+	margin-right: 8px;
+	border-bottom-width: var(--base2Scale);
+	border-left-width: var(--base2Scale);
+	border-right-width: var(--base2Scale);
+	border-style: solid;
+	border-top-width: var(--base2Scale);
+	flex: 0 0 auto;
+	transform: rotate(45deg);
+	height: 16px;
+	width: 16px;
+	position: relative;
+	z-index: 1;
+	background-color: #8c8d90;
+	border-color: #1e1e1f;
+	cursor: pointer;
+}
+.radioGroup:hover { background-color: #b1b2b5; }
+.radioGroup:active { background-color: #58585a; }
+.radioGroupCheck {
+	background-color: #3c8527;
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+}
+.radioGroupCheck:hover { background-color: #52a535; }
+.radioGroupCheck:active { background-color: #2a641c; }
+.radioGroupDisabled .radioGroup { cursor: default; border-color: #8c8d90; }
+.radioGroupDisabled .radioGroup, .radioGroupDisabled .radioGroupCheck { background-color: #d0d1d4; }
+.radioGroupDisabled .radioGroupCheck > div { background-color: #e6e8eb; }
+.radioGroupDisabled .radioGroup > .oreUISpecular { display: none; }

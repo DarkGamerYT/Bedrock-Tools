@@ -3,129 +3,101 @@ const RawtextGenerator = {
         const modules = new RawtextModules();
         const isRight = BedrockTools.settings.get("right");
         return (
-            Components.createHeader({ text: BedrockTools.localisation.translate( "bedrocktools.addons.rawtextgenerator" ), back: true, settings: true })
+            Components.createHeader({ label: BedrockTools.localisation.translate( "bedrocktools.addons.rawtextgenerator" ), back: true, settings: true })
             + (
                 `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
                     <div style="width: 50%;">
-                        ${Components.createElements(
-                        {
-                        elements: [
-                            `<div style="background-color: #48494a; padding: 0.2rem; padding-left: 8px; padding-right: 8px;">
-                                <div class="oreUISpecular" style="border-top-width: var(--base2Scale);"></div>
-                                <div style="width: 100%; margin-top: 6px;">
-                                    ${Components.createElement(
-                                        {
-                                            type: "button",
-                                            text: "+ Add Message",
+                        ${Components.createElements({
+                            elements: [
+                                `<div style="border-top: 2px solid rgba(255, 255, 255, 0.1);"></div>`,
+                                `<div style="background-color: #48494a; padding: 0.2rem; padding-left: 8px; padding-right: 8px;">
+                                    <div style="width: 100%; margin-top: 6px;">
+                                        ${Components.createElement("button", {
+                                            label: "+ Add Message",
                                             id: "addMessage",
-                                            style: "secondary",
-                                            onClick: () => {
-                                                BedrockTools.sound.play("ui.click");
-                                                modules.createMessage();
-                                            }
-                                        }
-                                    )}
-                                </div>
-                            </div>`,
-                            `<div style="background-color: #48494a; padding: 0.2rem; padding-left: 8px; padding-right: 8px;">
-                                <div style="width: 100%;">
-                                    ${Components.createElement(
-                                        {
-                                            type: "button",
-                                            text: "+ Add Score",
+                                            variant: "secondary",
+                                            sound: "ui.click",
+                                            onClick: () => modules.createMessage()
+                                        })}
+                                    </div>
+                                </div>`,
+                                `<div style="background-color: #48494a; padding: 0.2rem; padding-left: 8px; padding-right: 8px;">
+                                    <div style="width: 100%;">
+                                        ${Components.createElement("button", {
+                                            label: "+ Add Score",
                                             id: "addScore",
-                                            style: "secondary",
-                                            onClick: () => {
-                                                BedrockTools.sound.play("ui.click");
-                                                modules.createScore();
-                                            }
-                                        }
-                                    )}
-                                </div>
-                            </div>`,
-                            `<div style="background-color: #48494a; padding: 0.2rem; padding-left: 8px; padding-right: 8px;">
-                                <div style="width: 100%;">
-                                    ${Components.createElement(
-                                        {
-                                            type: "button",
-                                            text: "+ Add Translation",
+                                            variant: "secondary",
+                                            sound: "ui.click",
+                                            onClick: () => modules.createScore()
+                                        })}
+                                    </div>
+                                </div>`,
+                                `<div style="background-color: #48494a; padding: 0.2rem; padding-left: 8px; padding-right: 8px;">
+                                    <div style="width: 100%;">
+                                        ${Components.createElement("button", {
+                                            label: "+ Add Translation",
                                             id: "addTranslation",
-                                            style: "secondary",
-                                            onClick: () => {
-                                                BedrockTools.sound.play("ui.click");
-                                                modules.createTranslation();
-                                            }
-                                        }
-                                    )}
-                                </div>
-                            </div>`,
-                            `<div style="background-color: #48494a; padding: 0.2rem; padding-left: 8px; padding-right: 8px;">
-                                <div class="oreUISpecular" style="border-bottom-width: var(--base2Scale);"></div>
-                                <div style="width: 100%; margin-bottom: 6px;">
-                                    ${Components.createElement(
-                                        {
-                                            type: "button",
-                                            text: "+ Add Selector",
+                                            variant: "secondary",
+                                            sound: "ui.click",
+                                            onClick: () => modules.createTranslation()
+                                        })}
+                                    </div>
+                                </div>`,
+                                `<div style="background-color: #48494a; padding: 0.2rem; padding-left: 8px; padding-right: 8px;">
+                                    <div style="width: 100%; margin-bottom: 6px;">
+                                        ${Components.createElement("button", {
+                                            label: "+ Add Selector",
                                             id: "addSelector",
-                                            style: "secondary",
-                                            onClick: () => {
-                                                BedrockTools.sound.play("ui.click");
-                                                modules.createSelector();
-                                            }
-                                        }
-                                    )}
-                                </div>
-                            </div>`
-                        ]
-                    }
-                )}
-                ${Components.createElement(
-                    {
-                        type: "button",
-                        text: "Generate",
-                        id: "generate",
-                        style: "hero",
-                        onClick: () => {
-                            const stringRawtext = modules.constructModules();
-                            BedrockTools.sound.play("ui.release");
-                            const highlightedText = hljs.highlight(stringRawtext, { language: "json" }).value;
-                            document.getElementById( "output" ).innerHTML = highlightedText;
-                            BedrockTools.sendToast(
-                                {
-                                    title: "Rawtext Generated!",
-                                    icon: "assets/rawtext_gen.png",
-                                    body: "Click to copy the rawtext to clipboard",
-                                    onClick: () => {
-                                        BedrockTools.sound.play( "ui.modal_hide" );
-                                        navigator.clipboard.writeText( stringRawtext );
-                                        BedrockTools.sendToast(
-                                            {
-                                                title: "Rawtext successfully copied!",
-                                                icon: "assets/checkbox_checked.png",
-                                                body: "The rawtext has been successfully copied to the clipboard",
-                                                instant: true,
-                                            },
-                                        );
+                                            variant: "secondary",
+                                            sound: "ui.click",
+                                            onClick: () => modules.createSelector()
+                                        })}
+                                    </div>
+                                </div>`,
+                                `<div style="border-top: 2px solid rgba(0, 0, 0, 0.3);"></div>`
+                            ]
+                        })}
+                        ${Components.createElement("button", {
+                            label: "Generate",
+                            id: "generate",
+                            variant: "hero",
+                            sound: "ui.release",
+                            onClick: () => {
+                                const stringRawtext = modules.constructModules();
+                                const highlightedText = hljs.highlight(stringRawtext, { language: "json" }).value;
+                                document.getElementById( "output" ).innerHTML = highlightedText;
+                                BedrockTools.sendToast(
+                                    {
+                                        label: "Rawtext Generated!",
+                                        icon: "assets/tools/rawtext_gen.png",
+                                        body: "Click to copy the rawtext to clipboard",
+                                        onClick: () => {
+                                            BedrockTools.sound.play( "ui.modal_hide" );
+                                            navigator.clipboard.writeText( stringRawtext );
+                                            BedrockTools.sendToast(
+                                                {
+                                                    label: "Rawtext successfully copied!",
+                                                    icon: "assets/checkbox.png",
+                                                    body: "The rawtext has been successfully copied to the clipboard",
+                                                    instant: true,
+                                                },
+                                            );
+                                        },
                                     },
-                                },
-                            );
-                        }
-                    }
-                )}
+                                );
+                            }
+                        })}
                     </div>
                     <div style="width: 100%;">
                         ${Components.createElements(
                             {
                                 elements: [
-                                    Components.createElement(
-                                        {
-                                            type: "text",
-                                            title: "Output:",
-                                            id: "output",
-                                            default: `<span class="hljs-punctuation">{</span><span class="hljs-attr">"rawtext"</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">}</span>`,
-                                            style: "code",
-                                        },
-                                    ),
+                                    Components.createElement("text", {
+                                        label: "Output:",
+                                        id: "output",
+                                        default: `<span class="hljs-punctuation">{</span><span class="hljs-attr">"rawtext"</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">}</span>`,
+                                        style: "code",
+                                    }),
                                 ],
                             },
                         )}
@@ -163,68 +135,45 @@ class RawtextModules {
                     output += Components.createElements(
                         {
                             elements: [
-                                Components.createElement(
-                                    {
-                                        type: "element",
-                                        title: "Message"
-                                    }
-                                ),
-                                Components.createElement(
-                                    {
-                                        type: "input",
-                                        id: `updateMessage:${module.id}`,
-                                        value: module.message,
-                                        placeholder: "Message",
-                                        onChange: (e) => module.message = e.value
-                                    }
-                                ),
+                                Components.createElement("element", { label: "Message" }),
+                                Components.createElement("input", {
+                                    id: `updateMessage:${module.id}`,
+                                    value: module.message,
+                                    placeholder: "Message",
+                                    onChange: (e) => module.message = e.value
+                                }),
                                 `<div style="height: 8px;"></div>`,
                                 `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
                                     <div style="width: 100%;">
-                                        ${Components.createElement(
-                                            {
-                                                type: "button",
-                                                text: "Move Up",
-                                                id: `moveUp:${module.id}`,
-                                                style: "secondary",
-                                                onClick: () => {
-                                                    BedrockTools.sound.play("ui.click");
-                                                    this.moveModuleUp(module.id);
-                                                }
-                                            }
-                                        )}
+                                        ${Components.createElement("button", {
+                                            label: "Move Up",
+                                            id: `moveUp:${module.id}`,
+                                            variant: "secondary",
+                                            sound: "ui.click",
+                                            onClick: () => this.moveModuleUp(module.id)
+                                        })}
                                     </div>
                                 </div>`,
                                 `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
                                     <div style="width: 100%;">
-                                        ${Components.createElement(
-                                            {
-                                                type: "button",
-                                                text: "Move Down",
-                                                id: `moveDown:${module.id}`,
-                                                style: "secondary",
-                                                onClick: () => {
-                                                    BedrockTools.sound.play("ui.click");
-                                                    this.moveModuleDown(module.id);
-                                                }
-                                            }
-                                        )}
+                                        ${Components.createElement("button", {
+                                            label: "Move Down",
+                                            id: `moveDown:${module.id}`,
+                                            variant: "secondary",
+                                            sound: "ui.click",
+                                            onClick: () => this.moveModuleDown(module.id)
+                                        })}
                                     </div>
                                 </div>`,
                                 `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
                                     <div style="width: 100%;">
-                                        ${Components.createElement(
-                                            {
-                                                type: "button",
-                                                text: "Delete",
-                                                id: `delete:${module.id}`,
-                                                style: "destructive",
-                                                onClick: () => {
-                                                    BedrockTools.sound.play("ui.click");
-                                                    this.deleteModule(module.id);
-                                                }
-                                            }
-                                        )}
+                                        ${Components.createElement("button", {
+                                            label: "Delete",
+                                            id: `delete:${module.id}`,
+                                            variant: "destructive",
+                                            sound: "ui.click",
+                                            onClick: () => this.deleteModule(module.id)
+                                        })}
                                     </div>
                                 </div>`,
                                 `<div style="height: 8px;"></div>`
@@ -236,77 +185,51 @@ class RawtextModules {
                     output += Components.createElements(
                         {
                             elements: [
-                                Components.createElement(
-                                    {
-                                        type: "element",
-                                        title: "Score"
-                                    }
-                                ),
-                                Components.createElement(
-                                    {
-                                        type: "input",
-                                        id: `updateObjective:${module.id}`,
-                                        value: module.objective,
-                                        placeholder: "Objective",
-                                        onChange: (e) => module.objective = e.value
-                                    }
-                                ),
-                                Components.createElement(
-                                    {
-                                        type: "input",
-                                        id: `updateTarget:${module.id}`,
-                                        value: module.target,
-                                        placeholder: "Target",
-                                        onChange: (e) => module.target = e.value
-                                    }
-                                ),
+                                Components.createElement("element", { label: "Score" }),
+                                Components.createElement("input", {
+                                    id: `updateObjective:${module.id}`,
+                                    value: module.objective,
+                                    placeholder: "Objective",
+                                    onChange: (e) => module.objective = e.value
+                                }),
+                                Components.createElement("input", {
+                                    id: `updateTarget:${module.id}`,
+                                    value: module.target,
+                                    placeholder: "Target",
+                                    onChange: (e) => module.target = e.value
+                                }),
                                 `<div style="height: 8px;"></div>`,
                                 `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
                                     <div style="width: 100%;">
-                                        ${Components.createElement(
-                                            {
-                                                type: "button",
-                                                text: "Move Up",
-                                                id: `moveUp:${module.id}`,
-                                                style: "secondary",
-                                                onClick: () => {
-                                                    BedrockTools.sound.play("ui.click");
-                                                    this.moveModuleUp(module.id);
-                                                }
-                                            }
-                                        )}
+                                        ${Components.createElement("button", {
+                                            label: "Move Up",
+                                            id: `moveUp:${module.id}`,
+                                            variant: "secondary",
+                                            sound: "ui.click",
+                                            onClick: () => this.moveModuleUp(module.id)
+                                        })}
                                     </div>
                                 </div>`,
                                 `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
                                     <div style="width: 100%;">
-                                        ${Components.createElement(
-                                            {
-                                                type: "button",
-                                                text: "Move Down",
-                                                id: `moveDown:${module.id}`,
-                                                style: "secondary",
-                                                onClick: () => {
-                                                    BedrockTools.sound.play("ui.click");
-                                                    this.moveModuleDown(module.id);
-                                                }
-                                            }
-                                        )}
+                                        ${Components.createElement("button", {
+                                            label: "Move Down",
+                                            id: `moveDown:${module.id}`,
+                                            variant: "secondary",
+                                            sound: "ui.click",
+                                            onClick: () => this.moveModuleDown(module.id)
+                                        })}
                                     </div>
                                 </div>`,
                                 `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
                                     <div style="width: 100%;">
-                                        ${Components.createElement(
-                                            {
-                                                type: "button",
-                                                text: "Delete",
-                                                id: `delete:${module.id}`,
-                                                style: "destructive",
-                                                onClick: () => {
-                                                    BedrockTools.sound.play("ui.click");
-                                                    this.deleteModule(module.id);
-                                                }
-                                            }
-                                        )}
+                                        ${Components.createElement("button", {
+                                            label: "Delete",
+                                            id: `delete:${module.id}`,
+                                            variant: "destructive",
+                                            sound: "ui.click",
+                                            onClick: () => this.deleteModule(module.id)
+                                        })}
                                     </div>
                                 </div>`,
                                 `<div style="height: 8px;"></div>`
@@ -318,111 +241,82 @@ class RawtextModules {
                     output += Components.createElements(
                         {
                             elements: [
-                                Components.createElement(
-                                    {
-                                        type: "element",
-                                        title: "Translation"
-                                    }
-                                ),
-                                Components.createElement(
-                                    {
-                                        type: "input",
-                                        id: `updateTranslation:${module.id}`,
-                                        value: module.translation,
-                                        placeholder: "Translation",
-                                        onChange: (e) => module.translation = e.value
-                                    }
-                                ),
-                                Components.createElement(
-                                    {
-                                        type: "switch",
-                                        title: "With Array",
-                                        id: `toggleArray:${module.id}`,
-                                        disabled: module.withRawtextToggle,
-                                        toggled: module.withArrayToggle,
-                                        onClick: (e) => {
-                                            const value = e.getAttribute( "value" ) == "true";
-                                            module.withArrayToggle = value;
-                                            document.getElementById( `arrayModules:${module.id}` ).style = value? "" : "display:none;";
-                                            if(value)
-                                            {
-                                                module.withArray.arrayId = `ARRModules:${module.id}`;
-                                                document.getElementById(`toggleRawtext:${module.id}`).className = "toggle toggleDisabled";
-                                            }
-                                            else
-                                                document.getElementById(`toggleRawtext:${module.id}`).className = "toggle toggleOff";
+                                Components.createElement("element", { label: "Translation" }),
+                                Components.createElement("input", {
+                                    id: `updateTranslation:${module.id}`,
+                                    value: module.translation,
+                                    placeholder: "Translation",
+                                    onChange: (e) => module.translation = e.value
+                                }),
+                                Components.createElement("switch", {
+                                    label: "With Array",
+                                    id: `toggleArray:${module.id}`,
+                                    disabled: module.withRawtextToggle,
+                                    toggled: module.withArrayToggle,
+                                    onChange: (e) => {
+                                        const value = e.value;
+                                        module.withArrayToggle = value;
+                                        document.getElementById( `arrayModules:${module.id}` ).style = value ? "" : "display:none;";
+                                        if(value)
+                                        {
+                                            module.withArray.arrayId = `ARRModules:${module.id}`;
+                                            document.getElementById(`toggleRawtext:${module.id}`).className = "switch switchDisabled";
                                         }
+                                        else
+                                            document.getElementById(`toggleRawtext:${module.id}`).className = "switch";
                                     }
-                                ),
-                                Components.createElement(
-                                    {
-                                        type: "switch",
-                                        title: "With Rawtext Object",
-                                        id: `toggleRawtext:${module.id}`,
-                                        disabled: module.withArrayToggle,
-                                        toggled: module.withRawtextToggle,
-                                        onClick: (e) => {
-                                            const value = e.getAttribute( "value" ) == "true";
-                                            module.withRawtextToggle = value;
-                                            document.getElementById( `rawtextModules:${module.id}` ).style = value? "" : "display:none;";
-                                            if(value)
-                                            {
-                                                module.withRawtext.modulesId = `RTModules:${module.id}`;
-                                                document.getElementById(`toggleArray:${module.id}`).className = "toggle toggleDisabled";
-                                            }
-                                            else
-                                                document.getElementById(`toggleArray:${module.id}`).className = "toggle toggleOff";
+                                }),
+                                Components.createElement("switch", {
+                                    label: "With Rawtext Object",
+                                    id: `toggleRawtext:${module.id}`,
+                                    disabled: module.withArrayToggle,
+                                    toggled: module.withRawtextToggle,
+                                    onChange: (e) => {
+                                        const value = e.value;
+                                        module.withRawtextToggle = value;
+                                        document.getElementById( `rawtextModules:${module.id}` ).style = value? "" : "display:none;";
+                                        if(value)
+                                        {
+                                            module.withRawtext.modulesId = `RTModules:${module.id}`;
+                                            document.getElementById(`toggleArray:${module.id}`).className = "switch switchDisabled";
                                         }
+                                        else
+                                            document.getElementById(`toggleArray:${module.id}`).className = "switch";
                                     }
-                                ),
+                                }),
                                 `<div id="rawtextModules:${module.id}" style="${module.withRawtextToggle? "" : "display: none;"}">
                                     <div style="height: 8px;"></div>
                                     <div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
                                         <div style="width: 100%;">
-                                            ${Components.createElement(
-                                                {
-                                                    type: "button",
-                                                    text: "+ Add Message",
-                                                    id: `addMessage:${module.id}`,
-                                                    style: "secondary",
-                                                    onClick: () => {
-                                                        BedrockTools.sound.play("ui.click");
-                                                        module.withRawtext.createMessage();
-                                                    }
-                                                }
-                                            )}
+                                            ${Components.createElement("button", {
+                                                label: "+ Add Message",
+                                                id: `addMessage:${module.id}`,
+                                                variant: "secondary",
+                                                sound: "ui.click",
+                                                onClick: () => module.withRawtext.createMessage()
+                                            })}
                                         </div>
                                     </div>
                                     <div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
                                         <div style="width: 100%;">
-                                            ${Components.createElement(
-                                                {
-                                                    type: "button",
-                                                    text: "+ Add Score",
-                                                    id: `addScore:${module.id}`,
-                                                    style: "secondary",
-                                                    onClick: () => {
-                                                        BedrockTools.sound.play("ui.click");
-                                                        module.withRawtext.createScore();
-                                                    }
-                                                }
-                                            )}
+                                            ${Components.createElement("button", {
+                                                label: "+ Add Score",
+                                                id: `addScore:${module.id}`,
+                                                variant: "secondary",
+                                                sound: "ui.click",
+                                                onClick: () => module.withRawtext.createScore()
+                                            })}
                                         </div>
                                     </div>
                                     <div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
                                         <div style="width: 100%;">
-                                            ${Components.createElement(
-                                                {
-                                                    type: "button",
-                                                    text: "+ Add Selector",
-                                                    id: `addSelector:${module.id}`,
-                                                    style: "secondary",
-                                                    onClick: () => {
-                                                        BedrockTools.sound.play("ui.click");
-                                                        module.withRawtext.createSelector();
-                                                    }
-                                                }
-                                            )}
+                                            ${Components.createElement("button", {
+                                                label: "+ Add Selector",
+                                                id: `addSelector:${module.id}`,
+                                                variant: "secondary",
+                                                sound: "ui.click",
+                                                onClick: () => module.withRawtext.createSelector()
+                                            })}
                                         </div>
                                     </div>
                                     <div style="height: 8px;"></div>
@@ -431,24 +325,18 @@ class RawtextModules {
                                             ${module.withRawtext.buildModules()}
                                         </div>
                                     </div>
-                                    <div style="height: 8px;"></div>
                                 </div>`,
                                 `<div id="arrayModules:${module.id}" style="${module.withArrayToggle? "" : "display: none;"}">
                                     <div style="height: 8px;"></div>
                                     <div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
                                         <div style="width: 100%;">
-                                            ${Components.createElement(
-                                                {
-                                                    type: "button",
-                                                    text: "+ Add",
-                                                    id: `add:${module.id}`,
-                                                    style: "secondary",
-                                                    onClick: () => {
-                                                        BedrockTools.sound.play("ui.click");
-                                                        module.withArray.create();
-                                                    }
-                                                }
-                                            )}
+                                            ${Components.createElement("button", {
+                                                label: "+ Add",
+                                                id: `add:${module.id}`,
+                                                variant: "secondary",
+                                                sound: "ui.click",
+                                                onClick: () => module.withArray.create()
+                                            })}
                                         </div>
                                     </div>
                                     <div style="height: 8px;"></div>
@@ -457,63 +345,42 @@ class RawtextModules {
                                             ${module.withArray.build(false)}
                                         </div>
                                     </div>
-                                    <div style="height: 8px;"></div>
                                 </div>`,
-                                `<div style="flex-direction: row; background-color: #48494a;">
-                                    <div class="oreUISpecular" style="border-top-width: var(--base2Scale);"></div>
-                                    <div class="oreUISpecular" style="border-bottom-width: var(--base2Scale);"></div>
-                                    <div style="width: 100%;"></div>
-                                </div>`,
-                                `<div style="height: 8px;"></div>`,
+                                `<div style="border-top: 2px solid rgba(255, 255, 255, 0.1);"></div><div style="height: 8px;"></div>`,
                                 `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
                                     <div style="width: 100%;">
-                                        ${Components.createElement(
-                                            {
-                                                type: "button",
-                                                text: "Move Up",
-                                                id: `moveUp:${module.id}`,
-                                                style: "secondary",
-                                                onClick: () => {
-                                                    BedrockTools.sound.play("ui.click");
-                                                    this.moveModuleUp(module.id);
-                                                }
-                                            }
-                                        )}
+                                        ${Components.createElement("button", {
+                                            label: "Move Up",
+                                            id: `moveUp:${module.id}`,
+                                            variant: "secondary",
+                                            sound: "ui.click",
+                                            onClick: () => this.moveModuleUp(module.id)
+                                        })}
                                     </div>
                                 </div>`,
                                 `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
                                     <div style="width: 100%;">
-                                        ${Components.createElement(
-                                            {
-                                                type: "button",
-                                                text: "Move Down",
-                                                id: `moveDown:${module.id}`,
-                                                style: "secondary",
-                                                onClick: () => {
-                                                    BedrockTools.sound.play("ui.click");
-                                                    this.moveModuleDown(module.id);
-                                                }
-                                            }
-                                        )}
+                                        ${Components.createElement("button", {
+                                            label: "Move Down",
+                                            id: `moveDown:${module.id}`,
+                                            variant: "secondary",
+                                            sound: "ui.click",
+                                            onClick: () => this.moveModuleDown(module.id)
+                                        })}
                                     </div>
                                 </div>`,
                                 `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
                                     <div style="width: 100%;">
-                                        ${Components.createElement(
-                                            {
-                                                type: "button",
-                                                text: "Delete",
-                                                id: `delete:${module.id}`,
-                                                style: "destructive",
-                                                onClick: () => {
-                                                    BedrockTools.sound.play("ui.click");
-                                                    this.deleteModule(module.id);
-                                                }
-                                            }
-                                        )}
+                                        ${Components.createElement("button", {
+                                            label: "Delete",
+                                            id: `delete:${module.id}`,
+                                            variant: "destructive",
+                                            sound: "ui.click",
+                                            onClick: () => this.deleteModule(module.id)
+                                        })}
                                     </div>
                                 </div>`,
-                                `<div style="height: 8px;"></div>`
+                                `<div style="height: 8px;"></div><div style="border-top: 2px solid rgba(0, 0, 0, 0.3);"></div>`
                             ]
                         }
                     );
@@ -522,68 +389,45 @@ class RawtextModules {
                     output += Components.createElements(
                         {
                             elements: [
-                                Components.createElement(
-                                    {
-                                        type: "element",
-                                        title: "Selector"
-                                    }
-                                ),
-                                Components.createElement(
-                                    {
-                                        type: "input",
-                                        id: `updateSelector:${module.id}`,
-                                        value: module.selector,
-                                        placeholder: "Selector",
-                                        onChange: (e) => module.selector = e.value
-                                    }
-                                ),
+                                Components.createElement("element", { label: "Selector" }),
+                                Components.createElement("input", {
+                                    id: `updateSelector:${module.id}`,
+                                    value: module.selector,
+                                    placeholder: "Selector",
+                                    onChange: (e) => module.selector = e.value
+                                }),
                                 `<div style="height: 8px;"></div>`,
                                 `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
                                     <div style="width: 100%;">
-                                        ${Components.createElement(
-                                            {
-                                                type: "button",
-                                                text: "Move Up",
-                                                id: `moveUp:${module.id}`,
-                                                style: "secondary",
-                                                onClick: () => {
-                                                    BedrockTools.sound.play("ui.click");
-                                                    this.moveModuleUp(module.id);
-                                                }
-                                            }
-                                        )}
+                                        ${Components.createElement("button", {
+                                            label: "Move Up",
+                                            id: `moveUp:${module.id}`,
+                                            variant: "secondary",
+                                            sound: "ui.click",
+                                            onClick: () => this.moveModuleUp(module.id)
+                                        })}
                                     </div>
                                 </div>`,
                                 `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
                                     <div style="width: 100%;">
-                                        ${Components.createElement(
-                                            {
-                                                type: "button",
-                                                text: "Move Down",
-                                                id: `moveDown:${module.id}`,
-                                                style: "secondary",
-                                                onClick: () => {
-                                                    BedrockTools.sound.play("ui.click");
-                                                    this.moveModuleDown(module.id);
-                                                }
-                                            }
-                                        )}
+                                        ${Components.createElement("button", {
+                                            label: "Move Down",
+                                            id: `moveDown:${module.id}`,
+                                            variant: "secondary",
+                                            sound: "ui.click",
+                                            onClick: () => this.moveModuleDown(module.id)
+                                        })}
                                     </div>
                                 </div>`,
                                 `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
                                     <div style="width: 100%;">
-                                        ${Components.createElement(
-                                            {
-                                                type: "button",
-                                                text: "Delete",
-                                                id: `delete:${module.id}`,
-                                                style: "destructive",
-                                                onClick: () => {
-                                                    BedrockTools.sound.play("ui.click");
-                                                    this.deleteModule(module.id);
-                                                }
-                                            }
-                                        )}
+                                        ${Components.createElement("button", {
+                                            label: "Delete",
+                                            id: `delete:${module.id}`,
+                                            variant: "destructive",
+                                            sound: "ui.click",
+                                            onClick: () => this.deleteModule(module.id)
+                                        })}
                                     </div>
                                 </div>`,
                                 `<div style="height: 8px;"></div>`
@@ -633,7 +477,7 @@ class RawtextModules {
             type: "translation",
             translation: "commands.op.success",
             withArray: new ArrayValues(),
-            withRawtext: new RawtextModules(),
+            withRawlabel: new RawtextModules(),
             withArrayToggle: false,
             withRawtextToggle: false,
             id: crypto.randomUUID(),
@@ -722,30 +566,22 @@ class ArrayValues
             output += Components.createElements(
                 {
                     elements: [
-                        Components.createElement(
-                            {
-                                type: "input",
-                                id: `updateValue:${value.id}`,
-                                value: value.value,
-                                placeholder: "Value",
-                                onChange: (e) => value.value = e.value
-                            }
-                        ),
+                        Components.createElement("input", {
+                            id: `updateValue:${value.id}`,
+                            value: value.value,
+                            placeholder: "Value",
+                            onChange: (e) => value.value = e.value
+                        }),
                         `<div style="height: 8px;"></div>`,
                         `<div style="flex-direction: row; background-color: #48494a; padding: 0.1rem; padding-left: 24px; padding-right: 24px;">
                             <div style="width: 100%;">
-                                ${Components.createElement(
-                                    {
-                                        type: "button",
-                                        text: "Delete",
-                                        id: `delete:${value.id}`,
-                                        style: "destructive",
-                                        onClick: () => {
-                                            BedrockTools.sound.play("ui.click");
-                                            this.delete(value.id);
-                                        }
-                                    }
-                                )}
+                                ${Components.createElement("button", {
+                                    label: "Delete",
+                                    id: `delete:${value.id}`,
+                                    variant: "destructive",
+                                    sound: "ui.click",
+                                    onClick: () => this.delete(value.id)
+                                })}
                             </div>
                         </div>`,
                         `<div style="height: 8px;"></div>`
