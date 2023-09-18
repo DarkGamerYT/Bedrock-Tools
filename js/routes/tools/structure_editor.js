@@ -64,7 +64,7 @@ const StructureEditor = {
             )
         )
     },
-    onLoad: () => sceneManager.setupScene(),
+    onLoad: () => sceneManager.start(),
 };
 
 class SceneManager {
@@ -77,52 +77,27 @@ class SceneManager {
         this.engine = null;
         /** @type {BABYLON.Scene} */
         this.scene = null;
-        /** @type {BABYLON.ArcRotateCamera} */
-        this.camera = null;
-        /** @type {TextureManager} */
-        this.textureManager = null;
-        /** @type {MaterialManager} */
-        this.materialManager = new MaterialManager();
         this.route = () => BedrockTools.router.routes.find((r) => r.route == BedrockTools.router.history.list[BedrockTools.router.history.list.length - 1]);
     }
 
-    resetScene() {
-        this.engine.stopRenderLoop();
-        this.scene.dispose();
-        this.engine.dispose();
-        this.camera.dispose();
-        this.setupScene();
-        //this.blockTextureLoader.clear();
-        /*
-        this.scene.background = (
-            new THREE.CubeTextureLoader()
-                .setPath("assets/panorama/")
-                .load([
-                    "panorama_1.png",
-                    "panorama_3.png",
-                    "panorama_4.png",
-                    "panorama_5.png",
-                    "panorama_0.png",
-                    "panorama_2.png"
-                ])
-        );
-        */
-    }
-
-    setupScene() {
+    start() {
         this.canvas = document.querySelector(`#${this.canvasId}`);
         this.engine = new BABYLON.Engine(this.canvas, true);
-        this.scene = new BABYLON.Scene(this.engine);
-        this.textureManager = new TextureManager("assets/blocks", "missing_texture.png", this.scene);
+        this.createScene();
         this.createHemisphereLight("mainAmbient", "#ffEEAA", 1, new BABYLON.Vector3(1,1,0));
-        this.camera = new BABYLON.ArcRotateCamera("mainCamera", 0, 0, 10, new BABYLON.Vector3(), this.scene);
-        this.camera.setTarget(BABYLON.Vector3.Zero());
-        this.camera.attachControl(this.canvas, true);
-        this.camera.inputs.addMouseWheel();
-        this.camera.wheelPrecision = 15;
-
         this.animate();
     };
+
+    createScene()
+    {
+        this.scene = new BABYLON.Scene(this.engine);
+        const camera = new BABYLON.ArcRotateCamera("mainCamera", 0, 0, 10, new BABYLON.Vector3(), this.scene);
+        camera.setTarget(BABYLON.Vector3.Zero());
+        camera.attachControl(this.canvas, true);
+        camera.inputs.addMouseWheel();
+        camera.wheelPrecision = 15;
+        new BABYLON.AxesViewer(this.scene, 0.6, 0, null,null,null, 4);
+    }
 
     animate = () => {
         const dispose = () => this.dispose();
@@ -168,32 +143,15 @@ class SceneManager {
     }
 
 
-    generateStructure(structureManager) {
+    async generateStructure(structureManager) {
+        this.engine.stopRenderLoop();
         for (let i = 0; i < structureManager.virtualStructure.length; i++) {
-            this.addBlockAsync(structureManager.virtualStructure[i]);
+            //this.placeBlock(structureManager.virtualStructure[i], );
         }
-    }
-    /**
-     * 
-     * @param {BlockData} block 
-     * @returns 
-     */
-    async addBlockAsync(block) {
-        if (block.paletteData.name.value == "minecraft:air") return;
-        const material = block.getBlockMaterial(this.scene, this.textureManager, this.materialManager);
-        const cube = BABYLON.MeshBuilder.CreateBox(crypto.randomUUID(), { width: 1, height: 1 });
-        cube.material = material;
-        cube.subMeshes=[];
-    	var verticesCount=cube.getTotalVertices();
-	    cube.subMeshes.push(new BABYLON.SubMesh(0, 0, verticesCount, 0, 6, cube));
-	    cube.subMeshes.push(new BABYLON.SubMesh(1, 1, verticesCount, 6, 6, cube));
-	    cube.subMeshes.push(new BABYLON.SubMesh(2, 2, verticesCount, 12, 6, cube));
-	    cube.subMeshes.push(new BABYLON.SubMesh(3, 3, verticesCount, 18, 6, cube));
-	    cube.subMeshes.push(new BABYLON.SubMesh(4, 4, verticesCount, 24, 6, cube));
-	    cube.subMeshes.push(new BABYLON.SubMesh(5, 5, verticesCount, 30, 6, cube));
-        cube.position = block.position;
+        this.animate();
     }
 }
+
 class StructureManager {
     constructor() {
         /** @type {Object} the structure data.*/
@@ -202,6 +160,8 @@ class StructureManager {
         this.structureSize = new BABYLON.Vector3();
         /** @type {Array<BlockData>} virtual block data world.*/
         this.virtualStructure = [];
+        /** @type {Array<BABYLON.Mesh>} */
+        this.meshPalette = [];
     }
 
     /**
@@ -231,7 +191,7 @@ class StructureManager {
                     const block = new BlockData();
                     block.paletteData = blockPaletteData;
                     block.position = new BABYLON.Vector3(x, y, z);
-                    block.texture = blocks[blockPaletteData.name.value.replace("minecraft:", "")].textures;
+                    //block.texture = blocks[blockPaletteData.name.value.replace("minecraft:", "")].textures;
                     this.virtualStructure.push(block);
                     selection++;
                 }
@@ -244,22 +204,14 @@ class BlockData {
     constructor() {
         this.paletteData = null;
         this.position = new BABYLON.Vector3(0, 0, 0);
-        this.texture = "missing_texture";
-        this.isCube = true;
     }
+}
 
-    /**
-     * @param {BABYLON.Scene} scene
-     * @param {TextureManager} textureManager 
-     * @param {MaterialManager} materialManager 
-     */
-    getBlockMaterial(scene, textureManager, materialManager)
-    {
-        if(this.isCube)
-        {
-            /** @type {Array<BABYLON.Texture>} */
-            let cubeTexture;
-            if(typeof this.texture == "string")
+const sceneManager = new SceneManager();
+const structureManager = new StructureManager();
+
+/*
+if(typeof this.texture == "string")
             {
                 const textureList = [
                     this.texture + ".png",
@@ -269,7 +221,6 @@ class BlockData {
                     this.texture + ".png",
                     this.texture + ".png"
                 ]
-                cubeTexture = textureManager.loadCubeTextures(scene, textureList, this.paletteData.name.value);
             }
             else
             {
@@ -284,133 +235,17 @@ class BlockData {
                         this.texture["side"] + ".png",
                         this.texture["side"] + ".png"
                     ]
-                    cubeTexture = textureManager.loadCubeTextures(scene, textureList, this.paletteData.name.value);
                 }
                 else
                 {
                     const textureList = [
                         this.texture["up"] + ".png",
                         this.texture["down"] + ".png",
-                        this.texture["east"] + ".png",
-                        this.texture["west"] + ".png",
                         this.texture["north"] + ".png",
-                        this.texture["south"] + ".png"
+                        this.texture["south"] + ".png",
+                        this.texture["east"] + ".png",
+                        this.texture["west"] + ".png"
                     ]
-                    cubeTexture = textureManager.loadCubeTextures(scene, textureList, this.paletteData.name.value);
                 }
             }
-
-            return materialManager.createCubeMaterial(scene, cubeTexture, this.paletteData.name.value);
-        }
-    }
-}
-
-class TextureManager
-{
-    /**
-     * 
-     * @param {String} rootPath 
-     * @param {String} defaultTexture
-     * @param {BABYLON.Scene} scene
-     */
-    constructor(rootPath = "assets/blocks", defaultTexture, scene)
-    {
-        /** @type {Array<BABYLON.Texture>} */
-        this.textures = [];
-        /** @type {Array<String>} */
-        this.failedPaths = [];
-        /** @type {String} */
-        this.rootPath = rootPath;
-        /** @type {BABYLON.Texture} */
-        this.defaultTexture = this.loadTexture(scene, defaultTexture, "missing_texture");
-    }
-
-    /**
-     * 
-     * @param {Array<String>} urls
-     * @param {BABYLON.Scene} scene
-     * @param {String} name
-     * @returns {Array<BABYLON.Texture>}
-     */
-    loadCubeTextures(scene, urls = [], name)
-    {
-        /** @type {Array<BABYLON.Texture>} */
-        const textures = [];
-        for(let i = 0; i < urls.length; i++)
-        {
-            textures.push(this.loadTexture(scene, urls[i], `${name}-${i}`));
-        }
-        return textures;
-    }
-
-    /**
-     * @param {BABYLON.Scene} scene
-     * @param {String} url
-     * @param {String} name
-     * @returns {BABYLON.Texture}
-     */
-    loadTexture(scene, url = "missing_texture", name)
-    {
-        const loadedTexture = this.textures.findIndex(x => x.name == name)
-        if(loadedTexture != -1) return this.textures[loadedTexture];
-
-        const fullpath = `${this.rootPath}/${url}`;
-        if(this.failedPaths.includes(fullpath)) return this.defaultTexture;
-
-        const texture = new BABYLON.Texture(fullpath, scene, true, false, BABYLON.Constants.TEXTURE_NEAREST_SAMPLINGMODE);
-        if(texture.loadingError) 
-        {
-            this.failedPaths.push(fullpath);
-            return this.defaultTexture;
-        }
-        this.textures.push(texture);
-        return texture;
-    }
-
-    clear()
-    {
-        this.textures = [];
-        this.failedPaths = [];
-    }
-}
-
-class MaterialManager
-{
-    constructor()
-    {
-        /** @type {Array<BABYLON.Material>} */
-        this.materials = [];
-    }
-
-    /**
-     * 
-     * @param {BABYLON.Scene} scene 
-     * @param {Array<BABYLON.BaseTexture>} texture
-     * @param {String} name
-     * @returns {BABYLON.Material}
-     */
-    createCubeMaterial(scene, texture, name)
-    {
-        const mat = this.materials.findIndex(x => x.name == name);
-        if(mat != -1) return this.materials[mat];
-
-        const multiMaterial = new BABYLON.MultiMaterial(name, scene);
-
-        for(let i = 0; i < texture.length; i++)
-        {
-            const material = new BABYLON.StandardMaterial(`${name}-${i}`, scene);
-            material.diffuseTexture = texture[i];
-            multiMaterial.subMaterials.push(material);
-        }
-        this.materials.push(multiMaterial);
-        return multiMaterial;
-    }
-
-    clear()
-    {
-        this.materials = [];
-    }
-}
-
-const sceneManager = new SceneManager();
-const structureManager = new StructureManager();
+*/
