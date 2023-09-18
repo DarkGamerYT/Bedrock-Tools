@@ -53,7 +53,7 @@ const Settings = {
                             BedrockTools.sendToast(
                                 {
                                     icon: "assets/checkbox.png",
-                                    label: localisation.translate( "bedrocktools.toast.settings.title" ),
+                                    label: localisation.translate( "bedrocktools.toast.settings.label" ),
                                     body: localisation.translate( "bedrocktools.toast.settings.body" ),
                                 },
                             );

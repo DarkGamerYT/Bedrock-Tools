@@ -15,17 +15,17 @@ const ManifestGenerator = {
                             {
                                 elements: [
                                     Components.createElement("dropdown", {
-                                        label: "Manifest type:",
+                                        label: localisation.translate( "bedrocktools.manifestgenerator.manifesttype" ),
                                         id: "packType",
                                         selected: 1,
                                         items: [
-                                            "Resource Pack",
-                                            "Behaviour Pack",
-                                            "Skin Pack",
-                                            "World Template"
+                                            localisation.translate( "bedrocktools.manifestgenerator.manifest.resourcepack" ),
+                                            localisation.translate( "bedrocktools.manifestgenerator.manifest.behaviorpack" ),
+                                            localisation.translate( "bedrocktools.manifestgenerator.manifest.skinpack" ),
+                                            localisation.translate( "bedrocktools.manifestgenerator.manifest.worldtemplate" )
                                         ],
                                         onChange: (e) => {
-                                            scriptModules = [];
+                                            //scriptModules = [];
                                             const modulesElement = document.getElementById( "modulesElement" );
                                             const scriptApiToggle = document.getElementById( "scriptApiToggle" );
                                             switch(e.value) {
@@ -44,12 +44,12 @@ const ManifestGenerator = {
                                         },
                                     }),
                                     Components.createElement("input", {
-                                        label: "Name:",
+                                        label: localisation.translate( "bedrocktools.manifestgenerator.name" ),
                                         id: "packName",
                                         placeholder: "Test Pack"
                                     }),
                                     Components.createElement("input", {
-                                        label: "Description:",
+                                        label: localisation.translate( "bedrocktools.manifestgenerator.description" ),
                                         id: "packDescription",
                                         placeholder: "Hello World!"
                                     }),
@@ -60,8 +60,8 @@ const ManifestGenerator = {
                             {
                                 elements: [
                                     Components.createElement("switch", {
-                                        label: "Script-API",
-                                        description: "Enables ScriptAPI",
+                                        label: localisation.translate( "bedrocktools.manifestgenerator.scriptapi" ),
+                                        description: localisation.translate( "bedrocktools.manifestgenerator.scriptapi.description" ),
                                         id: "scriptApiToggle",
                                         toggled: false,
                                         onChange: (e) => {
@@ -71,7 +71,7 @@ const ManifestGenerator = {
                                             scriptAPI = e.value;
                                             const modulesElement = document.getElementById( "modulesElement" );
                                             if (!e.value) {
-                                                scriptModules = [];
+                                                //scriptModules = [];
                                                 modulesElement.style.display = "none";
                                             } else {
                                                 document.getElementById( "modules" ).innerHTML = moduleToggle(manifestGenerator, packType);
@@ -82,8 +82,8 @@ const ManifestGenerator = {
                                     `<div id="modulesElement" style="display: none;">
                                         ${
                                             Components.createElement("switch", {
-                                                label: "Beta",
-                                                description: "Enable Beta modules in ScriptAPI",
+                                                label: localisation.translate( "bedrocktools.manifestgenerator.beta" ),
+                                                description: localisation.translate( "bedrocktools.manifestgenerator.beta.description" ),
                                                 toggled: beta,
                                                 onChange: (e) => beta = e.value,
                                             })
@@ -98,11 +98,11 @@ const ManifestGenerator = {
                             {
                                 elements: [
                                     Components.createElement("dropdown", {
-                                        label: "Layout:",
+                                        label: localisation.translate( "bedrocktools.manifestgenerator.layout" ),
                                         id: "layout",
                                         items: [
-                                            "Beautified",
-                                            "Minified",
+                                            localisation.translate( "bedrocktools.manifestgenerator.layout.beautified" ),
+                                            localisation.translate( "bedrocktools.manifestgenerator.layout.minified" ),
                                         ],
                                         onChange: () => {},
                                     }),
@@ -110,7 +110,7 @@ const ManifestGenerator = {
                             },
                         )}
                         ${Components.createElement("button", {
-                            label: "Generate",
+                            label: localisation.translate( "bedrocktools.manifestgenerator.generate" ),
                             id: "generatePack",
                             variant: "hero",
                             sound: "ui.release",
@@ -137,17 +137,17 @@ const ManifestGenerator = {
                                 document.getElementById("output").innerHTML = highlightedText;
                                 BedrockTools.sendToast(
                                     {
-                                        label: "Manifest Generated!",
                                         icon: "assets/tools/manifest.png",
-                                        body: "Click to copy the manifest to clipboard",
+                                        label: localisation.translate( "bedrocktools.toast.manifestgenerator.label" ),
+                                        body: localisation.translate( "bedrocktools.toast.manifestgenerator.body" ),
                                         onClick: () => {
-                                            BedrockTools.sound.play( "ui.modal_hide" );
+                                            sound.play( "ui.modal_hide" );
                                             navigator.clipboard.writeText( stringManifest );
                                             BedrockTools.sendToast(
                                                 {
-                                                    label: "Manifest successfully copied!",
                                                     icon: "assets/checkbox.png",
-                                                    body: "The manifest has been successfully copied to the clipboard",
+                                                    label: localisation.translate( "bedrocktools.toast.success.manifestgenerator.label" ),
+                                                    body: localisation.translate( "bedrocktools.toast.success.manifestgenerator.body" ),
                                                     instant: true,
                                                 },
                                             );
@@ -163,7 +163,7 @@ const ManifestGenerator = {
                             {
                                 elements: [
                                     Components.createElement("text", {
-                                        label: "Output:",
+                                        label: localisation.translate( "bedrocktools.manifestgenerator.output" ),
                                         id: "output",
                                         default: `<span class="hljs-punctuation">{</span>\n\t<span class="hljs-attr">"format_version"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">2</span><span class="hljs-punctuation">,</span>\n\t<span class="hljs-attr">"header"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>\n\t<span class="hljs-attr">"modules"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>\n\t<span class="hljs-attr">"capabilities"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>\n\t<span class="hljs-attr">"dependencies"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span>\n<span class="hljs-punctuation">}</span>`,
                                         style: "code",
@@ -188,7 +188,7 @@ const moduleToggle = (manifestGenerator, type) => {
                     Components.createElement("checkbox", {
                         label: m.module_name,
                         id: m.module_name,
-                        toggled: scriptModules.includes(m.module_name),
+                        checked: scriptModules.includes(m.module_name),
                         onChange: (e) => {
                             if (e.value) scriptModules.push( e.id );
                             else scriptModules = scriptModules.filter((m) => m != e.id);

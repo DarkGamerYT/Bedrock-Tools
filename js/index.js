@@ -18,7 +18,7 @@ document.addEventListener(
                         icon: "assets/wrench.png",
                         label: "Test Toast",
                         body: "Hello World!",
-                        onClick: () => BedrockTools.sound.play( "ui.release" ),
+                        onClick: () => sound.play( "ui.release" ),
                     },
                 );
             } else if (event.code == "Numpad2") {
@@ -26,7 +26,7 @@ document.addEventListener(
                     {
                         label: "Test Toast - No Icon",
                         body: "Hello World!",
-                        onClick: () => BedrockTools.sound.play( "ui.release" ),
+                        onClick: () => sound.play( "ui.release" ),
                     },
                 );
             } else if (event.code == "Numpad7") {

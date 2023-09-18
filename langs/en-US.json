@@ -6,7 +6,29 @@
 
     "bedrocktools.addons.title": "Add-ons",
     "bedrocktools.addons.description": "For creators of game packs and other add-ons",
+    
     "bedrocktools.addons.manifestgenerator": "Manifest Generator",
+    "bedrocktools.manifestgenerator.manifesttype": "Manifest type:",
+    "bedrocktools.manifestgenerator.manifest.resourcepack": "Resource Pack",
+    "bedrocktools.manifestgenerator.manifest.behaviorpack": "Behavior Pack",
+    "bedrocktools.manifestgenerator.manifest.skinpack": "Skin Pack",
+    "bedrocktools.manifestgenerator.manifest.worldtemplate": "World Template",
+    "bedrocktools.manifestgenerator.layout": "Layout:",
+    "bedrocktools.manifestgenerator.layout.beautified": "Beautified",
+    "bedrocktools.manifestgenerator.layout.minified": "Minified",
+    "bedrocktools.manifestgenerator.name": "Name:",
+    "bedrocktools.manifestgenerator.description": "Description:",
+    "bedrocktools.manifestgenerator.output": "Output:",
+    "bedrocktools.manifestgenerator.scriptapi": "Script-API",
+    "bedrocktools.manifestgenerator.scriptapi.description": "Enables ScriptAPI",
+    "bedrocktools.manifestgenerator.beta": "Beta",
+    "bedrocktools.manifestgenerator.beta.description": "Enable Beta modules in ScriptAPI",
+    "bedrocktools.manifestgenerator.generate": "Generate",
+    "bedrocktools.toast.manifestgenerator.label": "Manifest Generated!",
+    "bedrocktools.toast.manifestgenerator.body": "Click to copy the manifest to clipboard",
+    "bedrocktools.toast.success.manifestgenerator.label": "Manifest successfully copied!",
+    "bedrocktools.toast.success.manifestgenerator.body": "The manifest has been successfully copied to the clipboard",
+
     "bedrocktools.addons.renderoffsetcorrector": "Render Offset Corrector",
     "bedrocktools.addons.rawtextgenerator": "JSON Rawtext Generator",
 
@@ -26,7 +48,7 @@
     "bedrocktools.screen.mainscreen": "Main Screen",
     "bedrocktools.screen.settings": "Settings",
 
-    "bedrocktools.toast.settings.title": "Settings saved!",
+    "bedrocktools.toast.settings.label": "Settings saved!",
     "bedrocktools.toast.settings.body": "All the settings have been saved successfully",
 
     "bedrocktools.debug.title": "Internal Tools",
