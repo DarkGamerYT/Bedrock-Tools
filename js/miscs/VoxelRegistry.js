@@ -43,6 +43,8 @@ class VoxelRegistry
         if(!options) options = new BlockOptions();
 
         if(id < 0 || id > this.blockMaterials.length) throw 'Block ID out of range!';
+        if(this.blocks.findIndex(x => x.id == id) != -1) throw 'Id already registered to a block!';
+
         const mat = options.material || null;
         var mats;
         if(!mat) mats = [null,null,null,null,null];
@@ -54,6 +56,26 @@ class VoxelRegistry
         } else if (mat.length && mat.length == 6) {
             mats = mat
         } else throw 'Invalid material input!';
+
+        const blockMaterials = [0,0,0,0,0,0]
+        for (var i = 0; i < 6; i++) {
+            blockMaterials[i] = this.getMaterialId(mats[i]);
+        }
+
+        const block = new Block(id, blockMaterials);
+        this.blocks.push(block);
+    }
+
+    /**
+     * 
+     * @param {String} name 
+     */
+    getMaterialId(name)
+    {
+        if(!name) return 0;
+        const id = this.blockMaterials.findIndex(x => x.name == name);
+        if(id == -1) return 0;
+        return id;
     }
 }
 
@@ -114,5 +136,15 @@ class BlockMaterial
 
 class Block
 {
-
+    /**
+     * @argument {Number} name
+     * @argument {Array<Number>} materials
+     */
+    constructor(id, materials)
+    {
+        this.id = id;
+        this.opaque = true;
+        this.customMesh = null;
+        this.materials = [0,0,0,0,0,0]
+    }
 }
