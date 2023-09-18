@@ -477,7 +477,7 @@ class RawtextModules {
             type: "translation",
             translation: "commands.op.success",
             withArray: new ArrayValues(),
-            withRawlabel: new RawtextModules(),
+            withRawtext: new RawtextModules(),
             withArrayToggle: false,
             withRawtextToggle: false,
             id: crypto.randomUUID(),
