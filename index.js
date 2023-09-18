@@ -7,8 +7,8 @@ require( "@electron/remote/main" ).initialize();
 let mainWin;
 let debug = false;
 app.on( "window-all-closed", () => app.quit() );
-app.on("ready",
-	() => {
+app.on(
+	"ready", () => {
 		console.log(
 			"\x1B[0m" + new Date().toLocaleTimeString() + " \x1B[33m\x1B[1m[INFO] \x1B[0m- Starting..."
 		);
@@ -30,56 +30,48 @@ app.on("ready",
 	
 		autoUpdater.on(
 			"update-available", (a) => {
-				ipcMain.on("allow-update", () => autoUpdater.downloadUpdate());
+				ipcMain.on( "allow-update", () => autoUpdater.downloadUpdate() );
 				if (!mainWin.isDestroyed()) mainWin.webContents.send( "update-available", a );
 			},
 		);
-
+		
 		autoUpdater.checkForUpdates().catch(() => {});
 	},
 );
 
 const registerShortcuts = () => {
-	globalShortcut.register(
-		"Control+R",
-		() => false,
-	);
-
-	globalShortcut.register(
-		"Control+Shift+R",
-		() => false,
-	);
+	globalShortcut.register( "Control+R", () => false );
+	globalShortcut.register( "Control+Shift+R", () => false );
 };
 
 const createWindow = () => {
-	const win = new BrowserWindow(
-		{
-			minWidth: 1040,
-			minHeight: 600,
-			width: 1080,
-			height: 660,
-			title: "Bedrock Tools (Beta)",
-			icon: "icon.ico",
-			autoHideMenuBar: true,
-			resizable: true,
-			titleBarStyle: "hidden",
-			webPreferences: {
-				preload: path.join( __dirname, "src/engine.js" ),
-				devTools: debug,
-				webgl: true,
-				webSecurity: true,
-				nodeIntegration: true,
-				contextIsolation: false,
-				// https://stackoverflow.com/questions/69059668/enableremotemodule-is-missing-from-electron-v14-typescript-type-definitions
-				// @ts-expect-error - missing the type definition
-				enableRemoteModule: true,
-			},
+	const win = new BrowserWindow({
+		title: "Bedrock Tools (Beta)",
+		icon: "icon.ico",
+
+		minWidth: 1040,
+		minHeight: 600,
+		width: 1080,
+		height: 660,
+
+		autoHideMenuBar: true,
+		resizable: true,
+		titleBarStyle: "hidden",
+		webPreferences: {
+			devTools: debug,
+			preload: path.join( __dirname, "src/engine.js" ),
+			webSecurity: true,
+			nodeIntegration: true,
+			contextIsolation: false,
+			// https://stackoverflow.com/questions/69059668/enableremotemodule-is-missing-from-electron-v14-typescript-type-definitions
+			// @ts-expect-error - missing the type definition
+			enableRemoteModule: true,
 		},
-	);
+	});
 	
 	mainWin = win;
 	require( "@electron/remote/main" ).enable( win.webContents );
 	app.setAppUserModelId( "Bedrock Tools" );
-	win.show();
 	win.loadFile(path.join( __dirname, "index.html" ));
+	win.show();
 };

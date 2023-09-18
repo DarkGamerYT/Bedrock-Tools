@@ -6,15 +6,15 @@ RPC.on(
         let lastTime;
         setInterval(
             () => {
-                const routeName = BedrockTools.router.history.list[BedrockTools.router.history.list.length - 1];
-                const route = BedrockTools.router.routes.find((r) => r.route == routeName);
+                const routeName = router.history.list[BedrockTools.router.history.list.length - 1];
+                const route = router.routes.find((r) => r.route == routeName);
                 
-                if (BedrockTools.settings.get( "discordrpc" )) {
+                if (settings.get( "discordrpc" )) {
                     if (lastRoute != routeName) {
                         lastTime = Date.now();
                         RPC.setActivity(
                             {
-                                details: BedrockTools.localisation.translate(route?.name ?? "bedrocktools.screen.unknown"),
+                                details: localisation.translate(route?.name ?? "bedrocktools.screen.unknown"),
                                 state: "Route: " + (route?.route ?? routeName),
                                 startTimestamp: lastTime,
                                 largeImageKey: "icon",
@@ -31,9 +31,5 @@ RPC.on(
     },
 );
 
-const startRPC = () => {
-    RPC.login({ clientId : "1144685291014213802" })
-    .catch(() => setTimeout(() => startRPC(), 5000));
-};
-
+const startRPC = () => RPC.login({ clientId : "1144685291014213802" }).catch(() => setTimeout(() => startRPC(), 5000));
 startRPC();

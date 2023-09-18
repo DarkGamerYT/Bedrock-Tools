@@ -1,9 +1,9 @@
 const jszip = require( "jszip" );
 const WorldGenerator = {
     Component: () => {
-        const isRight = BedrockTools.settings.get( "right" );
+        const isRight = settings.get( "right" );
         return (
-            Components.createHeader({ label: BedrockTools.localisation.translate( "bedrocktools.advanced.worldgenerator" ), back: true, settings: true })
+            Components.createHeader({ label: localisation.translate( "bedrocktools.advanced.worldgenerator" ), back: true, settings: true })
             + (
                 `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
                     <div style="width: 50%;">
@@ -678,7 +678,7 @@ const GenType = async (selection = 0) => {
         case 4:
         {
             fs.readFile(
-                __dirname + "/data/World.mcworld",
+                __dirname + "/src/data/World.mcworld",
                 null,
                 async (error, buffer) => {
                     await jszip.loadAsync(Buffer.from( buffer ))

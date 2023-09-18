@@ -1,9 +1,9 @@
 const BABYLON = require("babylonjs");
 const StructureEditor = {
     Component: () => {
-        const isRight = BedrockTools.settings.get("right");
+        const isRight = settings.get("right");
         return (
-            Components.createHeader({ label: BedrockTools.localisation.translate( "bedrocktools.advanced.structureeditor" ), back: true, settings: true })
+            Components.createHeader({ label: localisation.translate( "bedrocktools.advanced.structureeditor" ), back: true, settings: true })
             + (
                 `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 8%;margin-right: 8%;width: auto;gap: 15px;">
                     <div style="width: 100%;">
@@ -162,6 +162,7 @@ class StructureManager {
         this.virtualStructure = [];
         /** @type {Array<BABYLON.Mesh>} */
         this.meshPalette = [];
+        this.blocks = BedrockTools.requestFacet( "bedrocktools.blocks" );
     }
 
     /**
@@ -191,7 +192,7 @@ class StructureManager {
                     const block = new BlockData();
                     block.paletteData = blockPaletteData;
                     block.position = new BABYLON.Vector3(x, y, z);
-                    //block.texture = blocks[blockPaletteData.name.value.replace("minecraft:", "")].textures;
+                    //block.texture = this.blocks[blockPaletteData.name.value.replace("minecraft:", "")].textures;
                     this.virtualStructure.push(block);
                     selection++;
                 }

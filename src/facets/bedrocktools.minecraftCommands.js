@@ -1,8 +1,8 @@
 const CommandManager = {
-    Commands: JSON.parse(require( "node:fs" ).readFileSync( __dirname + "/src/data/commands.json" ).toString()),
+    commands: JSON.parse(require( "node:fs" ).readFileSync( __dirname + "/../data/commands.json" ).toString()),
     validateCommand: (cmd) => {
         const commandName = cmd.split(" ")[0];
-        const command = CommandManager.Commands.commands.find((c) => c.name == commandName || c.aliases.includes( commandName ));
+        const command = CommandManager.commands.commands.find((c) => c.name == commandName || c.aliases.includes( commandName ));
         
         if (!command) return false;
         
@@ -11,7 +11,7 @@ const CommandManager = {
     },
     getAllCommands: () => {
         const commands = [];
-        CommandManager.Commands.commands.forEach(
+        CommandManager.commands.commands.forEach(
             (c) => {
                 for (const overload of c.overloads) {
                     const command = {
@@ -41,3 +41,5 @@ const CommandManager = {
         return commands;
     },
 };
+
+module.exports = CommandManager;

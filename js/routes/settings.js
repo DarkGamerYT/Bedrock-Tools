@@ -4,12 +4,12 @@
 let modifiedSettings = [];
 const Settings = {
     Component: () => {
-        let isRight = BedrockTools.settings.get( "right" );
-        let discordRpc = BedrockTools.settings.get( "discordrpc" );
-        let locale = BedrockTools.settings.get( "locale" );
-        const langs = BedrockTools.localisation.getLangs();
+        let isRight = settings.get( "right" );
+        let discordRpc = settings.get( "discordrpc" );
+        let locale = settings.get( "locale" );
+        const langs = localisation.getLangs();
         return (
-            Components.createHeader({ label: BedrockTools.localisation.translate( "bedrocktools.screen.settings" ), back: true, settings: false })
+            Components.createHeader({ label: localisation.translate( "screen.settings" ), back: true, settings: false })
             + (
                 `<div style="margin-top: 25px;margin-left: auto;margin-right: auto;width: 65%;">
                     ${Components.createElements(
@@ -46,16 +46,15 @@ const Settings = {
                         id: "saveSettings",
                         sound: "ui.release",
                         onClick: () => {
-                            for (const setting of modifiedSettings) {
-                                BedrockTools.settings.set( setting.name, setting.value );  
-                            };
+                            for (const setting of modifiedSettings)
+                            settings.set( setting.name, setting.value );  
     
-                            BedrockTools.router.history.goBack();
+                            router.history.goBack();
                             BedrockTools.sendToast(
                                 {
                                     icon: "assets/checkbox.png",
-                                    label: BedrockTools.localisation.translate( "bedrocktools.toast.settings.title" ),
-                                    body: BedrockTools.localisation.translate( "bedrocktools.toast.settings.body" ),
+                                    label: localisation.translate( "bedrocktools.toast.settings.title" ),
+                                    body: localisation.translate( "bedrocktools.toast.settings.body" ),
                                 },
                             );
                         },
@@ -68,18 +67,18 @@ const Settings = {
 
 const SettingsRouteUtils = {
     toggleRight: (e) => {
-        let isRight = BedrockTools.settings.get( "right" );
+        let isRight = settings.get( "right" );
         if (isRight == e.value) modifiedSettings = modifiedSettings.filter((s) => s.name != "right");
         else modifiedSettings.push({ name: "right", value: e.value });
     },
     toggleDiscordRpc: (e) => {
-        let discordRpc = BedrockTools.settings.get( "discordRpc" );
+        let discordRpc = settings.get( "discordRpc" );
         if (discordRpc == e.value) modifiedSettings = modifiedSettings.filter((s) => s.name != "discordrpc");
         else modifiedSettings.push({ name: "discordrpc", value: e.value });
     },
     changeLanguage: (e) => {
-        let locale = BedrockTools.settings.get( "locale" );
-        let lang = BedrockTools.localisation.getLangs()[e.value];
+        let locale = settings.get( "locale" );
+        let lang = localisation.getLangs()[e.value];
         if (locale == lang) modifiedSettings = modifiedSettings.filter((s) => s.name != "locale");
         else modifiedSettings.push({ name: "locale", value: lang });
     },

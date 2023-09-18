@@ -6,7 +6,7 @@ interface Route {
         rpc?: string;
         onLoad?(): any;
     };
-}
+};
 
 interface ToastOptions {
     title?: string;
@@ -15,41 +15,18 @@ interface ToastOptions {
     timeout?: number;
     instant?: boolean;
     onClick?(): any;
-}
+};
 
 declare const BedrockTools: {
     version: string;
     startTime: number;
 
-    router: {
-        isTransitioning: boolean;
-        routes: Route[];
-        history: {
-            list: string[];
-            go(path: string): Promise<void>;
-            goBack(): Promise<void>;
-        };
-    };
+    requestFacet(facet: string): any;
 
-    sound: {
-        play(id: string): void;
-    };
-    
-    settings: {
-        get(key: string): any;
-        set(key: string, value: any): void;
-    };
-    
-    localisation: {
-        getLocale(): string;
-        getLangs(): string[];
-        translate(id: string): string;
-        translateWithParameters(id: string, params: string[]): string;
-    };
-
-    functions: {
-        onClick: {};
-        onChange: {};
+    logger: {
+        info: (...data: any) => void;
+        debug: (...data: any) => void;
+        error: (...data: any) => void;
     };
 
     loadUI(route: Route, isBack?: boolean): Promise<void>;
@@ -57,13 +34,13 @@ declare const BedrockTools: {
     clearModal(): void;
 
     sendToast(options: ToastOptions): void;
-}
+};
 
 interface HeaderOptions {
     label: string;
     back?: boolean;
     settings?: boolean;
-}
+};
 
 interface TagOptions {
     label: string;
@@ -75,18 +52,18 @@ interface TagOptions {
         "destructive" |
         "purple"
     )
-}
+};
 
-interface TabsOptions { tabs: string[]; }
+interface TabsOptions { tabs: string[]; };
 interface TabOptions {
     text?: string;
     icon?: string;
     id: string;
     selected?: boolean;
     onClick: () => any;
-}
+};
 
-interface ElementsOptions { elements: string[] }
+interface ElementsOptions { elements: string[] };
 
 interface ModalOptions {
     header: string;
@@ -95,14 +72,15 @@ interface ModalOptions {
     close?: boolean;
     bodyElements?: string[];
     elements?: string[]
-}
+};
 
 interface ElementOptions {
     title?: string;
     subtitle?: string;
     tag?: string;
     space?: string;
-}
+};
+
 interface ButtonElementOptions {
     id: string;
     label: string;
@@ -111,7 +89,8 @@ interface ButtonElementOptions {
     sound?: string;
     disabled?: boolean;
     onClick(): string;
-}
+};
+
 interface SwitchElementOptions {
     id: string;
     label: string;
@@ -119,7 +98,8 @@ interface SwitchElementOptions {
     toggled?: boolean;
     disabled?: boolean;
     onChange(): string;
-}
+};
+
 interface CheckboxElementOptions {
     id: string;
     label: string;
@@ -127,7 +107,8 @@ interface CheckboxElementOptions {
     checked?: boolean;
     disabled?: boolean;
     onChange(): string;
-}
+};
+
 interface SliderElementOptions {
     id: string;
     label: string;
@@ -138,7 +119,8 @@ interface SliderElementOptions {
     percentage?: boolean;
     disabled?: boolean;
     onChange(): string;
-}
+};
+
 interface InputElementOptions {
     id: string;
     label?: string;
@@ -150,7 +132,8 @@ interface InputElementOptions {
     placeholder?: string;
     disabled?: boolean;
     onChange(): string;
-}
+};
+
 interface DropdownElementOptions {
     id: string;
     label: string;
@@ -160,7 +143,8 @@ interface DropdownElementOptions {
     inline?: boolean;
     disabled?: boolean;
     onChange(): string;
-}
+};
+
 interface RadioGroupElementOptions {
     id: string;
     label: string;
@@ -171,13 +155,15 @@ interface RadioGroupElementOptions {
     selected?: number;
     disabled?: boolean;
     onChange(): string;
-}
+};
+
 interface PanelButtonElementOptions {
     id: string;
     label?: string;
     description?: string;
     buttons: string[];
-}
+};
+
 interface ToggleElementOptions {
     id: string;
     label: string;
@@ -193,7 +179,7 @@ interface ToggleElementOptions {
     selected?: number;
     disabled?: boolean;
     onChange(): string;
-}
+};
 
 interface TextElementOptions {
     id: string;
@@ -202,12 +188,14 @@ interface TextElementOptions {
     default?: string;
     useLabel?: boolean;
     style?: "code";
-}
+};
+
 interface TextboxElementOptions {
     id: string;
     label: string;
     startHeight?: number;
-}
+};
+
 interface UploadElementOptions {
     id: string;
     label: string;
@@ -217,9 +205,9 @@ interface UploadElementOptions {
     };
     accepts?: string;
     onChange(): string;
-}
+};
 
-const elementOptions: {
+const elementsOptions: {
     "element": ElementOptions,
     "button": ButtonElementOptions,
     "switch": SwitchElementOptions,
@@ -234,7 +222,7 @@ const elementOptions: {
     "text": TextElementOptions,
     "textbox": TextboxElementOptions,
     "upload": UploadElementOptions,
-}
+};
 
 declare const Components: {
     createHeader(options: HeaderOptions): string;
@@ -243,8 +231,8 @@ declare const Components: {
     createTabs(options: TabsOptions): string;
     createTab(options: TabOptions): string;
     createElements(options: ElementsOptions): string;
-    createElement<T extends keyof typeof elementOptions>(
+    createElement<T extends keyof typeof elementsOptions>(
         type: T,
-        options: typeof elementOptions[T]
+        options: typeof elementsOptions[T]
     ): string;
-}
+};

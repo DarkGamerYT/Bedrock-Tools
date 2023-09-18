@@ -1,7 +1,7 @@
 const fs = require( "node:fs" );
 const path = require( "node:path" );
-module.exports = {
-    getLocale: () => BedrockTools.settings.get( "locale" ),
+const Locale = {
+    getLocale: () => settings.get( "locale" ),
     getLangs: () => {
         const langDir = path.join(__dirname, "../../langs");
         const langFiles = fs.readdirSync(langDir);
@@ -11,7 +11,7 @@ module.exports = {
     },
     translate: (id) => {
         try {
-            const langPath = path.join(__dirname, "../../langs/" + BedrockTools.localisation.getLocale() + ".json");
+            const langPath = path.join(__dirname, "../../langs/" + Locale.getLocale() + ".json");
             const lang = JSON.parse(fs.readFileSync(langPath, "utf-8" ));
             return lang[id]?.split( "#" )[0]?.trim() ?? id;
         } catch {
@@ -20,7 +20,7 @@ module.exports = {
 	},
 	translateWithParameters: (id, params) => {
         try {
-            const langPath = path.join(__dirname, "../../langs/" + BedrockTools.localisation.getLocale() + ".json");
+            const langPath = path.join(__dirname, "../../langs/" + Locale.getLocale() + ".json");
             const lang = JSON.parse(fs.readFileSync(langPath, "utf-8" ));
             let translation = lang[id];
             if (/%\d+|$s/g.test( translation )) {
@@ -34,3 +34,5 @@ module.exports = {
         };
 	},
 };
+
+module.exports = Locale;

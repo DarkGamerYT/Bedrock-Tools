@@ -1,0 +1,12 @@
+[
+    "core.router",
+    "core.locale",
+    "core.sound",
+    "core.settings",
+    "core.components",
+
+    "bedrocktools.manifestGenerator",
+    "bedrocktools.serverPinger",
+    "bedrocktools.minecraftCommands",
+    "bedrocktools.blocks"
+]

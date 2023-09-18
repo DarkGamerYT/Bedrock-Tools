@@ -1,8 +1,9 @@
 const ServerPinger = {
     Component: () => {
-        const isRight = BedrockTools.settings.get( "right" );
+        const isRight = settings.get( "right" );
+        const serverPinger = BedrockTools.requestFacet( "bedrocktools.serverPinger" );
         return (
-            Components.createHeader({ label: BedrockTools.localisation.translate( "bedrocktools.utilities.serverpinger" ), back: true, settings: true })
+            Components.createHeader({ label: localisation.translate( "bedrocktools.utilities.serverpinger" ), back: true, settings: true })
             + (
                 `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
                     <div style="width: 50%;">
@@ -37,7 +38,7 @@ const ServerPinger = {
                             label: "Ping",
                             variant: "hero",
                             sound: "ui.release",
-                            onClick: () => pingServer(),
+                            onClick: () => pingServer(serverPinger),
                         })}
                     </div>
                     <div style="width: 100%;" id="serverData">${serverData()}</div>
@@ -104,7 +105,7 @@ const serverData = () => {
     );
 };
 
-const pingServer = () => {
+const pingServer = (serverPinger) => {
     const serverIp = document.getElementById( "serverIp" ).value.trim();
     const serverPort = Number(document.getElementById( "serverPort" ).value) || 19132;
     
@@ -115,7 +116,7 @@ const pingServer = () => {
             </div>`
         );
 
-        pingBedrock({ hostname: serverIp, port: serverPort }).then(
+        serverPinger.pingServer({ hostname: serverIp, port: serverPort }).then(
             (data) => {
                 document.getElementById( "serverData" ).innerHTML = serverData();
                 const addToList = document.getElementById( "addToList" );

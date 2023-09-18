@@ -1,7 +1,7 @@
 const LoopGenerator = {
     Component: () => {
         return (
-            Components.createHeader({ label: BedrockTools.localisation.translate( "bedrocktools.utilities.loopgenerator" ), back: true, settings: true })
+            Components.createHeader({ label: localisation.translate( "bedrocktools.utilities.loopgenerator" ), back: true, settings: true })
             + (
                 `<div style="margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;">
                     <div id="tabs"></div>
@@ -14,7 +14,7 @@ const LoopGenerator = {
 };
 
 const loopTabs = (selected = 0) => {
-    const isRight = BedrockTools.settings.get("right");
+    const isRight = settings.get("right");
     const tabs = [
         {
             name: "List",
@@ -107,7 +107,7 @@ const loopTabs = (selected = 0) => {
                                             label: "Loop Generated!",
                                             body: "Click to copy the loop to clipboard",
                                             onClick: () => {
-                                                BedrockTools.sound.play( "ui.modal_hide" );
+                                                sound.play( "ui.modal_hide" );
                                                 navigator.clipboard.writeText( values.join("\n") );
                                                 BedrockTools.sendToast(
                                                     {
@@ -196,7 +196,6 @@ const loopTabs = (selected = 0) => {
                                     ],
                                 },
                             )}
-
                             ${Components.createElement("button", {
                                 label: "Generate",
                                 id: "generate",
@@ -261,7 +260,7 @@ const loopTabs = (selected = 0) => {
                                             label: "Loop Generated!",
                                             body: "Click to copy the loop to clipboard",
                                             onClick: () => {
-                                                BedrockTools.sound.play( "ui.modal_hide" );
+                                                sound.play( "ui.modal_hide" );
                                                 navigator.clipboard.writeText( outputString );
                                                 BedrockTools.sendToast(
                                                     {

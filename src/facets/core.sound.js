@@ -4,7 +4,7 @@ const sounds = JSON.parse(fs.readFileSync(path.join(__dirname, "../sound_definit
 for (let sound in sounds) for (const s of sounds[sound].sounds) new Audio( "sounds/" + s.name );
 module.exports = {
     play: (id) => {
-        window.logger.debug( "[SOUND] Sound with id '" + id + "' has been requested." );
+        BedrockTools.logger.debug( "[SOUND] Sound with id '" + id + "' has been requested." );
         if (
             sounds.hasOwnProperty(id)
             && sounds[id].sounds.length > 0

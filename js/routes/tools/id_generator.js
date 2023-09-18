@@ -1,7 +1,7 @@
 const IdGenerator = {
     Component: () => {
         return (
-            Components.createHeader({ label: BedrockTools.localisation.translate( "bedrocktools.utilities.idgenerator" ), back: true, settings: true })
+            Components.createHeader({ label: localisation.translate( "bedrocktools.utilities.idgenerator" ), back: true, settings: true })
             + (
                 `<div style="margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;">
                     <div id="tabs"></div>
@@ -14,7 +14,7 @@ const IdGenerator = {
 };
 
 const idTabs = (selected = 0) => {
-    const isRight = BedrockTools.settings.get( "right" );
+    const isRight = settings.get( "right" );
     const tabs = [
         {
             name: "UUID",
@@ -58,7 +58,7 @@ const idTabs = (selected = 0) => {
                                                 icon: "assets/tools/id.png",
                                                 body: "Click to copy the UUID's to clipboard",
                                                 onClick: () => {
-                                                    BedrockTools.sound.play( "ui.modal_hide" );
+                                                    sound.play( "ui.modal_hide" );
                                                     navigator.clipboard.writeText( uuids.join("\n") );
                                                     BedrockTools.sendToast(
                                                         {
@@ -134,9 +134,9 @@ const idTabs = (selected = 0) => {
                             ${Components.createElement("button", {
                                 label: "Generate",
                                 id: "generate",
+                                sound: "ui.release",
                                 variant: "hero",
                                 onClick: () => {
-                                    BedrockTools.sound.play("ui.release");
                                     const amount = Number(document.getElementById( "amount" ).value.trim());
                                     const characters = String(document.getElementById( "characters" ).value.trim());
                                     const idLength = Number(document.getElementById( "idLength" ).value.trim());
@@ -172,7 +172,7 @@ const idTabs = (selected = 0) => {
                                                     icon: "assets/coding.png",
                                                     body: "Click to copy the ID's to clipboard",
                                                     onClick: () => {
-                                                        BedrockTools.sound.play( "ui.modal_hide" );
+                                                        sound.play( "ui.modal_hide" );
                                                         navigator.clipboard.writeText( uuids.join("\n") );
                                                         BedrockTools.sendToast(
                                                             {

@@ -7,11 +7,11 @@ document.addEventListener(
         if (event.code == "Escape") {
             const popup = document.getElementById( "popup" );
             if (popup.innerText.trim().length > 0) popup.innerText = "";
-            else BedrockTools.router.history.goBack();
+            else router.history.goBack();
         };
         
         //Toast Debug
-        if (BedrockTools.settings.get( "debug" )) {
+        if (settings.get( "debug" )) {
             if (event.code == "Numpad1") {
                 BedrockTools.sendToast(
                     {
@@ -135,10 +135,11 @@ document.addEventListener(
     },
 );
 
-BedrockTools.router.routes.push(
+router.addRoute(
     {
         route: "/main_screen",
         name: "bedrocktools.screen.mainscreen",
+        default: true,
         component: MainScreen.Component,
         metadata: {},
     },
@@ -226,7 +227,7 @@ BedrockTools.router.routes.push(
         component: MER.Component,
         metadata: { rpc: "mer" },
     },
-    
+
     {
         route: "/components",
         name: "bedrocktools.debug.components",
@@ -234,5 +235,3 @@ BedrockTools.router.routes.push(
         metadata: {},
     },
 );
-
-BedrockTools.router.history.go( "/main_screen" );

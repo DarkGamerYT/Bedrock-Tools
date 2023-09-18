@@ -1,24 +1,46 @@
-const electron = require( "@electron/remote" );
-const Router = require( "./engine/Router" );
-const Sound = require( "./engine/Sound" );
-const Settings = require( "./engine/Settings" );
-const Localisation = require( "./engine/Localisation" );
+const fs = require( "fs" );
+let loadedFacets = {};
+const loadFacet = async (facet) => {
+	try {
+		const f = await require( __dirname + "/facets/" + facet + ".js" );
+	
+		BedrockTools.logger.debug( "Facet Loaded: " + facet, f );
+		loadedFacets[ facet ] = f;
+	} catch(e) { console.error(e); };
+};
+
+const facets = JSON.parse(fs.readFileSync( __dirname + "/facets.json" ));
+(async() => { for (const facet of facets) await loadFacet( facet ); })();
+
 globalThis.BedrockTools = {
     version: "0.1.3-beta",
     startTime: Date.now(),
+    facets: loadedFacets,
 
-    router: Router,
-    sound: Sound,
-    settings: Settings,
-    localisation: Localisation,
-    functions: {
-        onClick: {},
-        onChange: {},
+    requestFacet: (facet) => {
+        if (BedrockTools.facets.hasOwnProperty(facet)) {
+            BedrockTools.logger.debug( `Sending Facet: ${facet}` );
+            return BedrockTools.facets[ facet ];
+        } else throw new Error( `MISSING FACET: ${facet}` );
+    },
+
+    logger: {
+        /** @param  {...any} data */
+        info: (...data) => console.log( "\x1B[0m" + new Date().toLocaleTimeString() + " \x1B[33m\x1B[1m[INFO] \x1B[0m-", ...data ),
+        /** @param  {...any} data */
+        debug: (...data) => {
+            //if (BedrockTools.settings.get( "debug" ))
+            console.log( "\x1B[0m" + new Date().toLocaleTimeString() + " \x1B[33m\x1B[1m[DEBUG] \x1B[0m-", ...data );
+        },
+        /** @param  {...any} data */
+        error: (...data) => console.log( "\x1B[0m" + new Date().toLocaleTimeString() + " \x1B[31m\x1B[1m[ERROR] \x1B[0m-", ...data ),
     },
 
     loadUI: async (route, isBack = false) => {
         const app = document.getElementById( "app" );
         if (!app) return;
+        const router = BedrockTools.facets[ "core.router" ];
+        const sound = BedrockTools.facets[ "core.sound" ];
         
         app.className = isBack ? "uiLeavingBack" : "uiLeaving";
         await new Promise((res) => setTimeout(() => res(), 0.2 * 1000)); //wait for 400 milliseconds
@@ -31,10 +53,11 @@ globalThis.BedrockTools = {
             app.innerHTML = ErrorRoute();
             console.error(e);
         };
+
         const back = document.getElementById( "back" );
         const settings = document.getElementById( "settings" );
-        if (back) back.addEventListener( "click", () => { BedrockTools.sound.play( 'ui.click' ); BedrockTools.router.history.goBack(); } );
-        if (settings) settings.addEventListener( "click", () => { BedrockTools.sound.play( 'ui.click' ); BedrockTools.router.history.go( "/settings" ) } );
+        if (back) back.addEventListener( "click", () => { sound.play( 'ui.click' ); router.history.goBack(); } );
+        if (settings) settings.addEventListener( "click", () => { sound.play( 'ui.click' ); router.history.go( "/settings" ) } );
 
 	    const currentWindow = electron.getCurrentWindow();
         const closeApp = document.getElementById( "closeApp" );
@@ -45,7 +68,7 @@ globalThis.BedrockTools = {
         if (minimizeApp) minimizeApp.addEventListener( "click", () => currentWindow.minimize());
 
         await new Promise((res) => setTimeout(() => res(0), 0.25 * 1000));
-        BedrockTools.router.isTransitioning = false;
+        router.isTransitioning = false;
     },
     loadModal: (component) => document.getElementById( "popup" ).innerHTML = `<div class="mainBackground"></div><div class="uiEntering" style="min-width: 435px;">${component}</div>`,
     clearModal: () => document.getElementById( "popup" ).innerHTML = "",
@@ -68,18 +91,21 @@ globalThis.BedrockTools = {
     },
 };
 
+globalThis.functions = { onClick: {}, onChange: {} };
+
 let toastQueue = [];
 const sendToast = async(options) => {
-    BedrockTools.functions.onClick[options.id] = options?.onClick;
+    const sound = BedrockTools.facets[ "core.sound" ];
+    functions.onClick[options.id] = options?.onClick;
     const toast = document.getElementById( "toast" );
     if (!toast) return;
 
     toast.className = "toast toastLeaving";
     await new Promise((res) => setTimeout(() => res(0), 0.25 * 1000));
     toast.className = "toast toastEntering";
-    BedrockTools.sound.play( "ui.toast_in" );
+    sound.play( "ui.toast_in" );
     toast.innerHTML = (
-        `<div class="toastElement" onClick="BedrockTools.functions.onClick['${options.id}']();">
+        `<div class="toastElement" onClick="functions.onClick['${options.id}']();">
             <div class="toastElement_">
                 ${
                     options?.icon
@@ -103,47 +129,18 @@ const sendToast = async(options) => {
     const toastOptions = toastQueue[0];
     if (toastOptions.id == options.id) {
         toast.className = "toast toastLeaving";
-        BedrockTools.sound.play( "ui.toast_out" );
+        sound.play( "ui.toast_out" );
         await new Promise((res) => setTimeout(() => res(0), 0.5 * 1000));
     };
 
-    delete BedrockTools.functions.onClick[options.id];
-};
-
-globalThis.logger = {
-    /**
-     * 
-     * @param  {...any} data 
-     * @returns 
-     */
-    info: (...data) => console.log(
-		"\x1B[0m" + new Date().toLocaleTimeString() + " \x1B[33m\x1B[1m[INFO] \x1B[0m-", ...data,
-	),
-
-    /**
-     * 
-     * @param  {...any} data 
-     * @returns 
-     */
-    debug: (...data) => {
-        if (BedrockTools.settings.get( "debug" ))
-        console.log(
-            "\x1B[0m" + new Date().toLocaleTimeString() + " \x1B[33m\x1B[1m[DEBUG] \x1B[0m-", ...data,
-        );
-    },
-    
-    /**
-     * 
-     * @param  {...any} data 
-     * @returns 
-     */
-    error: (...data) => console.log(
-		"\x1B[0m" + new Date().toLocaleTimeString() + " \x1B[31m\x1B[1m[ERROR] \x1B[0m-", ...data,
-	),
+    delete functions.onClick[options.id];
 };
 
 const ErrorRoute = () => {
-    setTimeout(() => BedrockTools.router.history.goBack(), 5000);
+    setTimeout(() => {
+        const router = BedrockTools.requestFacet( "core.router" );
+        router.history.goBack();
+    }, 5000);
     return (
         `<div class="popup">
             <div class="popup_">

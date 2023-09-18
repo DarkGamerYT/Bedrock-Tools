@@ -1,8 +1,8 @@
 const CommandTester = {
     Component:  () => {
-        const isRight = BedrockTools.settings.get( "right" );
+        const isRight = settings.get( "right" );
         return (
-            Components.createHeader({ label: BedrockTools.localisation.translate( "bedrocktools.utilities.commandstester" ), back: true, settings: true })
+            Components.createHeader({ label: localisation.translate( "bedrocktools.utilities.commandstester" ), back: true, settings: true })
             + (
                 `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
                     <div style="width: 50%;">

@@ -1,19 +1,19 @@
 const Functions = {
-    button: () => BedrockTools.sound.play( "ui.click" ),
+    button: () => sound.play( "ui.click" ),
 
     /**
      * @param { HTMLElement } element 
      * @param { boolean } value
      */
     switch: (element, value) => {
-        BedrockTools.sound.play( "ui.click" );
+        sound.play( "ui.click" );
         element.setAttribute( "value", value.toString() );
         if (value) element.className = "switchThumb switchThumbOn";
         else element.className = "switchThumb switchThumbOff";
     },
 };
 
-const Components = {
+module.exports = {
     /**
      * @param { HeaderOptions } options
      * @returns { string }
@@ -159,12 +159,12 @@ const Components = {
      * @returns { string }
      */
     createTab: (options) => {
-        BedrockTools.functions.onClick[options?.id] = options?.onClick;
+        functions.onClick[options?.id] = options?.onClick;
         return (
             `<div
                 class="oreUIButton oreUIButtonTab ${options?.selected ? "tabPressed" : ""}"
                 style="width: 100%;"
-                onClick='if(${!options?.selected}) { Functions.button(this); BedrockTools.functions.onClick["${options?.id}"](this); }'
+                onClick='if(${!options?.selected}) { sound.play( "ui.click" ); functions.onClick["${options?.id}"](this); }'
                 id="${options?.id ?? ""}"
             >
                 <div class="oreUIButton_ oreUIButtonTabBackground" style="height: 2.5rem;">
@@ -274,17 +274,17 @@ const Components = {
                 };
 
                 let selected = options?.selected ?? 0;
-                BedrockTools.functions.onChange[options?.id] = options?.onChange ?? (() => {});
+                functions.onChange[options?.id] = options?.onChange ?? (() => {});
 
                 /**
                  * 
                  * @param { HTMLElement } e 
                  */
-                BedrockTools.functions.onClick[options?.id] = (e) => {
+                functions.onClick[options?.id] = (e) => {
                     const element = document.getElementById(options.id + "-dropdown");
                     if(element.className.includes("dropdownDisabled")) return;
                     
-                    BedrockTools.sound.play( "ui.click" );
+                    sound.play( "ui.click" );
                     const dropdownOptions = document.getElementById( `${options?.id}-items` );
                     const dropdownE = document.getElementById( options?.id + "-element" );
                     if (!dropdownOptions || !dropdownE) return;
@@ -301,15 +301,15 @@ const Components = {
 
                 const buildItems = () => options?.items?.map(
                     (i, index) => (
-                        `<div class="dropdownOption ${selected == index ? "selected" : "" }" onClick="BedrockTools.functions.onClick['${options?.id}-item'](${index})">
+                        `<div class="dropdownOption ${selected == index ? "selected" : "" }" onClick="functions.onClick['${options?.id}-item'](${index})">
                             <div>${i}</div>
                             <img class="dropdownOptionCheck" src="assets/check_icon.png">
                         </div>`
                     )
                 ).join( "" )
 
-                BedrockTools.functions.onClick[options?.id + "-item"] = (s = 0) => {
-                    BedrockTools.sound.play( "ui.modal_hide" );
+                functions.onClick[options?.id + "-item"] = (s = 0) => {
+                    sound.play( "ui.modal_hide" );
                     const dropdownOptions = document.getElementById( options?.id + "-items" );
                     const dropdownItems = document.getElementById( options?.id + "-itemList" );
                     const dropdownE = document.getElementById( options?.id + "-element" );
@@ -326,7 +326,7 @@ const Components = {
                     document.getElementById( options?.id + "-text" ).innerText = options.items.find((i, index) => selected == index);
                     dropdownItems.innerHTML = buildItems();
                     document.removeEventListener("click", event);
-                    BedrockTools.functions.onChange[options?.id]({ value: selected });
+                    functions.onChange[options?.id]({ value: selected });
                 };
 
                 return (
@@ -345,7 +345,7 @@ const Components = {
                                     <div class="oreUISpecular"></div>
                                     <div class="oreUISpecular"></div>
                                     <div style="width: 100%">
-                                        <div class="dropdownElement" id="${options?.id}" opened="false" value="${selected}" onClick="BedrockTools.functions.onClick['${options?.id}'](this);">
+                                        <div class="dropdownElement" id="${options?.id}" opened="false" value="${selected}" onClick="functions.onClick['${options?.id}'](this);">
                                             <div style="pointer-events: none;" id="${options?.id}-text">${options?.items?.find((i, index) => selected == index) ?? "Please select an option..."}</div>
                                             <img style="pointer-events: none;" src="assets/arrow_down.png">
                                         </div>
@@ -362,7 +362,7 @@ const Components = {
             };
 
             case "input": {
-                BedrockTools.functions.onChange[options?.id] = options?.onChange ?? (() => {});
+                functions.onChange[options?.id] = options?.onChange ?? (() => {});
                 return (
                     `<div class="element">
                         ${options?.label ? `<span class="elementTitle">${options?.label}</span>` : `<div style="margin: 6px 0;"></div>`}
@@ -374,7 +374,7 @@ const Components = {
                             placeholder="${options?.placeholder ?? ""}"
                             value="${options?.value ?? ""}"
                             ${options?.disabled ? "disabled" : ""}
-                            onChange="BedrockTools.functions.onChange['${options?.id}'](this);"
+                            onChange="functions.onChange['${options?.id}'](this);"
                         ></input>
                         ${options?.description ? `<div style="color: #d0d1d4;font-size: 0.8rem;margin-bottom: 8px;margin-top: -4px;">${options.description}</div>` : ""}
                     </div>`
@@ -396,7 +396,7 @@ const Components = {
             };
 
             case "upload": {
-                BedrockTools.functions.onChange[options?.id] = options?.onChange ?? (() => {});
+                functions.onChange[options?.id] = options?.onChange ?? (() => {});
                 return (
                     `<div class="element">
                         <span class="elementTitle">${options.label}</span>
@@ -421,8 +421,8 @@ const Components = {
                                     type="file"
                                     accept="${options?.accepts ?? ""}"
                                     id="${options?.id ?? ""}"
-                                    onChange='BedrockTools.functions.onChange["${options?.id}"](this);'
-                                    onClick="Functions.button(this);"
+                                    onChange='functions.onChange["${options?.id}"](this);'
+                                    onClick="sound.play( 'ui.click' );"
                                 />
                             </div>
                         </div>
@@ -432,13 +432,13 @@ const Components = {
 
             case "switch": {
                 let toggled = options?.toggled ?? false;
-                BedrockTools.functions.onChange[options.id] = options?.onChange ?? (() => {});
-                BedrockTools.functions.onClick[options.id + "-switch"] = (e) => {
+                functions.onChange[options.id] = options?.onChange ?? (() => {});
+                functions.onClick[options.id + "-switch"] = (e) => {
                     const thumb = document.getElementById(options.id + "-thumb");
                     if(!e.className.includes("switchDisabled")) {
                         toggled = !toggled;
                         Functions.switch(thumb, toggled);
-                        BedrockTools.functions.onChange[options.id]({ value: toggled, id: options.id });
+                        functions.onChange[options.id]({ value: toggled, id: options.id });
                     };
                 };
 
@@ -453,7 +453,7 @@ const Components = {
                                 class="switch ${options?.disabled ? "switchDisabled": ""}"
                                 id="${options.id}"
                                 value="${toggled}"
-                                onClick="BedrockTools.functions.onClick['${options.id}-switch'](this);"
+                                onClick="functions.onClick['${options.id}-switch'](this);"
                                 style="flex-direction: row;user-select: none;"
                             >
                                 <div class="switchBackgrounds">
@@ -487,14 +487,14 @@ const Components = {
 
             case "checkbox": {
                 let checked = options?.checked ?? false;
-                BedrockTools.functions.onChange[options.id] = options?.onChange ?? (() => {});
-                BedrockTools.functions.onClick[options.id + "-check"] = (e) => {
+                functions.onChange[options.id] = options?.onChange ?? (() => {});
+                functions.onClick[options.id + "-check"] = (e) => {
                     const check = document.getElementById(options.id + "-check");
                     if(!e.className.includes("checkboxDisabled")) {
-                        BedrockTools.sound.play( "ui.click" );
+                        sound.play( "ui.click" );
                         checked = !checked;
                         check.style.display = checked ? "flex" : "none";
-                        BedrockTools.functions.onChange[options.id]({ value: checked, id: options.id });
+                        functions.onChange[options.id]({ value: checked, id: options.id });
                     };
                 };
                 
@@ -503,7 +503,7 @@ const Components = {
                         <div style="flex-direction: unset;margin-top: 4px;margin-bottom: 4px;align-items: center;">
                             <div
                                 class="checkbox ${options.disabled ? "checkboxDisabled" : ""}"
-                                onClick="BedrockTools.functions.onClick['${options.id}-check'](this);"
+                                onClick="functions.onClick['${options.id}-check'](this);"
                                 value=${checked}
                             >
                                 <div class="oreUISpecular"></div>
@@ -538,16 +538,16 @@ const Components = {
                     case "hero": style = "oreUIButtonHero oreUIButtonPrimary"; background = "oreUIButtonPrimaryBackground"; break;
                 };
 
-                BedrockTools.functions.onClick[options.id] = options?.onClick ?? (() => {});
-                BedrockTools.functions.onClick[options.id + "-button"] = (e) => {
+                functions.onClick[options.id] = options?.onClick ?? (() => {});
+                functions.onClick[options.id + "-button"] = (e) => {
                     if (!e.className.includes("buttonDisabled")) {
-                        BedrockTools.sound.play(options?.sound ?? "ui.click");
-                        BedrockTools.functions.onClick[options.id](e);
+                        sound.play(options?.sound ?? "ui.click");
+                        functions.onClick[options.id](e);
                     };
                 };
 
                 return (
-                    `<div class="oreUIButton ${style} ${options?.disabled ? "buttonDisabled" : ""}" onClick='BedrockTools.functions.onClick["${options?.id}-button"](this);' id="${options?.id ?? ""}">
+                    `<div class="oreUIButton ${style} ${options?.disabled ? "buttonDisabled" : ""}" onClick='functions.onClick["${options?.id}-button"](this);' id="${options?.id ?? ""}">
                         <div class="oreUIButton_ ${background}">
                             <div class="oreUISpecular"></div>
                             <div class="oreUISpecular"></div>
@@ -582,7 +582,7 @@ const Components = {
             };
 
             case "toggle": {
-                BedrockTools.functions.onChange[options?.id] = options?.onChange ?? (() => {});
+                functions.onChange[options?.id] = options?.onChange ?? (() => {});
 
                 let selected = options?.selected ?? 0;
                 const buildItems = () => options.items.map(
@@ -593,7 +593,7 @@ const Components = {
                             `<div
                                 class="oreUIButton ${isSelected ? "oreUIToggleSelected" : "oreUIButtonSecondary"}"
                                 style="width: 100%;margin-left: -1px;margin-right: -1px;"
-                                onClick="BedrockTools.functions.onClick['${options.id}-item'](this, ${index})"
+                                onClick="functions.onClick['${options.id}-item'](this, ${index})"
                             >
                                 <div class="oreUIButton_ ${isSelected ? "oreUIToggleSelectedBackground" : "oreUIButtonSecondaryBackground"}" style="height: 2.5rem;">
                                     <div class="oreUISpecular"></div>
@@ -624,16 +624,16 @@ const Components = {
                     return item?.description ? `<div style="color: #d0d1d4;font-size: 0.8rem;margin-bottom: 8px;margin-top: -2px;">${item.description}</div>` : "";
                 };
 
-                BedrockTools.functions.onClick[options?.id + "-item"] = (e, s = 0) => {
+                functions.onClick[options?.id + "-item"] = (e, s = 0) => {
                     const toggleElement = document.getElementById(options.id + "-items");
                     if (toggleElement.className.includes("toggleDisabled")) return;
-                    BedrockTools.sound.play( "ui.click" );
+                    sound.play( "ui.click" );
 
                     selected = s;
                     document.getElementById(options.id).setAttribute("value", selected.toString());
                     document.getElementById(options.id + "-items").innerHTML = buildItems();
                     document.getElementById(options.id + "-description").innerHTML = getDescription();
-                    BedrockTools.functions.onChange[options?.id]({ value: selected });
+                    functions.onChange[options?.id]({ value: selected });
                 };
 
                 return (
@@ -651,7 +651,7 @@ const Components = {
             };
 
             case "radiogroup": {
-                BedrockTools.functions.onChange[options?.id] = options?.onChange ?? (() => {});
+                functions.onChange[options?.id] = options?.onChange ?? (() => {});
 
                 let selected = options?.selected ?? 0;
                 const buildItems = () => options.items.map(
@@ -659,7 +659,7 @@ const Components = {
                         const isSelected = selected == index;
                         return (
                             `<div style="flex-direction: unset;margin-top: 8px;margin-bottom: 8px;align-items: center;height: 24px;">
-                                <div class="radioGroup" onClick="BedrockTools.functions.onClick['${options.id}-item'](${index});">
+                                <div class="radioGroup" onClick="functions.onClick['${options.id}-item'](${index});">
                                     <div class="oreUISpecular"></div>
                                     <div class="oreUISpecular"></div>
                                     <div class="radioGroupCheck" style="display: ${isSelected ? "flex" : "none"};">
@@ -675,15 +675,15 @@ const Components = {
                     },
                 ).join( "" );
 
-                BedrockTools.functions.onClick[options.id + "-item"] = (s = 0) => {
+                functions.onClick[options.id + "-item"] = (s = 0) => {
                     const radioGroupElement = document.getElementById(options.id + "-items");
                     if(!radioGroupElement.className.includes("radioGroupDisabled")) {
-                        BedrockTools.sound.play( "ui.modal_hide" );
+                        sound.play( "ui.modal_hide" );
                         
                         selected = s;
                         document.getElementById(options.id).setAttribute("value", selected.toString());
                         document.getElementById(options.id + "-items").innerHTML = buildItems();
-                        BedrockTools.functions.onChange[options.id]({ value: selected, id: options.id });
+                        functions.onChange[options.id]({ value: selected, id: options.id });
                     };
                 };
 
@@ -700,12 +700,12 @@ const Components = {
             };
 
             case "slider": {
-                BedrockTools.functions.onChange[options?.id] = options?.onChange ?? (() => {});
+                functions.onChange[options?.id] = options?.onChange ?? (() => {});
 
                 const min = options?.min ?? 0;
                 const max = options?.max ?? 100;
                 let value = Number(options?.value) ?? 0;
-                BedrockTools.functions.onChange[options.id + "-slider"] = (e) => {
+                functions.onChange[options.id + "-slider"] = (e) => {
                     const slider = document.getElementById(options.id);
                     if(!slider.className.includes("sliderDisabled")) value = e.value;
                     else e.value = value;
@@ -714,7 +714,7 @@ const Components = {
                     document.getElementById(options.id + "-progress").style.clipPath = `inset(0px ${100 - progress}% 0px 0px)`;
                     document.getElementById(options.id + "-thumb").style.left = `${progress}%`;
                     document.getElementById(options.id + "-progressText").innerText = options?.percentage ? (progress + "%") : value.toString();
-                    BedrockTools.functions.onChange[options.id]({ value });
+                    functions.onChange[options.id]({ value });
                 };
 
                 return (
@@ -748,7 +748,7 @@ const Components = {
                                 max="${max}"
                                 value="${value}"
                                 class="hiddenSlider"
-                                onInput="BedrockTools.functions.onChange['${options.id + "-slider"}'](this);"
+                                onInput="functions.onChange['${options.id + "-slider"}'](this);"
                             >
                         </div>
                     </div>`
@@ -772,13 +772,13 @@ const Components = {
                         <div class="oreUISpecular"></div>
                         <div style="width: 2.4rem; height: 2.4rem;"></div>
                         <div style="flex: 1 1 0;"></div>
-                        <div style="font-size: 14px;">${options.header}</div>
+                        <div style="font-size: 14px;">${options.label}</div>
                         <div style="flex: 1 1 0;"></div>
                         <div style="width: 2.4rem ;height: 2.4rem;">
                             ${
                                 options?.close
                                 ? (
-                                    `<div class="ModalHeaderButton" onClick="Functions.button();BedrockTools.clearModal();">
+                                    `<div class="ModalHeaderButton" onClick="sound.play( 'ui.click' );BedrockTools.clearModal();">
                                         <img src="assets/cross_white.png" draggable="false" style="image-rendering: pixelated;">
                                     </div>`
                                 )

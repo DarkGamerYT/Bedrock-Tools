@@ -4,9 +4,10 @@ let beta = false;
 let scriptModules = [];
 const ManifestGenerator = {
     Component: () => {
-        const isRight = BedrockTools.settings.get( "right" );
+        const isRight = settings.get( "right" );
+        const manifestGenerator = BedrockTools.requestFacet( "bedrocktools.manifestGenerator" );
         return (
-            Components.createHeader({ label: BedrockTools.localisation.translate( "bedrocktools.addons.manifestgenerator" ), back: true, settings: true })
+            Components.createHeader({ label: localisation.translate( "bedrocktools.addons.manifestgenerator" ), back: true, settings: true })
             + (
                 `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
                     <div style="width: 50%;">
@@ -28,13 +29,12 @@ const ManifestGenerator = {
                                             const modulesElement = document.getElementById( "modulesElement" );
                                             const scriptApiToggle = document.getElementById( "scriptApiToggle" );
                                             switch(e.value) {
-                                                //Disabled for now
-                                                //case 0:
+                                                //case 0: //Disabled for now
                                                 case 1:
                                                     scriptApiToggle.className = "switch";
                                                     if (!scriptAPI) modulesElement.style.display = "none";
                                                     else modulesElement.style.display = "block";
-                                                    document.getElementById( "modules" ).innerHTML = moduleToggle(e.value);
+                                                    document.getElementById( "modules" ).innerHTML = moduleToggle(manifestGenerator, e.value);
                                                 break;
                                                 default:
                                                     scriptApiToggle.className = "switch switchDisabled";
@@ -74,7 +74,7 @@ const ManifestGenerator = {
                                                 scriptModules = [];
                                                 modulesElement.style.display = "none";
                                             } else {
-                                                document.getElementById( "modules" ).innerHTML = moduleToggle(packType);
+                                                document.getElementById( "modules" ).innerHTML = moduleToggle(manifestGenerator, packType);
                                                 modulesElement.style.display = "block";
                                             };
                                         },
@@ -122,8 +122,7 @@ const ManifestGenerator = {
                                 const packType = Number(document.getElementById( "packType" ).getAttribute( "value" ));
                                 const isMinified = Number(document.getElementById( "layout" ).getAttribute( "value" )) == 1;
 
-                                // @ts-ignore
-                                const manifest = new Manifest(
+                                const manifest = new manifestGenerator.Manifest(
                                     packName,
                                     packDescription,
                                     packType,
@@ -179,20 +178,17 @@ const ManifestGenerator = {
     },
 };
 
-const moduleToggle = (type) => {
+const moduleToggle = (manifestGenerator, type) => {
     return (
-        (
-            type == 0
-            // @ts-ignore
-            ? scriptingModules.client
-            // @ts-ignore
-            : scriptingModules.server
-        )/*.filter((m) => beta ? m.versions.find((m) => m.beta) : m.versions.find((m) => !m.beta))*/.map(
+        (type == 0 ? manifestGenerator.scriptingModules.client : manifestGenerator.scriptingModules.server)
+        /*.filter((m) => beta ? m.versions.find((m) => m.beta) : m.versions.find((m) => !m.beta))*/
+        .map(
             (m) => {
                 return (
                     Components.createElement("checkbox", {
                         label: m.module_name,
                         id: m.module_name,
+                        toggled: scriptModules.includes(m.module_name),
                         onChange: (e) => {
                             if (e.value) scriptModules.push( e.id );
                             else scriptModules = scriptModules.filter((m) => m != e.id);

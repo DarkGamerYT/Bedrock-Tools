@@ -1,8 +1,8 @@
 const StructureConverter = {
     Component: () => {
-        const isRight = BedrockTools.settings.get( "right" );
+        const isRight = settings.get( "right" );
         return (
-            Components.createHeader({ label: BedrockTools.localisation.translate( "bedrocktools.advanced.structureconverter" ), back: true, settings: true })
+            Components.createHeader({ label: localisation.translate( "bedrocktools.advanced.structureconverter" ), back: true, settings: true })
             + (
                 `<div style="display: flex;flex-direction: ${isRight ? "row-reverse" : "row"};margin-top: 25px;margin-left: 10%;margin-right: 10%;width: auto;gap: 15px;">
                     <div style="width: 50%;">
@@ -38,7 +38,7 @@ const StructureConverter = {
                                             accepts: ".mcstructure",
                                             onChange: (e) => {
                                                 const [ file ] = e.files;
-                                                if(file) document.getElementById( "structureFileText" ).innerText = file.name;
+                                                if (file) document.getElementById( "structureFileText" ).innerText = file.name;
                                             },
                                         })}
                                     </div>`,
@@ -85,11 +85,38 @@ const convert = async () => {
                     "load", async () => {
                         const { parsed } = await NBT.parse(Buffer.from( reader.result ));
                         jsonInput.value = JSON.stringify(parsed, null, 4);
+                        BedrockTools.sendToast(
+                            {
+                                label: "Converted Structure to JSON!",
+                                icon: "assets/tools/structure_converter.png",
+                                body: "Click to copy the JSON data to clipboard",
+                                onClick: () => {
+                                    sound.play( "ui.modal_hide" );
+                                    navigator.clipboard.writeText( parsed );
+                                    BedrockTools.sendToast(
+                                        {
+                                            label: "Structure's JSON data successfully copied!",
+                                            icon: "assets/checkbox.png",
+                                            body: "The JSON data has been successfully copied to the clipboard",
+                                            instant: true,
+                                        },
+                                    );
+                                },
+                            },
+                        );
                     },
                 );
 
                 reader.readAsArrayBuffer( file );
-            };
+            } else BedrockTools.loadModal(
+                ErrorModal(
+                    {
+                        header: "Something went wrong",
+                        body: "Failed to convert the structure file into json",
+                        center: true,
+                    },
+                ),
+            );
         break;
         case 1:
             try {

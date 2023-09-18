@@ -1,7 +1,7 @@
 const ComponentsRoute = {
     Component: () => {
         return (
-            Components.createHeader({ label: BedrockTools.localisation.translate( "bedrocktools.debug.components" ), back: true, settings: false })
+            Components.createHeader({ label: localisation.translate( "bedrocktools.debug.components" ), back: true, settings: false })
             + (
                 `<div style="margin-top: 25px;margin-left: auto;margin-right: auto;width: 65%;">
                     ${Components.createElements(
