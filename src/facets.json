@@ -8,5 +8,6 @@
     "bedrocktools.manifestGenerator",
     "bedrocktools.serverPinger",
     "bedrocktools.minecraftCommands",
-    "bedrocktools.blocks"
+    "bedrocktools.blocks",
+    "bedrocktools.blockregistry"
 ]
