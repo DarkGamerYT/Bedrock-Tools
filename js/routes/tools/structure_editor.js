@@ -1,5 +1,11 @@
 const BABYLON = require("babylonjs");
 const BlockRegistry = BedrockTools.requestFacet("bedrocktools.blockregistry");
+/** @type {BABYLON.Scene} */
+let babylonScene;
+
+/** @type {Engine} */
+let engine;
+
 const StructureEditor = {
     Component: () => {
         const isRight = settings.get("right");
@@ -41,7 +47,15 @@ const StructureEditor = {
                                             const reader = new FileReader();
                                             reader.addEventListener(
                                                 "load", async () => {
+                                                    babylonScene.dispose();
+                                                    babylonScene = SceneManager.createScene(engine);
+                                                    engine.startAnimationLoop(babylonScene);
                                                     await structureManager.parseDataAsync(Buffer.from(reader.result));
+
+                                                    for(let i = 0; i < structureManager.worldSpaceData.length; i++)
+                                                    {
+                                                        SceneManager.createCube(structureManager.worldSpaceData[i], babylonScene);
+                                                    }
                                                 },
                                             );
 
@@ -64,9 +78,9 @@ const StructureEditor = {
         )
     },
     onLoad: () => {
-        const engine = new Engine().createEngine("viewer");
-        const scene = new SceneManager().createScene(engine);
-        engine.startAnimationLoop(scene);
+        engine = new Engine().createEngine("viewer");
+        babylonScene = SceneManager.createScene(engine);
+        engine.startAnimationLoop(babylonScene);
     }
 };
 
@@ -103,6 +117,7 @@ class Engine {
             {
                 scene.dispose();
                 engine.dispose();
+                structureManager.dispose();
                 return;
             }
             scene.render();
@@ -115,6 +130,7 @@ class Engine {
         this.engine.dispose();
         this.canvas = null;
         this.engine = null;
+        babylonScene = null;
     }
 }
 
@@ -123,7 +139,7 @@ class SceneManager {
      * 
      * @param {Engine} engine
      */
-    createScene(engine)
+    static createScene(engine)
     {
         const scene = new BABYLON.Scene(engine.engine);
         const camera = new BABYLON.ArcRotateCamera("mainCamera", 0, 0, 10, new BABYLON.Vector3(), this.scene);
@@ -131,22 +147,77 @@ class SceneManager {
         camera.attachControl(engine.canvas, true);
         camera.inputs.addMouseWheel();
         camera.wheelPrecision = 15;
+        this.createHemisphereLight("mainSun");
         new BABYLON.AxesViewer(scene, 0.6, 0, null,null,null, 4);
+        //scene.debugLayer.show({overlay: true, handleResize: true});
         return scene;
     }
 
-    createHemisphereLight(name = "mainAmbient", color = "#ffffff", intensity = 1.0, position = new BABYLON.Vector3()) {
+    static createHemisphereLight(name = "mainAmbient", color = "#ffffff", intensity = 1.0, position = new BABYLON.Vector3()) {
         const light = new BABYLON.HemisphericLight(name, position);
         light.diffuse = BABYLON.Color3.FromHexString(color);
         light.intensity = intensity;
         return light;
     }
 
-    createDirectionalLight(name = "mainDirectional", color = "#ffffff", intensity = 1.0, direction = new BABYLON.Vector3()) {
+    static createDirectionalLight(name = "mainDirectional", color = "#ffffff", intensity = 1.0, direction = new BABYLON.Vector3()) {
         const light = new BABYLON.DirectionalLight(name, direction, this.scene);
         light.intensity = intensity;
         light.diffuse = BABYLON.Color3.FromHexString(color);
         return light;
+    }
+
+    /**
+     * @argument {BlockData} block
+     * @argument {BABYLON.Scene} scene
+     */
+    static createCube(block, scene)
+    {
+        const foundMesh = scene.getMeshByName(block.data.name);
+        if(foundMesh)
+        {
+            foundMesh.thinInstanceAdd(BABYLON.Matrix.Translation(block.position.x, block.position.y, block.position.z));
+            return;
+        }
+
+        if(block.data.isVisible)
+        {
+            const cube = BABYLON.MeshBuilder.CreateBox(block.data.name, {width: 1, height: 1, depth: 1}, scene);
+            const multi = new BABYLON.MultiMaterial(block.data.name, scene);
+
+            const leftText = new BABYLON.Texture(block.data.textures[2], scene, true, false, BABYLON.Constants.TEXTURE_NEAREST_LINEAR);
+            leftText.wAng = BABYLON.Tools.ToRadians(-90);
+            const rightText = new BABYLON.Texture(block.data.textures[3], scene, true, false, BABYLON.Constants.TEXTURE_NEAREST_LINEAR);
+            rightText.wAng = BABYLON.Tools.ToRadians(-90);
+
+            const frontMat = new BABYLON.StandardMaterial(`${block.data.name}-front`, scene);
+            frontMat.diffuseTexture = new BABYLON.Texture(block.data.textures[4], scene, true, false, BABYLON.Constants.TEXTURE_NEAREST_LINEAR);
+            const backMat = new BABYLON.StandardMaterial(`${block.data.name}-back`, scene);
+            backMat.diffuseTexture = new BABYLON.Texture(block.data.textures[5], scene, true, true, BABYLON.Constants.TEXTURE_NEAREST_LINEAR);
+            const leftMat = new BABYLON.StandardMaterial(`${block.data.name}-left`, scene);
+            leftMat.diffuseTexture = leftText;
+            const rightMat = new BABYLON.StandardMaterial(`${block.data.name}-right`, scene);
+            rightMat.diffuseTexture = rightText;
+            const upMat = new BABYLON.StandardMaterial(`${block.data.name}-up`, scene);
+            upMat.diffuseTexture = new BABYLON.Texture(block.data.textures[0], scene, true, false, BABYLON.Constants.TEXTURE_NEAREST_LINEAR);
+            const downMat = new BABYLON.StandardMaterial(`${block.data.name}-down`, scene);
+            downMat.diffuseTexture = new BABYLON.Texture(block.data.textures[1], scene, true, false, BABYLON.Constants.TEXTURE_NEAREST_LINEAR);
+            multi.subMaterials.push(frontMat);
+            multi.subMaterials.push(backMat);
+            multi.subMaterials.push(leftMat);
+            multi.subMaterials.push(rightMat);
+            multi.subMaterials.push(upMat);
+            multi.subMaterials.push(downMat);
+
+            var verticesCount=cube.getTotalVertices();
+	        cube.subMeshes.push(new BABYLON.SubMesh(0, 0, verticesCount, 0, 6, cube));
+	        cube.subMeshes.push(new BABYLON.SubMesh(1, 1, verticesCount, 6, 6, cube));
+	        cube.subMeshes.push(new BABYLON.SubMesh(2, 2, verticesCount, 12, 6, cube));
+	        cube.subMeshes.push(new BABYLON.SubMesh(3, 3, verticesCount, 18, 6, cube));
+	        cube.subMeshes.push(new BABYLON.SubMesh(4, 4, verticesCount, 24, 6, cube));
+	        cube.subMeshes.push(new BABYLON.SubMesh(5, 5, verticesCount, 30, 6, cube));
+	        cube.material=multi;
+        }
     }
 }
 
@@ -158,6 +229,7 @@ class StructureManager {
         this.structureSize = new BABYLON.Vector3();
         /** @type {BlockRegistry} the palette data*/
         this.blockRegistry = new BlockRegistry.BlockRegistry("assets/blocks");
+        /** @type {Array<Block>} */
         this.worldSpaceData = [];
         this.blocks = BedrockTools.requestFacet( "bedrocktools.blocks" );
     }
@@ -168,7 +240,7 @@ class StructureManager {
      * @returns undefined | BlockData
      */
     getBlock(position = new BABYLON.Vector3()) {
-        const block = this.virtualStructure.find(x => x.position.x == position.x && x.position.y == position.y && x.position.z == position.z);
+        const block = this.worldSpaceData.find(x => x.position.x == position.x && x.position.y == position.y && x.position.z == position.z);
         return block;
     }
 
@@ -177,6 +249,7 @@ class StructureManager {
      */
     async parseDataAsync(structureBufferData) {
         this.blockRegistry.dispose();
+        this.dispose();
         const options = new BlockRegistry.BlockOptions();
         options.isVisible = false;
         this.blockRegistry.registerBlock("minecraft:air", options);
@@ -200,7 +273,10 @@ class StructureManager {
             for (let y = 0; y < this.structureSize.y; y++) {
                 for (let z = 0; z < this.structureSize.z; z++) {
                     const paletteSelection = this.structureData.block_indices.value.value[0].value[selection];
-
+                    const blockName = this.blockRegistry.getBlock(palettes[paletteSelection].name.value);
+                    const block = new BlockData(blockName);
+                    block.position = new BABYLON.Vector3(x,y,z);
+                    this.worldSpaceData.push(block);
                     selection++;
                 }
             }
@@ -252,22 +328,23 @@ class StructureManager {
 
         return list;
     }
+
+    dispose()
+    {
+        this.worldSpaceData = [];
+    }
+}
+
+class BlockData
+{
+    /**
+     * @argument {Block} block
+     */
+    constructor(block)
+    {
+        this.data = block;
+        this.position = new BABYLON.Vector3();
+    }
 }
 
 const structureManager = new StructureManager();
-
-//this.route = () => 
-//document.querySelector(`#${this.canvasId}`);
-/*
-animate = () => {
-        const dispose = () => this.dispose();
-        const route = () => this.route().route;
-        const scene = this.scene;
-        this.engine.runRenderLoop(function () {
-            if (route() != "/structure_editor") {
-                dispose();
-            }
-            scene.render();
-        });
-    };
-    */
