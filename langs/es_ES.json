@@ -1,0 +1,57 @@
+{
+    "bedrocktools.name": "Bedrock Tools",
+    "bedrocktools.description": "Un lugar donde puedes encontrar todas las herramientas que necesitas!",
+
+    "bedrocktools.alpha_notice": "Bedrock Tools está en sus primeras fases de desarrollo. Las cosas están sujetas a cambios.",
+
+    "bedrocktools.addons.title": "Add-ons",
+    "bedrocktools.addons.description": "Para creadores de packs para el juego y otros add-ons",
+    
+    "bedrocktools.addons.manifestgenerator": "Generador de Manifest",
+    "bedrocktools.manifestgenerator.manifesttype": "Tipo de Manifest:",
+    "bedrocktools.manifestgenerator.manifest.resourcepack": "Paquete de Recursos",
+    "bedrocktools.manifestgenerator.manifest.behaviorpack": "Paquete de Comportamientos",
+    "bedrocktools.manifestgenerator.manifest.skinpack": "Paquete de Skins",
+    "bedrocktools.manifestgenerator.manifest.worldtemplate": "Plantilla de Mundo",
+    "bedrocktools.manifestgenerator.layout": "Diseño:",
+    "bedrocktools.manifestgenerator.layout.beautified": "Embellecido",
+    "bedrocktools.manifestgenerator.layout.minified": "Compacto",
+    "bedrocktools.manifestgenerator.name": "Nombre:",
+    "bedrocktools.manifestgenerator.description": "Descripción:",
+    "bedrocktools.manifestgenerator.output": "Resultado:",
+    "bedrocktools.manifestgenerator.scriptapi": "API-Scripts",
+    "bedrocktools.manifestgenerator.scriptapi.description": "Habilitar API de Scripts",
+    "bedrocktools.manifestgenerator.beta": "Beta",
+    "bedrocktools.manifestgenerator.beta.description": "Habilitar los módulos Beta de la API de Scripts",
+    "bedrocktools.manifestgenerator.generate": "Generar",
+    "bedrocktools.toast.manifestgenerator.label": "Manifest Generado!",
+    "bedrocktools.toast.manifestgenerator.body": "Haz clic aquí para copiar el manifest al portapapeles",
+    "bedrocktools.toast.success.manifestgenerator.label": "Manifest copiado exitosamente!",
+    "bedrocktools.toast.success.manifestgenerator.body": "El manifest se ha copiado exitosamente en el portapapeles",
+
+    "bedrocktools.addons.renderoffsetcorrector": "Corrector de Render Offset ",
+    "bedrocktools.addons.rawtextgenerator": "Generador de RawText JSON",
+
+    "bedrocktools.utilities.title": "Utilidades",
+    "bedrocktools.utilities.description": "Herramientas útiles",
+    "bedrocktools.utilities.idgenerator": "Generador de IDs",
+    "bedrocktools.utilities.serverpinger": "Hacer ping a servidor",
+    "bedrocktools.utilities.loopgenerator": "Generador de Loops",
+
+    "bedrocktools.advanced.title": "Avanzado",
+    "bedrocktools.advanced.description": "Cosas avanzadas",
+    "bedrocktools.advanced.worldgenerator": "Generador de Mundo",
+    "bedrocktools.advanced.structureconverter": "Convertidor de Estructuras",
+    "bedrocktools.advanced.structureeditor": "Editor de Estructuras",
+
+    "bedrocktools.screen.unknown": "Desconocida",
+    "bedrocktools.screen.mainscreen": "Menu Principal",
+    "bedrocktools.screen.settings": "Ajustes",
+
+    "bedrocktools.toast.settings.label": "Cambios guardados!",
+    "bedrocktools.toast.settings.body": "Todos los ajustes se han guardado correctamente",
+
+    "bedrocktools.debug.title": "Herramientas Internas",
+    "bedrocktools.debug.description": "Solo para desarrolladores!",
+    "bedrocktools.debug.components": "Componentes"
+}
