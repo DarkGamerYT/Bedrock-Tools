@@ -1,4 +1,5 @@
 const BABYLON = require("babylonjs");
+const BlockRegistry = BedrockTools.requestFacet("bedrocktools.blockregistry");
 const StructureEditor = {
     Component: () => {
         const isRight = settings.get("right");
@@ -40,9 +41,7 @@ const StructureEditor = {
                                             const reader = new FileReader();
                                             reader.addEventListener(
                                                 "load", async () => {
-                                                    sceneManager.resetScene();
-                                                    await structureManager.setDataAsync(Buffer.from(reader.result));
-                                                    sceneManager.generateStructure(structureManager);
+                                                    await structureManager.parseDataAsync(Buffer.from(reader.result));
                                                 },
                                             );
 
@@ -64,62 +63,76 @@ const StructureEditor = {
             )
         )
     },
-    onLoad: () => sceneManager.start(),
+    onLoad: () => {
+        const engine = new Engine().createEngine("viewer");
+        const scene = new SceneManager().createScene(engine);
+        engine.startAnimationLoop(scene);
+    }
 };
 
-class SceneManager {
-    constructor(canvasId = "viewer") {
-        /** @type {String} */
-        this.canvasId = canvasId;
-        /** @type {HTMLCanvasElement} */
-        this.canvas = null;
+class Engine {
+    constructor()
+    {
         /** @type {BABYLON.Engine} */
         this.engine = null;
-        /** @type {BABYLON.Scene} */
-        this.scene = null;
-        this.route = () => BedrockTools.router.routes.find((r) => r.route == BedrockTools.router.history.list[BedrockTools.router.history.list.length - 1]);
+        /** @type {document.element} */
+        this.canvas = null;
     }
 
-    start() {
-        this.canvas = document.querySelector(`#${this.canvasId}`);
-        this.engine = new BABYLON.Engine(this.canvas, true);
-        this.createScene();
-        this.createHemisphereLight("mainAmbient", "#ffEEAA", 1, new BABYLON.Vector3(1,1,0));
-        this.animate();
-    };
-
-    createScene()
+    /**
+     * @argument {String} canvasId
+     * @retuns Engine
+     */
+    createEngine(canvasId)
     {
-        this.scene = new BABYLON.Scene(this.engine);
-        const camera = new BABYLON.ArcRotateCamera("mainCamera", 0, 0, 10, new BABYLON.Vector3(), this.scene);
-        camera.setTarget(BABYLON.Vector3.Zero());
-        camera.attachControl(this.canvas, true);
-        camera.inputs.addMouseWheel();
-        camera.wheelPrecision = 15;
-        new BABYLON.AxesViewer(this.scene, 0.6, 0, null,null,null, 4);
+        this.canvas = document.querySelector(`#${canvasId}`);
+        this.engine = new BABYLON.Engine(this.canvas, true);
+        return this;
     }
 
-    animate = () => {
-        const dispose = () => this.dispose();
-        const route = () => this.route().route;
-        const scene = this.scene;
-        this.engine.runRenderLoop(function () {
-            if (route() != "/structure_editor") {
-                dispose();
+    /**
+     * 
+     * @param {BABYLON.Scene} scene 
+     */
+    startAnimationLoop(scene)
+    {
+        const engine = this;
+        const route = () => router.routes.find((r) => r.route == router.history.list[router.history.list.length - 1]).route != "/structure_editor";
+        engine.engine.runRenderLoop(function() {
+            if(route())
+            {
+                scene.dispose();
+                engine.dispose();
+                return;
             }
             scene.render();
         });
-    };
+    }
 
     dispose()
     {
-        this.scene.dispose();
         this.engine.stopRenderLoop();
         this.engine.dispose();
-        this.renderer = null;
         this.canvas = null;
-        this.camera = null;
-        this.blockTextureLoader = null;
+        this.engine = null;
+    }
+}
+
+class SceneManager {
+    /**
+     * 
+     * @param {Engine} engine
+     */
+    createScene(engine)
+    {
+        const scene = new BABYLON.Scene(engine.engine);
+        const camera = new BABYLON.ArcRotateCamera("mainCamera", 0, 0, 10, new BABYLON.Vector3(), this.scene);
+        camera.setTarget(BABYLON.Vector3.Zero());
+        camera.attachControl(engine.canvas, true);
+        camera.inputs.addMouseWheel();
+        camera.wheelPrecision = 15;
+        new BABYLON.AxesViewer(scene, 0.6, 0, null,null,null, 4);
+        return scene;
     }
 
     createHemisphereLight(name = "mainAmbient", color = "#ffffff", intensity = 1.0, position = new BABYLON.Vector3()) {
@@ -135,21 +148,6 @@ class SceneManager {
         light.diffuse = BABYLON.Color3.FromHexString(color);
         return light;
     }
-
-    createGround(name = "mainGround", width = 6, height = 6) {
-        const ground = BABYLON.MeshBuilder.CreateGround(name,
-            { width: width, height: height }, this.scene);
-        return ground;
-    }
-
-
-    async generateStructure(structureManager) {
-        this.engine.stopRenderLoop();
-        for (let i = 0; i < structureManager.virtualStructure.length; i++) {
-            //this.placeBlock(structureManager.virtualStructure[i], );
-        }
-        this.animate();
-    }
 }
 
 class StructureManager {
@@ -158,10 +156,9 @@ class StructureManager {
         this.structureData = null;
         /** @type {BABYLON.Vector3} the structure size.*/
         this.structureSize = new BABYLON.Vector3();
-        /** @type {Array<BlockData>} virtual block data world.*/
-        this.virtualStructure = [];
-        /** @type {Array<BABYLON.Mesh>} */
-        this.meshPalette = [];
+        /** @type {BlockRegistry} the palette data*/
+        this.blockRegistry = new BlockRegistry.BlockRegistry("assets/blocks");
+        this.worldSpaceData = [];
         this.blocks = BedrockTools.requestFacet( "bedrocktools.blocks" );
     }
 
@@ -178,75 +175,99 @@ class StructureManager {
     /**
      * @param {Buffer} structureBufferData 
      */
-    async setDataAsync(structureBufferData) {
-        this.virtualStructure = [];
+    async parseDataAsync(structureBufferData) {
+        this.blockRegistry.dispose();
+        const options = new BlockRegistry.BlockOptions();
+        options.isVisible = false;
+        this.blockRegistry.registerBlock("minecraft:air", options);
+
         const { parsed } = await NBT.parse(structureBufferData);
         this.structureData = parsed.value.structure.value;
         this.structureSize = new BABYLON.Vector3(parsed.value.size.value.value[0], parsed.value.size.value.value[1], parsed.value.size.value.value[2]);
+
+        const palettes = this.structureData.palette.value.default.value.block_palette.value.value;
+        for(let i = 0; i < palettes.length; i++)
+        {
+            const textures = this.blocks[palettes[i].name.value.replace("minecraft:", "")].textures;
+            const blockOptions = new BlockRegistry.BlockOptions();
+            if(textures != undefined) blockOptions.textures = this.getBlockTextureArray(textures);
+
+            this.blockRegistry.registerBlock(palettes[i].name.value, blockOptions);
+        }
+
         var selection = 0;
         for (let x = 0; x < this.structureSize.x; x++) {
             for (let y = 0; y < this.structureSize.y; y++) {
                 for (let z = 0; z < this.structureSize.z; z++) {
-                    const palette = this.structureData.block_indices.value.value[0].value[selection];
-                    const blockPaletteData = this.structureData.palette.value.default.value.block_palette.value.value[palette];
-                    const block = new BlockData();
-                    block.paletteData = blockPaletteData;
-                    block.position = new BABYLON.Vector3(x, y, z);
-                    //block.texture = this.blocks[blockPaletteData.name.value.replace("minecraft:", "")].textures;
-                    this.virtualStructure.push(block);
+                    const paletteSelection = this.structureData.block_indices.value.value[0].value[selection];
+
                     selection++;
                 }
             }
         }
     }
-}
 
-class BlockData {
-    constructor() {
-        this.paletteData = null;
-        this.position = new BABYLON.Vector3(0, 0, 0);
+    /**
+     * 
+     * @param {String | Object} texture
+     */
+    getBlockTextureArray(texture) {
+        let list = [];
+        if (typeof texture == "string") {
+            const textureList = [
+                texture + ".png",
+                texture + ".png",
+                texture + ".png",
+                texture + ".png",
+                texture + ".png",
+                texture + ".png"
+            ];
+            list = textureList;
+        }
+        else {
+            const keys = Object.keys(texture);
+            if (keys.length == 3) {
+                const textureList = [
+                    texture["up"] + ".png",
+                    texture["down"] + ".png",
+                    texture["side"] + ".png",
+                    texture["side"] + ".png",
+                    texture["side"] + ".png",
+                    texture["side"] + ".png"
+                ];
+                list = textureList;
+            }
+            else {
+                const textureList = [
+                    texture["up"] + ".png", //up
+                    texture["down"] + ".png", //down
+                    texture["west"] + ".png", //left
+                    texture["east"] + ".png", //right
+                    texture["north"] + ".png", //front
+                    texture["south"] + ".png" //back
+                ];
+                list = textureList;
+            }
+        }
+
+        return list;
     }
 }
 
-const sceneManager = new SceneManager();
 const structureManager = new StructureManager();
 
+//this.route = () => 
+//document.querySelector(`#${this.canvasId}`);
 /*
-if(typeof this.texture == "string")
-            {
-                const textureList = [
-                    this.texture + ".png",
-                    this.texture + ".png",
-                    this.texture + ".png",
-                    this.texture + ".png",
-                    this.texture + ".png",
-                    this.texture + ".png"
-                ]
+animate = () => {
+        const dispose = () => this.dispose();
+        const route = () => this.route().route;
+        const scene = this.scene;
+        this.engine.runRenderLoop(function () {
+            if (route() != "/structure_editor") {
+                dispose();
             }
-            else
-            {
-                const keys = Object.keys(this.texture);
-                if(keys.length == 3)
-                {
-                    const textureList = [
-                        this.texture["up"] + ".png",
-                        this.texture["down"] + ".png",
-                        this.texture["side"] + ".png",
-                        this.texture["side"] + ".png",
-                        this.texture["side"] + ".png",
-                        this.texture["side"] + ".png"
-                    ]
-                }
-                else
-                {
-                    const textureList = [
-                        this.texture["up"] + ".png",
-                        this.texture["down"] + ".png",
-                        this.texture["north"] + ".png",
-                        this.texture["south"] + ".png",
-                        this.texture["east"] + ".png",
-                        this.texture["west"] + ".png"
-                    ]
-                }
-            }
-*/
+            scene.render();
+        });
+    };
+    */
