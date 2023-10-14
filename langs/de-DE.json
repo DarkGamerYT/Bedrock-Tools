@@ -1,0 +1,57 @@
+{
+  "bedrocktools.name": "Bedrock Tools",
+  "bedrocktools.description": "Ein Ort, an dem Sie vielleicht die Werkzeuge finden, die Sie brauchen!",
+
+  "bedrocktools.alpha_notice": "Bedrock Tools befindet sich in einem frühen Stadium. Die Dinge können sich noch ändern.",
+
+  "bedrocktools.addons.title": "Add-ons",
+  "bedrocktools.addons.description": "Für Ersteller von game packs und anderen Add-Ons",
+
+  "bedrocktools.addons.manifestgenerator": "Manifest Generator",
+  "bedrocktools.manifestgenerator.manifesttype": "Manifest Typ:",
+  "bedrocktools.manifestgenerator.manifest.resourcepack": "Resource Pack",
+  "bedrocktools.manifestgenerator.manifest.behaviorpack": "Behavior Pack",
+  "bedrocktools.manifestgenerator.manifest.skinpack": "Skin Pack",
+  "bedrocktools.manifestgenerator.manifest.worldtemplate": "Welt Vorlage",
+  "bedrocktools.manifestgenerator.layout": "Layout:",
+  "bedrocktools.manifestgenerator.layout.beautified": "Verschönert",
+  "bedrocktools.manifestgenerator.layout.minified": "Verkleinert",
+  "bedrocktools.manifestgenerator.name": "Name:",
+  "bedrocktools.manifestgenerator.description": "Beschreibung:",
+  "bedrocktools.manifestgenerator.output": "Ausgang:",
+  "bedrocktools.manifestgenerator.scriptapi": "Script-API",
+  "bedrocktools.manifestgenerator.scriptapi.description": "aktiviere ScriptAPI",
+  "bedrocktools.manifestgenerator.beta": "Beta",
+  "bedrocktools.manifestgenerator.beta.description": "Beta-Module in ScriptAPI aktivieren",
+  "bedrocktools.manifestgenerator.generate": "Generate",
+  "bedrocktools.toast.manifestgenerator.label": "Das Manifest wurde generiert!",
+  "bedrocktools.toast.manifestgenerator.body": "Klicken Sie, um das Manifest in die Zwischenablage zu kopieren",
+  "bedrocktools.toast.success.manifestgenerator.label": "Manifest erfolgreich kopiert!",
+  "bedrocktools.toast.success.manifestgenerator.body": "Das Manifest wurde erfolgreich in die Zwischenblage kopiert",
+
+  "bedrocktools.addons.renderoffsetcorrector": "Render-Offset-Korrektor",
+  "bedrocktools.addons.rawtextgenerator": "JSON Rohtext Generator",
+
+  "bedrocktools.utilities.title": "Hilfsmittel",
+  "bedrocktools.utilities.description": "Brauchbare Werkzeuge",
+  "bedrocktools.utilities.idgenerator": "ID Generator",
+  "bedrocktools.utilities.serverpinger": "Server Pinger",
+  "bedrocktools.utilities.loopgenerator": "Schleifengenerator",
+
+  "bedrocktools.advanced.title": "Advanced",
+  "bedrocktools.advanced.description": "erweiterte Sachen",
+  "bedrocktools.advanced.worldgenerator": "Welt Generator",
+  "bedrocktools.advanced.structureconverter": "Struktur Konverter",
+  "bedrocktools.advanced.structureeditor": "Struktur Editor",
+
+  "bedrocktools.screen.unknown": "Unbekannte Route",
+  "bedrocktools.screen.mainscreen": "Hauptbildschirm",
+  "bedrocktools.screen.settings": "Einstellungen",
+
+  "bedrocktools.toast.settings.label": "Einstellungen gespeichert!",
+  "bedrocktools.toast.settings.body": "Alle Einstellungen wurden erfolgreich gespeichert",
+
+  "bedrocktools.debug.title": "Internal Tools",
+  "bedrocktools.debug.description": "Nur für Entwickler, wird nicht im Einzelhandel angezeigt",
+  "bedrocktools.debug.components": "Komponenten"
+}
