@@ -6,7 +6,7 @@ RPC.on(
         let lastTime;
         setInterval(
             () => {
-                const routeName = router.history.list[BedrockTools.router.history.list.length - 1];
+                const routeName = router.history.list[router.history.list.length - 1];
                 const route = router.routes.find((r) => r.route == routeName);
                 
                 if (settings.get( "discordrpc" )) {
