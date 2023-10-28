@@ -5,11 +5,11 @@ const scriptingModules = {
 			module_name: "@minecraft/server",
 			versions: [
 				{
-					version: "1.6.0-beta",
+					version: "1.7.0-beta",
 					beta: true,
 				},
 				{
-					version: "1.5.0",
+					version: "1.6.0",
 					beta: false,
 				},
 			],
@@ -60,7 +60,7 @@ const scriptingModules = {
 			module_name: "@minecraft/client",
 			versions: [
 				{
-					version: "1.6.0-beta",
+					version: "1.7.0-beta",
 					beta: true,
 				},
 			],
@@ -139,8 +139,8 @@ module.exports = {
                     uuid: crypto.randomUUID(),
                     version: [ 0, 1, 0 ],
                     lock_template_options: true,
-                    min_engine_version: [ 1, 20, 30 ],
-                    base_game_version: [ 1, 20, 30 ],
+                    min_engine_version: [ 1, 20, 40 ],
+                    base_game_version: [ 1, 20, 40 ],
                 },
                 modules: [],
                 capabilities,
