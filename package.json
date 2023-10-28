@@ -1,9 +1,13 @@
 {
 	"name": "bedrocktools",
-	"author": { "name": "xKingDark" },
-	"version": "0.1.4-beta",
 	"description": "Bedrock Tools is an app created to help Minecraft: Bedrock Edition players make add-ons.",
+	"version": "0.1.4-beta",
+	"author": {
+		"name": "xKingDark",
+		"email": "contact.xkingdark@gmail.com"
+	},
 	"license": "LGPL-3.0-or-later",
+	"homepage": "https://github.com/DarkGamerYT/Bedrock-Tools",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/DarkGamerYT/Bedrock-Tools"
