@@ -47,7 +47,7 @@ const registerShortcuts = () => {
 const createWindow = () => {
 	const win = new BrowserWindow({
 		title: "Bedrock Tools (Beta)",
-		icon: "icon.ico",
+		icon: "build/icon.png",
 
 		minWidth: 1040,
 		minHeight: 600,
