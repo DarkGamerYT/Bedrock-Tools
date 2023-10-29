@@ -54,6 +54,7 @@ const createWindow = () => {
 		width: 1080,
 		height: 660,
 
+		frame: false,
 		autoHideMenuBar: true,
 		resizable: true,
 		titleBarStyle: "hidden",
