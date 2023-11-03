@@ -1,4 +1,5 @@
 const fs = require( "fs" );
+const { Cubemap } = require( "../libs/@hatchibombotar-cubemap/index.js" );
 let loadedFacets = {};
 const loadFacet = async (facet) => {
 	try {
@@ -154,3 +155,28 @@ const ErrorRoute = () => {
         </div>`
     );
 };
+
+window.addEventListener(
+	"DOMContentLoaded", () => {
+        const settings = BedrockTools.facets[ "core.settings" ];
+        let panorama = settings.get( "panorama" );
+        new Cubemap(
+			document.getElementsByTagName( "body" )[0],
+			[
+				"assets/cubemap/" + panorama + "/front.png",
+				"assets/cubemap/" + panorama + "/right.png",
+				"assets/cubemap/" + panorama + "/back.png",
+				"assets/cubemap/" + panorama + "/left.png",
+				"assets/cubemap/" + panorama + "/top.png",
+				"assets/cubemap/" + panorama + "/bottom.png",
+			],
+			{
+				width: "100%",
+				height: "100%",
+				perspective: 400,
+				rotate_type: "auto",
+				rotate_speed: 2.5,
+			},
+		);
+    },
+);

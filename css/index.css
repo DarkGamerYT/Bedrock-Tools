@@ -14,8 +14,26 @@ html {
 }
 
 body {
-	margin: 0;
-	overflow-x: hidden;
+    margin: 0;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+#app {
+    position: absolute;
+    width: 100%;
+	margin-top: 3%;
+	z-index: 1;
+}
+
+.mainBackground {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	background-color: black;
+	opacity: 0.6;
+	pointer-events: all;
+	z-index: 1;
 }
 
 .uiLeaving {
@@ -318,7 +336,7 @@ input, textarea, span[role="textbox"] {
     border-left-width: var(--base2Scale);
     border-right-width: var(--base2Scale);
     border-style: solid;
-    margin-bottom: 12px;
+    margin-bottom: 6px;
 	padding-left: 8px;
     padding-right: 8px;
 	margin-top: 6px;
@@ -342,6 +360,7 @@ span[role="textbox"]::marker {
 .elements {
 	background-color: #48494a;
     border: 2px solid black;
+    margin-top: 8px;
     margin-bottom: 8px;
 	user-select: none;
 }
@@ -386,7 +405,6 @@ select {
 	justify-content: flex-end;
 	position: relative;
 	z-index: 1000;
-	height: 42px;
 }
 .headerShadow {
 	height: calc(2*var(--base2Scale));
@@ -557,15 +575,6 @@ select {
 }
 .infoElementClose:active {
 	background-color: #2a60cb;
-}
-
-.mainBackground {
-	width: 100%;
-	height: 100%;
-	position: fixed;
-	background-color: black;
-	opacity: 0.6;
-	pointer-events: all;
 }
 
 code {

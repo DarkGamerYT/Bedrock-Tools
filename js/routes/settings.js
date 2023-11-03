@@ -2,14 +2,20 @@
  * @type {{ name: string; value: any; }[]}
  */
 let modifiedSettings = [];
+const panoramas = [
+    "trails-and-tales",
+    "beta",
+];
+
 const Settings = {
     Component: () => {
         let isRight = settings.get( "right" );
         let discordRpc = settings.get( "discordrpc" );
         let locale = settings.get( "locale" );
+        let panorama = settings.get( "panorama" );
         const langs = localisation.getLangs();
         return (
-            Components.createHeader({ label: localisation.translate( "screen.settings" ), back: true, settings: false })
+            Components.createHeader({ label: localisation.translate( "bedrocktools.screen.settings" ), back: true, settings: false })
             + (
                 `<div style="margin-top: 25px;margin-left: auto;margin-right: auto;width: 65%;">
                     ${Components.createElements(
@@ -37,6 +43,15 @@ const Settings = {
                                     selected: langs.indexOf(locale),
                                     items: langs,
                                     onChange: SettingsRouteUtils.changeLanguage,
+                                }),
+                                Components.createElement("dropdown", {
+                                    label: "Panoramas (Restart required)",
+                                    description: "Changes the app's panorama",
+                                    id: "panorama",
+                                    inline: true,
+                                    selected: panoramas.indexOf(panorama),
+                                    items: panoramas,
+                                    onChange: SettingsRouteUtils.changePanorama,
                                 }),
                             ],
                         },
@@ -81,5 +96,11 @@ const SettingsRouteUtils = {
         let lang = localisation.getLangs()[e.value];
         if (locale == lang) modifiedSettings = modifiedSettings.filter((s) => s.name != "locale");
         else modifiedSettings.push({ name: "locale", value: lang });
+    },
+    changePanorama: (e) => {
+        let panorama = settings.get( "panorama" );
+        let pano = panoramas[e.value];
+        if (panorama == pano) modifiedSettings = modifiedSettings.filter((s) => s.name != "panorama");
+        else modifiedSettings.push({ name: "panorama", value: pano });
     },
 };

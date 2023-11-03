@@ -5,6 +5,7 @@ const settingsPath = path.join(electron.app.getPath("userData"), "settings.json"
 const defaultSettings = {
     debug: false,
     locale: "en-US",
+    panorama: "trails-and-tales",
     alpha_notice: true,
     right: false,
     discordrpc: true,

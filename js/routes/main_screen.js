@@ -121,8 +121,8 @@ const MainScreen = {
                     }
                     <div class="elements">
                         <div class="element_" style="padding-left: 16px;padding-right: 16px;border-top: 2px solid rgba(255, 255, 255, 0.1);border-bottom: 2px solid rgba(0, 0, 0, 0.3);">
-                            <span class="elementHeader" style="font-size: 14px;margin-top: 6px;">${localisation.translate( "bedrocktools.name" )}</span>
-                            <span class="elementSubtitle" style="font-size: 12px;margin-bottom: 10px;margin-top: 0;">${localisation.translate( "bedrocktools.description" )}</span>
+                            <span class="elementHeader" style="font-size: 16px;margin-top: 6px;">${localisation.translate( "bedrocktools.name" )}</span>
+                            <span class="elementSubtitle" style="font-size: 13px;margin-bottom: 10px;margin-top: 0;">${localisation.translate( "bedrocktools.description" )}</span>
                         </div>
                         ${
                             tools.map(
@@ -136,7 +136,7 @@ const MainScreen = {
                                                         `<div class="elementsMenu">
                                                         <div class="elements" style="margin-top: -8px;margin-bottom: 16px;border: unset;border-bottom: 2px solid black;">
                                                             <div class="element_" style="padding: 4px 16px;border-top: 2px solid rgba(255, 255, 255, 0.1);">
-                                                                <span class="elementHeader" style="font-size: 14px;margin-top: 6px;">` + m.label + `</span>
+                                                                <span class="elementHeader" style="font-size: 15px;margin-top: 6px;">` + m.label + `</span>
                                                                 <span class="elementSubtitle" style="font-size: 12px;margin-bottom: 10px;margin-top: 0;">` + m.description + `</span>
                                                             </div>
                                                         </div>

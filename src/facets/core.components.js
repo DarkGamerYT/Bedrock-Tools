@@ -236,7 +236,7 @@ module.exports = {
                     `<div class="element">
                         ${options?.label ? `<span class="elementTitle">${options?.label}</span>` : ""}
                         ${options?.description ? `<span class="elementSubtitle">${options.description}</span>` : ""}
-                        <div style="margin-top: 2px;margin-bottom: 2px;flex-direction: row;gap: 4px;">
+                        <div style="margin-top: 4px;margin-bottom: 4px;flex-direction: row;gap: 4px;">
                             ${options.buttons.map((b) => `<div style="width: 100%;">${b}</div>`).join("")}
                         </div>
                     </div>`
@@ -376,7 +376,7 @@ module.exports = {
                             ${options?.disabled ? "disabled" : ""}
                             onChange="functions.onChange['${options?.id}'](this);"
                         ></input>
-                        ${options?.description ? `<div style="color: #d0d1d4;font-size: 0.8rem;margin-bottom: 8px;margin-top: -4px;">${options.description}</div>` : ""}
+                        ${options?.description ? `<div style="color: #d0d1d4;font-size: 0.8rem;margin-bottom: 4px;margin-top: 4px;">${options.description}</div>` : ""}
                     </div>`
                 );
             };
@@ -572,7 +572,7 @@ module.exports = {
                                 <span class="elementTitle" id="${options?.useLabel && options?.id ? options?.id : ""}">${options.label}</span>
                                 ${
                                     options?.style == "code"
-                                    ? `<pre><code class="hljs" id="${!options?.useLabel && options?.id ? options?.id : ""}">${options?.default ?? ""}</code></pre>`
+                                    ? `<pre style="margin-top: 4px;"><code class="hljs" id="${!options?.useLabel && options?.id ? options?.id : ""}">${options?.default ?? ""}</code></pre>`
                                     : `<span class="elementSubtitle" id="${!options?.useLabel && options?.id ? options?.id : ""}">${options?.description ?? ""}</span>`
                                 }
                             </div>
@@ -621,7 +621,7 @@ module.exports = {
                 ).join( "" );
                 const getDescription = () => {
                     const item = options.items.filter((i, index) => selected == index)[0]
-                    return item?.description ? `<div style="color: #d0d1d4;font-size: 0.8rem;margin-bottom: 8px;margin-top: -2px;">${item.description}</div>` : "";
+                    return item?.description ? `<div style="color: #d0d1d4;font-size: 0.8rem;margin-bottom: 4px;margin-top: 2px;">${item.description}</div>` : "";
                 };
 
                 functions.onClick[options?.id + "-item"] = (e, s = 0) => {
