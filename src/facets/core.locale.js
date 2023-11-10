@@ -5,18 +5,18 @@ const Locale = {
     getLangs: () => {
         const langDir = path.join(__dirname, "../../langs");
         const langFiles = fs.readdirSync(langDir);
-        return langFiles
-        .filter((f) => fs.statSync(path.join(langDir, f)).isFile())
-        .map((a) => path.parse(path.join(langDir, a)).name).sort();
+        return (
+            langFiles
+            .filter((f) => fs.statSync(path.join(langDir, f)).isFile())
+            .map((a) => path.parse(path.join(langDir, a)).name).sort()
+        );
     },
     translate: (id) => {
         try {
             const langPath = path.join(__dirname, "../../langs/" + Locale.getLocale() + ".json");
             const lang = JSON.parse(fs.readFileSync(langPath, "utf-8" ));
             return lang[id]?.split( "#" )[0]?.trim() ?? id;
-        } catch {
-            return id;
-        };
+        } catch { return id; };
 	},
 	translateWithParameters: (id, params) => {
         try {
@@ -29,9 +29,7 @@ const Locale = {
                 };
             } else translation = translation?.replaceAll( "%s", params[0] );
             return translation?.split( "#" )[0]?.trim() ?? id;
-        } catch {
-            return id;
-        };
+        } catch { return id; };
 	},
 };
 

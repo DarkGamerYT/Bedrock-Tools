@@ -5,34 +5,31 @@ electron.ipcMain.on("update-available", (data) => console.log(data));
 document.addEventListener(
     "keydown", (event) => {
         if (event.code == "Escape") {
-            const popup = document.getElementById( "popup" );
-            if (popup.innerText.trim().length > 0) popup.innerText = "";
+            if (BedrockTools.isModalOpen()) BedrockTools.clearModal();
             else router.history.goBack();
         };
         
         //Toast Debug
         if (settings.get( "debug" )) {
-            if (event.code == "Numpad1") {
-                BedrockTools.sendToast(
-                    {
+            switch(event.code) {
+                case "Numpad1":
+                    BedrockTools.sendToast({
                         icon: "assets/wrench.png",
                         label: "Test Toast",
                         body: "Hello World!",
                         onClick: () => sound.play( "ui.release" ),
-                    },
-                );
-            } else if (event.code == "Numpad2") {
-                BedrockTools.sendToast(
-                    {
+                    });
+                break;
+                case "Numpad2":
+                    BedrockTools.sendToast({
                         label: "Test Toast - No Icon",
                         body: "Hello World!",
                         onClick: () => sound.play( "ui.release" ),
-                    },
-                );
-            } else if (event.code == "Numpad7") {
-                BedrockTools.loadModal(
-                    Components.createModal(
-                        {
+                    });
+                break;
+                case "Numpad7":
+                    BedrockTools.loadModal(
+                        Components.createModal({
                             label: "Header",
                             body: "Looong description. Lemon drops lollipop jelly beans powder brownie chocolate cake pastry chocolate cake powder. Bonbon candy canes dessert muffin gummies.",
                             close: true,
@@ -70,13 +67,12 @@ document.addEventListener(
                                     </div>
                                 </div>`
                             ]
-                        }
-                    ),
-                );
-            } else if (event.code == "Numpad8") {
-                BedrockTools.loadModal(
-                    Components.createModal(
-                        {
+                        })
+                    );
+                break;
+                case "Numpad8":
+                    BedrockTools.loadModal(
+                        Components.createModal({
                             label: "Header",
                             icon: "assets/rectangle.png",
                             body: (
@@ -108,13 +104,12 @@ document.addEventListener(
                                     </div>
                                 </div>`
                             ]
-                        }
-                    ),
-                );
-            } else if (event.code == "Numpad9") {
-                BedrockTools.loadModal(
-                    Components.createModal(
-                        {
+                        })
+                    );
+                break;
+                case "Numpad9":
+                    BedrockTools.loadModal(
+                        Components.createModal({
                             label: "Header",
                             close: true,
                             elements: [
@@ -127,9 +122,9 @@ document.addEventListener(
                                     onChange: () => {}
                                 })
                             ]
-                        }
-                    ),
-                );
+                        }),
+                    );
+                break;
             };
         };
     },

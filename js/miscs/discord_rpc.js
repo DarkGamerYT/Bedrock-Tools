@@ -2,7 +2,6 @@ if (process.platform.toLowerCase() != "linux") {
     const RPC = new (require("discord-rpc")).Client({ transport: "ipc" });
     RPC.on(
         "ready", async () => {
-            console.log( RPC.user );
             let lastRoute;
             let lastTime;
             setInterval(
@@ -13,17 +12,19 @@ if (process.platform.toLowerCase() != "linux") {
                     if (settings.get( "discordrpc" )) {
                         if (lastRoute != routeName) {
                             lastTime = Date.now();
-                            RPC.setActivity(
-                                {
-                                    details: localisation.translate(route?.name ?? "bedrocktools.screen.unknown"),
-                                    state: "Route: " + (route?.route ?? routeName),
-                                    startTimestamp: lastTime,
-                                    largeImageKey: "icon",
-                                    largeImageText: "Bedrock Tools v" + BedrockTools.version,
-                                    smallImageKey: route?.metadata?.rpc,
-                                    smallImageText: route?.name,
-                                },
+                            const screenName = localisation.translate(
+                                route?.name ?? "bedrocktools.screen.unknown"
                             );
+
+                            RPC.setActivity({
+                                details: screenName,
+                                state: "Route: " + (route?.route ?? routeName),
+                                startTimestamp: lastTime,
+                                largeImageKey: "icon",
+                                largeImageText: "Bedrock Tools v" + BedrockTools.version,
+                                smallImageKey: route?.metadata?.rpc,
+                                smallImageText: screenName,
+                            });
                         };
                     } else RPC.clearActivity();
                     lastRoute = routeName;

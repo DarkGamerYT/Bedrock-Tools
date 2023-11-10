@@ -32,6 +32,7 @@ declare const BedrockTools: {
     loadUI(route: Route, isBack?: boolean): Promise<void>;
     loadModal(component: string): void;
     clearModal(): void;
+    isModalOpen(): boolean;
 
     sendToast(options: ToastOptions): void;
 };

@@ -4,21 +4,14 @@
 @font-face { font-family: MinecraftTen; src: url('../fonts/MinecraftTen.otf'); }
 @font-face { font-family: NotoSans; src: url('../fonts/NotoSans.otf'); }
 
-* {
-	font-family: "MinecraftSeven";
-}
-
-html {
-	/*background-color: rgba(0, 0, 0, 0.8);*/
-	background: url(../assets/dirt.png);
-}
-
+* { font-family: "MinecraftSeven"; }
+html { background: url(../assets/dirt.png); }
 body {
     margin: 0;
     width: 100%;
     overflow-x: hidden;
 }
-
+::-webkit-scrollbar { width: 0; }
 #app {
     position: absolute;
     width: 100%;
@@ -50,20 +43,12 @@ body {
 }
 
 @keyframes slideOut {
-	0% {
-		left: 0;
-	}
-	100% {
-		left: -100%;
-	}
+	0% { left: 0; }
+	100% { left: -100%; }
 }
 @keyframes slideOutBack {
-	0% {
-		left: 0;
-	}
-	100% {
-		left: 100%;
-	}
+	0% { left: 0; }
+	100% { left: 100%; }
 }
 
 .uiEntering {
@@ -80,20 +65,12 @@ body {
 }
 
 @keyframes slideIn {
-	0% {
-		left: 100%;
-	}
-	100% {
-		left: 0;
-	}
+	0% { left: 100%; }
+	100% { left: 0; }
 }
 @keyframes slideInBack {
-	0% {
-		left: -100%;
-	}
-	100% {
-		left: 0;
-	}
+	0% { left: -100%; }
+	100% { left: 0; }
 }
 
 :root {
@@ -162,20 +139,10 @@ body {
     border-right-color: rgba(255, 255, 255, 0.1);
 }
 
-.oreUIButtonPrimary {
-	background-color: #1d4d13;
-	border-color: #1e1e1f;
-}
-.oreUIButtonPrimaryBackground {
-	background-color: #3c8527;
-	color: #ffffff;
-}
-.oreUIButton:hover .oreUIButtonPrimaryBackground {
-	background-color: #52a535;
-}
-.oreUIButton:active .oreUIButtonPrimaryBackground {
-	background-color: #2a641c;
-}
+.oreUIButtonPrimary { background-color: #1d4d13; border-color: #1e1e1f; }
+.oreUIButtonPrimaryBackground { background-color: #3c8527; color: #ffffff; }
+.oreUIButton:hover .oreUIButtonPrimaryBackground { background-color: #52a535; }
+.oreUIButton:active .oreUIButtonPrimaryBackground { background-color: #2a641c; }
 
 .oreUISpecular {
 	position: absolute;
@@ -199,9 +166,7 @@ body {
 	font-family: "MinecraftTen";
 	text-shadow: var(--base2Scale) var(--base2Scale) 0rem rgba(0,0,0,0.3);
 }
-.dropdown .oreUIButton_ {
-	height: 2rem;
-}
+.dropdown .oreUIButton_ { height: 2rem; }
 .dropdown {
 	padding-bottom: 0.2rem;
 	margin: 6px 0;
@@ -218,56 +183,22 @@ body {
 	user-select: none;
     cursor: pointer;
 }
-.dropdown:hover .oreUIButtonSecondaryBackground {
-	background-color: #f4f6f9;
-}
-.dropdown:active .oreUIButtonSecondaryBackground {
-	background-color: #b1b2b5;
-}
-.oreUIButtonSecondary {
-	background-color: #58585a;
-	border-color: #1e1e1f;
-}
-.oreUIButtonSecondaryBackground {
-	background-color: #d0d1d4;
-	color: #1e1e1f;
-}
-.oreUIButton:hover .oreUIButtonSecondaryBackground {
-	background-color: #f4f6f9;
-}
-.oreUIButton:active .oreUIButtonSecondaryBackground {
-	background-color: #b1b2b5;
-}
+.dropdown:hover .oreUIButtonSecondaryBackground { background-color: #f4f6f9; }
+.dropdown:active .oreUIButtonSecondaryBackground { background-color: #b1b2b5; }
+.oreUIButtonSecondary { background-color: #58585a; border-color: #1e1e1f; }
+.oreUIButtonSecondaryBackground { background-color: #d0d1d4; color: #1e1e1f; }
+.oreUIButton:hover .oreUIButtonSecondaryBackground { background-color: #f4f6f9; }
+.oreUIButton:active .oreUIButtonSecondaryBackground { background-color: #b1b2b5; }
 
-.oreUIButtonDestructive {
-	background-color: #ad1d1d;
-	border-color: #1e1e1f;
-}
-.oreUIButtonDestructiveBackground {
-	background-color: #ca3636;
-	color: #ffffff;
-}
-.oreUIButton:hover .oreUIButtonDestructiveBackground {
-	background-color: #f84c4c;
-}
-.oreUIButton:active .oreUIButtonDestructiveBackground {
-	background-color: #ad1d1d;
-}
+.oreUIButtonDestructive { background-color: #ad1d1d; border-color: #1e1e1f; }
+.oreUIButtonDestructiveBackground { background-color: #ca3636; color: #ffffff; }
+.oreUIButton:hover .oreUIButtonDestructiveBackground { background-color: #f84c4c; }
+.oreUIButton:active .oreUIButtonDestructiveBackground { background-color: #ad1d1d; }
 
-.oreUIButtonPurple {
-	background-color: #4A1CAC;
-	border-color: #1e1e1f;
-}
-.oreUIButtonPurpleBackground {
-	background-color: #7345E5;
-	color: #ffffff;
-}
-.oreUIButton:hover .oreUIButtonPurpleBackground {
-	background-color: #8557F8;
-}
-.oreUIButton:active .oreUIButtonPurpleBackground {
-	background-color: #5D2CC6;
-}
+.oreUIButtonPurple { background-color: #4A1CAC; border-color: #1e1e1f; }
+.oreUIButtonPurpleBackground { background-color: #7345E5; color: #ffffff; }
+.oreUIButton:hover .oreUIButtonPurpleBackground { background-color: #8557F8; }
+.oreUIButton:active .oreUIButtonPurpleBackground { background-color: #5D2CC6; }
 
 ._oreUIButton {
 	align-items: center;
@@ -350,12 +281,8 @@ input:disabled {
     cursor: default;
 	color: #48494a;
 }
-input:disabled::placeholder {
-	color: #48494a;
-}
-span[role="textbox"]::marker {
-	content: "";
-}
+input:disabled::placeholder { color: #48494a; }
+span[role="textbox"]::marker { content: ""; }
 
 .elements {
 	background-color: #48494a;
@@ -369,9 +296,7 @@ span[role="textbox"]::marker {
     border-bottom: 2px solid rgba(0, 0, 0, 0.3);
 	padding: 0.4rem 1.6rem;
 }
-.element_ {
-	padding: 0.4rem 1.6rem;
-}
+.element_ { padding: 0.4rem 1.6rem; }
 .elementTitle {
 	color: #ffffff;
     letter-spacing: 0.04rem;
@@ -406,10 +331,7 @@ select {
 	position: relative;
 	z-index: 1000;
 }
-.headerShadow {
-	height: calc(2*var(--base2Scale));
-	background-color: #b1b2b5;
-}
+.headerShadow { height: calc(2*var(--base2Scale)); background-color: #b1b2b5; }
 .header_ {
     top: 0rem;
     width: 100%;
@@ -418,10 +340,7 @@ select {
 	-webkit-app-region: drag;
 	background-color: #e6e8eb;
 }
-.header__ {
-	flex-direction: row;
-	align-items: center;
-}
+.header__ { flex-direction: row; align-items: center; }
 .headerButton {
 	width: 1.5rem;
 	height: 1.5rem;
@@ -434,12 +353,8 @@ select {
 	cursor: pointer;
 	user-select: none;
 }
-.headerButton:hover {
-	background-color: #f4f6f9;
-}
-.headerButton:active {
-	background-color: #d0d1d4;
-}
+.headerButton:hover { background-color: #f4f6f9; }
+.headerButton:active { background-color: #d0d1d4; }
 .headerButton > img {
 	height: calc(8*var(--base2Scale));
     width: calc(4*var(--base2Scale));
@@ -458,13 +373,8 @@ select {
 	user-select: none;
 	pointer-events: none;
 }
-.headerTitle_ {
-	font-size: 16px;
-    font-family: MinecraftTen;
-}
-.disabledElement .elementTitle {
-	color: #d0d1d4;
-}
+.headerTitle_ { font-size: 16px; font-family: MinecraftTen; }
+.disabledElement .elementTitle { color: #d0d1d4; }
 
 .popup {
 	position: fixed;
@@ -570,13 +480,10 @@ select {
     user-select: none;
     padding: 9.5px;
 }
-.infoElementClose:hover {
-	background-color: #3578ff;
-}
-.infoElementClose:active {
-	background-color: #2a60cb;
-}
+.infoElementClose:hover { background-color: #3578ff; }
+.infoElementClose:active { background-color: #2a60cb; }
 
+pre { margin: 0; white-space: unset; }
 code {
 	font-size: 0.875rem;
     line-height: 1.125rem;
@@ -586,10 +493,6 @@ code {
     border: var(--base2Scale) solid #1e1e1f;
     color: #dcddde;
 	user-select: text;
-}
-pre {
-	margin: 0;
-	white-space: unset;
 }
 
 .serverImage {
@@ -607,10 +510,6 @@ pre {
     margin-bottom: -3px;
 }
 
-::-webkit-scrollbar {
-    width: 0;
-}
-
 .skOQQ {
     align-items: flex-end;
     flex-direction: row;
@@ -625,27 +524,12 @@ pre {
     padding-left: 0rem;
     padding-right: 0rem;
 }
-.oreUIButtonTab {
-	background-color: #313233;
-	border-color: #1e1e1f;
-}
-.oreUIButtonTabBackground {
-	background-color: #48494a;
-	color: #ffffff;
-}
-.oreUIButton:hover .oreUIButtonTabBackground {
-	background-color: #58585a;
-}
-.oreUIButton:active .oreUIButtonTabBackground {
-	background-color: #313233;
-}
-.tabPressed .oreUIButtonTabBackground {
-	background-color: #313233 !important;
-}
-.tabPressed {
-    cursor: default;
-    padding-bottom: 0rem;
-}
+.oreUIButtonTab { background-color: #313233; border-color: #1e1e1f; }
+.oreUIButtonTabBackground { background-color: #48494a; color: #ffffff; }
+.oreUIButton:hover .oreUIButtonTabBackground { background-color: #58585a; }
+.oreUIButton:active .oreUIButtonTabBackground { background-color: #313233; }
+.tabPressed .oreUIButtonTabBackground { background-color: #313233 !important; }
+.tabPressed { cursor: default; padding-bottom: 0rem; }
 
 .toast {
 	margin-top: 42px;
@@ -694,12 +578,8 @@ pre {
 }
 
 @keyframes slideInTop {
-	0% {
-		top: -20%;
-	}
-	100% {
-		top: 0;
-	}
+	0% { top: -20%; }
+	100% { top: 0; }
 }
 
 .toastLeaving {
@@ -710,12 +590,8 @@ pre {
 }
 
 @keyframes slideOutTop {
-	0% {
-		top: 0;
-	}
-	100% {
-		top: -20%;
-	}
+	0% { top: 0; }
+	100% { top: -20%; }
 }
 
 .iconHighlight {
@@ -736,12 +612,8 @@ pre {
 	overflow: hidden;
 }
 @keyframes ghQXH {
-	0% {
-		background-position: 0% 0;
-	}
-	100% {
-		background-position: 100% 0;
-	}
+	0% { background-position: 0% 0; }
+	100% { background-position: 100% 0; }
 }
 
 -img {
@@ -774,12 +646,8 @@ pre {
 	background-repeat: no-repeat;
 	overflow: hidden;
 }
-.elementMenu:hover .elementIconHover {
-	display: block;
-}
-.elementMenu:active .elementIconHover {
-	display: none;
-}
+.elementMenu:hover .elementIconHover { display: block; }
+.elementMenu:active .elementIconHover { display: none; }
 
 .dropdownElement {
 	font-size: 13px;
@@ -814,12 +682,8 @@ pre {
     border-right-width: 2px;
     border-top-width: 2px;
 }
-.dropdownOption:hover {
-	background-color: #8c8d90;
-}
-.dropdownOption:active {
-	background-color: #48494a;
-}
+.dropdownOption:hover { background-color: #8c8d90; }
+.dropdownOption:active { background-color: #48494a; }
 .dropdownOptionCheck {
 	display: none;
 	image-rendering: pixelated;
@@ -882,12 +746,8 @@ pre {
 	cursor: pointer;
 	user-select: none;
 }
-.ModalHeaderButton:hover {
-	background-color: #58585a;
-}
-.ModalHeaderButton:active {
-	background-color: #313233;
-}
+.ModalHeaderButton:hover { background-color: #58585a; }
+.ModalHeaderButton:active { background-color: #313233; }
 
 .hiddenSlider {
 	-webkit-appearance: none;
@@ -955,30 +815,26 @@ pre {
 	width: 100%;
 	background-color: #d0d1d4;
 }
-.slider:hover .sliderThumbBackground {
-	background-color: #f4f6f9;
-}
-.slider:active .sliderThumbBackground {
-	background-color: #b1b2b5;
-}
+.slider:hover .sliderThumbBackground { background-color: #f4f6f9; }
+.slider:active .sliderThumbBackground { background-color: #b1b2b5; }
 .sliderSpecular {
 	border-top-color: rgba(255, 255, 255, 0.6);
 	border-left-color: rgba(255, 255, 255, 0.6);
 	border-bottom-color: rgba(255, 255, 255, 0.4);
 	border-right-color: rgba(255, 255, 255, 0.4);
 }
-.sliderShadow {
-	height: 0.2rem;
-	background-color: #58585a;
-}
+.sliderShadow { height: 0.2rem; background-color: #58585a; }
 .sliderDisabled .sliderThumbBackground { background-color: #d0d1d4 !important; }
 .sliderDisabled .sliderThumbBackground { background-color: #d0d1d4 !important; }
 .sliderDisabled .sliderThumbBackground > div { display: none; }
 .sliderDisabled .sliderThumb { border-color: #8c8d90; }
-.sliderDisabled .hiddenSlider, .sliderDisabled .hiddenSlider::-webkit-slider-thumb { cursor: default; }
+.sliderDisabled .hiddenSlider,
+.sliderDisabled .hiddenSlider::-webkit-slider-thumb { cursor: default; }
 .sliderDisabled .sliderShadow { background-color: #b1b2b5; }
-.sliderDisabled .sliderProgress > div, .sliderDisabled .sliderLeftProgress > div { display: none; }
-.sliderDisabled .sliderProgress, .sliderDisabled .sliderLeftProgress { background-color: #b1b2b5; border-color: #8c8d90; }
+.sliderDisabled .sliderProgress > div,
+.sliderDisabled .sliderLeftProgress > div { display: none; }
+.sliderDisabled .sliderProgress,
+.sliderDisabled .sliderLeftProgress { background-color: #b1b2b5; border-color: #8c8d90; }
 
 .switchThumb {
 	bottom: var(--base2ScaleNeg);
@@ -1078,10 +934,8 @@ pre {
 .buttonDisabled .oreUIButtonPrimaryBackground,
 .buttonDisabled .oreUIButtonSecondaryBackground,
 .buttonDisabled .oreUIButtonDestructiveBackground,
-.buttonDisabled .oreUIButtonPurpleBackground {
-	background-color: #d0d1d4 !important;
-	color: #48494a;
-}
+.buttonDisabled .oreUIButtonPurpleBackground
+{ background-color: #d0d1d4 !important; color: #48494a; }
 
 .toggleSelected {
 	bottom: 0;
@@ -1097,15 +951,9 @@ pre {
 	cursor: default;
 }
 .toggleDisabled .oreUIToggleSelectedBackground,
-.toggleDisabled .oreUIButtonSecondaryBackground {
-	background-color: #d0d1d4 !important;
-	color: #48494a;
-}
+.toggleDisabled .oreUIButtonSecondaryBackground { background-color: #d0d1d4 !important; color: #48494a; }
 .toggleDisabled .toggleSelected { background-color: #b1b2b5; }
-.toggleDisabled .oreUIButtonSecondary {
-	padding-bottom: 0.2rem !important;
-	margin-top: 0 !important;
-}
+.toggleDisabled .oreUIButtonSecondary { padding-bottom: 0.2rem !important; margin-top: 0 !important; }
 
 .radioGroup {
 	margin-right: 8px;

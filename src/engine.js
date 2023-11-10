@@ -73,6 +73,7 @@ globalThis.BedrockTools = {
     },
     loadModal: (component) => document.getElementById( "popup" ).innerHTML = `<div class="mainBackground"></div><div class="uiEntering" style="min-width: 435px;">${component}</div>`,
     clearModal: () => document.getElementById( "popup" ).innerHTML = "",
+    isModalOpen: () => document.getElementById( "popup" ).innerText.trim().length > 0,
     sendToast: ({ label = "", body = "", icon = null, timeout = 4, instant = false, onClick = () => {} }) => {
         const id = Date.now();
         if (instant) toastQueue = [{ id, label, body, icon, timeout, onClick }, ...toastQueue];
@@ -108,8 +109,7 @@ const sendToast = async(options) => {
     toast.innerHTML = (
         `<div class="toastElement" onClick="functions.onClick['${options.id}']();">
             <div class="toastElement_">
-                ${
-                    options?.icon
+                ${options?.icon
                     ? (
                         `<div>
                             <img src="${options?.icon}" draggable="false" style="height: 36px; width: 36px; image-rendering: pixelated; margin-right: 1rem;">
@@ -173,7 +173,7 @@ window.addEventListener(
 			{
 				width: "100%",
 				height: "100%",
-				perspective: 400,
+				perspective: 350,
 				rotate_type: "auto",
 				rotate_speed: 2.5,
 			},

@@ -65,13 +65,11 @@ const Settings = {
                             settings.set( setting.name, setting.value );  
     
                             router.history.goBack();
-                            BedrockTools.sendToast(
-                                {
-                                    icon: "assets/checkbox.png",
-                                    label: localisation.translate( "bedrocktools.toast.settings.label" ),
-                                    body: localisation.translate( "bedrocktools.toast.settings.body" ),
-                                },
-                            );
+                            BedrockTools.sendToast({
+                                icon: "assets/checkbox.png",
+                                label: localisation.translate( "bedrocktools.toast.settings.label" ),
+                                body: localisation.translate( "bedrocktools.toast.settings.body" ),
+                            });
                         },
                     })}
                 </div>`
