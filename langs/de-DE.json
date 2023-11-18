@@ -44,6 +44,11 @@
   "bedrocktools.advanced.structureconverter": "Struktur Konverter",
   "bedrocktools.advanced.structureeditor": "Struktur Editor",
 
+  "bedrocktools.graphics.title": "Grafiken",
+  "bedrocktools.graphics.description": "PBR-bezogenes Material",
+  "bedrocktools.graphics.mer": "MER Texturen",
+  "bedrocktools.graphics.heightmap": "Höhenkarten",
+
   "bedrocktools.screen.unknown": "Unbekannte Route",
   "bedrocktools.screen.mainscreen": "Hauptbildschirm",
   "bedrocktools.screen.settings": "Einstellungen",
