@@ -6,10 +6,19 @@ const Functions = {
      * @param { boolean } value
      */
     switch: (element, value) => {
+        const settings = BedrockTools.facets[ "core.settings" ];
+        let animationsEnabled = settings.get("animations");
+
         sound.play( "ui.click" );
         element.setAttribute( "value", value.toString() );
-        if (value) element.className = "switchThumb switchThumbOn";
-        else element.className = "switchThumb switchThumbOff";
+        
+        if (value) {
+            if (animationsEnabled) element.className = "switchThumb switchThumbOn";
+            else element.className = "switchThumb switchThumbOn_NoAnimations";
+        } else {
+            if (animationsEnabled) element.className = "switchThumb switchThumbOff";
+            else element.className = "switchThumb switchThumbOff_NoAnimations";
+        };
     },
 };
 
@@ -717,6 +726,9 @@ module.exports = {
                     functions.onChange[options.id]({ value });
                 };
 
+                const settings = BedrockTools.facets[ "core.settings" ];
+                let animationsEnabled = settings.get("animations");
+
                 return (
                     `<div class="element">
                         <div style="display: flex;flex-direction: row;justify-content: space-between;">
@@ -730,11 +742,11 @@ module.exports = {
                                     <div class="oreUISpecular"></div>
                                     <div class="oreUISpecular"></div>
                                 </div>
-                                <div id="${options.id}-progress" class="sliderProgress" style="clip-path: inset(0px ${100 - ((100 * value) / max)}% 0px 0px);">
+                                <div id="${options.id}-progress" class="sliderProgress ${animationsEnabled ? "sliderAnimation" : ""}" style="clip-path: inset(0px ${100 - ((100 * value) / max)}% 0px 0px);">
                                     <div class="oreUISpecular"></div>
                                     <div class="oreUISpecular"></div>
                                 </div>
-                                <div id="${options.id}-thumb" class="sliderThumb" style="left: ${(100 * value) / max}%;">
+                                <div id="${options.id}-thumb" class="sliderThumb ${animationsEnabled ? "sliderAnimation" : ""}" style="left: ${(100 * value) / max}%;">
                                     <div class="sliderThumbBackground">
                                         <div class="oreUISpecular sliderSpecular"></div>
                                         <div class="oreUISpecular sliderSpecular"></div>

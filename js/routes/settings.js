@@ -11,7 +11,9 @@ const Settings = {
     Component: () => {
         let isRight = settings.get( "right" );
         let discordRpc = settings.get( "discordrpc" );
+        let animations = settings.get( "animations" );
         let locale = settings.get( "locale" );
+        let panoramaEnabled = settings.get( "panorama_enabled" );
         let panorama = settings.get( "panorama" );
         const langs = localisation.getLangs();
         return (
@@ -35,6 +37,13 @@ const Settings = {
                                     toggled: discordRpc,
                                     onChange: SettingsRouteUtils.toggleDiscordRpc,
                                 }),
+                                Components.createElement("switch", {
+                                    label: "Animations",
+                                    description: "Enables/Disables the animations",
+                                    id: "animations",
+                                    toggled: animations,
+                                    onChange: SettingsRouteUtils.toggleAnimations,
+                                }),
                                 Components.createElement("dropdown", {
                                     label: "Language",
                                     description: "Changes the app's display language",
@@ -43,6 +52,13 @@ const Settings = {
                                     selected: langs.indexOf(locale),
                                     items: langs,
                                     onChange: SettingsRouteUtils.changeLanguage,
+                                }),
+                                Components.createElement("switch", {
+                                    label: "Panorama Enabled (Restart required)",
+                                    description: "Enables/Disables the panorama",
+                                    id: "panoramaEnabled",
+                                    toggled: panoramaEnabled,
+                                    onChange: SettingsRouteUtils.togglePanorama,
                                 }),
                                 Components.createElement("dropdown", {
                                     label: "Panoramas (Restart required)",
@@ -89,11 +105,21 @@ const SettingsRouteUtils = {
         if (discordRpc == e.value) modifiedSettings = modifiedSettings.filter((s) => s.name != "discordrpc");
         else modifiedSettings.push({ name: "discordrpc", value: e.value });
     },
+    toggleAnimations: (e) => {
+        let discordRpc = settings.get( "animations" );
+        if (discordRpc == e.value) modifiedSettings = modifiedSettings.filter((s) => s.name != "animations");
+        else modifiedSettings.push({ name: "animations", value: e.value });
+    },
     changeLanguage: (e) => {
         let locale = settings.get( "locale" );
         let lang = localisation.getLangs()[e.value];
         if (locale == lang) modifiedSettings = modifiedSettings.filter((s) => s.name != "locale");
         else modifiedSettings.push({ name: "locale", value: lang });
+    },
+    togglePanorama: (e) => {
+        let discordRpc = settings.get( "panorama_enabled" );
+        if (discordRpc == e.value) modifiedSettings = modifiedSettings.filter((s) => s.name != "panoramaEnabled");
+        else modifiedSettings.push({ name: "panorama_enabled", value: e.value });
     },
     changePanorama: (e) => {
         let panorama = settings.get( "panorama" );

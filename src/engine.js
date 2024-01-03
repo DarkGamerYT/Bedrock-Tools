@@ -42,10 +42,15 @@ globalThis.BedrockTools = {
         if (!app) return;
         const router = BedrockTools.facets[ "core.router" ];
         const sound = BedrockTools.facets[ "core.sound" ];
+        const settingsF = BedrockTools.facets[ "core.settings" ];
         
-        app.className = isBack ? "uiLeavingBack" : "uiLeaving";
-        await new Promise((res) => setTimeout(() => res(), 0.2 * 1000)); //wait for 400 milliseconds
-        app.className = isBack ? "uiEnteringBack" : "uiEntering";
+        let animationsEnabled = settingsF.get("animations");
+        if (animationsEnabled) {
+            app.className = isBack ? "uiLeavingBack" : "uiLeaving";
+            await new Promise((res) => setTimeout(() => res(), 0.2 * 1000)); //wait for 400 milliseconds
+            app.className = isBack ? "uiEnteringBack" : "uiEntering";
+        };
+        
         try {
             app.innerHTML = route ? route.component() : "";
             window.scrollTo({ top: 0 });
@@ -102,9 +107,14 @@ const sendToast = async(options) => {
     const toast = document.getElementById( "toast" );
     if (!toast) return;
 
-    toast.className = "toast toastLeaving";
+    const settingsF = BedrockTools.facets[ "core.settings" ];
+    let animationsEnabled = settingsF.get("animations");
+    if (animationsEnabled) toast.className = "toast toastLeaving";
+    else toast.className = "toast toastOut";
     await new Promise((res) => setTimeout(() => res(0), 0.25 * 1000));
-    toast.className = "toast toastEntering";
+    if (animationsEnabled) toast.className = "toast toastEntering";
+    else toast.className = "toast toastIn";
+    
     sound.play( "ui.toast_in" );
     toast.innerHTML = (
         `<div class="toastElement" onClick="functions.onClick['${options.id}']();">
@@ -129,7 +139,9 @@ const sendToast = async(options) => {
     await new Promise((res) => setTimeout(() => res(0), options.timeout * 1000));
     const toastOptions = toastQueue[0];
     if (toastOptions.id == options.id) {
-        toast.className = "toast toastLeaving";
+        if (animationsEnabled) toast.className = "toast toastLeaving";
+        else toast.className = "toast toastOut";
+        
         sound.play( "ui.toast_out" );
         await new Promise((res) => setTimeout(() => res(0), 0.5 * 1000));
     };
@@ -159,24 +171,27 @@ const ErrorRoute = () => {
 window.addEventListener(
 	"DOMContentLoaded", () => {
         const settings = BedrockTools.facets[ "core.settings" ];
-        let panorama = settings.get( "panorama" );
-        new Cubemap(
-			document.getElementsByTagName( "body" )[0],
-			[
-				"assets/cubemap/" + panorama + "/front.png",
-				"assets/cubemap/" + panorama + "/right.png",
-				"assets/cubemap/" + panorama + "/back.png",
-				"assets/cubemap/" + panorama + "/left.png",
-				"assets/cubemap/" + panorama + "/top.png",
-				"assets/cubemap/" + panorama + "/bottom.png",
-			],
-			{
-				width: "100%",
-				height: "100%",
-				perspective: 350,
-				rotate_type: "auto",
-				rotate_speed: 2.5,
-			},
-		);
+        let panoramaEnabled = settings.get( "panorama_enabled" );
+        if (panoramaEnabled) {
+            let panorama = settings.get( "panorama" );
+            new Cubemap(
+                document.getElementsByTagName( "body" )[0],
+                [
+                    "assets/cubemap/" + panorama + "/front.png",
+                    "assets/cubemap/" + panorama + "/right.png",
+                    "assets/cubemap/" + panorama + "/back.png",
+                    "assets/cubemap/" + panorama + "/left.png",
+                    "assets/cubemap/" + panorama + "/top.png",
+                    "assets/cubemap/" + panorama + "/bottom.png",
+                ],
+                {
+                    width: "100%",
+                    height: "100%",
+                    perspective: 350,
+                    rotate_type: "auto",
+                    rotate_speed: 2.5,
+                },
+            );
+        };
     },
 );

@@ -5,6 +5,8 @@ const settingsPath = path.join(electron.app.getPath("userData"), "settings.json"
 const defaultSettings = {
     debug: false,
     locale: "en-US",
+    animations: true,
+    panorama_enabled: true,
     panorama: "trails-and-tales",
     alpha_notice: true,
     right: false,

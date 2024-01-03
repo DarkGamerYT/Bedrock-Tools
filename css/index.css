@@ -570,13 +570,13 @@ code {
     font-size: 13px;
 	line-height: 13px;
 }
+
 .toastEntering {
 	-webkit-animation: slideInTop 0.6s forwards;
 	-webkit-animation-delay: 0s;
 	animation: slideInTop 0.6s forwards;
 	animation-delay: 0s;
 }
-
 @keyframes slideInTop {
 	0% { top: -20%; }
 	100% { top: 0; }
@@ -588,11 +588,13 @@ code {
 	animation: slideOutTop 1s forwards;
 	animation-delay: 0s;
 }
-
 @keyframes slideOutTop {
 	0% { top: 0; }
 	100% { top: -20%; }
 }
+
+.toastIn { top: 0; }
+.toastOut { top: -20%; }
 
 .iconHighlight {
 	display: flex;
@@ -785,7 +787,6 @@ code {
     border-right-width: 2px;
     border-top-width: 2px;
     position: absolute;
-    transition-duration: 0.3s;
     height: 0.6rem;
     left: 0;
     right: 0;
@@ -807,9 +808,9 @@ code {
     border-right-width: 2px;
     border-top-width: 2px;
     position: absolute;
-    transition-duration: 0.3s;
     border-color: #1e1e1f;
 }
+.sliderAnimation { transition-duration: 0.3s; }
 .sliderThumbBackground {
 	flex: 1;
 	width: 100%;
@@ -910,6 +911,7 @@ code {
 	margin-left: -7px;
 	animation-name: switchOnAnimation;
 }
+.switchThumbOn_NoAnimations { left: 1.8rem; margin-left: -7px; }
 @keyframes switchOffAnimation {
 	0% { left: 1.8rem; }
 	25% { left: 1.2rem; }
@@ -922,6 +924,7 @@ code {
 	margin-left: -4px;
 	animation-name: switchOffAnimation;
 }
+.switchThumbOff_NoAnimations { left: 0; margin-left: -4px; }
 
 .buttonDisabled {
 	background-color: #b1b2b5;
