@@ -13,8 +13,14 @@ const loadFacet = async (facet) => {
 const facets = JSON.parse(fs.readFileSync( __dirname + "/facets.json" ));
 (async() => { for (const facet of facets) await loadFacet( facet ); })();
 
+function getVersion() {
+    try {
+        return require("../package.json")?.version;
+    } catch {};
+};
+
 globalThis.BedrockTools = {
-    version: "0.1.4-beta",
+    version: getVersion() || "x.x.x-internal",
     startTime: Date.now(),
     facets: loadedFacets,
 
