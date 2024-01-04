@@ -50,6 +50,7 @@
 				"repo": "Bedrock-Tools"
 			}
 		],
+		"linux": { "icon": "build/icon.icns" },
 		"nsis": {
 			"allowToChangeInstallationDirectory": false,
 			"oneClick": true,
