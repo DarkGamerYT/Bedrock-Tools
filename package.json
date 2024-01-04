@@ -22,22 +22,17 @@
 		"publish": "electron-builder --win -p onTagOrDraft"
 	},
 	"dependencies": {
-		"@electron/remote": "^2.0.9",
+		"@electron/remote": "^2.1.1",
 		"@sfirew/minecraft-motd-parser": "^1.1.2-1",
-		"babylonjs": "^6.20.1",
+		"babylonjs": "^6.37.0",
 		"bytebuffer": "^5.0.1",
 		"discord-rpc": "^4.0.1",
-		"electron-updater": "^6.1.4",
-		"highlight.js": "^11.8.0",
-		"jszip": "^3.10.1",
-		"prismarine-nbt": "^2.2.1"
-	},
-	"devDependencies": {
-		"@types/discord-rpc": "^4.0.5",
-		"@types/node": "^20.5.8",
 		"electron": "^28.1.1",
-		"electron-builder": "^24.6.3",
-		"typescript": "^5.2.2"
+		"electron-builder": "^24.9.1",
+		"electron-updater": "^6.1.7",
+		"highlight.js": "^11.9.0",
+		"jszip": "^3.10.1",
+		"prismarine-nbt": "^2.5.0"
 	},
 	"build": {
 		"appId": "com.xkingdark.bedrocktools",
@@ -50,7 +45,9 @@
 				"repo": "Bedrock-Tools"
 			}
 		],
-		"linux": { "icon": "build/icon.icns" },
+		"linux": {
+			"icon": "build/icon.icns"
+		},
 		"nsis": {
 			"allowToChangeInstallationDirectory": false,
 			"oneClick": true,

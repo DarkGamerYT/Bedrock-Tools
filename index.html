@@ -35,7 +35,12 @@
         
         <script src="./js/routes/debug/components.js" ></script>
 
-        <script src="./js/miscs/discord_rpc.js"></script>
         <script src="./js/index.js"></script>
+        <script>
+            const platform = process.platform.toLowerCase();
+            if (platform != "linux") {
+                import("./js/miscs/discord_rpc.js");
+            };
+        </script>
     </body>
 </html>
