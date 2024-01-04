@@ -27,12 +27,14 @@
 		"babylonjs": "^6.37.0",
 		"bytebuffer": "^5.0.1",
 		"discord-rpc": "^4.0.1",
-		"electron": "^28.1.1",
-		"electron-builder": "^24.9.1",
 		"electron-updater": "^6.1.7",
 		"highlight.js": "^11.9.0",
 		"jszip": "^3.10.1",
 		"prismarine-nbt": "^2.5.0"
+	},
+	"devDependencies": {
+		"electron": "^28.1.1",
+		"electron-builder": "^24.9.1"
 	},
 	"build": {
 		"appId": "com.xkingdark.bedrocktools",
