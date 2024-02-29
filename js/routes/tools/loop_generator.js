@@ -103,7 +103,7 @@ const loopTabs = (selected = 0) => {
                                     document.getElementById( "output" ).innerText = values.join( "\n" );
                                     BedrockTools.sendToast(
                                         {
-                                            icon: "assets/debug.png",
+                                            icon: "assets/tools/debug.png",
                                             label: "Loop Generated!",
                                             body: "Click to copy the loop to clipboard",
                                             onClick: () => {
@@ -256,7 +256,7 @@ const loopTabs = (selected = 0) => {
                                     document.getElementById("output").innerText = outputString;
                                     BedrockTools.sendToast(
                                         {
-                                            icon: "assets/debug.png",
+                                            icon: "assets/tools/debug.png",
                                             label: "Loop Generated!",
                                             body: "Click to copy the loop to clipboard",
                                             onClick: () => {
