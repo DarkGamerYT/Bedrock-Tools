@@ -65,12 +65,7 @@ const MainScreen = {
                             route: "/structure_converter",
                             label: localisation.translate( "bedrocktools.advanced.structureconverter" ),
                             icon: "assets/tools/structure_converter.png",
-                        },
-                        /*{
-                            route: "/structure_editor",
-                            label: localisation.translate( "bedrocktools.advanced.structureeditor" ),
-                            icon: "assets/tools/structure_editor.png"
-                        }*/
+                        }
                     ],
                     display: true,
                 },

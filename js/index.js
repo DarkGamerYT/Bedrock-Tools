@@ -172,15 +172,6 @@ router.addRoute(
         metadata: { rpc: "structure_converter" },
     },
     {
-        route: "/structure_editor",
-        name: "bedrocktools.advanced.structureeditor",
-        component: StructureEditor.Component,
-        metadata: {
-            rpc: "structure_editor",
-            onLoad: StructureEditor.onLoad,
-        },
-    },
-    {
         route: "/loop_generator",
         name: "bedrocktools.utilities.loopgenerator",
         component: LoopGenerator.Component,
