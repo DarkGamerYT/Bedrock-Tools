@@ -1,7 +1,7 @@
-const electron = require( "@electron/remote" );
-const path = require( "node:path" );
-const fs = require( "node:fs" );
-const settingsPath = path.join(electron.app.getPath("userData"), "settings.json");
+const path = require("node:path");
+const fs = require("node:fs");
+const appPath = path.join(process.env.APPDATA, "com.xkingdark.bedrocktools");
+const settingsPath = path.join(appPath, "settings.json");
 const defaultSettings = {
     debug: false,
     locale: "en-US",
