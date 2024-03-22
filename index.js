@@ -6,8 +6,9 @@ const path = require("node:path");
 let debug = false;
 remote.initialize();
 
-app.setPath("userData", path.join(process.env.LOCALAPPDATA, "com.xkingdark.mclauncher"));
-app.setPath("sessionData", path.join(process.env.LOCALAPPDATA, "com.xkingdark.mclauncher"));
+const appId = "com.xkingdark.bedrocktools";
+app.setPath("userData", path.join(process.env.LOCALAPPDATA, appId));
+app.setPath("sessionData", path.join(process.env.LOCALAPPDATA, appId));
 app.on("window-all-closed", () => app.quit());
 app.on(
 	"ready", () => {
@@ -15,7 +16,7 @@ app.on(
 			"\x1B[0m".concat(new Date().toLocaleTimeString()).concat(" \x1B[33m\x1B[1m[INFO] \x1B[0m- Starting...")
 		);
 
-		const appPath = path.join(process.env.APPDATA, "com.xkingdark.mclauncher");
+		const appPath = path.join(process.env.APPDATA, appId);
 		const settingsPath = path.join(appPath, "settings.json");
 		if (!fs.existsSync(appPath)) fs.mkdirSync(appPath);
 		if (!fs.existsSync(settingsPath)) fs.writeFileSync(settingsPath, JSON.stringify({ debug: false }, null, "\t"));
