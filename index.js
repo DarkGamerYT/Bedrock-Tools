@@ -19,10 +19,10 @@ app.on(
 		const appPath = path.join(process.env.APPDATA, appId);
 		const settingsPath = path.join(appPath, "settings.json");
 		if (!fs.existsSync(appPath)) fs.mkdirSync(appPath);
-		if (!fs.existsSync(settingsPath)) fs.writeFileSync(settingsPath, JSON.stringify({ debug: false }, null, "\t"));
+		if (!fs.existsSync(settingsPath)) fs.writeFileSync(settingsPath, JSON.stringify({}, null, 4));
 		
 		const settings = JSON.parse(fs.readFileSync(settingsPath, "utf-8"));
-		debug = settings?.debug || false;
+		debug = settings?.debug ?? false;
 		
 		if (!debug) registerShortcuts();
 		createWindow();

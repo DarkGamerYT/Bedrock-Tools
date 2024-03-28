@@ -22,7 +22,7 @@ module.exports = {
         const settings = JSON.parse(fs.readFileSync(settingsPath, "utf-8"));
         if (defaultSettings.hasOwnProperty( key )) {
             settings[key] = value ?? defaultSettings[key];
-            fs.writeFileSync(settingsPath, JSON.stringify(settings, null, "\t"));
+            fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 4));
         };
     },
 };
