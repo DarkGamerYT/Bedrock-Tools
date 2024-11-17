@@ -1,25 +1,26 @@
 const crypto = require( "node:crypto" );
-let minecraftVersion = "1.20.50";
+let minecraftVersion = "1.21.40";
 const scriptingModules = {
 	server: [
 		{
 			module_name: "@minecraft/server",
 			versions: [
-				{ version: "1.8.0-beta", beta: true },
-				{ version: "1.6.0", beta: false },
+				{ version: "1.17.0-beta", beta: true },
+				{ version: "1.15.0", beta: false },
 			],
 		},
 		{
 			module_name: "@minecraft/server-ui",
 			versions: [
-				{ version: "1.2.0-beta", beta: true },
-				{ version: "1.1.0", beta: false },
+				{ version: "1.4.0-beta", beta: true },
+				{ version: "1.3.0", beta: false },
 			],
 		},
 		{
 			module_name: "@minecraft/server-gametest",
 			versions: [
 				{ version: "1.0.0-beta", beta: true },
+                { version: "0.1.0", beta: false}
 			],
 		},
 		{
